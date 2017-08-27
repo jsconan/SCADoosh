@@ -24,7 +24,8 @@
   "homepage": "https://github.com/jsconan/SCADoosh",
   "dependencies": {
     "lodash": "^4.17.4",
-    "moo": "^0.4.1"
+    "moo": "^0.4.1",
+    "nearley": "^2.10.5"
   },
   "devDependencies": {
     "chai": "^4.1.1",
