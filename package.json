@@ -1,0 +1,34 @@
+{
+  "name": "SCADoosh",
+  "version": "0.1.0",
+  "description": "A doc generator for OpenSCAD, using javadoc-like style",
+  "main": "main.js",
+  "scripts": {
+    "test": "mocha 'tests/**/*.test.js' --recursive",
+    "watch": "mocha 'tests/**/*.test.js' --recursive --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsconan/SCADoosh"
+  },
+  "keywords": [
+    "doc",
+    "generator",
+    "openscad"
+  ],
+  "author": "jsconan",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/jsconan/SCADoosh/issues"
+  },
+  "homepage": "https://github.com/jsconan/SCADoosh",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "moo": "^0.4.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.1",
+    "chai-json-schema": "^1.5.0",
+    "mocha": "^3.5.0"
+  }
+}
