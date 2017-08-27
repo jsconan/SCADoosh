@@ -1,0 +1,28 @@
+{
+    "title": "Lexer token schema v1",
+    "type": "object",
+    "required": ["type", "value", "text", "offset", "lineBreaks", "line", "col"],
+    "properties": {
+        "type": {
+            "type": "string"
+        },
+        "value": {
+            "type": "string"
+        },
+        "text": {
+            "type": "string"
+        },
+        "offset": {
+            "type": "number"
+        },
+        "lineBreaks": {
+            "type": "number"
+        },
+        "line": {
+            "type": "number"
+        },
+        "col": {
+            "type": "number"
+        }
+    }
+}
