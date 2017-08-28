@@ -1,0 +1,75 @@
+[{
+    "title": "should not parse %input",
+    "input": "",
+    "output": []
+}, {
+    "title": "should parse %input as an undefined value",
+    "input": "undef",
+    "output": [{
+        "type": "undefined",
+        "value": null
+    }]
+}, {
+    "title": "should parse %input as a boolean value",
+    "input": "true",
+    "output": [{
+        "type": "boolean",
+        "value": true
+    }]
+}, {
+    "title": "should parse %input as a boolean value",
+    "input": "false",
+    "output": [{
+        "type": "boolean",
+        "value": false
+    }]
+}, {
+    "title": "should parse %input as a number",
+    "input": "10",
+    "output": [{
+        "type": "number",
+        "value": 10
+    }]
+}, {
+    "title": "should parse %input as a string",
+    "input": "\"a long string\"",
+    "output": [{
+        "type": "string",
+        "value": "a long string"
+    }]
+}, {
+    "title": "should parse %input as a path",
+    "input": "<./path/to/a/library.scad>",
+    "output": [{
+        "type": "path",
+        "value": "./path/to/a/library.scad"
+    }]
+}, {
+    "title": "should parse %input as an identifier",
+    "input": "vector",
+    "output": [{
+        "type": "identifier",
+        "value": "vector"
+    }]
+}, {
+    "title": "should parse %input as a line comment",
+    "input": "// a comment",
+    "output": [{
+        "type": "comment",
+        "value": "a comment"
+    }]
+}, {
+    "title": "should parse %input as a multiline comment",
+    "input": "/* a comment */",
+    "output": [{
+        "type": "comment",
+        "value": [" a comment "]
+    }]
+}, {
+    "title": "should parse %input as a multiline comment",
+    "input": "/**  \r\n *\r\n * a comment\r\n *\r\n */",
+    "output": [{
+        "type": "comment",
+        "value": ["", " a comment", ""]
+    }]
+}]
