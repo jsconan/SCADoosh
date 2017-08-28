@@ -51,7 +51,7 @@ describe('OpenSCAD lexer', () => {
             lexer.reset(testCase.input);
 
             // sometimes no token is expected
-            if (testCase.output.length == 0) {
+            if (testCase.output.length === 0) {
                 expect(lexer.next()).to.be.undefined;
             } else {
                 // in most of cases there are one or more expected tokens
