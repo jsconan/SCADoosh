@@ -72,4 +72,11 @@
         "type": "comment",
         "value": ["", " a comment", ""]
     }]
+}, {
+    "title": "should parse %input as a multiline comment",
+    "input": "/* a\r\n\r\nmulti\r\n\r\nline\r\n\r\ncomment */",
+    "output": [{
+        "type": "comment",
+        "value": [" a", "", "multi", "", "line", "", "comment "]
+    }]
 }]

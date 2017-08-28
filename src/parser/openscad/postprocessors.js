@@ -31,8 +31,8 @@
 
 const _ = require("lodash");
 
-const reLineBreak = /[\r\n]+/;
-const reBlockComment = /\/\*\**(?:\s*(?:\r\n?|\n))?((?:.|[\r\n])*?)(?:(?:\r\n?|\n)\s*)?\**\*\//;
+const reLineBreak = /\r\n?|\n/;
+const reBlockComment = /\/\*\**(?:\s*?(?:\r\n?|\n))?((?:.|[\r\n])*?)(?:(?:\r\n?|\n)\s*)?\**\*\//;
 const reBlockCommentSide = /\s*\*+/;
 
 /**
