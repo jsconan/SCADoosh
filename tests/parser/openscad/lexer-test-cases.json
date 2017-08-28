@@ -664,11 +664,23 @@
     }]
 }, {
     "title": "should parse %input as a comment",
-    "input": "/** a comment */",
+    "input": "/* a comment */",
     "output": [{
         "type": "mcomment",
-        "value": "/** a comment */",
-        "text": "/** a comment */",
+        "value": "/* a comment */",
+        "text": "/* a comment */",
+        "offset": 0,
+        "lineBreaks": 0,
+        "line": 1,
+        "col": 1
+    }]
+}, {
+    "title": "should parse %input as a comment",
+    "input": "/*** a comment ***/",
+    "output": [{
+        "type": "mcomment",
+        "value": "/*** a comment ***/",
+        "text": "/*** a comment ***/",
         "offset": 0,
         "lineBreaks": 0,
         "line": 1,
@@ -762,6 +774,82 @@
         "line": 2,
         "col": 1
     }]
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//\r\n",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//-----\r\n",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//__________\r\n",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//=========\r\n",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//~~~~~~~~~~\r\n",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//^^^^^^^^^^\r\n",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//*****\r\n",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//$$$$$\r\n",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//@@@@@\r\n",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//#####\r\n",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//++++++++\r\n",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "//////////////\r\n",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "/**/",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "/********/",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "/* */",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "/*          */",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "/**\r\n *\r\n *\r\n */",
+    "output": []
+}, {
+    "title": "should ignore the empty comment in %input",
+    "input": "/**********\r\n ******\r\n ******\r\n ******/",
+    "output": []
 }, {
     "title": "should parse %input as a dot",
     "input": ".",

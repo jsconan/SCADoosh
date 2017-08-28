@@ -53,6 +53,14 @@ const openScadKeywords = [
  * Defines the patterns that recognize the tokens of the OpenSCAD language.
  */
 const openScadTokens = {
+    // discarded tokens: spaces, empty comments
+    _comment: /(?:\/\/[/*-=_^~#@$\s]*?$|\/\*(?:[/*-=_^~#@$\s]*?)\*\/)/,
+    _space: {
+        match: /\s+/,
+        lineBreaks: true
+    },
+
+    // values and identifiers
     number: /[-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?/,
     string: /"(?:\\.|[^"\\])*"/,
     path: /<[^\t\r\n>]+>/,
@@ -61,9 +69,11 @@ const openScadTokens = {
         keywords: _(openScadKeywords).map(k => [k, k]).fromPairs().value()
     },
 
+    // comments
     mcomment: /\/\*(?:[\s\S]*?)\*\//,
     lcomment: /\/\/.*?$/,
 
+    // punctuation and operators
     dot: '.',
     comma: ',',
     semicolon: ';',
@@ -96,12 +106,6 @@ const openScadTokens = {
     not: '!',
 
     debug: '#',
-
-    // discarded tokens
-    _space: {
-        match: /\s+/,
-        lineBreaks: true
-    },
 };
 
 /**
