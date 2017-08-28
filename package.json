@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "mocha 'tests/**/*.test.js' --recursive",
-    "watch": "mocha 'tests/**/*.test.js' --recursive --watch"
+    "watch": "mocha 'tests/**/*.test.js' --recursive --watch",
+    "compile": "nearleyc ./src/parser/openscad/grammar.ne -o ./src/parser/openscad/grammar.js"
   },
   "repository": {
     "type": "git",
