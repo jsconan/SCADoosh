@@ -43,28 +43,33 @@ describe('OpenSCAD postprocessors', () => {
 
     // the test cases are defined inside the JSON file ./postprocessors-test-cases.json
     _.forEach(postprocessorsTestCases, (testCases, method) => {
-        // the test cases are gathered by methods
-        _.forEach(testCases, (testCase) => {
-            // wrap each test case
-            it(`${method}: ${testCase.title}`, () => {
-                const doCall = _.bind(pp[method], pp, testCase.input);
 
-                if (testCase.error) {
-                    // it may lead to an error as the inout token could be incompatible
-                    expect(doCall).to.throw();
-                } else {
-                    // recognized token
-                    const descriptor = doCall();
-                    if (testCase.output) {
-                        expect(descriptor).to.be.an('object');
-                        expect(descriptor).to.be.jsonSchema(grammarTokenSchema);
-                        expect(descriptor).to.deep.include(testCase.output);
+        // the test cases are gathered by methods
+        describe(method, () => {
+            _.forEach(testCases, (testCase) => {
+                // wrap each test case
+                it(testCase.title, () => {
+                    const doCall = _.bind(pp[method], pp, testCase.input);
+
+                    if (testCase.error) {
+                        // it may lead to an error as the input token could be incompatible
+                        expect(doCall).to.throw();
                     } else {
-                        expect(descriptor).to.equal(testCase.output);
+                        const descriptor = doCall();
+                        if (testCase.output) {
+                            // the posprocessor should return the expected descriptor
+                            expect(descriptor).to.be.an('object');
+                            expect(descriptor).to.be.jsonSchema(grammarTokenSchema);
+                            expect(descriptor).to.deep.include(testCase.output);
+                        } else {
+                            // the posprocessor should return the expected value
+                            expect(descriptor).to.equal(testCase.output);
+                        }
                     }
-                }
+                });
             });
-        });
+        })
+
     });
 
 });
