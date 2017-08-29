@@ -10,10 +10,10 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "number",
             "value": 10
-        }]
+        }
     }, {
         "title": "should produce the descriptor for a number value, from a number token (.2)",
         "input": [{
@@ -25,10 +25,10 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "number",
             "value": 0.2
-        }]
+        }
     }, {
         "title": "should produce the descriptor for a number value, from a number token (3.14)",
         "input": [{
@@ -40,10 +40,10 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "number",
             "value": 3.14
-        }]
+        }
     }, {
         "title": "should produce the descriptor for a number value, from a number token (-5)",
         "input": [{
@@ -55,10 +55,10 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "number",
             "value": -5
-        }]
+        }
     }, {
         "title": "should produce the descriptor for a number value, from a number token (31.4e-10)",
         "input": [{
@@ -70,10 +70,10 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "number",
             "value": 31.4e-10
-        }]
+        }
     }],
     "string": [{
         "title": "should produce the descriptor for a string value, from a string token (\"a long string\")",
@@ -86,25 +86,25 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "string",
             "value": "a long string"
-        }]
+        }
     }, {
         "title": "should produce the descriptor for a string value, from a string token (\"a \\\"long\\\" string\")",
         "input": [{
             "type": "string",
-            "value": "\"a \\\"long\\\" string\"",
-            "text": "\"a \\\"long\\\" string\"",
+            "value": "\"a \"long\" string\"",
+            "text": "\"a \"long\" string\"",
             "offset": 0,
             "lineBreaks": 0,
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "string",
             "value": "a \"long\" string"
-        }]
+        }
     }],
     "path": [{
         "title": "should produce the descriptor for a path value, from a path token (<./path/to/a/library.scad>)",
@@ -117,10 +117,10 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "path",
             "value": "./path/to/a/library.scad"
-        }]
+        }
     }],
     "bool": [{
         "title": "should produce the descriptor for a boolean value, from a boolean token (true)",
@@ -133,10 +133,10 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "boolean",
             "value": true
-        }]
+        }
     }, {
         "title": "should produce the descriptor for a boolean value, from a boolean token (false)",
         "input": [{
@@ -148,10 +148,10 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "boolean",
             "value": false
-        }]
+        }
     }],
     "undef": [{
         "title": "should produce the descriptor for an undefined value, from an undef token (undef)",
@@ -164,12 +164,11 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "undefined",
             "value": null
-        }]
+        }
     }],
-
     "identifier": [{
         "title": "should produce the descriptor for an identifier, from an identifier token (vector)",
         "input": [{
@@ -181,10 +180,10 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "identifier",
             "value": "vector"
-        }]
+        }
     }, {
         "title": "should produce the descriptor for an identifier, from an identifier token (vector3D)",
         "input": [{
@@ -196,10 +195,10 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "identifier",
             "value": "vector3D"
-        }]
+        }
     }, {
         "title": "should produce the descriptor for an identifier, from an identifier token (fooBar)",
         "input": [{
@@ -211,10 +210,10 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "identifier",
             "value": "fooBar"
-        }]
+        }
     }, {
         "title": "should produce the descriptor for an identifier, from an identifier token (intersection_for)",
         "input": [{
@@ -226,12 +225,12 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "identifier",
             "value": "intersection_for"
-        }]
+        }
     }],
-    "comment": [{
+    "lcomment": [{
         "title": "should produce the descriptor for a line comment, from a lcomment token (// a comment)",
         "input": [{
             "type": "lcomment",
@@ -242,11 +241,12 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "comment",
             "value": "a comment"
-        }]
-    }, {
+        }
+    }],
+    "mcomment": [{
         "title": "should produce the descriptor for a multi-lines comment, from a mcomment token (/* a comment */)",
         "input": [{
             "type": "mcomment",
@@ -257,12 +257,12 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "comment",
             "value": [" a comment "]
-        }]
+        }
     }, {
-        "title": "should produce the descriptor for a multi-lines comment, from a mcomment token (/**  \r\n *\r\n * a comment\r\n *\r\n */)",
+        "title": "should produce the descriptor for a multi-lines comment, from a mcomment token (/**  \\r\\n *\\r\\n * a comment\\r\\n *\\r\\n */)",
         "input": [{
             "type": "mcomment",
             "value": "/**  \r\n *\r\n * a comment\r\n *\r\n */",
@@ -272,12 +272,12 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "comment",
             "value": ["", " a comment", ""]
-        }]
+        }
     }, {
-        "title": "should produce the descriptor for a multi-lines comment, from a mcomment token (/* a\r\n\r\nmulti\r\n\r\nline\r\n\r\ncomment */)",
+        "title": "should produce the descriptor for a multi-lines comment, from a mcomment token (/* a\\r\\n\\r\\nmulti\\r\\n\\r\\nline\\r\\n\\r\\ncomment */)",
         "input": [{
             "type": "mcomment",
             "value": "/* a\r\n\r\nmulti\r\n\r\nline\r\n\r\ncomment */",
@@ -287,9 +287,34 @@
             "line": 1,
             "col": 1
         }],
-        "output": [{
+        "output": {
             "type": "comment",
             "value": [" a", "", "multi", "", "line", "", "comment "]
-        }]
+        }
+    }],
+    "discard": [{
+        "title": "should produce a null value whatever the source is (identifier)",
+        "input": [{
+            "type": "identifier",
+            "value": "fooBar",
+            "text": "fooBar",
+            "offset": 0,
+            "lineBreaks": 0,
+            "line": 1,
+            "col": 1
+        }],
+        "output": null
+    }, {
+        "title": "should produce a null value whatever the source is (number)",
+        "input": [{
+            "type": "number",
+            "value": "15",
+            "text": "15",
+            "offset": 0,
+            "lineBreaks": 0,
+            "line": 1,
+            "col": 1
+        }],
+        "output": null
     }]
 }
