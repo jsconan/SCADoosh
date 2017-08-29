@@ -32,7 +32,7 @@
 const _ = require("lodash");
 
 const reLineBreak = /\r\n?|\n/;
-const reBlockComment = /\/\*\**(?:\s*?(?:\r\n?|\n))?((?:.|[\r\n])*?)(?:(?:\r\n?|\n)\s*)?\**\*\//;
+const reBlockComment = /\/\*([\s\S]*?)(?:(\r\n?|\n)\s*)?\*\//;
 const reBlockCommentSide = /\s*\*+/;
 
 /**
@@ -121,7 +121,7 @@ module.exports = {
      */
     lcomment: (token) => ({
         type: 'comment',
-        value: _.trimStart(tokenValue(token), '/ \t')
+        value: tokenValue(token).substr(2)
     }),
 
     /**
@@ -131,7 +131,7 @@ module.exports = {
      */
     mcomment: (token) => ({
         type: 'comment',
-        value: _(tokenValue(token).replace(reBlockComment, '$1').split(reLineBreak)).map((line) => {
+        value: _(tokenValue(token).replace(reBlockComment, '$1$2').split(reLineBreak)).map((line) => {
             return line.replace(reBlockCommentSide, '');
         }).value()
     }),

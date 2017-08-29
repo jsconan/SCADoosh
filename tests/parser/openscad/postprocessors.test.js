@@ -42,14 +42,14 @@ chai.use(require('chai-json-schema'));
 describe('OpenSCAD postprocessors', () => {
 
     // the test cases are defined inside the JSON file ./postprocessors-test-cases.json
-    _.forEach(postprocessorsTestCases, (testCases, method) => {
+    _.forEach(postprocessorsTestCases, (testCases, category) => {
 
-        // the test cases are gathered by methods
-        describe(method, () => {
+        // the test cases are gathered by categories
+        describe(category, () => {
             _.forEach(testCases, (testCase) => {
                 // wrap each test case
                 it(testCase.title, () => {
-                    const doCall = _.bind(pp[method], pp, testCase.input);
+                    const doCall = _.bind(pp[testCase.method], pp, testCase.input);
 
                     if (testCase.error) {
                         // it may lead to an error as the input token could be incompatible
