@@ -53,15 +53,14 @@ const openScadKeywords = [
  * Defines the patterns that recognize the tokens of the OpenSCAD language.
  */
 const openScadTokens = {
-    // discarded tokens: spaces, empty comments
-    _comment: /(?:\/\/[/*-=_^~#@$\s]*?$|\/\*(?:[/*-=_^~#@$\s]*?)\*\/)/,
+    // discarded tokens: spaces
     _space: {
         match: /\s+/,
         lineBreaks: true
     },
 
-    // values and identifiers
-    number: /[-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?/,
+    // literals and keywords
+    number: /[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?/,
     string: /"(?:\\.|[^"\\])*"/,
     path: /<[^\t\r\n>]+>/,
     identifier: {
@@ -73,12 +72,11 @@ const openScadTokens = {
     mcomment: /\/\*(?:[\s\S]*?)\*\//,
     lcomment: /\/\/.*?$/,
 
-    // punctuation and operators
+    // punctuation
     dot: '.',
     comma: ',',
     semicolon: ';',
     colon: ':',
-    cond: '?',
 
     lbrace: '{',
     rbrace: '}',
@@ -87,6 +85,7 @@ const openScadTokens = {
     lsquare: '[',
     rsquare: ']',
 
+    // operators
     lesserequal: '<=',
     lesserthan: '<',
     greaterequal: '>=',
@@ -101,6 +100,7 @@ const openScadTokens = {
     divide: '/',
     modulo: '%',
 
+    cond: '?',
     and: '&&',
     or: '||',
     not: '!',

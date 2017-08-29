@@ -1,1301 +1,1513 @@
-[{
-    "title": "should parse %input as an identifier",
-    "input": "i",
-    "output": [{
-        "type": "identifier",
-        "value": "i",
-        "text": "i",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "vector3D",
-    "output": [{
-        "type": "identifier",
-        "value": "vector3D",
-        "text": "vector3D",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "vector_3d",
-    "output": [{
-        "type": "identifier",
-        "value": "vector_3d",
-        "text": "vector_3d",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "fooBar",
-    "output": [{
-        "type": "identifier",
-        "value": "fooBar",
-        "text": "fooBar",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "$fs",
-    "output": [{
-        "type": "identifier",
-        "value": "$fs",
-        "text": "$fs",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "$1",
-    "output": [{
-        "type": "identifier",
-        "value": "$1",
-        "text": "$1",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "$_",
-    "output": [{
-        "type": "identifier",
-        "value": "$_",
-        "text": "$_",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "n12",
-    "output": [{
-        "type": "identifier",
-        "value": "n12",
-        "text": "n12",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "tm1",
-    "output": [{
-        "type": "identifier",
-        "value": "tm1",
-        "text": "tm1",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "tm12",
-    "output": [{
-        "type": "identifier",
-        "value": "tm12",
-        "text": "tm12",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "a2i",
-    "output": [{
-        "type": "identifier",
-        "value": "a2i",
-        "text": "a2i",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "sphere",
-    "output": [{
-        "type": "identifier",
-        "value": "sphere",
-        "text": "sphere",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "falsey",
-    "output": [{
-        "type": "identifier",
-        "value": "falsey",
-        "text": "falsey",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "If",
-    "output": [{
-        "type": "identifier",
-        "value": "If",
-        "text": "If",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "ifelse",
-    "output": [{
-        "type": "identifier",
-        "value": "ifelse",
-        "text": "ifelse",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "IF",
-    "output": [{
-        "type": "identifier",
-        "value": "IF",
-        "text": "IF",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "iffy",
-    "output": [{
-        "type": "identifier",
-        "value": "iffy",
-        "text": "iffy",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "undefined",
-    "output": [{
-        "type": "identifier",
-        "value": "undefined",
-        "text": "undefined",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "foreach",
-    "output": [{
-        "type": "identifier",
-        "value": "foreach",
-        "text": "foreach",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "translate",
-    "output": [{
-        "type": "identifier",
-        "value": "translate",
-        "text": "translate",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as an identifier",
-    "input": "intersection_for",
-    "output": [{
-        "type": "identifier",
-        "value": "intersection_for",
-        "text": "intersection_for",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a number",
-    "input": "12",
-    "output": [{
-        "type": "number",
-        "value": "12",
-        "text": "12",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a number",
-    "input": "1.2",
-    "output": [{
-        "type": "number",
-        "value": "1.2",
-        "text": "1.2",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a number",
-    "input": "-10",
-    "output": [{
-        "type": "number",
-        "value": "-10",
-        "text": "-10",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a number",
-    "input": "-.5",
-    "output": [{
-        "type": "number",
-        "value": "-.5",
-        "text": "-.5",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a number",
-    "input": "+2",
-    "output": [{
-        "type": "number",
-        "value": "+2",
-        "text": "+2",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a number",
-    "input": "+.2",
-    "output": [{
-        "type": "number",
-        "value": "+.2",
-        "text": "+.2",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a number",
-    "input": "+.2e-10",
-    "output": [{
-        "type": "number",
-        "value": "+.2e-10",
-        "text": "+.2e-10",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a number",
-    "input": "+.2E-10",
-    "output": [{
-        "type": "number",
-        "value": "+.2E-10",
-        "text": "+.2E-10",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a number",
-    "input": "-.2e-10",
-    "output": [{
-        "type": "number",
-        "value": "-.2e-10",
-        "text": "-.2e-10",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a number",
-    "input": "-.2e10",
-    "output": [{
-        "type": "number",
-        "value": "-.2e10",
-        "text": "-.2e10",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a number",
-    "input": ".123",
-    "output": [{
-        "type": "number",
-        "value": ".123",
-        "text": ".123",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a number",
-    "input": "31.4e-10",
-    "output": [{
-        "type": "number",
-        "value": "31.4e-10",
-        "text": "31.4e-10",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a string",
-    "input": "\"\"",
-    "output": [{
-        "type": "string",
-        "value": "\"\"",
-        "text": "\"\"",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a string",
-    "input": "\"contains\\\"quotes\\\"\"",
-    "output": [{
-        "type": "string",
-        "value": "\"contains\\\"quotes\\\"\"",
-        "text": "\"contains\\\"quotes\\\"\"",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a string",
-    "input": "\"a\tstring\"",
-    "output": [{
-        "type": "string",
-        "value": "\"a\tstring\"",
-        "text": "\"a\tstring\"",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a string",
-    "input": "\"this is a string\"",
-    "output": [{
-        "type": "string",
-        "value": "\"this is a string\"",
-        "text": "\"this is a string\"",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a string",
-    "input": "\"123\"",
-    "output": [{
-        "type": "string",
-        "value": "\"123\"",
-        "text": "\"123\"",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a string",
-    "input": "\"true\"",
-    "output": [{
-        "type": "string",
-        "value": "\"true\"",
-        "text": "\"true\"",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a keyword",
-    "input": "use",
-    "output": [{
-        "type": "use",
-        "value": "use",
-        "text": "use",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a keyword",
-    "input": "include",
-    "output": [{
-        "type": "include",
-        "value": "include",
-        "text": "include",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a keyword",
-    "input": "module",
-    "output": [{
-        "type": "module",
-        "value": "module",
-        "text": "module",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a keyword",
-    "input": "function",
-    "output": [{
-        "type": "function",
-        "value": "function",
-        "text": "function",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a keyword",
-    "input": "if",
-    "output": [{
-        "type": "if",
-        "value": "if",
-        "text": "if",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a keyword",
-    "input": "else",
-    "output": [{
-        "type": "else",
-        "value": "else",
-        "text": "else",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a keyword",
-    "input": "for",
-    "output": [{
-        "type": "for",
-        "value": "for",
-        "text": "for",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a keyword",
-    "input": "let",
-    "output": [{
-        "type": "let",
-        "value": "let",
-        "text": "let",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a keyword",
-    "input": "true",
-    "output": [{
-        "type": "true",
-        "value": "true",
-        "text": "true",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a keyword",
-    "input": "false",
-    "output": [{
-        "type": "false",
-        "value": "false",
-        "text": "false",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a keyword",
-    "input": "undef",
-    "output": [{
-        "type": "undef",
-        "value": "undef",
-        "text": "undef",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should ignore space in %input",
-    "input": " ",
-    "output": []
-}, {
-    "title": "should ignore space in %input",
-    "input": "\t",
-    "output": []
-}, {
-    "title": "should ignore space in %input",
-    "input": "\r",
-    "output": []
-}, {
-    "title": "should ignore space in %input",
-    "input": "\n",
-    "output": []
-}, {
-    "title": "should ignore space in %input",
-    "input": "\r\n",
-    "output": []
-}, {
-    "title": "should ignore space in %input",
-    "input": "\r\n\r\n",
-    "output": []
-}, {
-    "title": "should ignore space in %input",
-    "input": "\t\r\n ",
-    "output": []
-}, {
-    "title": "should parse %input as a path",
-    "input": "<../an/external/library.scad>",
-    "output": [{
-        "type": "path",
-        "value": "<../an/external/library.scad>",
-        "text": "<../an/external/library.scad>",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a path",
-    "input": "<library.scad>",
-    "output": [{
-        "type": "path",
-        "value": "<library.scad>",
-        "text": "<library.scad>",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a path",
-    "input": "<library>",
-    "output": [{
-        "type": "path",
-        "value": "<library>",
-        "text": "<library>",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a comment",
-    "input": "/* a comment */",
-    "output": [{
-        "type": "mcomment",
-        "value": "/* a comment */",
-        "text": "/* a comment */",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a comment",
-    "input": "/*** a comment ***/",
-    "output": [{
-        "type": "mcomment",
-        "value": "/*** a comment ***/",
-        "text": "/*** a comment ***/",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a comment, and ignore the space",
-    "input": "/** a comment */\r\n",
-    "output": [{
-        "type": "mcomment",
-        "value": "/** a comment */",
-        "text": "/** a comment */",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a comment and an identifier",
-    "input": "/** a comment */name",
-    "output": [{
-        "type": "mcomment",
-        "value": "/** a comment */",
-        "text": "/** a comment */",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }, {
-        "type": "identifier",
-        "value": "name",
-        "text": "name",
-        "offset": 16,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 17
-    }]
-}, {
-    "title": "should parse %input as a comment",
-    "input": "/**\r\na multiline\r\ncomment */",
-    "output": [{
-        "type": "mcomment",
-        "value": "/**\r\na multiline\r\ncomment */",
-        "text": "/**\r\na multiline\r\ncomment */",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a comment",
-    "input": "// a comment",
-    "output": [{
-        "type": "lcomment",
-        "value": "// a comment",
-        "text": "// a comment",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a comment, and ignore the space",
-    "input": "// a comment\r\n",
-    "output": [{
-        "type": "lcomment",
-        "value": "// a comment",
-        "text": "// a comment",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a comment and an identifier",
-    "input": "// a comment\r\nname",
-    "output": [{
-        "type": "lcomment",
-        "value": "// a comment",
-        "text": "// a comment",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }, {
-        "type": "identifier",
-        "value": "name",
-        "text": "name",
-        "offset": 14,
-        "lineBreaks": 0,
-        "line": 2,
-        "col": 1
-    }]
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//\r\n",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//-----\r\n",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//__________\r\n",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//=========\r\n",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//~~~~~~~~~~\r\n",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//^^^^^^^^^^\r\n",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//*****\r\n",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//$$$$$\r\n",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//@@@@@\r\n",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//#####\r\n",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//++++++++\r\n",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "//////////////\r\n",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "/**/",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "/********/",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "/* */",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "/*          */",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "/**\r\n *\r\n *\r\n */",
-    "output": []
-}, {
-    "title": "should ignore the empty comment in %input",
-    "input": "/**********\r\n ******\r\n ******\r\n ******/",
-    "output": []
-}, {
-    "title": "should parse %input as a dot",
-    "input": ".",
-    "output": [{
-        "type": "dot",
-        "value": ".",
-        "text": ".",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a comma",
-    "input": ",",
-    "output": [{
-        "type": "comma",
-        "value": ",",
-        "text": ",",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a semicolon",
-    "input": ";",
-    "output": [{
-        "type": "semicolon",
-        "value": ";",
-        "text": ";",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a colon",
-    "input": ":",
-    "output": [{
-        "type": "colon",
-        "value": ":",
-        "text": ":",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a condition mark",
-    "input": "?",
-    "output": [{
-        "type": "cond",
-        "value": "?",
-        "text": "?",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a left brace",
-    "input": "{",
-    "output": [{
-        "type": "lbrace",
-        "value": "{",
-        "text": "{",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a right brace",
-    "input": "}",
-    "output": [{
-        "type": "rbrace",
-        "value": "}",
-        "text": "}",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a left parenthese",
-    "input": "(",
-    "output": [{
-        "type": "lparen",
-        "value": "(",
-        "text": "(",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a right parenthese",
-    "input": ")",
-    "output": [{
-        "type": "rparen",
-        "value": ")",
-        "text": ")",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a left square bracket",
-    "input": "[",
-    "output": [{
-        "type": "lsquare",
-        "value": "[",
-        "text": "[",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a right square bracket",
-    "input": "]",
-    "output": [{
-        "type": "rsquare",
-        "value": "]",
-        "text": "]",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a equal sign",
-    "input": "=",
-    "output": [{
-        "type": "assign",
-        "value": "=",
-        "text": "=",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a add sign",
-    "input": "+",
-    "output": [{
-        "type": "add",
-        "value": "+",
-        "text": "+",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a subtract sign",
-    "input": "-",
-    "output": [{
-        "type": "subtract",
-        "value": "-",
-        "text": "-",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a multiply sign",
-    "input": "*",
-    "output": [{
-        "type": "multiply",
-        "value": "*",
-        "text": "*",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a divide sign",
-    "input": "/",
-    "output": [{
-        "type": "divide",
-        "value": "/",
-        "text": "/",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a modulo sign",
-    "input": "%",
-    "output": [{
-        "type": "modulo",
-        "value": "%",
-        "text": "%",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a lesser than sign",
-    "input": "<",
-    "output": [{
-        "type": "lesserthan",
-        "value": "<",
-        "text": "<",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a lesser or equal sign",
-    "input": "<=",
-    "output": [{
-        "type": "lesserequal",
-        "value": "<=",
-        "text": "<=",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a strict equal sign",
-    "input": "==",
-    "output": [{
-        "type": "equal",
-        "value": "==",
-        "text": "==",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a not equal sign",
-    "input": "!=",
-    "output": [{
-        "type": "notequal",
-        "value": "!=",
-        "text": "!=",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a greater or equal sign",
-    "input": ">=",
-    "output": [{
-        "type": "greaterequal",
-        "value": ">=",
-        "text": ">=",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a greater than sign",
-    "input": ">",
-    "output": [{
-        "type": "greaterthan",
-        "value": ">",
-        "text": ">",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a and operator",
-    "input": "&&",
-    "output": [{
-        "type": "and",
-        "value": "&&",
-        "text": "&&",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a or operator",
-    "input": "||",
-    "output": [{
-        "type": "or",
-        "value": "||",
-        "text": "||",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a not operator",
-    "input": "!",
-    "output": [{
-        "type": "not",
-        "value": "!",
-        "text": "!",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should parse %input as a debug modifier",
-    "input": "#",
-    "output": [{
-        "type": "debug",
-        "value": "#",
-        "text": "#",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }]
-}, {
-    "title": "should not parse %input",
-    "input": "",
-    "output": []
-}, {
-    "title": "should not parse %input",
-    "input": "$",
-    "output": [
-        false
+{
+    "identifier": [
+        {
+            "title": "should parse %input as an identifier",
+            "input": "i",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "i",
+                    "text": "i",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "vector3D",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "vector3D",
+                    "text": "vector3D",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "vector_3d",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "vector_3d",
+                    "text": "vector_3d",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "fooBar",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "fooBar",
+                    "text": "fooBar",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "$fs",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "$fs",
+                    "text": "$fs",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "$1",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "$1",
+                    "text": "$1",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "$_",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "$_",
+                    "text": "$_",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "n12",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "n12",
+                    "text": "n12",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "tm1",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "tm1",
+                    "text": "tm1",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "tm12",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "tm12",
+                    "text": "tm12",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "a2i",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "a2i",
+                    "text": "a2i",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "sphere",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "sphere",
+                    "text": "sphere",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "falsey",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "falsey",
+                    "text": "falsey",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "If",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "If",
+                    "text": "If",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "ifelse",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "ifelse",
+                    "text": "ifelse",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "IF",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "IF",
+                    "text": "IF",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "iffy",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "iffy",
+                    "text": "iffy",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "undefined",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "undefined",
+                    "text": "undefined",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "foreach",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "foreach",
+                    "text": "foreach",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "translate",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "translate",
+                    "text": "translate",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as an identifier",
+            "input": "intersection_for",
+            "output": [
+                {
+                    "type": "identifier",
+                    "value": "intersection_for",
+                    "text": "intersection_for",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        }
+    ],
+    "number": [
+        {
+            "title": "should parse %input as a number",
+            "input": "2",
+            "output": [
+                {
+                    "type": "number",
+                    "value": "2",
+                    "text": "2",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a number",
+            "input": "12",
+            "output": [
+                {
+                    "type": "number",
+                    "value": "12",
+                    "text": "12",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a number",
+            "input": "123456",
+            "output": [
+                {
+                    "type": "number",
+                    "value": "123456",
+                    "text": "123456",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a number",
+            "input": "1.2",
+            "output": [
+                {
+                    "type": "number",
+                    "value": "1.2",
+                    "text": "1.2",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a number",
+            "input": ".2",
+            "output": [
+                {
+                    "type": "number",
+                    "value": ".2",
+                    "text": ".2",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a number",
+            "input": ".2e-10",
+            "output": [
+                {
+                    "type": "number",
+                    "value": ".2e-10",
+                    "text": ".2e-10",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a number",
+            "input": ".2E-10",
+            "output": [
+                {
+                    "type": "number",
+                    "value": ".2E-10",
+                    "text": ".2E-10",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a number",
+            "input": ".2e10",
+            "output": [
+                {
+                    "type": "number",
+                    "value": ".2e10",
+                    "text": ".2e10",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a number",
+            "input": ".123",
+            "output": [
+                {
+                    "type": "number",
+                    "value": ".123",
+                    "text": ".123",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a number",
+            "input": "31.4e-10",
+            "output": [
+                {
+                    "type": "number",
+                    "value": "31.4e-10",
+                    "text": "31.4e-10",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        }
+    ],
+    "string": [
+        {
+            "title": "should parse %input as a string",
+            "input": "\"\"",
+            "output": [
+                {
+                    "type": "string",
+                    "value": "\"\"",
+                    "text": "\"\"",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a string",
+            "input": "\"contains\\\"quotes\\\"\"",
+            "output": [
+                {
+                    "type": "string",
+                    "value": "\"contains\\\"quotes\\\"\"",
+                    "text": "\"contains\\\"quotes\\\"\"",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a string",
+            "input": "\"a\tstring\"",
+            "output": [
+                {
+                    "type": "string",
+                    "value": "\"a\tstring\"",
+                    "text": "\"a\tstring\"",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a string",
+            "input": "\"this is a string\"",
+            "output": [
+                {
+                    "type": "string",
+                    "value": "\"this is a string\"",
+                    "text": "\"this is a string\"",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a string",
+            "input": "\"123\"",
+            "output": [
+                {
+                    "type": "string",
+                    "value": "\"123\"",
+                    "text": "\"123\"",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a string",
+            "input": "\"true\"",
+            "output": [
+                {
+                    "type": "string",
+                    "value": "\"true\"",
+                    "text": "\"true\"",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        }
+    ],
+    "keyword": [
+        {
+            "title": "should parse %input as a keyword",
+            "input": "use",
+            "output": [
+                {
+                    "type": "use",
+                    "value": "use",
+                    "text": "use",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a keyword",
+            "input": "include",
+            "output": [
+                {
+                    "type": "include",
+                    "value": "include",
+                    "text": "include",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a keyword",
+            "input": "module",
+            "output": [
+                {
+                    "type": "module",
+                    "value": "module",
+                    "text": "module",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a keyword",
+            "input": "function",
+            "output": [
+                {
+                    "type": "function",
+                    "value": "function",
+                    "text": "function",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a keyword",
+            "input": "if",
+            "output": [
+                {
+                    "type": "if",
+                    "value": "if",
+                    "text": "if",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a keyword",
+            "input": "else",
+            "output": [
+                {
+                    "type": "else",
+                    "value": "else",
+                    "text": "else",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a keyword",
+            "input": "for",
+            "output": [
+                {
+                    "type": "for",
+                    "value": "for",
+                    "text": "for",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a keyword",
+            "input": "let",
+            "output": [
+                {
+                    "type": "let",
+                    "value": "let",
+                    "text": "let",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a keyword",
+            "input": "true",
+            "output": [
+                {
+                    "type": "true",
+                    "value": "true",
+                    "text": "true",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a keyword",
+            "input": "false",
+            "output": [
+                {
+                    "type": "false",
+                    "value": "false",
+                    "text": "false",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a keyword",
+            "input": "undef",
+            "output": [
+                {
+                    "type": "undef",
+                    "value": "undef",
+                    "text": "undef",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        }
+    ],
+    "space": [
+        {
+            "title": "should ignore space in %input",
+            "input": " ",
+            "output": []
+        },
+        {
+            "title": "should ignore space in %input",
+            "input": "\t",
+            "output": []
+        },
+        {
+            "title": "should ignore space in %input",
+            "input": "\r",
+            "output": []
+        },
+        {
+            "title": "should ignore space in %input",
+            "input": "\n",
+            "output": []
+        },
+        {
+            "title": "should ignore space in %input",
+            "input": "\r\n",
+            "output": []
+        },
+        {
+            "title": "should ignore space in %input",
+            "input": "\r\n\r\n",
+            "output": []
+        },
+        {
+            "title": "should ignore space in %input",
+            "input": "\t\r\n ",
+            "output": []
+        }
+    ],
+    "path": [
+        {
+            "title": "should parse %input as a path",
+            "input": "<../an/external/library.scad>",
+            "output": [
+                {
+                    "type": "path",
+                    "value": "<../an/external/library.scad>",
+                    "text": "<../an/external/library.scad>",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a path",
+            "input": "<library.scad>",
+            "output": [
+                {
+                    "type": "path",
+                    "value": "<library.scad>",
+                    "text": "<library.scad>",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a path",
+            "input": "<library>",
+            "output": [
+                {
+                    "type": "path",
+                    "value": "<library>",
+                    "text": "<library>",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        }
+    ],
+    "comment": [
+        {
+            "title": "should parse %input as a comment",
+            "input": "/* a comment */",
+            "output": [
+                {
+                    "type": "mcomment",
+                    "value": "/* a comment */",
+                    "text": "/* a comment */",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a comment",
+            "input": "/*** a comment ***/",
+            "output": [
+                {
+                    "type": "mcomment",
+                    "value": "/*** a comment ***/",
+                    "text": "/*** a comment ***/",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a comment, and ignore the space",
+            "input": "/** a comment */\r\n",
+            "output": [
+                {
+                    "type": "mcomment",
+                    "value": "/** a comment */",
+                    "text": "/** a comment */",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a comment and an identifier",
+            "input": "/** a comment */name",
+            "output": [
+                {
+                    "type": "mcomment",
+                    "value": "/** a comment */",
+                    "text": "/** a comment */",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                },
+                {
+                    "type": "identifier",
+                    "value": "name",
+                    "text": "name",
+                    "offset": 16,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 17
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a comment",
+            "input": "/**\r\na multiline\r\ncomment */",
+            "output": [
+                {
+                    "type": "mcomment",
+                    "value": "/**\r\na multiline\r\ncomment */",
+                    "text": "/**\r\na multiline\r\ncomment */",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a comment",
+            "input": "// a comment",
+            "output": [
+                {
+                    "type": "lcomment",
+                    "value": "// a comment",
+                    "text": "// a comment",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a comment, and ignore the space",
+            "input": "// a comment\r\n",
+            "output": [
+                {
+                    "type": "lcomment",
+                    "value": "// a comment",
+                    "text": "// a comment",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a comment and an identifier",
+            "input": "// a comment\r\nname",
+            "output": [
+                {
+                    "type": "lcomment",
+                    "value": "// a comment",
+                    "text": "// a comment",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                },
+                {
+                    "type": "identifier",
+                    "value": "name",
+                    "text": "name",
+                    "offset": 14,
+                    "lineBreaks": 0,
+                    "line": 2,
+                    "col": 1
+                }
+            ]
+        }
+    ],
+    "punctuation": [
+        {
+            "title": "should parse %input as a dot",
+            "input": ".",
+            "output": [
+                {
+                    "type": "dot",
+                    "value": ".",
+                    "text": ".",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a comma",
+            "input": ",",
+            "output": [
+                {
+                    "type": "comma",
+                    "value": ",",
+                    "text": ",",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a semicolon",
+            "input": ";",
+            "output": [
+                {
+                    "type": "semicolon",
+                    "value": ";",
+                    "text": ";",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a colon",
+            "input": ":",
+            "output": [
+                {
+                    "type": "colon",
+                    "value": ":",
+                    "text": ":",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a left brace",
+            "input": "{",
+            "output": [
+                {
+                    "type": "lbrace",
+                    "value": "{",
+                    "text": "{",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a right brace",
+            "input": "}",
+            "output": [
+                {
+                    "type": "rbrace",
+                    "value": "}",
+                    "text": "}",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a left parenthese",
+            "input": "(",
+            "output": [
+                {
+                    "type": "lparen",
+                    "value": "(",
+                    "text": "(",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a right parenthese",
+            "input": ")",
+            "output": [
+                {
+                    "type": "rparen",
+                    "value": ")",
+                    "text": ")",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a left square bracket",
+            "input": "[",
+            "output": [
+                {
+                    "type": "lsquare",
+                    "value": "[",
+                    "text": "[",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a right square bracket",
+            "input": "]",
+            "output": [
+                {
+                    "type": "rsquare",
+                    "value": "]",
+                    "text": "]",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        }
+    ],
+    "operator": [
+        {
+            "title": "should parse %input as a equal sign",
+            "input": "=",
+            "output": [
+                {
+                    "type": "assign",
+                    "value": "=",
+                    "text": "=",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a add sign",
+            "input": "+",
+            "output": [
+                {
+                    "type": "add",
+                    "value": "+",
+                    "text": "+",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a subtract sign",
+            "input": "-",
+            "output": [
+                {
+                    "type": "subtract",
+                    "value": "-",
+                    "text": "-",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a multiply sign",
+            "input": "*",
+            "output": [
+                {
+                    "type": "multiply",
+                    "value": "*",
+                    "text": "*",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a divide sign",
+            "input": "/",
+            "output": [
+                {
+                    "type": "divide",
+                    "value": "/",
+                    "text": "/",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a modulo sign",
+            "input": "%",
+            "output": [
+                {
+                    "type": "modulo",
+                    "value": "%",
+                    "text": "%",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a lesser than sign",
+            "input": "<",
+            "output": [
+                {
+                    "type": "lesserthan",
+                    "value": "<",
+                    "text": "<",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a lesser or equal sign",
+            "input": "<=",
+            "output": [
+                {
+                    "type": "lesserequal",
+                    "value": "<=",
+                    "text": "<=",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a strict equal sign",
+            "input": "==",
+            "output": [
+                {
+                    "type": "equal",
+                    "value": "==",
+                    "text": "==",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a not equal sign",
+            "input": "!=",
+            "output": [
+                {
+                    "type": "notequal",
+                    "value": "!=",
+                    "text": "!=",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a greater or equal sign",
+            "input": ">=",
+            "output": [
+                {
+                    "type": "greaterequal",
+                    "value": ">=",
+                    "text": ">=",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a greater than sign",
+            "input": ">",
+            "output": [
+                {
+                    "type": "greaterthan",
+                    "value": ">",
+                    "text": ">",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a condition mark",
+            "input": "?",
+            "output": [
+                {
+                    "type": "cond",
+                    "value": "?",
+                    "text": "?",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a and operator",
+            "input": "&&",
+            "output": [
+                {
+                    "type": "and",
+                    "value": "&&",
+                    "text": "&&",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a or operator",
+            "input": "||",
+            "output": [
+                {
+                    "type": "or",
+                    "value": "||",
+                    "text": "||",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a not operator",
+            "input": "!",
+            "output": [
+                {
+                    "type": "not",
+                    "value": "!",
+                    "text": "!",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        },
+        {
+            "title": "should parse %input as a debug modifier",
+            "input": "#",
+            "output": [
+                {
+                    "type": "debug",
+                    "value": "#",
+                    "text": "#",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ]
+        }
+    ],
+    "error": [
+        {
+            "title": "should not parse %input",
+            "input": "",
+            "output": []
+        },
+        {
+            "title": "should not parse %input",
+            "input": "$",
+            "output": [
+                false
+            ]
+        },
+        {
+            "title": "should not parse %input",
+            "input": "$$",
+            "output": [
+                false
+            ]
+        },
+        {
+            "title": "should not parse %input",
+            "input": "^",
+            "output": [
+                false
+            ]
+        },
+        {
+            "title": "should not parse %input",
+            "input": "&",
+            "output": [
+                false
+            ]
+        },
+        {
+            "title": "should not parse %input",
+            "input": "|",
+            "output": [
+                false
+            ]
+        },
+        {
+            "title": "should not parse %input",
+            "input": "@",
+            "output": [
+                false
+            ]
+        },
+        {
+            "title": "should not parse %input as a path",
+            "input": "<wrong/path",
+            "output": [
+                {
+                    "type": "lesserthan",
+                    "value": "<",
+                    "text": "<",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                },
+                {
+                    "type": "identifier",
+                    "value": "wrong",
+                    "text": "wrong",
+                    "offset": 1,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 2
+                },
+                {
+                    "type": "divide",
+                    "value": "/",
+                    "text": "/",
+                    "offset": 6,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 7
+                },
+                {
+                    "type": "identifier",
+                    "value": "path",
+                    "text": "path",
+                    "offset": 7,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 8
+                }
+            ]
+        }
+    ],
+    "sequence": [
+        {
+            "title": "should parse %input, recognize the keywords and discard the spaces",
+            "input": "if  else",
+            "output": [
+                {
+                    "type": "if",
+                    "value": "if",
+                    "text": "if",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                },
+                {
+                    "type": "else",
+                    "value": "else",
+                    "text": "else",
+                    "offset": 4,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 5
+                }
+            ]
+        },
+        {
+            "title": "should parse %input, recognize the keywords and discard the spaces",
+            "input": "3 + 4",
+            "output": [
+                {
+                    "type": "number",
+                    "value": "3",
+                    "text": "3",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                },
+                {
+                    "type": "add",
+                    "value": "+",
+                    "text": "+",
+                    "offset": 2,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 3
+                },
+                {
+                    "type": "number",
+                    "value": "4",
+                    "text": "4",
+                    "offset": 4,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 5
+                }
+            ]
+        }
     ]
-}, {
-    "title": "should not parse %input",
-    "input": "$$",
-    "output": [
-        false
-    ]
-}, {
-    "title": "should not parse %input",
-    "input": "^",
-    "output": [
-        false
-    ]
-}, {
-    "title": "should not parse %input",
-    "input": "&",
-    "output": [
-        false
-    ]
-}, {
-    "title": "should not parse %input",
-    "input": "|",
-    "output": [
-        false
-    ]
-}, {
-    "title": "should not parse %input",
-    "input": "@",
-    "output": [
-        false
-    ]
-}, {
-    "title": "should not parse %input as a path",
-    "input": "<wrong/path",
-    "output": [{
-        "type": "lesserthan",
-        "value": "<",
-        "text": "<",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }, {
-        "type": "identifier",
-        "value": "wrong",
-        "text": "wrong",
-        "offset": 1,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 2
-    }, {
-        "type": "divide",
-        "value": "/",
-        "text": "/",
-        "offset": 6,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 7
-    }, {
-        "type": "identifier",
-        "value": "path",
-        "text": "path",
-        "offset": 7,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 8
-    }]
-}, {
-    "title": "should parse %input, recognize the keywords and discard the spaces",
-    "input": "if  else",
-    "output": [{
-        "type": "if",
-        "value": "if",
-        "text": "if",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }, {
-        "type": "else",
-        "value": "else",
-        "text": "else",
-        "offset": 4,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 5
-    }]
-}, {
-    "title": "should parse %input, recognize the keywords and discard the spaces",
-    "input": "3 + 4",
-    "output": [{
-        "type": "number",
-        "value": "3",
-        "text": "3",
-        "offset": 0,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 1
-    }, {
-        "type": "add",
-        "value": "+",
-        "text": "+",
-        "offset": 2,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 3
-    }, {
-        "type": "number",
-        "value": "4",
-        "text": "4",
-        "offset": 4,
-        "lineBreaks": 0,
-        "line": 1,
-        "col": 5
-    }]
-}]
+}
