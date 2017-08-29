@@ -38,7 +38,7 @@ const reBlockCommentSide = /\s*\*+/;
 /**
  * Gets the type of a token
  * @param {Object} token
- * @return {String}
+ * @returns {String}
  */
 function tokenType(token) {
     return token[0].type;
@@ -47,7 +47,7 @@ function tokenType(token) {
 /**
  * Gets the value of a token
  * @param {Object} token
- * @return {String}
+ * @returns {String}
  */
 function tokenValue(token) {
     return token[0].value;
@@ -57,7 +57,7 @@ module.exports = {
     /**
      * Parses a number
      * @param {Object} token
-     * @return {Object}
+     * @returns {Object}
      */
     number: (token) => ({
         type: 'number',
@@ -67,7 +67,7 @@ module.exports = {
     /**
      * Parses a string
      * @param {Object} token
-     * @return {Object}
+     * @returns {Object}
      */
     string: (token) => ({
         type: 'string',
@@ -77,7 +77,7 @@ module.exports = {
     /**
      * Parses a path
      * @param {Object} token
-     * @return {Object}
+     * @returns {Object}
      */
     path: (token) => ({
         type: 'path',
@@ -87,7 +87,7 @@ module.exports = {
     /**
      * Parses the boolean keywords
      * @param {Object} token
-     * @return {Object}
+     * @returns {Object}
      */
     bool: (token) => ({
         type: 'boolean',
@@ -97,7 +97,7 @@ module.exports = {
     /**
      * Parses the "undef" keyword
      * @param {Object} token
-     * @return {Object}
+     * @returns {Object}
      */
     undef: (token) => ({
         type: 'undefined',
@@ -107,7 +107,7 @@ module.exports = {
     /**
      * Parses an identifier
      * @param {Object} token
-     * @return {Object}
+     * @returns {Object}
      */
     identifier: (token) => ({
         type: tokenType(token),
@@ -117,7 +117,7 @@ module.exports = {
     /**
      * Parses a line comment
      * @param {Object} token
-     * @return {Object}
+     * @returns {Object}
      */
     lcomment: (token) => ({
         type: 'comment',
@@ -127,7 +127,7 @@ module.exports = {
     /**
      * Parses a multi-lines comment
      * @param {Object} token
-     * @return {Object}
+     * @returns {Object}
      */
     mcomment: (token) => ({
         type: 'comment',
@@ -138,7 +138,7 @@ module.exports = {
 
     /**
      * Simply discards the token
-     * @return {null}
+     * @returns {null}
      */
     discard: () => null,
 };

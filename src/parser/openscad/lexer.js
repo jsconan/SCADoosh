@@ -23,7 +23,7 @@
 /**
  * Part of the SCADoosh tool.
  *
- * Lexer that recognizes the tokens of the OpenSCAD language.
+ * Lexical analyzer that recognizes the tokens of the OpenSCAD language.
  *
  * @package src/parser/openscad
  * @author jsconan
