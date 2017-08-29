@@ -428,6 +428,43 @@
             }
         }
     ],
+    "forward": [
+        {
+            "title": "should unpack the token from the wrapping array",
+            "method": "forward",
+            "input": [
+                {
+                    "type": "identifier",
+                    "value": "fooBar",
+                    "text": "fooBar",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            ],
+            "output": {
+                "type": "identifier",
+                "value": "fooBar",
+                "text": "fooBar",
+                "offset": 0,
+                "lineBreaks": 0,
+                "line": 1,
+                "col": 1
+            }
+        }, {
+            "title": "should forward the token",
+            "method": "forward",
+            "input": {
+                "type": "identifier",
+                "value": "vector"
+            },
+            "output": {
+                "type": "identifier",
+                "value": "vector"
+            }
+        }
+    ],
     "discard": [
         {
             "title": "should produce a null value whatever the source is (identifier)",

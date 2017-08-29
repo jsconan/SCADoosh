@@ -137,6 +137,13 @@ module.exports = {
     }),
 
     /**
+     * Simply forwards the token
+     * @param {Object} token
+     * @returns {Object}
+     */
+    forward: (token) => _.isArray(token) ? token[0] : token,
+
+    /**
      * Simply discards the token
      * @returns {null}
      */
