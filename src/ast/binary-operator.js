@@ -23,45 +23,44 @@
 /**
  * Part of the SCADoosh tool.
  *
- * Defines an AST node that represents a boolean literal.
+ * Defines an AST node that represents a binary operator.
  *
  * @package src/ast
  * @author jsconan
  */
 
-const AstLiteral = require('./literal');
+const AstNode = require('./node');
+const AstFragment = require('./fragment');
 
 /**
- * Defines an AST node that represents a string literal.
- * @typedef {AstLiteral} AstBoolean
+ * Defines an AST node that represents a binary operator.
+ * @typedef {AstFragment} AstBinaryOperator
  * @property {String} type
- * @property {Boolean} value
+ * @property {String} operator
+ * @property {AstNode} left
+ * @property {AstNode} right
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
-class AstBoolean extends AstLiteral {
+class AstBinaryOperator extends AstFragment {
     /**
-     * Creates an AstBoolean.
-     * @param {Boolean|String} value
-     * @throws {TypeError} if the value is not a valid boolean
+     * Creates an AstBinaryOperator.
+     * @param {AstNode} left
+     * @param {String} operator
+     * @param {AstNode} right
+     * @throws {TypeError} if one of the operands is not a valid AstNode
      */
-    constructor(value) {
-        if (typeof value !== 'boolean') {
-            switch ('' + value) {
-                case 'true':
-                    value = true;
-                    break;
-
-                case 'false':
-                    value = false;
-                    break;
-
-                default:
-                    throw new TypeError(value + ' is not a valid boolean value');
-            }
+    constructor(left, operator, right) {
+        if (!AstNode.validate(left) || !AstNode.validate(right)) {
+            throw new TypeError('An operand should be an AstNode!');
         }
-        super('boolean', value);
+        super({
+            type: 'binaryOperator',
+            operator: operator,
+            left: left,
+            right: right
+        });
     }
 }
 
-module.exports = AstBoolean;
+module.exports = AstBinaryOperator;

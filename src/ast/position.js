@@ -42,9 +42,10 @@ const AstNode = require('./node');
 class AstPosition extends AstNode {
     /**
      * Creates an AstPosition.
-     * @param {Number|String} line
-     * @param {Number|String} column
-     * @param {Number|String} offset
+     * @param {Number|String} line - The line coordinate, must be an integer above 0
+     * @param {Number|String} column - The column coordinate, must be an integer above 0
+     * @param {Number|String} offset - The offset from the beginning of the text
+     * @throws {TypeError} if the values are negative or null
      */
     constructor(line, column, offset) {
         line = parseInt(line, 10);
