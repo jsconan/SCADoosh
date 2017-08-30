@@ -37,28 +37,28 @@ const AstFragment = require('./fragment');
  * @typedef {AstFragment} AstBinaryOperator
  * @property {String} type
  * @property {String} operator
- * @property {AstNode} left
- * @property {AstNode} right
+ * @property {AstNode} leftValue
+ * @property {AstNode} rightValue
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
 class AstBinaryOperator extends AstFragment {
     /**
      * Creates an AstBinaryOperator.
-     * @param {AstNode} left
+     * @param {AstNode} leftValue
      * @param {String} operator
-     * @param {AstNode} right
+     * @param {AstNode} rightValue
      * @throws {TypeError} if one of the operands is not a valid AstNode
      */
-    constructor(left, operator, right) {
-        if (!AstNode.validate(left) || !AstNode.validate(right)) {
+    constructor(leftValue, operator, rightValue) {
+        if (!AstNode.validate(leftValue) || !AstNode.validate(rightValue)) {
             throw new TypeError('An operand should be an AstNode!');
         }
         super({
             type: 'binaryOperator',
             operator: operator,
-            left: left,
-            right: right
+            leftValue: leftValue,
+            rightValue: rightValue
         });
     }
 }

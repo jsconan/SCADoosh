@@ -43,20 +43,20 @@ describe('OpenSCAD AstBinaryOperator', () => {
     it('should create an AstBinaryOperator', () => {
         const type = 'binaryOperator';
         const operator = '+';
-        const leftOperand = new AstNumber(1);
-        const rightOperand = new AstNumber(2);
-        const node = new AstBinaryOperator(leftOperand, operator, rightOperand);
+        const leftValue = new AstNumber(1);
+        const rightValue = new AstNumber(2);
+        const node = new AstBinaryOperator(leftValue, operator, rightValue);
 
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstBinaryOperator);
-        expect(node.left).to.be.instanceOf(AstNode);
-        expect(node.right).to.be.instanceOf(AstNode);
+        expect(node.leftValue).to.be.instanceOf(AstNode);
+        expect(node.rightValue).to.be.instanceOf(AstNode);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('operator').that.is.equal(operator);
-        expect(node).to.have.a.property('left').that.is.equal(leftOperand);
-        expect(node).to.have.a.property('right').that.is.equal(rightOperand);
+        expect(node).to.have.a.property('leftValue').that.is.equal(leftValue);
+        expect(node).to.have.a.property('rightValue').that.is.equal(rightValue);
     });
 
     it('should throw a TypeError if one of the operands is not a valid AstNode', () => {
@@ -68,8 +68,8 @@ describe('OpenSCAD AstBinaryOperator', () => {
     it('should stringify an AstBinaryOperator', () => {
         const type = 'binaryOperator';
         const operator = '+';
-        const leftOperand = new AstNumber(1);
-        const rightOperand = new AstNumber(2);
+        const leftValue = new AstNumber(1);
+        const rightValue = new AstNumber(2);
         const startLine = 1;
         const startColumn = 1;
         const startOffset = 0;
@@ -79,15 +79,15 @@ describe('OpenSCAD AstBinaryOperator', () => {
         const expected = {
             type: type,
             operator: operator,
-            left: {type: 'number', value: 1},
-            right: {type: 'number', value: 2},
+            leftValue: {type: 'number', value: 1},
+            rightValue: {type: 'number', value: 2},
             start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
             end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
         };
-        const node = new AstBinaryOperator(leftOperand, operator, rightOperand);
+        const node = new AstBinaryOperator(leftValue, operator, rightValue);
         const stringified = '{"type":"' + type + '","operator":"' + operator + '",' +
-            '"left":{"type":"number","value":1},' +
-            '"right":{"type":"number","value":2},' +
+            '"leftValue":{"type":"number","value":1},' +
+            '"rightValue":{"type":"number","value":2},' +
             '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
             '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
@@ -99,8 +99,8 @@ describe('OpenSCAD AstBinaryOperator', () => {
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstBinaryOperator);
         expect(node).to.deep.equal(expected);
-        expect(node.left).to.be.instanceOf(AstNode);
-        expect(node.right).to.be.instanceOf(AstNode);
+        expect(node.leftValue).to.be.instanceOf(AstNode);
+        expect(node.rightValue).to.be.instanceOf(AstNode);
         expect(node.start).to.be.instanceOf(AstPosition);
         expect(node.end).to.be.instanceOf(AstPosition);
         expect(node + '').to.be.equal(stringified);
