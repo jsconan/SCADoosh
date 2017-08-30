@@ -51,7 +51,7 @@ describe('OpenSCAD AstLiteral', () => {
 
     it('should throw a TypeError if the type is not a string', () => {
         expect(() => {
-            new AstLiteral({myProp: "a property"});
+            new AstLiteral({type: "boolean"});
         }).to.throw(TypeError);
 
         expect(() => {
@@ -68,10 +68,6 @@ describe('OpenSCAD AstLiteral', () => {
         expect(literal).to.be.an.instanceOf(AstFragment);
         expect(literal).to.be.an.instanceOf(AstLiteral);
         expect(literal).to.have.a.property('type').that.is.equal(type);
-
-        literal.type = 'identifier';
-
-        expect(literal.type).to.be.equal(type);
     });
 
     it('should create an AstLiteral with the specified value', () => {
@@ -80,40 +76,11 @@ describe('OpenSCAD AstLiteral', () => {
         const literal = new AstLiteral(type, value);
 
         expect(literal).to.be.an('object');
+        expect(literal).to.be.an.instanceOf(AstNode);
+        expect(literal).to.be.an.instanceOf(AstFragment);
+        expect(literal).to.be.an.instanceOf(AstLiteral);
         expect(literal).to.have.a.property('type').that.is.equal(type);
         expect(literal).to.have.a.property('value').that.is.equal(value);
-
-        literal.type = 'identifier';
-        literal.value = 'foo';
-
-        expect(literal.type).to.be.equal(type);
-        expect(literal.value).to.be.equal(value);
-    });
-
-    it('should add position in an AstLiteral', () => {
-        const type = 'number';
-        const value = 10;
-        const startLine = 1;
-        const startColumn = 1;
-        const startOffset = 0;
-        const endLine = 1;
-        const endColumn = 3;
-        const endOffset = 2;
-        const expected = {
-            type: type,
-            value: value,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
-        };
-        const literal = new AstLiteral(type, value);
-
-        literal.startAt(startLine, startColumn, startOffset);
-        literal.endAt(endLine, endColumn, endOffset);
-
-        expect(literal).to.be.an('object');
-        expect(literal).to.deep.equal(expected);
-        expect(literal.start).to.be.instanceOf(AstPosition);
-        expect(literal.end).to.be.instanceOf(AstPosition);
     });
 
     it('should stringify an AstLiteral', () => {
@@ -140,42 +107,11 @@ describe('OpenSCAD AstLiteral', () => {
         literal.endAt(endLine, endColumn, endOffset);
 
         expect(literal).to.be.an('object');
+        expect(literal).to.be.an.instanceOf(AstNode);
+        expect(literal).to.be.an.instanceOf(AstFragment);
+        expect(literal).to.be.an.instanceOf(AstLiteral);
         expect(literal).to.deep.equal(expected);
         expect(literal + '').to.be.equal(stringified);
-    });
-
-    it('should add read-only values', () => {
-        const type = 'number';
-        const value = 3;
-        const prop = 'an additional property';
-        const literal = new AstLiteral(type, value);
-
-        literal.addProperty('myProp', prop);
-
-        expect(literal).to.be.an('object');
-        expect(literal).to.have.a.property('type').that.is.equal(type);
-        expect(literal).to.have.a.property('value').that.is.equal(value);
-        expect(literal).to.have.a.property('myProp').that.is.equal(prop);
-
-        literal.myProp = 'another value';
-
-        expect(literal.myProp).to.be.equal(prop);
-    });
-
-    it('should not allow to redefine existing properties', () => {
-        const type = 'boolean';
-        const value = true;
-        const literal = new AstLiteral(type, value);
-
-        expect(literal).to.be.an('object');
-        expect(literal).to.have.a.property('type').that.is.equal(type);
-        expect(literal).to.have.a.property('value').that.is.equal(value);
-
-        expect(() => literal.addProperty('type', 'identifier')).to.throw(TypeError);
-        expect(() => literal.addProperty('value', 'foo')).to.throw(TypeError);
-
-        expect(literal.type).to.be.equal(type);
-        expect(literal.value).to.be.equal(value);
     });
 
 });

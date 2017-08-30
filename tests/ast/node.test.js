@@ -61,11 +61,8 @@ describe('OpenSCAD AstNode', () => {
         const node = new AstNode(type);
 
         expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.have.a.property('type').that.is.equal(type);
-
-        node.type = 'identifier';
-
-        expect(node.type).to.be.equal(type);
     });
 
     it('should create an AstNode with the specified properties', () => {
@@ -79,17 +76,10 @@ describe('OpenSCAD AstNode', () => {
         });
 
         expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('position').that.is.equal(position);
         expect(node).to.have.a.property('offset').that.is.equal(offset);
-
-        node.type = 'identifier';
-        node.position = 20;
-        node.offset = 19;
-
-        expect(node.type).to.be.equal(type);
-        expect(node.position).to.be.equal(position);
-        expect(node.offset).to.be.equal(offset);
     });
 
     it('should create an AstNode with the specified type and properties', () => {
@@ -102,17 +92,10 @@ describe('OpenSCAD AstNode', () => {
         });
 
         expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('position').that.is.equal(position);
         expect(node).to.have.a.property('offset').that.is.equal(offset);
-
-        node.type = 'identifier';
-        node.position = 20;
-        node.offset = 19;
-
-        expect(node.type).to.be.equal(type);
-        expect(node.position).to.be.equal(position);
-        expect(node.offset).to.be.equal(offset);
     });
 
     it('should stringify an AstNode', () => {
@@ -121,6 +104,7 @@ describe('OpenSCAD AstNode', () => {
         const stringified = '{"type":"' + type + '"}';
 
         expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node + '').to.be.equal(stringified);
     });
@@ -133,6 +117,7 @@ describe('OpenSCAD AstNode', () => {
         node.addProperty('myProp', prop);
 
         expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('myProp').that.is.equal(prop);
 
@@ -152,6 +137,7 @@ describe('OpenSCAD AstNode', () => {
         });
 
         expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('position').that.is.equal(position);
         expect(node).to.have.a.property('offset').that.is.equal(offset);

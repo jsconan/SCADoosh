@@ -46,6 +46,7 @@ describe('OpenSCAD AstPosition', () => {
 
         expect(position).to.be.an('object');
         expect(position).to.be.an.instanceOf(AstNode);
+        expect(position).to.be.an.instanceOf(AstPosition);
         expect(position).to.be.deep.equal(expected);
     });
 
@@ -58,6 +59,7 @@ describe('OpenSCAD AstPosition', () => {
 
         expect(position).to.be.an('object');
         expect(position).to.be.an.instanceOf(AstNode);
+        expect(position).to.be.an.instanceOf(AstPosition);
         expect(position).to.be.deep.equal(expected);
     });
 
@@ -81,6 +83,7 @@ describe('OpenSCAD AstPosition', () => {
 
         expect(position).to.be.an('object');
         expect(position).to.be.an.instanceOf(AstNode);
+        expect(position).to.be.an.instanceOf(AstPosition);
         expect(position).to.be.deep.equal(expected);
 
         expect(() => position.addProperty('type', 'identifier')).to.throw(TypeError);
@@ -103,6 +106,7 @@ describe('OpenSCAD AstPosition', () => {
 
         expect(position).to.be.an('object');
         expect(position).to.be.an.instanceOf(AstNode);
+        expect(position).to.be.an.instanceOf(AstPosition);
         expect(position).to.be.deep.equal(expected);
 
         position.line = 10;
@@ -122,28 +126,9 @@ describe('OpenSCAD AstPosition', () => {
 
         expect(position).to.be.an('object');
         expect(position).to.be.an.instanceOf(AstNode);
+        expect(position).to.be.an.instanceOf(AstPosition);
         expect(position).to.be.deep.equal(expected);
         expect(position + '').to.be.equal(stringified);
-    });
-
-    it('should add read-only values', () => {
-        const line = 1;
-        const column = 2;
-        const offset = 1;
-        const prop = 'an additional property';
-        const expected = {type: 'position', line: line, column: column, offset: offset, myProp: prop};
-        const position = new AstPosition(line, column, offset);
-
-        position.addProperty('myProp', prop);
-
-        expect(position).to.be.an('object');
-        expect(position).to.be.an.instanceOf(AstNode);
-        expect(position).to.be.deep.equal(expected);
-        expect(position).to.have.a.property('myProp').that.is.equal(prop);
-
-        position.myProp = 'another value';
-
-        expect(position.myProp).to.be.equal(prop);
     });
 
 });

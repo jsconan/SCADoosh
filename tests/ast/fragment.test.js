@@ -64,11 +64,8 @@ describe('OpenSCAD AstFragment', () => {
 
         expect(fragment).to.be.an('object');
         expect(fragment).to.be.an.instanceOf(AstNode);
+        expect(fragment).to.be.an.instanceOf(AstFragment);
         expect(fragment).to.have.a.property('type').that.is.equal(type);
-
-        fragment.type = 'identifier';
-
-        expect(fragment.type).to.be.equal(type);
     });
 
     it('should create an AstFragment with the specified properties', () => {
@@ -82,17 +79,11 @@ describe('OpenSCAD AstFragment', () => {
         });
 
         expect(fragment).to.be.an('object');
+        expect(fragment).to.be.an.instanceOf(AstNode);
+        expect(fragment).to.be.an.instanceOf(AstFragment);
         expect(fragment).to.have.a.property('type').that.is.equal(type);
         expect(fragment).to.have.a.property('position').that.is.equal(position);
         expect(fragment).to.have.a.property('offset').that.is.equal(offset);
-
-        fragment.type = 'identifier';
-        fragment.position = 20;
-        fragment.offset = 19;
-
-        expect(fragment.type).to.be.equal(type);
-        expect(fragment.position).to.be.equal(position);
-        expect(fragment.offset).to.be.equal(offset);
     });
 
     it('should create an AstFragment with the specified type and properties', () => {
@@ -105,20 +96,14 @@ describe('OpenSCAD AstFragment', () => {
         });
 
         expect(fragment).to.be.an('object');
+        expect(fragment).to.be.an.instanceOf(AstNode);
+        expect(fragment).to.be.an.instanceOf(AstFragment);
         expect(fragment).to.have.a.property('type').that.is.equal(type);
         expect(fragment).to.have.a.property('position').that.is.equal(position);
         expect(fragment).to.have.a.property('offset').that.is.equal(offset);
-
-        fragment.type = 'identifier';
-        fragment.position = 20;
-        fragment.offset = 19;
-
-        expect(fragment.type).to.be.equal(type);
-        expect(fragment.position).to.be.equal(position);
-        expect(fragment.offset).to.be.equal(offset);
     });
 
-    it('should add position in an AstFragment', () => {
+    it('should add a position in an AstFragment', () => {
         const type = 'literal';
         const startLine = 1;
         const startColumn = 1;
@@ -137,6 +122,8 @@ describe('OpenSCAD AstFragment', () => {
         fragment.endAt(endLine, endColumn, endOffset);
 
         expect(fragment).to.be.an('object');
+        expect(fragment).to.be.an.instanceOf(AstNode);
+        expect(fragment).to.be.an.instanceOf(AstFragment);
         expect(fragment).to.deep.equal(expected);
         expect(fragment.start).to.be.instanceOf(AstPosition);
         expect(fragment.end).to.be.instanceOf(AstPosition);
@@ -164,48 +151,10 @@ describe('OpenSCAD AstFragment', () => {
         fragment.endAt(endLine, endColumn, endOffset);
 
         expect(fragment).to.be.an('object');
+        expect(fragment).to.be.an.instanceOf(AstNode);
+        expect(fragment).to.be.an.instanceOf(AstFragment);
         expect(fragment).to.deep.equal(expected);
         expect(fragment + '').to.be.equal(stringified);
-    });
-
-    it('should add read-only values', () => {
-        const type = 'literal';
-        const prop = 'an additional property';
-        const fragment = new AstFragment(type);
-
-        fragment.addProperty('myProp', prop);
-
-        expect(fragment).to.be.an('object');
-        expect(fragment).to.have.a.property('type').that.is.equal(type);
-        expect(fragment).to.have.a.property('myProp').that.is.equal(prop);
-
-        fragment.myProp = 'another value';
-
-        expect(fragment.myProp).to.be.equal(prop);
-    });
-
-    it('should not allow to redefine existing properties', () => {
-        const type = 'literal';
-        const position = 10;
-        const offset = 9;
-        const fragment = new AstFragment({
-            type: type,
-            position: position,
-            offset: offset
-        });
-
-        expect(fragment).to.be.an('object');
-        expect(fragment).to.have.a.property('type').that.is.equal(type);
-        expect(fragment).to.have.a.property('position').that.is.equal(position);
-        expect(fragment).to.have.a.property('offset').that.is.equal(offset);
-
-        expect(() => fragment.addProperty('type', 'identifier')).to.throw(TypeError);
-        expect(() => fragment.addProperty('position', 20)).to.throw(TypeError);
-        expect(() => fragment.addProperty('offset', 19)).to.throw(TypeError);
-
-        expect(fragment.type).to.be.equal(type);
-        expect(fragment.position).to.be.equal(position);
-        expect(fragment.offset).to.be.equal(offset);
     });
 
 });
