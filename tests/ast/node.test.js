@@ -70,7 +70,7 @@ describe('OpenSCAD AstNode', () => {
 
     it('should create an AstNode with the specified properties', () => {
         const type = 'literal';
-        const position= 10;
+        const position = 10;
         const offset = 9;
         const node = new AstNode({
             type: type,
@@ -94,7 +94,7 @@ describe('OpenSCAD AstNode', () => {
 
     it('should create an AstNode with the specified type and properties', () => {
         const type = 'literal';
-        const position= 10;
+        const position = 10;
         const offset = 9;
         const node = new AstNode(type, {
             position: position,
@@ -143,7 +143,7 @@ describe('OpenSCAD AstNode', () => {
 
     it('should not allow to redefine existing properties', () => {
         const type = 'literal';
-        const position= 10;
+        const position = 10;
         const offset = 9;
         const node = new AstNode({
             type: type,
