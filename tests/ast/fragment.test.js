@@ -60,47 +60,47 @@ describe('OpenSCAD AstFragment', () => {
 
     it('should create an AstFragment with the specified type', () => {
         const type = 'literal';
-        const fragment = new AstFragment(type);
+        const node = new AstFragment(type);
 
-        expect(fragment).to.be.an('object');
-        expect(fragment).to.be.an.instanceOf(AstNode);
-        expect(fragment).to.be.an.instanceOf(AstFragment);
-        expect(fragment).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.have.a.property('type').that.is.equal(type);
     });
 
     it('should create an AstFragment with the specified properties', () => {
         const type = 'literal';
         const position = 10;
         const offset = 9;
-        const fragment = new AstFragment({
+        const node = new AstFragment({
             type: type,
             position: position,
             offset: offset
         });
 
-        expect(fragment).to.be.an('object');
-        expect(fragment).to.be.an.instanceOf(AstNode);
-        expect(fragment).to.be.an.instanceOf(AstFragment);
-        expect(fragment).to.have.a.property('type').that.is.equal(type);
-        expect(fragment).to.have.a.property('position').that.is.equal(position);
-        expect(fragment).to.have.a.property('offset').that.is.equal(offset);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('position').that.is.equal(position);
+        expect(node).to.have.a.property('offset').that.is.equal(offset);
     });
 
     it('should create an AstFragment with the specified type and properties', () => {
         const type = 'literal';
         const position = 10;
         const offset = 9;
-        const fragment = new AstFragment(type, {
+        const node = new AstFragment(type, {
             position: position,
             offset: offset
         });
 
-        expect(fragment).to.be.an('object');
-        expect(fragment).to.be.an.instanceOf(AstNode);
-        expect(fragment).to.be.an.instanceOf(AstFragment);
-        expect(fragment).to.have.a.property('type').that.is.equal(type);
-        expect(fragment).to.have.a.property('position').that.is.equal(position);
-        expect(fragment).to.have.a.property('offset').that.is.equal(offset);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('position').that.is.equal(position);
+        expect(node).to.have.a.property('offset').that.is.equal(offset);
     });
 
     it('should add a position in an AstFragment', () => {
@@ -116,17 +116,17 @@ describe('OpenSCAD AstFragment', () => {
             start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
             end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
         };
-        const fragment = new AstFragment(type);
+        const node = new AstFragment(type);
 
-        fragment.startAt(startLine, startColumn, startOffset);
-        fragment.endAt(endLine, endColumn, endOffset);
+        node.startAt(startLine, startColumn, startOffset);
+        node.endAt(endLine, endColumn, endOffset);
 
-        expect(fragment).to.be.an('object');
-        expect(fragment).to.be.an.instanceOf(AstNode);
-        expect(fragment).to.be.an.instanceOf(AstFragment);
-        expect(fragment).to.deep.equal(expected);
-        expect(fragment.start).to.be.instanceOf(AstPosition);
-        expect(fragment.end).to.be.instanceOf(AstPosition);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.deep.equal(expected);
+        expect(node.start).to.be.instanceOf(AstPosition);
+        expect(node.end).to.be.instanceOf(AstPosition);
     });
 
     it('should stringify an AstFragment', () => {
@@ -142,19 +142,19 @@ describe('OpenSCAD AstFragment', () => {
             start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
             end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
         };
-        const fragment = new AstFragment(type);
+        const node = new AstFragment(type);
         const stringified = '{"type":"' + type + '",' +
             '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
             '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
-        fragment.startAt(startLine, startColumn, startOffset);
-        fragment.endAt(endLine, endColumn, endOffset);
+        node.startAt(startLine, startColumn, startOffset);
+        node.endAt(endLine, endColumn, endOffset);
 
-        expect(fragment).to.be.an('object');
-        expect(fragment).to.be.an.instanceOf(AstNode);
-        expect(fragment).to.be.an.instanceOf(AstFragment);
-        expect(fragment).to.deep.equal(expected);
-        expect(fragment + '').to.be.equal(stringified);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.deep.equal(expected);
+        expect(node + '').to.be.equal(stringified);
     });
 
 });

@@ -61,26 +61,26 @@ describe('OpenSCAD AstLiteral', () => {
 
     it('should create an AstLiteral with the specified type', () => {
         const type = 'number';
-        const literal = new AstLiteral(type);
+        const node = new AstLiteral(type);
 
-        expect(literal).to.be.an('object');
-        expect(literal).to.be.an.instanceOf(AstNode);
-        expect(literal).to.be.an.instanceOf(AstFragment);
-        expect(literal).to.be.an.instanceOf(AstLiteral);
-        expect(literal).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.have.a.property('type').that.is.equal(type);
     });
 
     it('should create an AstLiteral with the specified value', () => {
         const type = 'number';
         const value = 9;
-        const literal = new AstLiteral(type, value);
+        const node = new AstLiteral(type, value);
 
-        expect(literal).to.be.an('object');
-        expect(literal).to.be.an.instanceOf(AstNode);
-        expect(literal).to.be.an.instanceOf(AstFragment);
-        expect(literal).to.be.an.instanceOf(AstLiteral);
-        expect(literal).to.have.a.property('type').that.is.equal(type);
-        expect(literal).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
     it('should stringify an AstLiteral', () => {
@@ -98,20 +98,22 @@ describe('OpenSCAD AstLiteral', () => {
             start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
             end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
         };
-        const literal = new AstLiteral(type, value);
+        const node = new AstLiteral(type, value);
         const stringified = '{"type":"' + type + '","value":' + value + ',' +
             '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
             '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
-        literal.startAt(startLine, startColumn, startOffset);
-        literal.endAt(endLine, endColumn, endOffset);
+        node.startAt(startLine, startColumn, startOffset);
+        node.endAt(endLine, endColumn, endOffset);
 
-        expect(literal).to.be.an('object');
-        expect(literal).to.be.an.instanceOf(AstNode);
-        expect(literal).to.be.an.instanceOf(AstFragment);
-        expect(literal).to.be.an.instanceOf(AstLiteral);
-        expect(literal).to.deep.equal(expected);
-        expect(literal + '').to.be.equal(stringified);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.deep.equal(expected);
+        expect(node.start).to.be.instanceOf(AstPosition);
+        expect(node.end).to.be.instanceOf(AstPosition);
+        expect(node + '').to.be.equal(stringified);
     });
 
 });

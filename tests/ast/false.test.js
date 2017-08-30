@@ -43,16 +43,16 @@ describe('OpenSCAD AstFalse', () => {
     it('should create an AstFalse', () => {
         const type = 'boolean';
         const value = false;
-        const number = new AstFalse();
+        const node = new AstFalse();
 
-        expect(number).to.be.an('object');
-        expect(number).to.be.an.instanceOf(AstNode);
-        expect(number).to.be.an.instanceOf(AstFragment);
-        expect(number).to.be.an.instanceOf(AstLiteral);
-        expect(number).to.be.an.instanceOf(AstBoolean);
-        expect(number).to.be.an.instanceOf(AstFalse);
-        expect(number).to.have.a.property('type').that.is.equal(type);
-        expect(number).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstBoolean);
+        expect(node).to.be.an.instanceOf(AstFalse);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
 });

@@ -42,12 +42,12 @@ describe('OpenSCAD AstPosition', () => {
         const column = 2;
         const offset = 1;
         const expected = {type: 'position', line: line, column: column, offset: offset};
-        const position = new AstPosition(line, column, offset);
+        const node = new AstPosition(line, column, offset);
 
-        expect(position).to.be.an('object');
-        expect(position).to.be.an.instanceOf(AstNode);
-        expect(position).to.be.an.instanceOf(AstPosition);
-        expect(position).to.be.deep.equal(expected);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstPosition);
+        expect(node).to.be.deep.equal(expected);
     });
 
     it('should accept line or column as strings', () => {
@@ -55,12 +55,12 @@ describe('OpenSCAD AstPosition', () => {
         const column = "2";
         const offset = "1";
         const expected = {type: 'position', line: 1, column: 2, offset: 1};
-        const position = new AstPosition(line, column, offset);
+        const node = new AstPosition(line, column, offset);
 
-        expect(position).to.be.an('object');
-        expect(position).to.be.an.instanceOf(AstNode);
-        expect(position).to.be.an.instanceOf(AstPosition);
-        expect(position).to.be.deep.equal(expected);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstPosition);
+        expect(node).to.be.deep.equal(expected);
     });
 
     it('should not allow to set 0 in line or column', () => {
@@ -79,22 +79,22 @@ describe('OpenSCAD AstPosition', () => {
         const column = 2;
         const offset = 1;
         const expected = {type: 'position', line: line, column: column, offset: offset};
-        const position = new AstPosition(line, column, offset);
+        const node = new AstPosition(line, column, offset);
 
-        expect(position).to.be.an('object');
-        expect(position).to.be.an.instanceOf(AstNode);
-        expect(position).to.be.an.instanceOf(AstPosition);
-        expect(position).to.be.deep.equal(expected);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstPosition);
+        expect(node).to.be.deep.equal(expected);
 
-        expect(() => position.addProperty('type', 'identifier')).to.throw(TypeError);
-        expect(() => position.addProperty('line', 20)).to.throw(TypeError);
-        expect(() => position.addProperty('column', 19)).to.throw(TypeError);
-        expect(() => position.addProperty('offset', 50)).to.throw(TypeError);
+        expect(() => node.addProperty('type', 'identifier')).to.throw(TypeError);
+        expect(() => node.addProperty('line', 20)).to.throw(TypeError);
+        expect(() => node.addProperty('column', 19)).to.throw(TypeError);
+        expect(() => node.addProperty('offset', 50)).to.throw(TypeError);
 
-        expect(position.type).to.be.equal('position');
-        expect(position.line).to.be.equal(line);
-        expect(position.column).to.be.equal(column);
-        expect(position.offset).to.be.equal(offset);
+        expect(node.type).to.be.equal('position');
+        expect(node.line).to.be.equal(line);
+        expect(node.column).to.be.equal(column);
+        expect(node.offset).to.be.equal(offset);
     });
 
     it('should not allow to change values', () => {
@@ -102,18 +102,18 @@ describe('OpenSCAD AstPosition', () => {
         const column = 2;
         const offset = 1;
         const expected = {type: 'position', line: line, column: column, offset: offset};
-        const position = new AstPosition(line, column, offset);
+        const node = new AstPosition(line, column, offset);
 
-        expect(position).to.be.an('object');
-        expect(position).to.be.an.instanceOf(AstNode);
-        expect(position).to.be.an.instanceOf(AstPosition);
-        expect(position).to.be.deep.equal(expected);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstPosition);
+        expect(node).to.be.deep.equal(expected);
 
-        position.line = 10;
-        position.column = 20;
-        position.offset = 50;
+        node.line = 10;
+        node.column = 20;
+        node.offset = 50;
 
-        expect(position).to.be.deep.equal(expected);
+        expect(node).to.be.deep.equal(expected);
     });
 
     it('should stringify an AstPosition', () => {
@@ -122,13 +122,13 @@ describe('OpenSCAD AstPosition', () => {
         const offset = 1;
         const expected = {type: 'position', line: line, column: column, offset: offset};
         const stringified = '{"type":"position","line":' + line + ',"column":' + column + ',"offset":' + offset + '}';
-        const position = new AstPosition(line, column, offset);
+        const node = new AstPosition(line, column, offset);
 
-        expect(position).to.be.an('object');
-        expect(position).to.be.an.instanceOf(AstNode);
-        expect(position).to.be.an.instanceOf(AstPosition);
-        expect(position).to.be.deep.equal(expected);
-        expect(position + '').to.be.equal(stringified);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstPosition);
+        expect(node).to.be.deep.equal(expected);
+        expect(node + '').to.be.equal(stringified);
     });
 
 });

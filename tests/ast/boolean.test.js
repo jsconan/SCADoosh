@@ -43,43 +43,43 @@ describe('OpenSCAD AstBoolean', () => {
     it('should create an AstBoolean with the specified value', () => {
         const type = 'boolean';
         const value = true;
-        const number = new AstBoolean(value);
+        const node = new AstBoolean(value);
 
-        expect(number).to.be.an('object');
-        expect(number).to.be.an.instanceOf(AstNode);
-        expect(number).to.be.an.instanceOf(AstFragment);
-        expect(number).to.be.an.instanceOf(AstLiteral);
-        expect(number).to.be.an.instanceOf(AstBoolean);
-        expect(number).to.have.a.property('type').that.is.equal(type);
-        expect(number).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstBoolean);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
     it('should create an AstBoolean with the specified value as a string (true)', () => {
         const type = 'boolean';
         const value = true;
-        const number = new AstBoolean('true');
+        const node = new AstBoolean('true');
 
-        expect(number).to.be.an('object');
-        expect(number).to.be.an.instanceOf(AstNode);
-        expect(number).to.be.an.instanceOf(AstFragment);
-        expect(number).to.be.an.instanceOf(AstLiteral);
-        expect(number).to.be.an.instanceOf(AstBoolean);
-        expect(number).to.have.a.property('type').that.is.equal(type);
-        expect(number).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstBoolean);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
     it('should create an AstBoolean with the specified value as a string (false)', () => {
         const type = 'boolean';
         const value = false;
-        const number = new AstBoolean('false');
+        const node = new AstBoolean('false');
 
-        expect(number).to.be.an('object');
-        expect(number).to.be.an.instanceOf(AstNode);
-        expect(number).to.be.an.instanceOf(AstFragment);
-        expect(number).to.be.an.instanceOf(AstLiteral);
-        expect(number).to.be.an.instanceOf(AstBoolean);
-        expect(number).to.have.a.property('type').that.is.equal(type);
-        expect(number).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstBoolean);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
     it('should throw a TypeError if the value is not compatible with boolean', () => {
@@ -105,23 +105,23 @@ describe('OpenSCAD AstBoolean', () => {
             start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
             end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
         };
-        const number = new AstBoolean(value);
+        const node = new AstBoolean(value);
         const stringified = '{"type":"' + type + '","value":' + value + ',' +
             '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
             '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
-        number.startAt(startLine, startColumn, startOffset);
-        number.endAt(endLine, endColumn, endOffset);
+        node.startAt(startLine, startColumn, startOffset);
+        node.endAt(endLine, endColumn, endOffset);
 
-        expect(number).to.be.an('object');
-        expect(number).to.be.an.instanceOf(AstNode);
-        expect(number).to.be.an.instanceOf(AstFragment);
-        expect(number).to.be.an.instanceOf(AstLiteral);
-        expect(number).to.be.an.instanceOf(AstBoolean);
-        expect(number).to.deep.equal(expected);
-        expect(number.start).to.be.instanceOf(AstPosition);
-        expect(number.end).to.be.instanceOf(AstPosition);
-        expect(number + '').to.be.equal(stringified);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstBoolean);
+        expect(node).to.deep.equal(expected);
+        expect(node.start).to.be.instanceOf(AstPosition);
+        expect(node.end).to.be.instanceOf(AstPosition);
+        expect(node + '').to.be.equal(stringified);
     });
 
 });

@@ -43,34 +43,34 @@ describe('OpenSCAD AstPath', () => {
     it('should create an AstPath with the specified value', () => {
         const type = 'path';
         const value = './a/path/to/library.scad';
-        const number = new AstPath(value);
+        const node = new AstPath(value);
 
-        expect(number).to.be.an('object');
-        expect(number).to.be.an.instanceOf(AstNode);
-        expect(number).to.be.an.instanceOf(AstFragment);
-        expect(number).to.be.an.instanceOf(AstLiteral);
-        expect(number).to.be.an.instanceOf(AstPath);
-        expect(number).to.have.a.property('type').that.is.equal(type);
-        expect(number).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstPath);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
     it('should create an AstPath with the specified value as a stringable', () => {
         const type = 'path';
         const value = './a/path/to/library.scad';
-        const number = new AstPath({
+        const node = new AstPath({
             value: './a/path/to/library.scad',
             toString: function () {
                 return '' + this.value;
             }
         });
 
-        expect(number).to.be.an('object');
-        expect(number).to.be.an.instanceOf(AstNode);
-        expect(number).to.be.an.instanceOf(AstFragment);
-        expect(number).to.be.an.instanceOf(AstLiteral);
-        expect(number).to.be.an.instanceOf(AstPath);
-        expect(number).to.have.a.property('type').that.is.equal(type);
-        expect(number).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstPath);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
     it('should stringify an AstPath', () => {
@@ -88,23 +88,23 @@ describe('OpenSCAD AstPath', () => {
             start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
             end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
         };
-        const number = new AstPath(value);
+        const node = new AstPath(value);
         const stringified = '{"type":"' + type + '","value":"' + value + '",' +
             '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
             '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
-        number.startAt(startLine, startColumn, startOffset);
-        number.endAt(endLine, endColumn, endOffset);
+        node.startAt(startLine, startColumn, startOffset);
+        node.endAt(endLine, endColumn, endOffset);
 
-        expect(number).to.be.an('object');
-        expect(number).to.be.an.instanceOf(AstNode);
-        expect(number).to.be.an.instanceOf(AstFragment);
-        expect(number).to.be.an.instanceOf(AstLiteral);
-        expect(number).to.be.an.instanceOf(AstPath);
-        expect(number).to.deep.equal(expected);
-        expect(number.start).to.be.instanceOf(AstPosition);
-        expect(number.end).to.be.instanceOf(AstPosition);
-        expect(number + '').to.be.equal(stringified);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstPath);
+        expect(node).to.deep.equal(expected);
+        expect(node.start).to.be.instanceOf(AstPosition);
+        expect(node.end).to.be.instanceOf(AstPosition);
+        expect(node + '').to.be.equal(stringified);
     });
 
 });

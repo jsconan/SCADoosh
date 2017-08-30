@@ -43,29 +43,29 @@ describe('OpenSCAD AstNumber', () => {
     it('should create an AstNumber with the specified value', () => {
         const type = 'number';
         const value = 9;
-        const number = new AstNumber(value);
+        const node = new AstNumber(value);
 
-        expect(number).to.be.an('object');
-        expect(number).to.be.an.instanceOf(AstNode);
-        expect(number).to.be.an.instanceOf(AstFragment);
-        expect(number).to.be.an.instanceOf(AstLiteral);
-        expect(number).to.be.an.instanceOf(AstNumber);
-        expect(number).to.have.a.property('type').that.is.equal(type);
-        expect(number).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstNumber);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
     it('should create an AstNumber with the specified value as a string', () => {
         const type = 'number';
         const value = 9;
-        const number = new AstNumber("9");
+        const node = new AstNumber("9");
 
-        expect(number).to.be.an('object');
-        expect(number).to.be.an.instanceOf(AstNode);
-        expect(number).to.be.an.instanceOf(AstFragment);
-        expect(number).to.be.an.instanceOf(AstLiteral);
-        expect(number).to.be.an.instanceOf(AstNumber);
-        expect(number).to.have.a.property('type').that.is.equal(type);
-        expect(number).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstNumber);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
     it('should stringify an AstNumber', () => {
@@ -83,23 +83,23 @@ describe('OpenSCAD AstNumber', () => {
             start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
             end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
         };
-        const number = new AstNumber(value);
+        const node = new AstNumber(value);
         const stringified = '{"type":"' + type + '","value":' + value + ',' +
             '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
             '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
-        number.startAt(startLine, startColumn, startOffset);
-        number.endAt(endLine, endColumn, endOffset);
+        node.startAt(startLine, startColumn, startOffset);
+        node.endAt(endLine, endColumn, endOffset);
 
-        expect(number).to.be.an('object');
-        expect(number).to.be.an.instanceOf(AstNode);
-        expect(number).to.be.an.instanceOf(AstFragment);
-        expect(number).to.be.an.instanceOf(AstLiteral);
-        expect(number).to.be.an.instanceOf(AstNumber);
-        expect(number).to.deep.equal(expected);
-        expect(number.start).to.be.instanceOf(AstPosition);
-        expect(number.end).to.be.instanceOf(AstPosition);
-        expect(number + '').to.be.equal(stringified);
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstNumber);
+        expect(node).to.deep.equal(expected);
+        expect(node.start).to.be.instanceOf(AstPosition);
+        expect(node.end).to.be.instanceOf(AstPosition);
+        expect(node + '').to.be.equal(stringified);
     });
 
 });
