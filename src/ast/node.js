@@ -92,7 +92,7 @@ class AstNode {
     /**
      * Checks whether an object is an AstNode or not.
      * @param {Object} obj
-     * @param {String} type
+     * @param {String} [type]
      * @returns {Boolean}
      */
     static validate(obj, type) {
