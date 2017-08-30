@@ -23,7 +23,7 @@
 /**
  * Part of the SCADoosh tool.
  *
- * Defines an AST node that represents a number literal.
+ * Defines an AST node that represents a string literal.
  *
  * @package src/ast
  * @author jsconan
@@ -32,21 +32,21 @@
 const AstLiteral = require('./literal');
 
 /**
- * Defines an AST node that represents a number literal.
- * @typedef {AstLiteral} AstNumber
+ * Defines an AST node that represents a string literal.
+ * @typedef {AstLiteral} AstString
  * @property {String} type
- * @property {Number} value
+ * @property {String} value
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
-class AstNumber extends AstLiteral {
+class AstString extends AstLiteral {
     /**
-     * Creates an AstNumber.
-     * @param {Number|String} value
+     * Creates an AstString.
+     * @param {String} value
      */
     constructor(value) {
-        super('number', parseFloat(value));
+        super('string', '' + value);
     }
 }
 
-module.exports = AstNumber;
+module.exports = AstString;
