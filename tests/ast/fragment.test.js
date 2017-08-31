@@ -103,7 +103,7 @@ describe('OpenSCAD AstFragment', () => {
         expect(node).to.have.a.property('offset').that.is.equal(offset);
     });
 
-    it('should add a position in an AstFragment', () => {
+    it('should add a position in an AstFragment from line, column, offset values', () => {
         const type = 'literal';
         const startLine = 1;
         const startColumn = 1;
@@ -127,6 +127,48 @@ describe('OpenSCAD AstFragment', () => {
         expect(node).to.deep.equal(expected);
         expect(node.start).to.be.instanceOf(AstPosition);
         expect(node.end).to.be.instanceOf(AstPosition);
+    });
+
+    it('should add a position in an AstFragment from other AstFragment', () => {
+        const type = 'literal';
+        const startLine = 1;
+        const startColumn = 1;
+        const startOffset = 0;
+        const endLine = 2;
+        const endColumn = 1;
+        const endOffset = 10;
+        const expected = {
+            type: type,
+            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+        };
+        const other = new AstFragment(type);
+        const node = new AstFragment(type);
+
+        other.startAt(startLine, startColumn, startOffset);
+        other.endAt(endLine, endColumn, endOffset);
+
+        node.startAt(other);
+        node.endAt(other);
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.deep.equal(expected);
+        expect(node.start).to.be.instanceOf(AstPosition);
+        expect(node.end).to.be.instanceOf(AstPosition);
+    });
+
+    it('should not add a position in an AstFragment from non AstFragment', () => {
+        const type = 'literal';
+        const node = new AstFragment(type);
+        const other = new AstNode('other');
+
+        expect(() => node.startAt({})).to.throw(TypeError);
+        expect(() => node.endAt({})).to.throw(TypeError);
+
+        expect(() => node.startAt(other)).to.throw(TypeError);
+        expect(() => node.endAt(other)).to.throw(TypeError);
     });
 
     it('should stringify an AstFragment', () => {

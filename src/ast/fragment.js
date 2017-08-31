@@ -41,26 +41,54 @@ const AstPosition = require('./position');
  */
 class AstFragment extends AstNode {
     /**
-     * Sets the start position of the fragment
-     * @param {Number|String} line
-     * @param {Number|String} column
-     * @param {Number|String} offset
+     * Sets the start position of the fragment. Accept to copy the position from another AstFragment.
+     * @param {Number|String|AstFragment} line
+     * @param {Number|String} [column]
+     * @param {Number|String} [offset]
      * @returns {AstFragment}
+     * @throws {TypeError} if the position is intended to be set from an object that is not an AstFragment
      */
     startAt(line, column, offset) {
-        this.addProperty('start', new AstPosition(line, column, offset));
+        let position;
+
+        if (typeof line === 'object') {
+            if (line instanceof AstFragment) {
+                position = line.start;
+            } else {
+                throw new TypeError('Cannot set a start position from a non AstFragment');
+            }
+        } else {
+            position = new AstPosition(line, column, offset);
+        }
+
+        this.addProperty('start', position);
+
         return this;
     }
 
     /**
-     * Sets the end position of the fragment
-     * @param {Number|String} line
-     * @param {Number|String} column
-     * @param {Number|String} offset
+     * Sets the end position of the fragment. Accept to copy the position from another AstFragment.
+     * @param {Number|String|AstFragment} line
+     * @param {Number|String} [column]
+     * @param {Number|String} [offset]
      * @returns {AstFragment}
+     * @throws {TypeError} if the position is intended to be set from an object that is not an AstFragment
      */
     endAt(line, column, offset) {
-        this.addProperty('end', new AstPosition(line, column, offset));
+        let position;
+
+        if (typeof line === 'object') {
+            if (line instanceof AstFragment) {
+                position = line.end;
+            } else {
+                throw new TypeError('Cannot set an end position from a non AstFragment');
+            }
+        } else {
+            position = new AstPosition(line, column, offset);
+        }
+
+        this.addProperty('end', position);
+
         return this;
     }
 }
