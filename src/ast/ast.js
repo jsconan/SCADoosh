@@ -29,18 +29,49 @@
  * @author jsconan
  */
 
+const AstNode = require('./node');
+const AstPosition = require('./position');
+const AstFragment = require('./fragment');
+const AstLiteral = require('./literal');
 const AstNumber = require('./number');
 const AstString = require('./string');
 const AstPath = require('./path');
 const AstIdentifier = require('./identifier');
 const AstBoolean = require('./boolean');
+const AstTrue = require('./true');
+const AstFalse = require('./false');
 const AstUndefined = require('./undefined');
+const AstComment = require('./comment');
 const AstLineComment = require('./line-comment');
 const AstBlockComment = require('./block-comment');
 const AstBinaryOperator = require('./binary-operator');
 const AstUnaryOperator = require('./unary-operator');
 
 module.exports = {
+    /**
+     * List all the available AST node classes
+     * @type {Object}
+     */
+    nodes: {
+        AstNode: AstNode,
+        AstPosition: AstPosition,
+        AstFragment: AstFragment,
+        AstLiteral: AstLiteral,
+        AstNumber: AstNumber,
+        AstString: AstString,
+        AstPath: AstPath,
+        AstIdentifier: AstIdentifier,
+        AstBoolean: AstBoolean,
+        AstTrue: AstTrue,
+        AstFalse: AstFalse,
+        AstUndefined: AstUndefined,
+        AstComment: AstComment,
+        AstLineComment: AstLineComment,
+        AstBlockComment: AstBlockComment,
+        AstBinaryOperator: AstBinaryOperator,
+        AstUnaryOperator: AstUnaryOperator
+    },
+
     /**
      * Creates an AstNumber node.
      * @param {Number|String} value

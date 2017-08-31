@@ -33,12 +33,19 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const ast = require('./../../src/ast/ast');
+const AstNode = require('./../../src/ast/node');
+const AstPosition = require('./../../src/ast/position');
+const AstFragment = require('./../../src/ast/fragment');
+const AstLiteral = require('./../../src/ast/literal');
 const AstNumber = require('./../../src/ast/number');
 const AstString = require('./../../src/ast/string');
 const AstPath = require('./../../src/ast/path');
 const AstIdentifier = require('./../../src/ast/identifier');
 const AstBoolean = require('./../../src/ast/boolean');
+const AstTrue = require('./../../src/ast/true');
+const AstFalse = require('./../../src/ast/false');
 const AstUndefined = require('./../../src/ast/undefined');
+const AstComment = require('./../../src/ast/comment');
 const AstLineComment = require('./../../src/ast/line-comment');
 const AstBlockComment = require('./../../src/ast/block-comment');
 const AstBinaryOperator = require('./../../src/ast/binary-operator');
@@ -61,6 +68,54 @@ describe('OpenSCAD AST hub', () => {
         ].forEach((name) => {
             expect(ast).to.have.a.property(name).that.is.a('function');
         });
+    });
+
+    describe('nodes', () => {
+
+        it('should expose the list of node classes', () => {
+
+            expect(ast).to.have.a.property('nodes').that.is.an('object');
+            expect(ast.nodes).to.have.a.property('AstNode').that.is.equal(AstNode);
+            expect(ast.nodes).to.have.a.property('AstPosition').that.is.equal(AstPosition);
+            expect(ast.nodes).to.have.a.property('AstFragment').that.is.equal(AstFragment);
+            expect(ast.nodes).to.have.a.property('AstLiteral').that.is.equal(AstLiteral);
+            expect(ast.nodes).to.have.a.property('AstNumber').that.is.equal(AstNumber);
+            expect(ast.nodes).to.have.a.property('AstString').that.is.equal(AstString);
+            expect(ast.nodes).to.have.a.property('AstPath').that.is.equal(AstPath);
+            expect(ast.nodes).to.have.a.property('AstIdentifier').that.is.equal(AstIdentifier);
+            expect(ast.nodes).to.have.a.property('AstBoolean').that.is.equal(AstBoolean);
+            expect(ast.nodes).to.have.a.property('AstTrue').that.is.equal(AstTrue);
+            expect(ast.nodes).to.have.a.property('AstFalse').that.is.equal(AstFalse);
+            expect(ast.nodes).to.have.a.property('AstUndefined').that.is.equal(AstUndefined);
+            expect(ast.nodes).to.have.a.property('AstComment').that.is.equal(AstComment);
+            expect(ast.nodes).to.have.a.property('AstLineComment').that.is.equal(AstLineComment);
+            expect(ast.nodes).to.have.a.property('AstBlockComment').that.is.equal(AstBlockComment);
+            expect(ast.nodes).to.have.a.property('AstBinaryOperator').that.is.equal(AstBinaryOperator);
+            expect(ast.nodes).to.have.a.property('AstUnaryOperator').that.is.equal(AstUnaryOperator);
+
+            [
+                'AstNode',
+                'AstPosition',
+                'AstFragment',
+                'AstLiteral',
+                'AstNumber',
+                'AstString',
+                'AstPath',
+                'AstIdentifier',
+                'AstBoolean',
+                'AstTrue',
+                'AstFalse',
+                'AstUndefined',
+                'AstComment',
+                'AstLineComment',
+                'AstBlockComment',
+                'AstBinaryOperator',
+                'AstUnaryOperator'
+            ].forEach((name) => {
+                expect(ast.nodes).to.have.a.property(name).that.is.a('function');
+            });
+        });
+
     });
 
     describe('number', () => {
