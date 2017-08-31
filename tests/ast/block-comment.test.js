@@ -23,7 +23,7 @@
 /**
  * Part of the SCADoosh tool.
  *
- * Unit tests: AST node that represents a comment.
+ * Unit tests: AST node that represents a block comment.
  *
  * @package tests/ast
  * @author jsconan
@@ -36,26 +36,42 @@ const AstNode = require('./../../src/ast/node');
 const AstPosition = require('./../../src/ast/position');
 const AstFragment = require('./../../src/ast/fragment');
 const AstComment = require('./../../src/ast/comment');
+const AstBlockComment = require('./../../src/ast/block-comment');
 
-describe('OpenSCAD AstComment', () => {
+describe('OpenSCAD AstBlockComment', () => {
 
-    it('should create an AstComment', () => {
-        const type = 'comment';
-        const value = 'a comment';
-        const node = new AstComment(type, value);
+    it('should create an AstBlockComment with the specified value (single line)', () => {
+        const type = 'blockComment';
+        const value = ['a comment'];
+        const node = new AstBlockComment('a comment');
 
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstComment);
+        expect(node).to.be.an.instanceOf(AstBlockComment);
         expect(node).to.have.a.property('type').that.is.equal(type);
-        expect(node).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.have.a.property('value').that.is.deep.equal(value);
     });
 
-    it('should create an AstComment with the specified value as a stringable', () => {
-        const type = 'comment';
-        const value = 'a comment';
-        const node = new AstComment(type, {
+    it('should create an AstBlockComment with the specified value (multi lines)', () => {
+        const type = 'blockComment';
+        const value = ['a', 'multi', 'line', 'comment'];
+        const node = new AstBlockComment('a\r\nmulti\r\nline\r\ncomment');
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstComment);
+        expect(node).to.be.an.instanceOf(AstBlockComment);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.deep.equal(value);
+    });
+
+    it('should create an AstBlockComment with the specified value as a stringable', () => {
+        const type = 'blockComment';
+        const value = ['a comment'];
+        const node = new AstBlockComment({
             value: 'a comment',
             toString: function () {
                 return '' + this.value;
@@ -66,26 +82,14 @@ describe('OpenSCAD AstComment', () => {
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstComment);
+        expect(node).to.be.an.instanceOf(AstBlockComment);
         expect(node).to.have.a.property('type').that.is.equal(type);
-        expect(node).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.have.a.property('value').that.is.deep.equal(value);
     });
 
-    it('should create an AstComment with the specified value as an array', () => {
-        const type = 'comment';
-        const value = ['a', 'comment'];
-        const node = new AstComment(type, value);
-
-        expect(node).to.be.an('object');
-        expect(node).to.be.an.instanceOf(AstNode);
-        expect(node).to.be.an.instanceOf(AstFragment);
-        expect(node).to.be.an.instanceOf(AstComment);
-        expect(node).to.have.a.property('type').that.is.equal(type);
-        expect(node).to.have.a.property('value').that.is.equal(value);
-    });
-
-    it('should stringify an AstComment', () => {
-        const type = 'lcomment';
-        const value = 'a comment';
+    it('should stringify an AstBlockComment', () => {
+        const type = 'blockComment';
+        const value = ['a', 'multi', 'line', 'comment'];
         const startLine = 1;
         const startColumn = 1;
         const startOffset = 0;
@@ -98,8 +102,8 @@ describe('OpenSCAD AstComment', () => {
             start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
             end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
         };
-        const node = new AstComment(type, value);
-        const stringified = '{"type":"' + type + '","value":"' + value + '",' +
+        const node = new AstBlockComment('a\r\nmulti\r\nline\r\ncomment');
+        const stringified = '{"type":"' + type + '","value":["a","multi","line","comment"],' +
             '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
             '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
@@ -110,6 +114,7 @@ describe('OpenSCAD AstComment', () => {
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstComment);
+        expect(node).to.be.an.instanceOf(AstBlockComment);
         expect(node).to.deep.equal(expected);
         expect(node.start).to.be.instanceOf(AstPosition);
         expect(node.end).to.be.instanceOf(AstPosition);

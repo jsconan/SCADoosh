@@ -23,7 +23,7 @@
 /**
  * Part of the SCADoosh tool.
  *
- * Unit tests: AST node that represents a comment.
+ * Unit tests: AST node that represents a single line comment.
  *
  * @package tests/ast
  * @author jsconan
@@ -36,26 +36,28 @@ const AstNode = require('./../../src/ast/node');
 const AstPosition = require('./../../src/ast/position');
 const AstFragment = require('./../../src/ast/fragment');
 const AstComment = require('./../../src/ast/comment');
+const AstLineComment = require('./../../src/ast/line-comment');
 
-describe('OpenSCAD AstComment', () => {
+describe('OpenSCAD AstLineComment', () => {
 
-    it('should create an AstComment', () => {
-        const type = 'comment';
+    it('should create an AstLineComment with the specified value', () => {
+        const type = 'lineComment';
         const value = 'a comment';
-        const node = new AstComment(type, value);
+        const node = new AstLineComment(value);
 
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstComment);
+        expect(node).to.be.an.instanceOf(AstLineComment);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
-    it('should create an AstComment with the specified value as a stringable', () => {
-        const type = 'comment';
+    it('should create an AstLineComment with the specified value as a stringable', () => {
+        const type = 'lineComment';
         const value = 'a comment';
-        const node = new AstComment(type, {
+        const node = new AstLineComment({
             value: 'a comment',
             toString: function () {
                 return '' + this.value;
@@ -66,25 +68,13 @@ describe('OpenSCAD AstComment', () => {
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstComment);
+        expect(node).to.be.an.instanceOf(AstLineComment);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
-    it('should create an AstComment with the specified value as an array', () => {
-        const type = 'comment';
-        const value = ['a', 'comment'];
-        const node = new AstComment(type, value);
-
-        expect(node).to.be.an('object');
-        expect(node).to.be.an.instanceOf(AstNode);
-        expect(node).to.be.an.instanceOf(AstFragment);
-        expect(node).to.be.an.instanceOf(AstComment);
-        expect(node).to.have.a.property('type').that.is.equal(type);
-        expect(node).to.have.a.property('value').that.is.equal(value);
-    });
-
-    it('should stringify an AstComment', () => {
-        const type = 'lcomment';
+    it('should stringify an AstLineComment', () => {
+        const type = 'lineComment';
         const value = 'a comment';
         const startLine = 1;
         const startColumn = 1;
@@ -98,7 +88,7 @@ describe('OpenSCAD AstComment', () => {
             start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
             end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
         };
-        const node = new AstComment(type, value);
+        const node = new AstLineComment(value);
         const stringified = '{"type":"' + type + '","value":"' + value + '",' +
             '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
             '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
@@ -110,6 +100,7 @@ describe('OpenSCAD AstComment', () => {
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstComment);
+        expect(node).to.be.an.instanceOf(AstLineComment);
         expect(node).to.deep.equal(expected);
         expect(node.start).to.be.instanceOf(AstPosition);
         expect(node.end).to.be.instanceOf(AstPosition);

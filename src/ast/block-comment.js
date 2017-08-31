@@ -23,35 +23,32 @@
 /**
  * Part of the SCADoosh tool.
  *
- * Defines an AST node that represents a comment.
+ * Defines an AST node that represents a block comment.
  *
  * @package src/ast
  * @author jsconan
  */
 
-const _ = require('lodash');
-const AstFragment = require('./fragment');
+const AstComment = require('./comment');
+
+const reLineBreak = /\r\n?|\n/;
 
 /**
- * Defines an AST node that represents a comment.
- * @typedef {AstFragment} AstComment
+ * Defines an AST node that represents a block comment.
+ * @typedef {AstComment} AstBlockComment
  * @property {String} type
- * @property {String|Array} value
+ * @property {String} value
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
-class AstComment extends AstFragment {
+class AstBlockComment extends AstComment {
     /**
-     * Creates an AstComment.
-     * @param {String} type
-     * @param {String|Array} value
+     * Creates an AstBlockComment.
+     * @param {String} value
      */
-    constructor(type, value) {
-        super({
-            type: type,
-            value: _.isArray(value) ? value : '' + value
-        });
+    constructor(value) {
+        super('blockComment', ('' + value).split(reLineBreak));
     }
 }
 
-module.exports = AstComment;
+module.exports = AstBlockComment;
