@@ -29,7 +29,8 @@
  * @author jsconan
  */
 
-const _ = require("lodash");
+const _ = require('lodash');
+const ast = require('./../ast/ast');
 const AstFragment = require('./../ast/fragment');
 const splitLines = require('./../utils/split-lines');
 
@@ -76,12 +77,29 @@ const utils = {
      * Set the fragment position according to the provided token.
      * @param {Object} token - The token that represents the terminal
      * @param {String} value - The refined token value
-     * @param {Function} AstNodeClass - The AstNode class
+     * @param {Function|String} AstNodeClass - The AstNode class or the name of an AST node class or factory
      * @returns {AstFragment}
-     * @throws {TypeError} if the created node is not an AstFragment
+     * @throws {TypeError} if the created node is not an AstFragment or if the AstNodeClass is not valid
      */
     terminal: (token, value, AstNodeClass) => {
-        const node = new AstNodeClass(value);
+        let factory;
+
+        if (typeof AstNodeClass === 'string') {
+            if (ast[AstNodeClass]) {
+                factory = ast[AstNodeClass];
+            } else if (ast.nodes[AstNodeClass]) {
+                factory = (value) => new ast.nodes[AstNodeClass](value);
+            } else {
+                throw new TypeError('Unknown AST node class ' + AstNodeClass);
+            }
+        } else {
+            if (!_.isFunction(AstNodeClass)) {
+                throw new TypeError('AstNodeClass should be a constructor');
+            }
+            factory = (value) => new AstNodeClass(value);
+        }
+
+        const node = factory(value);
         utils.tokenStart(token, node);
         utils.tokenEnd(token, node);
         return node;

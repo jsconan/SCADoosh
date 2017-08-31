@@ -33,8 +33,7 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const utils = require('./../../src/parser/utils');
-const AstPosition = require('./../../src/ast/position');
-const AstString = require('./../../src/ast/string');
+const ast = require('./../../src/ast/ast');
 
 chai.use(require('chai-json-schema'));
 
@@ -49,12 +48,12 @@ describe('Parser utils', () => {
                 col: 7,
                 offset: 12
             };
-            const node = new AstString(token.value);
+            const node = new ast.nodes.AstString(token.value);
             const ret = utils.tokenStart(token, node);
 
             expect(ret).to.be.equal(node);
             expect(node).to.have.property('start');
-            expect(node.start).to.be.an.instanceOf(AstPosition);
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
             expect(node.start.line).to.be.equal(token.line);
             expect(node.start.column).to.be.equal(token.col);
             expect(node.start.offset).to.be.equal(token.offset);
@@ -69,7 +68,7 @@ describe('Parser utils', () => {
             };
             expect(() => utils.tokenStart(token)).to.throw(TypeError);
             expect(() => utils.tokenStart(token, {})).to.throw(TypeError);
-            expect(() => utils.tokenStart(token, new AstPosition())).to.throw(TypeError);
+            expect(() => utils.tokenStart(token, new ast.nodes.AstPosition())).to.throw(TypeError);
         });
 
     });
@@ -83,12 +82,12 @@ describe('Parser utils', () => {
                 col: 7,
                 offset: 12
             };
-            const node = new AstString(token.value);
+            const node = new ast.nodes.AstString(token.value);
             const ret = utils.tokenEnd(token, node);
 
             expect(ret).to.be.equal(node);
             expect(node).to.have.property('end');
-            expect(node.end).to.be.an.instanceOf(AstPosition);
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
             expect(node.end.line).to.be.equal(token.line);
             expect(node.end.column).to.be.equal(token.col + token.value.length);
             expect(node.end.offset).to.be.equal(token.offset + token.value.length);
@@ -101,12 +100,12 @@ describe('Parser utils', () => {
                 col: 7,
                 offset: 12
             };
-            const node = new AstString(token.value);
+            const node = new ast.nodes.AstString(token.value);
             const ret = utils.tokenEnd(token, node);
 
             expect(ret).to.be.equal(node);
             expect(node).to.have.property('end');
-            expect(node.end).to.be.an.instanceOf(AstPosition);
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
             expect(node.end.line).to.be.equal(token.line + 2);
             expect(node.end.column).to.be.equal(4);
             expect(node.end.offset).to.be.equal(token.offset + token.value.length);
@@ -121,12 +120,56 @@ describe('Parser utils', () => {
             };
             expect(() => utils.tokenEnd(token)).to.throw(TypeError);
             expect(() => utils.tokenEnd(token, {})).to.throw(TypeError);
-            expect(() => utils.tokenEnd(token, new AstPosition())).to.throw(TypeError);
+            expect(() => utils.tokenEnd(token, new ast.nodes.AstPosition())).to.throw(TypeError);
         });
 
     });
 
     describe('terminal', () => {
+
+        it('should create the node using the provided factory name and set the position (single line)', () => {
+            const token = {
+                value: 'foo',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = utils.terminal(token, token.value, 'string');
+
+            expect(node).to.be.an.instanceOf(ast.nodes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line);
+            expect(node.end.column).to.be.equal(token.col + token.value.length);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should create the node using the provided class name and set the position (single line)', () => {
+            const token = {
+                value: 'foo',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = utils.terminal(token, token.value, 'AstString');
+
+            expect(node).to.be.an.instanceOf(ast.nodes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line);
+            expect(node.end.column).to.be.equal(token.col + token.value.length);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
 
         it('should create the node using the provided class and set the position (single line)', () => {
             const token = {
@@ -135,18 +178,62 @@ describe('Parser utils', () => {
                 col: 7,
                 offset: 12
             };
-            const node = utils.terminal(token, token.value, AstString);
+            const node = utils.terminal(token, token.value, ast.nodes.AstString);
 
-            expect(node).to.be.an.instanceOf(AstString);
+            expect(node).to.be.an.instanceOf(ast.nodes.AstString);
             expect(node).to.have.property('start');
-            expect(node.start).to.be.an.instanceOf(AstPosition);
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
             expect(node.start.line).to.be.equal(token.line);
             expect(node.start.column).to.be.equal(token.col);
             expect(node.start.offset).to.be.equal(token.offset);
             expect(node).to.have.property('end');
-            expect(node.end).to.be.an.instanceOf(AstPosition);
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
             expect(node.end.line).to.be.equal(token.line);
             expect(node.end.column).to.be.equal(token.col + token.value.length);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should create the node using the provided class name and set the position (multi lines)', () => {
+            const token = {
+                value: '\nfoo\nbar',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = utils.terminal(token, token.value, 'AstString');
+
+            expect(node).to.be.an.instanceOf(ast.nodes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line + 2);
+            expect(node.end.column).to.be.equal(4);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should create the node using the provided factory name and set the position (multi lines)', () => {
+            const token = {
+                value: '\nfoo\nbar',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = utils.terminal(token, token.value, 'string');
+
+            expect(node).to.be.an.instanceOf(ast.nodes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line + 2);
+            expect(node.end.column).to.be.equal(4);
             expect(node.end.offset).to.be.equal(token.offset + token.value.length);
         });
 
@@ -157,19 +244,32 @@ describe('Parser utils', () => {
                 col: 7,
                 offset: 12
             };
-            const node = utils.terminal(token, token.value, AstString);
+            const node = utils.terminal(token, token.value, ast.nodes.AstString);
 
-            expect(node).to.be.an.instanceOf(AstString);
+            expect(node).to.be.an.instanceOf(ast.nodes.AstString);
             expect(node).to.have.property('start');
-            expect(node.start).to.be.an.instanceOf(AstPosition);
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
             expect(node.start.line).to.be.equal(token.line);
             expect(node.start.column).to.be.equal(token.col);
             expect(node.start.offset).to.be.equal(token.offset);
             expect(node).to.have.property('end');
-            expect(node.end).to.be.an.instanceOf(AstPosition);
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
             expect(node.end.line).to.be.equal(token.line + 2);
             expect(node.end.column).to.be.equal(4);
             expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should throw a TypeError if the AST class is not valid', () => {
+            const token = {
+                value: 'foo',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+
+            expect(() => utils.terminal(token, token.value, 'foo')).to.throw(TypeError);
+            expect(() => utils.terminal(token, token.value, {})).to.throw(TypeError);
+            expect(() => utils.terminal(token, token.value, function() {})).to.throw(TypeError);
         });
 
         it('should throw a TypeError if the created node is not an AstFragment', () => {
@@ -180,7 +280,7 @@ describe('Parser utils', () => {
                 offset: 12
             };
 
-            expect(() => utils.terminal(token, token.value, AstPosition)).to.throw(TypeError);
+            expect(() => utils.terminal(token, token.value, ast.nodes.AstPosition)).to.throw(TypeError);
         });
 
     });
