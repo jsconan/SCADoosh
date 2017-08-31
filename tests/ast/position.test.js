@@ -64,14 +64,14 @@ describe('OpenSCAD AstPosition', () => {
     });
 
     it('should not allow to set 0 in line or column', () => {
-        expect(() => AstPosition(0, 2, 1)).to.throw(TypeError);
-        expect(() => AstPosition(1, 0, 0)).to.throw(TypeError);
+        expect(() => new AstPosition(0, 2, 1)).to.throw(TypeError);
+        expect(() => new AstPosition(1, 0, 0)).to.throw(TypeError);
     });
 
     it('should not allow to set negative value', () => {
-        expect(() => AstPosition(-1, 2, 0)).to.throw(TypeError);
-        expect(() => AstPosition(1, -2, 0)).to.throw(TypeError);
-        expect(() => AstPosition(1, 2, -1)).to.throw(TypeError);
+        expect(() => new AstPosition(-1, 2, 0)).to.throw(TypeError);
+        expect(() => new AstPosition(1, -2, 0)).to.throw(TypeError);
+        expect(() => new AstPosition(1, 2, -1)).to.throw(TypeError);
     });
 
     it('should not allow to redefine existing properties', () => {

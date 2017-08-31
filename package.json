@@ -4,7 +4,7 @@
   "description": "A doc generator for OpenSCAD, using javadoc-like style",
   "main": "main.js",
   "scripts": {
-    "test": "mocha 'tests/**/*.test.js' --recursive",
+    "test": "nyc mocha 'tests/**/*.test.js' --recursive",
     "watch": "mocha 'tests/**/*.test.js' --recursive --watch",
     "compile": "nearleyc ./src/parser/openscad/grammar.ne -o ./src/parser/openscad/grammar.js"
   },
@@ -31,6 +31,7 @@
   "devDependencies": {
     "chai": "^4.1.1",
     "chai-json-schema": "^1.5.0",
-    "mocha": "^3.5.0"
+    "mocha": "^3.5.0",
+    "nyc": "^11.1.0"
   }
 }
