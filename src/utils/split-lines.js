@@ -23,31 +23,20 @@
 /**
  * Part of the SCADoosh tool.
  *
- * Defines an AST node that represents a block comment.
+ * Defines a helper that splits a text into lines.
  *
- * @package src/ast
+ * @package src/utils
  * @author jsconan
  */
 
-const splitLines = require('./../utils/split-lines');
-const AstComment = require('./comment');
+/**
+ * Will match every line breaks
+ * @type {RegExp}
+ */
+const reLineBreak = /\r\n?|\n/;
 
 /**
- * Defines an AST node that represents a block comment.
- * @typedef {AstComment} AstBlockComment
- * @property {String} type
- * @property {String} value
- * @property {AstPosition} start
- * @property {AstPosition} end
+ * Splits a text into lines.
+ * @param {String|Object} str
  */
-class AstBlockComment extends AstComment {
-    /**
-     * Creates an AstBlockComment.
-     * @param {String} value
-     */
-    constructor(value) {
-        super('blockComment', splitLines(value));
-    }
-}
-
-module.exports = AstBlockComment;
+module.exports = (str) => ('' + str).split(reLineBreak);
