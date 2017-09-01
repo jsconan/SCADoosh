@@ -112,9 +112,13 @@ describe('OpenSCAD AstNode', () => {
     it('should add read-only values', () => {
         const type = 'literal';
         const prop = 'an additional property';
+        const props = {
+            one: 1,
+            two: 2
+        };
         const node = new AstNode(type);
 
-        node.addProperty('myProp', prop);
+        expect(node.addProperty('myProp', prop)).to.be.equal(node);
 
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
@@ -124,6 +128,17 @@ describe('OpenSCAD AstNode', () => {
         node.myProp = 'another value';
 
         expect(node.myProp).to.be.equal(prop);
+
+        expect(node.addProperties(props)).to.be.equal(node);
+
+        expect(node).to.have.a.property('one').that.is.equal(props.one);
+        expect(node).to.have.a.property('two').that.is.equal(props.two);
+
+        node.one = 42;
+        node.two = 42;
+
+        expect(node.one).to.be.equal(props.one);
+        expect(node.two).to.be.equal(props.two);
     });
 
     it('should not allow to redefine existing properties', () => {
@@ -145,19 +160,94 @@ describe('OpenSCAD AstNode', () => {
         expect(() => node.addProperty('type', 'identifier')).to.throw(TypeError);
         expect(() => node.addProperty('position', 20)).to.throw(TypeError);
         expect(() => node.addProperty('offset', 19)).to.throw(TypeError);
+        expect(() => node.addProperties({
+            type: 'number',
+            position: 8,
+            offset: 7
+        })).to.throw(TypeError);
 
         expect(node.type).to.be.equal(type);
         expect(node.position).to.be.equal(position);
         expect(node.offset).to.be.equal(offset);
     });
 
-    it('should validate an AstNode object or not', () => {
+    it('should clone an AstNode', () => {
+        const type = 'literal';
+        const position = 10;
+        const offset = 9;
+        const node = new AstNode({
+            type: type,
+            position: position,
+            offset: offset
+        });
+
+        const clone = node.clone();
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.deep.equal(node);
+    });
+
+    it('should clone an AstNode with the provided properties', () => {
+        const type = 'literal';
+        const position = 10;
+        const offset = 9;
+        const newPosition = 5;
+        const newOffset = 4;
+        const node = new AstNode({
+            type: type,
+            position: position,
+            offset: offset
+        });
+
+        const clone = node.clone({
+            type: 'number',         // should not be allowed
+            position: newPosition,
+            offset: newOffset
+        });
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.not.deep.equal(node);
+        expect(clone).to.have.a.property('type').that.is.equal(node.type);
+        expect(clone).to.have.a.property('position').that.is.equal(newPosition);
+        expect(clone).to.have.a.property('offset').that.is.equal(newOffset);
+    });
+
+    it('should tell if the AstNode has the right type', () => {
+        class AstFoo extends AstNode {}
         const type = 'literal';
         const node = new AstNode(type);
+        const foo = new AstFoo('identifier');
+
+        expect(node.is(AstNode)).to.be.true;
+        expect(node.is(AstFoo)).to.be.false;
+        expect(node.is(type)).to.be.true;
+        expect(node.is('identifier')).to.be.false;
+        expect(node.is('test')).to.be.false;
+        expect(node.is(1)).to.be.false;
+
+        expect(foo.is(AstNode)).to.be.true;
+        expect(foo.is(AstFoo)).to.be.true;
+        expect(foo.is(type)).to.be.false;
+        expect(foo.is('identifier')).to.be.true;
+        expect(foo.is('test')).to.be.false;
+        expect(foo.is(1)).to.be.false;
+    });
+
+    it('should validate an AstNode object or not', () => {
+        class AstFoo extends AstNode {}
+        const type = 'literal';
+        const node = new AstNode(type);
+        const foo = new AstFoo(type);
 
         expect(AstNode.validate(node)).to.be.true;
         expect(AstNode.validate(node, type)).to.be.true;
-        expect(AstNode.validate(node, 'identifier')).to.be.false;
+        expect(AstNode.validate(foo, type)).to.be.true;
+        expect(AstNode.validate(node, AstFoo)).to.be.false;
+        expect(AstNode.validate(foo, AstFoo)).to.be.true;
 
         expect(AstNode.validate({})).to.be.false;
         expect(AstNode.validate({type: type})).to.be.false;

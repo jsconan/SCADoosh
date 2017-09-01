@@ -41,7 +41,7 @@ class AstNode {
     /**
      * Creates an AstNode.
      * @param {String|Object} type - The node's type. It is mandatory, a `TypeError` will be thrown if missing.
-     * @param {Object} [properties] - an optional list of additional properties to set.
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the type is missing
      */
     constructor(type, properties) {
@@ -60,9 +60,7 @@ class AstNode {
             throw new TypeError('An AST node should have a type!');
         }
 
-        _.forEach(properties, (value, name) => {
-            this.addProperty(name, value);
-        });
+        this.addProperties(properties);
     }
 
     /**
@@ -90,13 +88,46 @@ class AstNode {
     }
 
     /**
+     * Adds a list of read-only properties to the object.
+     * @param {Object} properties
+     * @returns {AstNode}
+     */
+    addProperties(properties) {
+        _.forEach(properties, (value, name) => {
+            this.addProperty(name, value);
+        });
+        return this;
+    }
+
+    /**
+     * Clones the instance.
+     * @param {Object} [properties] - an optional list of additional properties to set.
+     * @returns {AstNode}
+     */
+    clone(properties) {
+        const clone = Object.create(this.constructor.prototype);
+        return clone.addProperties(_.defaults(_.omit(properties, 'type'), this));
+    }
+
+    /**
+     * Checks whether the node is of a particular type or not.
+     * @param {String|Function} [type] - Could be a type name or a class constructor.
+     * @returns {Boolean}
+     */
+    is(type) {
+        return AstNode.validate(this, type);
+    }
+
+    /**
      * Checks whether an object is an AstNode or not.
-     * @param {Object} obj
-     * @param {String} [type]
+     * @param {Object} obj - The Object to check
+     * @param {String|Function} [type] - Could be a type name or a class constructor.
      * @returns {Boolean}
      */
     static validate(obj, type) {
-        return (obj && obj instanceof AstNode) && (!type || (type && obj.type === type));
+        const isClass = _.isFunction(type);
+        const Class = isClass ? type : AstNode;
+        return (obj && obj instanceof Class) && (!type || isClass || obj.type === type);
     }
 }
 
