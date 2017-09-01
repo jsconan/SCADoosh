@@ -23,7 +23,7 @@
 #
 # Part of the SCADoosh tool.
 #
-# Grammar that applies on the OpenSCAD language.
+# Grammar that abuilderslies on the OpenSCAD language.
 #
 # @package src/parser/openscad
 # @author jsconan
@@ -32,48 +32,61 @@
 @{%
 /**
  * Part of the SCADoosh tool.
- * Grammar that applies on the OpenSCAD language.
+ * Grammar that abuilderslies on the OpenSCAD language.
  *
  * @package src/parser/openscad
  * @author jsconan
  * @license GPLv3
  */
 const lexer = require('./lexer');
-const pp = require('./postprocessors');
+const utils = require('./../utils');
+const builders = require('./builders');
 %}
 
 @lexer lexer
 
 main ->
-        undef       {% id %}
-    |   boolean     {% id %}
-    |   number      {% id %}
-    |   string      {% id %}
-    |   path        {% id %}
-    |   identifier  {% id %}
-    |   comment     {% id %}
+        null        {% utils.discard %}
+    |   undef       {% utils.forward %}
+    |   boolean     {% utils.forward %}
+    |   expr        {% utils.forward %}
+    |   string      {% utils.forward %}
+    |   path        {% utils.forward %}
+    |   identifier  {% utils.forward %}
+    |   comment     {% utils.forward %}
+
+expr ->
+        term (("+" | "-") term):*       {% builders.binaryOperator %}
+
+term ->
+        factor (("*" | "/") factor):*   {% builders.binaryOperator %}
+
+factor ->
+        ("+" | "-") factor              {% builders.unaryOperator %}
+    |   number                          {% utils.forward %}
+    |   "(" expr ")"                    {% (data) => utils.forward(data[1]) %}
 
 # Symbols and primitives
 undef ->
-        "undef"  {% pp.undef %}
+        "undef"  {% builders.undef %}
 
 boolean ->
-        "true"  {% pp.bool %}
-    |   "false" {% pp.bool %}
+        "true"  {% builders.boolean %}
+    |   "false" {% builders.boolean %}
 
 number ->
-        %number {% pp.number %}
+        %number {% builders.number %}
 
 string ->
-        %string {% pp.string %}
+        %string {% builders.string %}
 
 path ->
-        %path {% pp.path %}
+        %path {% builders.path %}
 
 identifier ->
-        %identifier {% pp.identifier %}
+        %identifier {% builders.identifier %}
 
 # General comments and annotations
 comment ->
-        %lcomment {% pp.lcomment %}
-    |   %mcomment {% pp.mcomment %}
+        %lcomment {% builders.lineComment %}
+    |   %mcomment {% builders.blockComment %}

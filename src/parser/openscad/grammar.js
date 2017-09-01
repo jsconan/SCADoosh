@@ -5,33 +5,52 @@ function id(x) {return x[0]; }
 
 /**
  * Part of the SCADoosh tool.
- * Grammar that applies on the OpenSCAD language.
+ * Grammar that abuilderslies on the OpenSCAD language.
  *
  * @package src/parser/openscad
  * @author jsconan
  * @license GPLv3
  */
 const lexer = require('./lexer');
-const pp = require('./postprocessors');
+const utils = require('./../utils');
+const builders = require('./builders');
 var grammar = {
     Lexer: lexer,
     ParserRules: [
-    {"name": "main", "symbols": ["undef"], "postprocess": id},
-    {"name": "main", "symbols": ["boolean"], "postprocess": id},
-    {"name": "main", "symbols": ["number"], "postprocess": id},
-    {"name": "main", "symbols": ["string"], "postprocess": id},
-    {"name": "main", "symbols": ["path"], "postprocess": id},
-    {"name": "main", "symbols": ["identifier"], "postprocess": id},
-    {"name": "main", "symbols": ["comment"], "postprocess": id},
-    {"name": "undef", "symbols": [{"literal":"undef"}], "postprocess": pp.undef},
-    {"name": "boolean", "symbols": [{"literal":"true"}], "postprocess": pp.bool},
-    {"name": "boolean", "symbols": [{"literal":"false"}], "postprocess": pp.bool},
-    {"name": "number", "symbols": [(lexer.has("number") ? {type: "number"} : number)], "postprocess": pp.number},
-    {"name": "string", "symbols": [(lexer.has("string") ? {type: "string"} : string)], "postprocess": pp.string},
-    {"name": "path", "symbols": [(lexer.has("path") ? {type: "path"} : path)], "postprocess": pp.path},
-    {"name": "identifier", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)], "postprocess": pp.identifier},
-    {"name": "comment", "symbols": [(lexer.has("lcomment") ? {type: "lcomment"} : lcomment)], "postprocess": pp.lcomment},
-    {"name": "comment", "symbols": [(lexer.has("mcomment") ? {type: "mcomment"} : mcomment)], "postprocess": pp.mcomment}
+    {"name": "main", "symbols": [], "postprocess": utils.discard},
+    {"name": "main", "symbols": ["undef"], "postprocess": utils.forward},
+    {"name": "main", "symbols": ["boolean"], "postprocess": utils.forward},
+    {"name": "main", "symbols": ["expr"], "postprocess": utils.forward},
+    {"name": "main", "symbols": ["string"], "postprocess": utils.forward},
+    {"name": "main", "symbols": ["path"], "postprocess": utils.forward},
+    {"name": "main", "symbols": ["identifier"], "postprocess": utils.forward},
+    {"name": "main", "symbols": ["comment"], "postprocess": utils.forward},
+    {"name": "expr$ebnf$1", "symbols": []},
+    {"name": "expr$ebnf$1$subexpression$1$subexpression$1", "symbols": [{"literal":"+"}]},
+    {"name": "expr$ebnf$1$subexpression$1$subexpression$1", "symbols": [{"literal":"-"}]},
+    {"name": "expr$ebnf$1$subexpression$1", "symbols": ["expr$ebnf$1$subexpression$1$subexpression$1", "term"]},
+    {"name": "expr$ebnf$1", "symbols": ["expr$ebnf$1", "expr$ebnf$1$subexpression$1"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+    {"name": "expr", "symbols": ["term", "expr$ebnf$1"], "postprocess": builders.binaryOperator},
+    {"name": "term$ebnf$1", "symbols": []},
+    {"name": "term$ebnf$1$subexpression$1$subexpression$1", "symbols": [{"literal":"*"}]},
+    {"name": "term$ebnf$1$subexpression$1$subexpression$1", "symbols": [{"literal":"/"}]},
+    {"name": "term$ebnf$1$subexpression$1", "symbols": ["term$ebnf$1$subexpression$1$subexpression$1", "factor"]},
+    {"name": "term$ebnf$1", "symbols": ["term$ebnf$1", "term$ebnf$1$subexpression$1"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+    {"name": "term", "symbols": ["factor", "term$ebnf$1"], "postprocess": builders.binaryOperator},
+    {"name": "factor$subexpression$1", "symbols": [{"literal":"+"}]},
+    {"name": "factor$subexpression$1", "symbols": [{"literal":"-"}]},
+    {"name": "factor", "symbols": ["factor$subexpression$1", "factor"], "postprocess": builders.unaryOperator},
+    {"name": "factor", "symbols": ["number"], "postprocess": utils.forward},
+    {"name": "factor", "symbols": [{"literal":"("}, "expr", {"literal":")"}], "postprocess": (data) => utils.forward(data[1])},
+    {"name": "undef", "symbols": [{"literal":"undef"}], "postprocess": builders.undef},
+    {"name": "boolean", "symbols": [{"literal":"true"}], "postprocess": builders.boolean},
+    {"name": "boolean", "symbols": [{"literal":"false"}], "postprocess": builders.boolean},
+    {"name": "number", "symbols": [(lexer.has("number") ? {type: "number"} : number)], "postprocess": builders.number},
+    {"name": "string", "symbols": [(lexer.has("string") ? {type: "string"} : string)], "postprocess": builders.string},
+    {"name": "path", "symbols": [(lexer.has("path") ? {type: "path"} : path)], "postprocess": builders.path},
+    {"name": "identifier", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)], "postprocess": builders.identifier},
+    {"name": "comment", "symbols": [(lexer.has("lcomment") ? {type: "lcomment"} : lcomment)], "postprocess": builders.lineComment},
+    {"name": "comment", "symbols": [(lexer.has("mcomment") ? {type: "mcomment"} : mcomment)], "postprocess": builders.blockComment}
 ]
   , ParserStart: "main"
 }

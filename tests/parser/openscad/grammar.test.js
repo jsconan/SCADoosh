@@ -35,10 +35,7 @@ const expect = chai.expect;
 
 const nearley = require('nearley');
 const grammar = nearley.Grammar.fromCompiled(require('./../../../src/parser/openscad/grammar'));
-const grammarTokenSchema = require('./../grammar-token-schema.json');
 const grammarTestCases = require('./grammar-test-cases.json');
-
-chai.use(require('chai-json-schema'));
 
 describe('OpenSCAD grammar', () => {
 
@@ -58,20 +55,9 @@ describe('OpenSCAD grammar', () => {
             } else {
                 doParse();
 
+                // when the output is provided it should comply to the expected format
                 expect(parser.results).to.be.an('array');
-
-                // sometimes no output is expected
-                if (testCase.output.length === 0) {
-                    expect(parser.results).to.have.length(0);
-                } else {
-                    // in most of cases there are one or more expected output
-                    _.forEach(testCase.output, (expectedToken, index) => {
-                        const token = parser.results[index];
-                        expect(token).to.be.an('object');
-                        expect(token).to.be.jsonSchema(grammarTokenSchema);
-                        expect(token).to.deep.equal(expectedToken);
-                    });
-                }
+                expect(parser.results).to.deep.equal(testCase.output);
             }
         });
     });
