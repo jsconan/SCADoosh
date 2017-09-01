@@ -218,6 +218,7 @@ describe('OpenSCAD AstNode', () => {
 
     it('should tell if the AstNode has the right type', () => {
         class AstFoo extends AstNode {}
+
         const type = 'literal';
         const node = new AstNode(type);
         const foo = new AstFoo('identifier');
@@ -239,6 +240,7 @@ describe('OpenSCAD AstNode', () => {
 
     it('should validate an AstNode object or not', () => {
         class AstFoo extends AstNode {}
+
         const type = 'literal';
         const node = new AstNode(type);
         const foo = new AstFoo(type);

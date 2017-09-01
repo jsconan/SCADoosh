@@ -97,4 +97,49 @@ describe('OpenSCAD AstUnaryOperator', () => {
         expect(node + '').to.be.equal(stringified);
     });
 
+    it('should clone an AstUnaryOperator', () => {
+        const node = (new AstUnaryOperator('+', new AstNumber(2))).startAt(1, 1, 0).endAt(1, 4, 3);
+
+        const clone = node.clone();
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstFragment);
+        expect(clone).to.be.an.instanceOf(AstUnaryOperator);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.deep.equal(node);
+    });
+
+    it('should clone an AstUnaryOperator with the provided properties', () => {
+        const operator = '+';
+        const value = new AstNumber(2);
+        const newOperator = '-';
+        const newValue = new AstNumber(1);
+
+        const node = (new AstUnaryOperator(operator, value)).startAt(1, 1, 0).endAt(1, 4, 3);
+
+        const clone = node.clone({
+            type: 'number',         // should not be allowed
+            operator: newOperator,
+            value: newValue
+        });
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstFragment);
+        expect(clone).to.be.an.instanceOf(AstUnaryOperator);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.not.deep.equal(node);
+        expect(clone).to.have.a.property('type').that.is.equal(node.type);
+        expect(clone).to.have.a.property('operator').that.is.equal(newOperator);
+        expect(clone).to.have.a.property('value').that.is.equal(newValue);
+        expect(clone).to.have.a.property('start').that.is.equal(node.start);
+        expect(clone).to.have.a.property('end').that.is.equal(node.end);
+    });
+
+    it('should throw a TypeError if one of the operands is not a valid AstNode when cloning', () => {
+        const node = (new AstUnaryOperator('+', new AstNumber(2))).startAt(1, 1, 0).endAt(1, 4, 3);
+        expect(() => node.clone({value: {}})).to.throw(TypeError);
+    });
+
 });

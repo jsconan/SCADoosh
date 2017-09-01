@@ -47,6 +47,19 @@ class AstPath extends AstLiteral {
     constructor(value) {
         super('path', '' + value);
     }
+
+    /**
+     * Clones the instance.
+     * @param {Object} [properties] - an optional list of additional properties to set.
+     * @returns {AstPath}
+     */
+    clone(properties) {
+        if (properties && typeof properties.value !== 'undefined') {
+            properties.value = '' + properties.value;
+        }
+
+        return super.clone(properties);
+    }
 }
 
 module.exports = AstPath;

@@ -61,6 +61,29 @@ class AstBinaryOperator extends AstFragment {
             rightValue: rightValue
         });
     }
+
+    /**
+     * Clones the instance.
+     * @param {Object} [properties] - an optional list of additional properties to set.
+     * @returns {AstBinaryOperator}
+     * @throws {TypeError} if one of the operands is not a valid AstNode
+     */
+    clone(properties) {
+        if (properties) {
+            let error = false;
+            if (typeof properties.leftValue !== 'undefined') {
+                error = error || !AstNode.validate(properties.leftValue);
+            }
+            if (typeof properties.rightValue !== 'undefined') {
+                error = error || !AstNode.validate(properties.rightValue);
+            }
+            if (error) {
+                throw new TypeError('An operand should be an AstNode!');
+            }
+        }
+
+        return super.clone(properties);
+    }
 }
 
 module.exports = AstBinaryOperator;

@@ -47,6 +47,19 @@ class AstString extends AstLiteral {
     constructor(value) {
         super('string', '' + value);
     }
+
+    /**
+     * Clones the instance.
+     * @param {Object} [properties] - an optional list of additional properties to set.
+     * @returns {AstString}
+     */
+    clone(properties) {
+        if (properties && typeof properties.value !== 'undefined') {
+            properties.value = '' + properties.value;
+        }
+
+        return super.clone(properties);
+    }
 }
 
 module.exports = AstString;

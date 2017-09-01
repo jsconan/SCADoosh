@@ -46,17 +46,33 @@ class AstUnaryOperator extends AstFragment {
      * Creates an AstUnaryOperator.
      * @param {String} operator
      * @param {AstNode} value
-     * @throws {TypeError} if one of the operands is not a valid AstNode
+     * @throws {TypeError} if the operand is not a valid AstNode
      */
     constructor(operator, value) {
         if (!AstNode.validate(value)) {
-            throw new TypeError('An operand should be an AstNode!');
+            throw new TypeError('The operand should be an AstNode!');
         }
         super({
             type: 'unaryOperator',
             operator: operator,
             value: value
         });
+    }
+
+    /**
+     * Clones the instance.
+     * @param {Object} [properties] - an optional list of additional properties to set.
+     * @returns {AstUnaryOperator}
+     * @throws {TypeError} if the operand is not a valid AstNode
+     */
+    clone(properties) {
+        if (properties && typeof properties.value !== 'undefined') {
+            if (!AstNode.validate(properties.value)) {
+                throw new TypeError('The operand should be an AstNode!');
+            }
+        }
+
+        return super.clone(properties);
     }
 }
 

@@ -32,6 +32,30 @@
 const AstLiteral = require('./literal');
 
 /**
+ * Gets a boolean value.
+ * @param {Boolean|String} value
+ * @returns {Boolean}
+ * @throws {TypeError} if the value is not a valid boolean
+ */
+function boolean(value) {
+    if (typeof value !== 'boolean') {
+        switch ('' + value) {
+            case 'true':
+                value = true;
+                break;
+
+            case 'false':
+                value = false;
+                break;
+
+            default:
+                throw new TypeError(`${value} is not a valid boolean value`);
+        }
+    }
+    return value;
+}
+
+/**
  * Defines an AST node that represents a string literal.
  * @typedef {AstLiteral} AstBoolean
  * @property {String} type
@@ -46,21 +70,21 @@ class AstBoolean extends AstLiteral {
      * @throws {TypeError} if the value is not a valid boolean
      */
     constructor(value) {
-        if (typeof value !== 'boolean') {
-            switch ('' + value) {
-                case 'true':
-                    value = true;
-                    break;
+        super('boolean', boolean(value));
+    }
 
-                case 'false':
-                    value = false;
-                    break;
-
-                default:
-                    throw new TypeError(value + ' is not a valid boolean value');
-            }
+    /**
+     * Clones the instance.
+     * @param {Object} [properties] - an optional list of additional properties to set.
+     * @returns {AstBoolean}
+     * @throws {TypeError} if the value is not a valid boolean
+     */
+    clone(properties) {
+        if (properties && typeof properties.value !== 'undefined') {
+            properties.value = boolean(properties.value);
         }
-        super('boolean', value);
+
+        return super.clone(properties);
     }
 }
 

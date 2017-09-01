@@ -47,6 +47,19 @@ class AstNumber extends AstLiteral {
     constructor(value) {
         super('number', parseFloat(value));
     }
+
+    /**
+     * Clones the instance.
+     * @param {Object} [properties] - an optional list of additional properties to set.
+     * @returns {AstNumber}
+     */
+    clone(properties) {
+        if (properties && typeof properties.value !== 'undefined') {
+            properties.value = parseFloat(properties.value);
+        }
+
+        return super.clone(properties);
+    }
 }
 
 module.exports = AstNumber;

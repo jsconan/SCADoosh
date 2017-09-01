@@ -55,4 +55,51 @@ describe('OpenSCAD AstTrue', () => {
         expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
+    it('should clone an AstTrue', () => {
+        const node = (new AstTrue()).startAt(1, 1, 0).endAt(1, 4, 3);
+
+        const clone = node.clone();
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstFragment);
+        expect(clone).to.be.an.instanceOf(AstLiteral);
+        expect(clone).to.be.an.instanceOf(AstBoolean);
+        expect(clone).to.be.an.instanceOf(AstTrue);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.deep.equal(node);
+    });
+
+    it('should clone an AstTrue with the provided properties', () => {
+        const value = false;
+        const node = (new AstTrue()).startAt(1, 1, 0).endAt(1, 4, 3);
+
+        const clone = node.clone({
+            type: 'number',         // should not be allowed
+            value: value
+        });
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstFragment);
+        expect(clone).to.be.an.instanceOf(AstLiteral);
+        expect(clone).to.be.an.instanceOf(AstBoolean);
+        expect(clone).to.be.an.instanceOf(AstTrue);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.not.deep.equal(node);
+        expect(clone).to.have.a.property('type').that.is.equal(node.type);
+        expect(clone).to.have.a.property('value').that.is.equal(value);
+        expect(clone).to.have.a.property('start').that.is.equal(node.start);
+        expect(clone).to.have.a.property('end').that.is.equal(node.end);
+    });
+
+    it('should throw a TypeError if the value to set in a clone is not compatible with boolean', () => {
+        const node = new AstTrue();
+        expect(() => node.clone({value: ''})).to.throw(TypeError);
+        expect(() => node.clone({value: 'foo'})).to.throw(TypeError);
+        expect(() => node.clone({value: {}})).to.throw(TypeError);
+        expect(() => node.clone({value: 10})).to.throw(TypeError);
+        expect(() => node.clone({value: 0})).to.throw(TypeError);
+    });
+
 });

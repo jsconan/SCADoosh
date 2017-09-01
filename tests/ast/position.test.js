@@ -131,4 +131,59 @@ describe('OpenSCAD AstPosition', () => {
         expect(node + '').to.be.equal(stringified);
     });
 
+    it('should clone an AstPosition', () => {
+        const line = 1;
+        const column = 2;
+        const offset = 0;
+        const node = new AstPosition(line, column, offset);
+
+        const clone = node.clone();
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstPosition);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.deep.equal(node);
+    });
+
+    it('should clone an AstPosition with the provided properties', () => {
+        const line = 1;
+        const column = 2;
+        const offset = 0;
+        const newLine = 2;
+        const newColumn = 3;
+        const newOffset = 1;
+        const node = new AstPosition(line, column, offset);
+
+        const clone = node.clone({
+            type: 'number',         // should not be allowed
+            line: newLine,
+            column: '' + newColumn,
+            offset: newOffset
+        });
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstPosition);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.not.deep.equal(node);
+        expect(clone).to.have.a.property('type').that.is.equal(node.type);
+        expect(clone).to.have.a.property('line').that.is.equal(newLine);
+        expect(clone).to.have.a.property('column').that.is.equal(newColumn);
+        expect(clone).to.have.a.property('offset').that.is.equal(newOffset);
+    });
+
+    it('should not allow to clone and set 0 in line or column', () => {
+        const node = new AstPosition(1, 1, 0);
+        expect(() => node.clone({line: 0})).to.throw(TypeError);
+        expect(() => node.clone({column: 0})).to.throw(TypeError);
+    });
+
+    it('should not allow to clone and set negative value', () => {
+        const node = new AstPosition(1, 1, 0);
+        expect(() => node.clone({line: -1})).to.throw(TypeError);
+        expect(() => node.clone({column: -2})).to.throw(TypeError);
+        expect(() => node.clone({offset: -1})).to.throw(TypeError);
+    });
+
 });

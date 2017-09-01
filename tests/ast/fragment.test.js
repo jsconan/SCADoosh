@@ -118,8 +118,8 @@ describe('OpenSCAD AstFragment', () => {
         };
         const node = new AstFragment(type);
 
-        node.startAt(startLine, startColumn, startOffset);
-        node.endAt(endLine, endColumn, endOffset);
+        expect(node.startAt(startLine, startColumn, startOffset)).to.be.equal(node);
+        expect(node.endAt(endLine, endColumn, endOffset)).to.be.equal(node);
 
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
@@ -145,11 +145,11 @@ describe('OpenSCAD AstFragment', () => {
         const other = new AstFragment(type);
         const node = new AstFragment(type);
 
-        other.startAt(startLine, startColumn, startOffset);
-        other.endAt(endLine, endColumn, endOffset);
+        expect(other.startAt(startLine, startColumn, startOffset)).to.be.equal(other);
+        expect(other.endAt(endLine, endColumn, endOffset)).to.be.equal(other);
 
-        node.startAt(other);
-        node.endAt(other);
+        expect(node.startAt(other)).to.be.equal(node);
+        expect(node.endAt(other)).to.be.equal(node);
 
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
@@ -197,6 +197,64 @@ describe('OpenSCAD AstFragment', () => {
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.deep.equal(expected);
         expect(node + '').to.be.equal(stringified);
+    });
+
+    it('should clone an AstFragment', () => {
+        const type = 'literal';
+        const value = 'foo';
+        const node = (new AstFragment({
+            type: type,
+            value: value
+        })).startAt(1, 1, 0).endAt(1, 4, 3);
+
+        const clone = node.clone();
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstFragment);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.deep.equal(node);
+    });
+
+    it('should clone an AstFragment with the provided properties', () => {
+        const type = 'literal';
+        const value = 'foo';
+        const newValue = 'bar';
+        const node = (new AstFragment({
+            type: type,
+            value: value
+        })).startAt(1, 1, 0).endAt(1, 4, 3);
+
+        const clone = node.clone({
+            type: 'number',         // should not be allowed
+            value: newValue
+        });
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstFragment);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.not.deep.equal(node);
+        expect(clone).to.have.a.property('type').that.is.equal(node.type);
+        expect(clone).to.have.a.property('value').that.is.equal(newValue);
+        expect(clone).to.have.a.property('start').that.is.equal(node.start);
+        expect(clone).to.have.a.property('end').that.is.equal(node.end);
+    });
+
+    it('should throw a TypeError if the position to set in a clone is not an AstPosition', () => {
+        const node = (new AstFragment('foo')).startAt(1, 1, 0).endAt(1, 4, 3);
+
+        expect(() => node.clone({start: ''})).to.throw(TypeError);
+        expect(() => node.clone({start: 'foo'})).to.throw(TypeError);
+        expect(() => node.clone({start: {}})).to.throw(TypeError);
+        expect(() => node.clone({start: 10})).to.throw(TypeError);
+        expect(() => node.clone({start: 0})).to.throw(TypeError);
+
+        expect(() => node.clone({end: ''})).to.throw(TypeError);
+        expect(() => node.clone({end: 'foo'})).to.throw(TypeError);
+        expect(() => node.clone({end: {}})).to.throw(TypeError);
+        expect(() => node.clone({end: 10})).to.throw(TypeError);
+        expect(() => node.clone({end: 0})).to.throw(TypeError);
     });
 
 });

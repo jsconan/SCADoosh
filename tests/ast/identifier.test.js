@@ -107,4 +107,42 @@ describe('OpenSCAD AstIdentifier', () => {
         expect(node + '').to.be.equal(stringified);
     });
 
+    it('should clone an AstIdentifier', () => {
+        const value = 'foo';
+        const node = (new AstIdentifier(value)).startAt(1, 1, 0).endAt(1, 4, 3);
+
+        const clone = node.clone();
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstFragment);
+        expect(clone).to.be.an.instanceOf(AstLiteral);
+        expect(clone).to.be.an.instanceOf(AstIdentifier);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.deep.equal(node);
+    });
+
+    it('should clone an AstIdentifier with the provided properties', () => {
+        const value = 'foo';
+        const newValue = 123;
+        const node = (new AstIdentifier(value)).startAt(1, 1, 0).endAt(1, 4, 3);
+
+        const clone = node.clone({
+            type: 'number',         // should not be allowed
+            value: newValue
+        });
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstFragment);
+        expect(clone).to.be.an.instanceOf(AstLiteral);
+        expect(clone).to.be.an.instanceOf(AstIdentifier);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.not.deep.equal(node);
+        expect(clone).to.have.a.property('type').that.is.equal(node.type);
+        expect(clone).to.have.a.property('value').that.is.equal('' + newValue);
+        expect(clone).to.have.a.property('start').that.is.equal(node.start);
+        expect(clone).to.have.a.property('end').that.is.equal(node.end);
+    });
+
 });

@@ -29,6 +29,7 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
 const AstNode = require('./node');
 
 /**
@@ -62,6 +63,35 @@ class AstPosition extends AstNode {
             column: column,
             offset: offset
         });
+    }
+
+    /**
+     * Clones the instance.
+     * @param {Object} [properties] - an optional list of additional properties to set.
+     * @returns {AstPosition}
+     * @throws {TypeError} if the values are negative or null
+     */
+    clone(properties) {
+        if (properties) {
+            let error = false;
+            if (typeof properties.line !== 'undefined') {
+                properties.line = parseInt(properties.line, 10);
+                error = error || properties.line < 1;
+            }
+            if (typeof properties.column !== 'undefined') {
+                properties.column = parseInt(properties.column, 10);
+                error = error || properties.column < 1;
+            }
+            if (typeof properties.offset !== 'undefined') {
+                properties.offset = parseInt(properties.offset, 10);
+                error = error || properties.offset < 0;
+            }
+            if (error) {
+                throw new TypeError('The text coordinates cannot be negative or null');
+            }
+        }
+
+        return super.clone(properties);
     }
 }
 

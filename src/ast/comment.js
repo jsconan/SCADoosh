@@ -52,6 +52,19 @@ class AstComment extends AstFragment {
             value: _.isArray(value) ? value : '' + value
         });
     }
+
+    /**
+     * Clones the instance.
+     * @param {Object} [properties] - an optional list of additional properties to set.
+     * @returns {AstComment}
+     */
+    clone(properties) {
+        if (properties && typeof properties.value !== 'undefined') {
+            properties.value = '' + properties.value;
+        }
+
+        return super.clone(properties);
+    }
 }
 
 module.exports = AstComment;
