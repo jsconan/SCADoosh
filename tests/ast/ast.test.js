@@ -29,6 +29,7 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
 const chai = require('chai');
 const expect = chai.expect;
 
@@ -114,6 +115,353 @@ describe('OpenSCAD AST hub', () => {
             ].forEach((name) => {
                 expect(ast.nodes).to.have.a.property(name).that.is.a('function');
             });
+        });
+
+    });
+
+    describe('utils', () => {
+
+        describe('is', () => {
+
+            it('should check using a class constructor', () => {
+
+                const node = new AstNode('node');
+                const number = new AstNumber(42);
+
+                expect(ast.utils.is(node, AstNode)).to.be.equal(true);
+                expect(ast.utils.is(node, AstFragment)).to.be.equal(false);
+
+                expect(ast.utils.is(number, AstNode)).to.be.equal(true);
+                expect(ast.utils.is(number, AstFragment)).to.be.equal(true);
+                expect(ast.utils.is(number, AstNumber)).to.be.equal(true);
+                expect(ast.utils.is(number, AstString)).to.be.equal(false);
+                expect(ast.utils.is(number, _.noop)).to.be.equal(false);
+
+                expect(ast.utils.is({}, AstNode)).to.be.equal(false);
+                expect(ast.utils.is(42, AstNode)).to.be.equal(false);
+
+            });
+
+            it('should check using a class name', () => {
+
+                const node = new AstNode('node');
+                const number = new AstNumber(42);
+
+                expect(ast.utils.is(node, 'AstNode')).to.be.equal(true);
+                expect(ast.utils.is(node, 'AstFragment')).to.be.equal(false);
+
+                expect(ast.utils.is(number, 'AstNode')).to.be.equal(true);
+                expect(ast.utils.is(number, 'AstFragment')).to.be.equal(true);
+                expect(ast.utils.is(number, 'AstNumber')).to.be.equal(true);
+                expect(ast.utils.is(number, 'AstString')).to.be.equal(false);
+                expect(ast.utils.is(number, 'number')).to.be.equal(false);
+
+                expect(ast.utils.is({}, 'AstNode')).to.be.equal(false);
+                expect(ast.utils.is(42, 'AstNode')).to.be.equal(false);
+
+            });
+
+        });
+
+        describe('tokenStart', () => {
+
+            it('should set the start position in the provided node', () => {
+                const token = {
+                    value: 'foo',
+                    line: 2,
+                    col: 7,
+                    offset: 12
+                };
+                const node = new ast.nodes.AstString(token.value);
+                const ret = ast.utils.tokenStart(token, node);
+
+                expect(ret).to.be.equal(node);
+                expect(node).to.have.property('start');
+                expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
+                expect(node.start.line).to.be.equal(token.line);
+                expect(node.start.column).to.be.equal(token.col);
+                expect(node.start.offset).to.be.equal(token.offset);
+            });
+
+            it('should throw a TypeError if the provided node is not compatible', () => {
+                const token = {
+                    value: 'foo',
+                    line: 2,
+                    col: 7,
+                    offset: 12
+                };
+                expect(() => ast.utils.tokenStart(token)).to.throw(TypeError);
+                expect(() => ast.utils.tokenStart(token, {})).to.throw(TypeError);
+                expect(() => ast.utils.tokenStart(token, new ast.nodes.AstPosition())).to.throw(TypeError);
+            });
+
+        });
+
+        describe('tokenEnd', () => {
+
+            it('should set the end position in the provided node (single line)', () => {
+                const token = {
+                    value: 'foo',
+                    line: 2,
+                    col: 7,
+                    offset: 12
+                };
+                const node = new ast.nodes.AstString(token.value);
+                const ret = ast.utils.tokenEnd(token, node);
+
+                expect(ret).to.be.equal(node);
+                expect(node).to.have.property('end');
+                expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
+                expect(node.end.line).to.be.equal(token.line);
+                expect(node.end.column).to.be.equal(token.col + token.value.length);
+                expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+            });
+
+            it('should set the end position in the provided node (multi lines)', () => {
+                const token = {
+                    value: '\nfoo\nbar',
+                    line: 2,
+                    col: 7,
+                    offset: 12
+                };
+                const node = new ast.nodes.AstString(token.value);
+                const ret = ast.utils.tokenEnd(token, node);
+
+                expect(ret).to.be.equal(node);
+                expect(node).to.have.property('end');
+                expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
+                expect(node.end.line).to.be.equal(token.line + 2);
+                expect(node.end.column).to.be.equal(4);
+                expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+            });
+
+            it('should throw a TypeError if the provided node is not compatible', () => {
+                const token = {
+                    value: 'foo',
+                    line: 2,
+                    col: 7,
+                    offset: 12
+                };
+                expect(() => ast.utils.tokenEnd(token)).to.throw(TypeError);
+                expect(() => ast.utils.tokenEnd(token, {})).to.throw(TypeError);
+                expect(() => ast.utils.tokenEnd(token, new ast.nodes.AstPosition())).to.throw(TypeError);
+            });
+
+        });
+
+        describe('forward', () => {
+
+            it('should straight returns the value if it is not an array', () => {
+
+                const values = [
+                    42,
+                    true,
+                    "foo bar",
+                    {foo: "bar"}
+                ];
+
+                values.forEach((value) => {
+                    expect(ast.utils.forward(value)).to.be.equal(value);
+                });
+
+            });
+
+            it('should returns the first element of the array', () => {
+
+                const values = [
+                    [],
+                    [42],
+                    [true],
+                    ["foo bar"],
+                    [{foo: "bar"}]
+                ];
+
+                values.forEach((value) => {
+                    expect(ast.utils.forward(value)).to.be.equal(value[0]);
+                });
+
+            });
+
+            it('should throw a TypeError if the array contains more than one element', () => {
+
+                expect(() => ast.utils.forward([1, 2])).to.throw(TypeError);
+
+            });
+
+        });
+
+        describe('discard', () => {
+
+            it('should returns null whatever the input is', () => {
+
+                expect(ast.utils.discard(42)).to.be.null;
+                expect(ast.utils.discard(true)).to.be.null;
+                expect(ast.utils.discard("foo bar")).to.be.null;
+                expect(ast.utils.discard([1, 2, 3])).to.be.null;
+                expect(ast.utils.discard({foo: "bar"})).to.be.null;
+
+            });
+
+        });
+
+    });
+
+    describe('terminal', () => {
+
+        it('should create the node using the provided factory name and set the position (single line)', () => {
+            const token = {
+                value: 'foo',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = ast.terminal(token, token.value, 'string');
+
+            expect(node).to.be.an.instanceOf(ast.nodes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line);
+            expect(node.end.column).to.be.equal(token.col + token.value.length);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should create the node using the provided class name and set the position (single line)', () => {
+            const token = {
+                value: 'foo',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = ast.terminal(token, token.value, 'AstString');
+
+            expect(node).to.be.an.instanceOf(ast.nodes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line);
+            expect(node.end.column).to.be.equal(token.col + token.value.length);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should create the node using the provided class and set the position (single line)', () => {
+            const token = {
+                value: 'foo',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = ast.terminal(token, token.value, ast.nodes.AstString);
+
+            expect(node).to.be.an.instanceOf(ast.nodes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line);
+            expect(node.end.column).to.be.equal(token.col + token.value.length);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should create the node using the provided class name and set the position (multi lines)', () => {
+            const token = {
+                value: '\nfoo\nbar',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = ast.terminal(token, token.value, 'AstString');
+
+            expect(node).to.be.an.instanceOf(ast.nodes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line + 2);
+            expect(node.end.column).to.be.equal(4);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should create the node using the provided factory name and set the position (multi lines)', () => {
+            const token = {
+                value: '\nfoo\nbar',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = ast.terminal(token, token.value, 'string');
+
+            expect(node).to.be.an.instanceOf(ast.nodes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line + 2);
+            expect(node.end.column).to.be.equal(4);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should create the node using the provided class and set the position (multi lines)', () => {
+            const token = {
+                value: '\nfoo\nbar',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = ast.terminal(token, token.value, ast.nodes.AstString);
+
+            expect(node).to.be.an.instanceOf(ast.nodes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(ast.nodes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line + 2);
+            expect(node.end.column).to.be.equal(4);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should throw a TypeError if the AST class is not valid', () => {
+            const token = {
+                value: 'foo',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+
+            expect(() => ast.terminal(token, token.value, 'foo')).to.throw(TypeError);
+            expect(() => ast.terminal(token, token.value, {})).to.throw(TypeError);
+            expect(() => ast.terminal(token, token.value, () => {})).to.throw(TypeError);
+        });
+
+        it('should throw a TypeError if the created node is not an AstFragment', () => {
+            const token = {
+                value: 'foo',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+
+            expect(() => ast.terminal(token, token.value, ast.nodes.AstPosition)).to.throw(TypeError);
         });
 
     });

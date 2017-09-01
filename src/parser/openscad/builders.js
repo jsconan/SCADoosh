@@ -29,9 +29,9 @@
  * @author jsconan
  */
 
-const _ = require("lodash");
-const utils = require('../utils');
-const ast = require("./../../ast/ast");
+const _ = require('lodash');
+const ast = require('./../../ast/ast');
+const utils = ast.utils;
 
 const builders = {
     /**
@@ -41,7 +41,7 @@ const builders = {
      */
     number: (data) => {
         let token = data[0];
-        return utils.terminal(token, token.value, 'number');
+        return ast.terminal(token, token.value, 'number');
     },
 
     /**
@@ -51,7 +51,7 @@ const builders = {
      */
     string: (data) => {
         let token = data[0];
-        return utils.terminal(token, _.trim(token.value, '"'), 'string');
+        return ast.terminal(token, _.trim(token.value, '"'), 'string');
     },
 
     /**
@@ -61,7 +61,7 @@ const builders = {
      */
     path: (data) => {
         let token = data[0];
-        return utils.terminal(token, _.trim(token.value, '<>'), 'path');
+        return ast.terminal(token, _.trim(token.value, '<>'), 'path');
     },
 
     /**
@@ -71,7 +71,7 @@ const builders = {
      */
     boolean: (data) => {
         let token = data[0];
-        return utils.terminal(token, token.value, 'boolean');
+        return ast.terminal(token, token.value, 'boolean');
     },
 
     /**
@@ -81,7 +81,7 @@ const builders = {
      */
     undef: (data) => {
         let token = data[0];
-        return utils.terminal(token, token.value, 'undefined');
+        return ast.terminal(token, token.value, 'undefined');
     },
 
     /**
@@ -91,7 +91,7 @@ const builders = {
      */
     identifier: (data) => {
         let token = data[0];
-        return utils.terminal(token, token.value, 'identifier');
+        return ast.terminal(token, token.value, 'identifier');
     },
 
     /**
@@ -101,7 +101,7 @@ const builders = {
      */
     lineComment: (data) => {
         let token = data[0];
-        return utils.terminal(token, token.value.substr(2), 'lineComment');
+        return ast.terminal(token, token.value.substr(2), 'lineComment');
     },
 
     /**
@@ -111,7 +111,7 @@ const builders = {
      */
     blockComment: (data) => {
         let token = data[0];
-        return utils.terminal(token, token.value.substr(2, token.value.length - 4), 'blockComment');
+        return ast.terminal(token, token.value.substr(2, token.value.length - 4), 'blockComment');
     },
 
     /**

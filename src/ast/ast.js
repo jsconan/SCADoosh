@@ -29,6 +29,9 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
+const splitLines = require('./../utils/split-lines');
+
 const AstNode = require('./node');
 const AstPosition = require('./position');
 const AstFragment = require('./fragment');
@@ -47,7 +50,11 @@ const AstBlockComment = require('./block-comment');
 const AstBinaryOperator = require('./binary-operator');
 const AstUnaryOperator = require('./unary-operator');
 
-module.exports = {
+/**
+ * Hub that provides factories to create final AST nodes.
+ * @type {Object}
+ */
+const ast = {
     /**
      * List all the available AST node classes
      * @type {Object}
@@ -70,6 +77,113 @@ module.exports = {
         AstBlockComment: AstBlockComment,
         AstBinaryOperator: AstBinaryOperator,
         AstUnaryOperator: AstUnaryOperator
+    },
+
+    /**
+     * Utility helpers
+     * @type {Object}
+     */
+    utils: {
+        /**
+         * Checks if an object is an instance of an AST node.
+         * @param {Object} node
+         * @param {Function|String} AstClass
+         * @returns {Boolean}
+         */
+        is: (node, AstClass) => {
+            if (typeof AstClass === 'string') {
+                AstClass = ast.nodes[AstClass] || _.noop;
+            }
+            return typeof node === 'object' && node instanceof AstClass;
+        },
+
+        /**
+         * Forwards the token position into the provided AstFragment as a start position
+         * @param {Object} token
+         * @param {AstFragment} node
+         * @returns {AstFragment}
+         * @throws {TypeError} if the node is not an AstFragment
+         */
+        tokenStart: (token, node) => {
+            if (!ast.utils.is(node, AstFragment)) {
+                throw new TypeError('An AstFragment node is needed to set the position');
+            }
+            return node.startAt(token.line, token.col, token.offset);
+        },
+
+        /**
+         * Forwards the token position into the provided AstFragment as an end position
+         * @param {Object} token
+         * @param {AstFragment} node
+         * @returns AstFragment
+         * @throws {TypeError} if the node is not an AstFragment
+         */
+        tokenEnd: (token, node) => {
+            if (!ast.utils.is(node, AstFragment)) {
+                throw new TypeError('An AstFragment node is needed to set the position');
+            }
+
+            const value = token.value;
+            const lines = splitLines(value);
+            const breaks = lines.length - 1;
+            const col = breaks ? 1 + lines[breaks].length : token.col + value.length;
+            return node.endAt(token.line + breaks, col, token.offset + value.length);
+        },
+
+        /**
+         * Simply unwraps and forwards the data
+         * @param {Object|Array} data
+         * @returns {Object|Array}
+         * @throws {TypeError} if the provided array contains more than one element
+         */
+        forward: (data) => {
+            if (_.isArray(data)) {
+                if (data.length > 1) {
+                    throw new TypeError(`Only a single element can be forwarded, ${data.length} elements found!`);
+                }
+                return data[0];
+            }
+            return data;
+        },
+
+        /**
+         * Simply discards the data
+         * @returns {null}
+         */
+        discard: () => null
+    },
+
+    /**
+     * Creates a terminal node from the provided token and class.
+     * Set the fragment position according to the provided token.
+     * @param {Object} token - The token that represents the terminal
+     * @param {String} value - The refined token value
+     * @param {Function|String} AstNodeClass - The AstNode class or the name of an AST node class or factory
+     * @returns {AstFragment}
+     * @throws {TypeError} if the created node is not an AstFragment or if the AstNodeClass is not valid
+     */
+    terminal: (token, value, AstNodeClass) => {
+        let factory;
+
+        if (typeof AstNodeClass === 'string') {
+            if (ast[AstNodeClass]) {
+                factory = ast[AstNodeClass];
+            } else if (ast.nodes[AstNodeClass]) {
+                factory = (value) => new ast.nodes[AstNodeClass](value);
+            } else {
+                throw new TypeError('Unknown AST node class ' + AstNodeClass);
+            }
+        } else {
+            if (!_.isFunction(AstNodeClass)) {
+                throw new TypeError('AstNodeClass should be a constructor');
+            }
+            factory = (value) => new AstNodeClass(value);
+        }
+
+        const node = factory(value);
+        ast.utils.tokenStart(token, node);
+        ast.utils.tokenEnd(token, node);
+        return node;
     },
 
     /**
@@ -134,3 +248,5 @@ module.exports = {
      */
     unaryOperator: (operator, value) => new AstUnaryOperator(operator, value)
 };
+
+module.exports = ast;

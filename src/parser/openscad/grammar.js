@@ -12,7 +12,8 @@ function id(x) {return x[0]; }
  * @license GPLv3
  */
 const lexer = require('./lexer');
-const utils = require('./../utils');
+const ast = require('./../../ast/ast');
+const utils = ast.utils;
 const builders = require('./builders');
 var grammar = {
     Lexer: lexer,
