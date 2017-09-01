@@ -63,6 +63,12 @@ describe('OpenSCAD AstPosition', () => {
         expect(node).to.be.deep.equal(expected);
     });
 
+    it('should not allow to set NaN values', () => {
+        expect(() => new AstPosition(parseFloat('foo'), 2, 1)).to.throw(TypeError);
+        expect(() => new AstPosition(1, parseFloat('foo'), 0)).to.throw(TypeError);
+        expect(() => new AstPosition(1, 1, parseFloat('foo'))).to.throw(TypeError);
+    });
+
     it('should not allow to set 0 in line or column', () => {
         expect(() => new AstPosition(0, 2, 1)).to.throw(TypeError);
         expect(() => new AstPosition(1, 0, 0)).to.throw(TypeError);
@@ -184,6 +190,13 @@ describe('OpenSCAD AstPosition', () => {
         expect(() => node.clone({line: -1})).to.throw(TypeError);
         expect(() => node.clone({column: -2})).to.throw(TypeError);
         expect(() => node.clone({offset: -1})).to.throw(TypeError);
+    });
+
+    it('should not allow to clone and set NaN value', () => {
+        const node = new AstPosition(1, 1, 0);
+        expect(() => node.clone({line: parseFloat('foo')})).to.throw(TypeError);
+        expect(() => node.clone({column: parseFloat('foo')})).to.throw(TypeError);
+        expect(() => node.clone({offset: parseFloat('foo')})).to.throw(TypeError);
     });
 
 });

@@ -56,6 +56,9 @@ class AstPosition extends AstNode {
         if (line < 1 || column < 1 || offset < 0) {
             throw new TypeError('The text coordinates cannot be negative or null');
         }
+        if (isNaN(line) || isNaN(column) || isNaN(offset)) {
+            throw new TypeError('The text coordinates must be valid numbers');
+        }
 
         super({
             type: 'position',
@@ -76,15 +79,15 @@ class AstPosition extends AstNode {
             let error = false;
             if (typeof properties.line !== 'undefined') {
                 properties.line = parseInt(properties.line, 10);
-                error = error || properties.line < 1;
+                error = error || isNaN(properties.line) || properties.line < 1;
             }
             if (typeof properties.column !== 'undefined') {
                 properties.column = parseInt(properties.column, 10);
-                error = error || properties.column < 1;
+                error = error || isNaN(properties.column) || properties.column < 1;
             }
             if (typeof properties.offset !== 'undefined') {
                 properties.offset = parseInt(properties.offset, 10);
-                error = error || properties.offset < 0;
+                error = error || isNaN(properties.offset) || properties.offset < 0;
             }
             if (error) {
                 throw new TypeError('The text coordinates cannot be negative or null');
