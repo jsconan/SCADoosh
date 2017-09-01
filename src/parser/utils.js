@@ -122,10 +122,10 @@ const utils = {
     },
 
     /**
-     * Simply discards the token
+     * Simply discards the data
      * @returns {null}
      */
-    discard: () => null,
+    discard: () => null
 };
 
 module.exports = utils;

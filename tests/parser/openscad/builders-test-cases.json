@@ -16,7 +16,19 @@
             ],
             "output": {
                 "type": "number",
-                "value": 10
+                "value": 10,
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                }
             }
         },
         {
@@ -35,7 +47,19 @@
             ],
             "output": {
                 "type": "number",
-                "value": 0.2
+                "value": 0.2,
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                }
             }
         },
         {
@@ -54,26 +78,19 @@
             ],
             "output": {
                 "type": "number",
-                "value": 3.14
-            }
-        },
-        {
-            "title": "should produce the descriptor for a number value, from a number token (-5)",
-            "method": "number",
-            "input": [
-                {
-                    "type": "number",
-                    "value": "-5",
-                    "text": "-5",
-                    "offset": 0,
-                    "lineBreaks": 0,
+                "value": 3.14,
+                "start": {
+                    "type": "position",
                     "line": 1,
-                    "col": 1
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
                 }
-            ],
-            "output": {
-                "type": "number",
-                "value": -5
             }
         },
         {
@@ -92,7 +109,19 @@
             ],
             "output": {
                 "type": "number",
-                "value": 31.4e-10
+                "value": 31.4e-10,
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 9,
+                    "offset": 8
+                }
             }
         }
     ],
@@ -113,7 +142,19 @@
             ],
             "output": {
                 "type": "string",
-                "value": "a long string"
+                "value": "a long string",
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 16,
+                    "offset": 15
+                }
             }
         },
         {
@@ -132,7 +173,19 @@
             ],
             "output": {
                 "type": "string",
-                "value": "a \"long\" string"
+                "value": "a \"long\" string",
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 18,
+                    "offset": 17
+                }
             }
         }
     ],
@@ -153,14 +206,26 @@
             ],
             "output": {
                 "type": "path",
-                "value": "./path/to/a/library.scad"
+                "value": "./path/to/a/library.scad",
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 27,
+                    "offset": 26
+                }
             }
         }
     ],
     "boolean": [
         {
             "title": "should produce the descriptor for a boolean value, from a boolean token (true)",
-            "method": "bool",
+            "method": "boolean",
             "input": [
                 {
                     "type": "true",
@@ -174,12 +239,24 @@
             ],
             "output": {
                 "type": "boolean",
-                "value": true
+                "value": true,
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 5,
+                    "offset": 4
+                }
             }
         },
         {
             "title": "should produce the descriptor for a boolean value, from a boolean token (false)",
-            "method": "bool",
+            "method": "boolean",
             "input": [
                 {
                     "type": "false",
@@ -193,7 +270,19 @@
             ],
             "output": {
                 "type": "boolean",
-                "value": false
+                "value": false,
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                }
             }
         }
     ],
@@ -214,7 +303,19 @@
             ],
             "output": {
                 "type": "undefined",
-                "value": null
+                "value": null,
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                }
             }
         }
     ],
@@ -235,7 +336,19 @@
             ],
             "output": {
                 "type": "identifier",
-                "value": "vector"
+                "value": "vector",
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                }
             }
         },
         {
@@ -254,7 +367,19 @@
             ],
             "output": {
                 "type": "identifier",
-                "value": "vector3D"
+                "value": "vector3D",
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 9,
+                    "offset": 8
+                }
             }
         },
         {
@@ -273,7 +398,19 @@
             ],
             "output": {
                 "type": "identifier",
-                "value": "fooBar"
+                "value": "fooBar",
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                }
             }
         },
         {
@@ -292,14 +429,26 @@
             ],
             "output": {
                 "type": "identifier",
-                "value": "intersection_for"
+                "value": "intersection_for",
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 17,
+                    "offset": 16
+                }
             }
         }
     ],
     "comment": [
         {
             "title": "should produce the descriptor for a line comment, from a lcomment token (// a comment)",
-            "method": "lcomment",
+            "method": "lineComment",
             "input": [
                 {
                     "type": "lcomment",
@@ -312,13 +461,25 @@
                 }
             ],
             "output": {
-                "type": "comment",
-                "value": " a comment"
+                "type": "lineComment",
+                "value": " a comment",
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 13,
+                    "offset": 12
+                }
             }
         },
         {
             "title": "should produce the descriptor for a line comment, from a lcomment token (// a comment)",
-            "method": "lcomment",
+            "method": "lineComment",
             "input": [
                 {
                     "type": "lcomment",
@@ -331,13 +492,25 @@
                 }
             ],
             "output": {
-                "type": "comment",
-                "value": "/// a comment"
+                "type": "lineComment",
+                "value": "/// a comment",
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 16,
+                    "offset": 15
+                }
             }
         },
         {
             "title": "should produce the descriptor for a line comment, from a lcomment token (// a comment  )",
-            "method": "lcomment",
+            "method": "lineComment",
             "input": [
                 {
                     "type": "lcomment",
@@ -350,13 +523,25 @@
                 }
             ],
             "output": {
-                "type": "comment",
-                "value": " a comment  "
+                "type": "lineComment",
+                "value": " a comment  ",
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 15,
+                    "offset": 14
+                }
             }
         },
         {
             "title": "should produce the descriptor for a multi-lines comment, from a mcomment token (/* a comment */)",
-            "method": "mcomment",
+            "method": "blockComment",
             "input": [
                 {
                     "type": "mcomment",
@@ -369,15 +554,27 @@
                 }
             ],
             "output": {
-                "type": "comment",
+                "type": "blockComment",
                 "value": [
                     " a comment "
-                ]
+                ],
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 16,
+                    "offset": 15
+                }
             }
         },
         {
             "title": "should produce the descriptor for a multi-lines comment, from a mcomment token (/**  \\r\\n *\\r\\n * a comment  \\r\\n *\\r\\n */)",
-            "method": "mcomment",
+            "method": "blockComment",
             "input": [
                 {
                     "type": "mcomment",
@@ -390,19 +587,31 @@
                 }
             ],
             "output": {
-                "type": "comment",
+                "type": "blockComment",
                 "value": [
-                    "  ",
-                    "",
-                    " a comment  ",
-                    "  ",
-                    ""
-                ]
+                    "*  ",
+                    " *",
+                    " * a comment  ",
+                    " *  ",
+                    " "
+                ],
+                "start": {
+                    "type": "position",
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 5,
+                    "column": 4,
+                    "offset": 36
+                }
             }
         },
         {
             "title": "should produce the descriptor for a multi-lines comment, from a mcomment token (/* a\\r\\n\\r\\nmulti\\r\\n\\r\\nline\\r\\n\\r\\ncomment */)",
-            "method": "mcomment",
+            "method": "blockComment",
             "input": [
                 {
                     "type": "mcomment",
@@ -415,7 +624,7 @@
                 }
             ],
             "output": {
-                "type": "comment",
+                "type": "blockComment",
                 "value": [
                     " a",
                     "",
@@ -424,79 +633,20 @@
                     "line",
                     "",
                     "comment "
-                ]
-            }
-        }
-    ],
-    "forward": [
-        {
-            "title": "should unpack the token from the wrapping array",
-            "method": "forward",
-            "input": [
-                {
-                    "type": "identifier",
-                    "value": "fooBar",
-                    "text": "fooBar",
-                    "offset": 0,
-                    "lineBreaks": 0,
+                ],
+                "start": {
+                    "type": "position",
                     "line": 1,
-                    "col": 1
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "type": "position",
+                    "line": 7,
+                    "column": 11,
+                    "offset": 35
                 }
-            ],
-            "output": {
-                "type": "identifier",
-                "value": "fooBar",
-                "text": "fooBar",
-                "offset": 0,
-                "lineBreaks": 0,
-                "line": 1,
-                "col": 1
             }
-        }, {
-            "title": "should forward the token",
-            "method": "forward",
-            "input": {
-                "type": "identifier",
-                "value": "vector"
-            },
-            "output": {
-                "type": "identifier",
-                "value": "vector"
-            }
-        }
-    ],
-    "discard": [
-        {
-            "title": "should produce a null value whatever the source is (identifier)",
-            "method": "discard",
-            "input": [
-                {
-                    "type": "identifier",
-                    "value": "fooBar",
-                    "text": "fooBar",
-                    "offset": 0,
-                    "lineBreaks": 0,
-                    "line": 1,
-                    "col": 1
-                }
-            ],
-            "output": null
-        },
-        {
-            "title": "should produce a null value whatever the source is (number)",
-            "method": "discard",
-            "input": [
-                {
-                    "type": "number",
-                    "value": "15",
-                    "text": "15",
-                    "offset": 0,
-                    "lineBreaks": 0,
-                    "line": 1,
-                    "col": 1
-                }
-            ],
-            "output": null
         }
     ]
 }
