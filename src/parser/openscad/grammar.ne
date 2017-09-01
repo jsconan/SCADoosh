@@ -65,7 +65,7 @@ term ->
 factor ->
         ("+" | "-") factor              {% builders.unaryOperator %}
     |   number                          {% utils.forward %}
-    |   "(" expr ")"                    {% (data) => utils.forward(data[1]) %}
+    |   "(" expr ")"                    {% utils.surrounded %}
 
 # Symbols and primitives
 undef ->

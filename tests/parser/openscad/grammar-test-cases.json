@@ -590,14 +590,14 @@
                 "start": {
                     "type": "position",
                     "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "column": 4,
+                    "offset": 3
                 },
                 "end": {
                     "type": "position",
                     "line": 1,
-                    "column": 8,
-                    "offset": 7
+                    "column": 9,
+                    "offset": 8
                 }
             },
             "start": {
@@ -609,8 +609,8 @@
             "end": {
                 "type": "position",
                 "line": 1,
-                "column": 8,
-                "offset": 7
+                "column": 9,
+                "offset": 8
             }
         }]
     }

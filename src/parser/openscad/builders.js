@@ -120,13 +120,13 @@ const builders = {
      * @returns {AstUnaryOperator}
      */
     unaryOperator: (data) => {
-        data = _.flattenDeep(data);
+        data = _.isArray(data) ? _.flattenDeep(data) : data;
         if (data.length === 2) {
             let node = ast.unaryOperator(
                 data[0].value,
                 data[1]
             );
-            utils.tokenStart(data[0], node);
+            node.startAt(ast.utils.startPosition(data[0]));
             node.endAt(node.value);
             return node;
         } else {
@@ -140,7 +140,7 @@ const builders = {
      * @returns {AstBinaryOperator}
      */
     binaryOperator: (data) => {
-        data = _.flattenDeep(data);
+        data = _.isArray(data) ? _.flattenDeep(data) : data;
         if (data.length === 3) {
             let node = ast.binaryOperator(
                 data[0],

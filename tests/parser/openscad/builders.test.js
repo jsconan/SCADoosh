@@ -117,9 +117,9 @@ describe('OpenSCAD AST builders', () => {
         it('should forward the existing descriptor for the unary operator expression "-5"', () => {
             const value = ast.number(5);
             const node = ast.unaryOperator('-', value);
-            const input = [node];
 
-            expect(builders.unaryOperator(input)).to.be.deep.equal(node);
+            expect(builders.unaryOperator(node)).to.be.deep.equal(node);
+            expect(builders.unaryOperator([node])).to.be.deep.equal(node);
         });
 
     });
@@ -178,9 +178,9 @@ describe('OpenSCAD AST builders', () => {
             const left = ast.number(2);
             const right = ast.number(4);
             const node = ast.binaryOperator(left, '*', right);
-            const input = [node];
 
-            expect(builders.binaryOperator(input)).to.be.deep.equal(node);
+            expect(builders.binaryOperator(node)).to.be.deep.equal(node);
+            expect(builders.binaryOperator([node])).to.be.deep.equal(node);
         });
 
     });

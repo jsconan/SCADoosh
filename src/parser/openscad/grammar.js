@@ -42,7 +42,7 @@ var grammar = {
     {"name": "factor$subexpression$1", "symbols": [{"literal":"-"}]},
     {"name": "factor", "symbols": ["factor$subexpression$1", "factor"], "postprocess": builders.unaryOperator},
     {"name": "factor", "symbols": ["number"], "postprocess": utils.forward},
-    {"name": "factor", "symbols": [{"literal":"("}, "expr", {"literal":")"}], "postprocess": (data) => utils.forward(data[1])},
+    {"name": "factor", "symbols": [{"literal":"("}, "expr", {"literal":")"}], "postprocess": utils.surrounded},
     {"name": "undef", "symbols": [{"literal":"undef"}], "postprocess": builders.undef},
     {"name": "boolean", "symbols": [{"literal":"true"}], "postprocess": builders.boolean},
     {"name": "boolean", "symbols": [{"literal":"false"}], "postprocess": builders.boolean},

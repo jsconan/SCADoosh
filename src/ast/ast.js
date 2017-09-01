@@ -98,36 +98,40 @@ const ast = {
         },
 
         /**
-         * Forwards the token position into the provided AstFragment as a start position
+         * Creates an AstPosition from a start token.
          * @param {Object} token
-         * @param {AstFragment} node
-         * @returns {AstFragment}
-         * @throws {TypeError} if the node is not an AstFragment
+         * @returns {AstPosition}
+         * @throws {TypeError} if the token is not valid
          */
-        tokenStart: (token, node) => {
-            if (!ast.utils.is(node, AstFragment)) {
-                throw new TypeError('An AstFragment node is needed to set the position');
+        startPosition: (token) => {
+            token = _.isObject(token) ? token : {};
+
+            if (ast.utils.is(token, AstFragment)) {
+                return token.start;
             }
-            return node.startAt(token.line, token.col, token.offset);
+
+            return new AstPosition(token.line, token.col, token.offset);
         },
 
         /**
-         * Forwards the token position into the provided AstFragment as an end position
+         * Creates an AstPosition from an end token.
          * @param {Object} token
-         * @param {AstFragment} node
-         * @returns AstFragment
-         * @throws {TypeError} if the node is not an AstFragment
+         * @returns {AstPosition}
+         * @throws {TypeError} if the token is not valid
          */
-        tokenEnd: (token, node) => {
-            if (!ast.utils.is(node, AstFragment)) {
-                throw new TypeError('An AstFragment node is needed to set the position');
+        endPosition: (token) => {
+            token = _.isObject(token) ? token : {};
+
+            if (ast.utils.is(token, AstFragment)) {
+                return token.end;
             }
 
-            const value = token.value;
+            const value = '' + token.value;
             const lines = splitLines(value);
             const breaks = lines.length - 1;
             const col = breaks ? 1 + lines[breaks].length : token.col + value.length;
-            return node.endAt(token.line + breaks, col, token.offset + value.length);
+
+            return new AstPosition(token.line + breaks, col, token.offset + value.length);
         },
 
         /**
@@ -144,6 +148,36 @@ const ast = {
                 return data[0];
             }
             return data;
+        },
+
+        /**
+         * Takes care of an AST node surrounded by tokens.
+         * It will update the position of the node accordingly, then return the node.
+         * @param {Object|Array} data
+         * @returns {AstFragment}
+         * @throws {TypeError} if the provided array does not contain the right number of elements,
+         *                     or if the resulting object is not an AstFragment
+         */
+        surrounded: (data) => {
+            data = _.isArray(data) ? _.flattenDeep(data) : data;
+            if (data.length === 3) {
+                let [left, node, right] = data;
+
+                if (!ast.utils.is(node, AstFragment)) {
+                    throw new TypeError('Only a AstFragment instances can be surrounded!');
+                }
+
+                if (!_.isObject(left) || !_.isObject(right)) {
+                    throw new TypeError('The surrounding elements are not valid tokens!');
+                }
+
+                return node.clone({
+                    start: ast.utils.startPosition(left),
+                    end: ast.utils.endPosition(right)
+                });
+            } else {
+                return ast.utils.forward(data)
+            }
         },
 
         /**
@@ -171,7 +205,7 @@ const ast = {
             } else if (ast.nodes[AstNodeClass]) {
                 factory = (value) => new ast.nodes[AstNodeClass](value);
             } else {
-                throw new TypeError('Unknown AST node class ' + AstNodeClass);
+                throw new TypeError(`Unknown AST node class ${AstNodeClass}`);
             }
         } else {
             if (!_.isFunction(AstNodeClass)) {
@@ -181,8 +215,14 @@ const ast = {
         }
 
         const node = factory(value);
-        ast.utils.tokenStart(token, node);
-        ast.utils.tokenEnd(token, node);
+
+        if (!ast.utils.is(node, AstFragment)) {
+            throw new TypeError('A terminal should be An AstFragment');
+        }
+
+        node.startAt(ast.utils.startPosition(token));
+        node.endAt(ast.utils.endPosition(token));
+
         return node;
     },
 
