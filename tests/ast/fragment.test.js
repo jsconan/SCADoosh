@@ -159,6 +159,36 @@ describe('OpenSCAD AstFragment', () => {
         expect(node.end).to.be.instanceOf(AstPosition);
     });
 
+    it('should add a position in an AstFragment from provided AstPosition', () => {
+        const type = 'literal';
+        const startLine = 1;
+        const startColumn = 1;
+        const startOffset = 0;
+        const endLine = 2;
+        const endColumn = 1;
+        const endOffset = 10;
+        const expected = {
+            type: type,
+            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+        };
+        const start = new AstPosition(startLine, startColumn, startOffset);
+        const end = new AstPosition(endLine, endColumn, endOffset);
+        const node = new AstFragment(type);
+
+        expect(node.startAt(start)).to.be.equal(node);
+        expect(node.endAt(end)).to.be.equal(node);
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.deep.equal(expected);
+        expect(node.start).to.be.instanceOf(AstPosition);
+        expect(node.start).to.be.equal(start);
+        expect(node.end).to.be.instanceOf(AstPosition);
+        expect(node.end).to.be.equal(end);
+    });
+
     it('should not add a position in an AstFragment from non AstFragment', () => {
         const type = 'literal';
         const node = new AstFragment(type);

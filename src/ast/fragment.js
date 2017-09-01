@@ -42,7 +42,7 @@ const AstPosition = require('./position');
 class AstFragment extends AstNode {
     /**
      * Sets the start position of the fragment. Accept to copy the position from another AstFragment.
-     * @param {Number|String|AstFragment} line
+     * @param {Number|String|AstFragment|AstPosition} line
      * @param {Number|String} [column]
      * @param {Number|String} [offset]
      * @returns {AstFragment}
@@ -54,6 +54,8 @@ class AstFragment extends AstNode {
         if (typeof line === 'object') {
             if (line instanceof AstFragment) {
                 position = line.start;
+            } else if (line instanceof AstPosition) {
+                position = line;
             } else {
                 throw new TypeError('Cannot set a start position from a non AstFragment');
             }
@@ -68,7 +70,7 @@ class AstFragment extends AstNode {
 
     /**
      * Sets the end position of the fragment. Accept to copy the position from another AstFragment.
-     * @param {Number|String|AstFragment} line
+     * @param {Number|String|AstFragment|AstPosition} line
      * @param {Number|String} [column]
      * @param {Number|String} [offset]
      * @returns {AstFragment}
@@ -80,6 +82,8 @@ class AstFragment extends AstNode {
         if (typeof line === 'object') {
             if (line instanceof AstFragment) {
                 position = line.end;
+            } else if (line instanceof AstPosition) {
+                position = line;
             } else {
                 throw new TypeError('Cannot set an end position from a non AstFragment');
             }
