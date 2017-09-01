@@ -269,7 +269,7 @@ describe('Parser utils', () => {
 
             expect(() => utils.terminal(token, token.value, 'foo')).to.throw(TypeError);
             expect(() => utils.terminal(token, token.value, {})).to.throw(TypeError);
-            expect(() => utils.terminal(token, token.value, function() {})).to.throw(TypeError);
+            expect(() => utils.terminal(token, token.value, () => {})).to.throw(TypeError);
         });
 
         it('should throw a TypeError if the created node is not an AstFragment', () => {
@@ -315,6 +315,12 @@ describe('Parser utils', () => {
             values.forEach((value) => {
                 expect(utils.forward(value)).to.be.equal(value[0]);
             });
+
+        });
+
+        it('should throw a TypeError if the array contains more than one element', () => {
+
+            expect(() => utils.forward([1, 2])).to.throw(TypeError);
 
         });
 

@@ -109,8 +109,17 @@ const utils = {
      * Simply unwraps and forwards the data
      * @param {Object|Array} data
      * @returns {Object|Array}
+     * @throws {TypeError} if the provided array contains more than one element
      */
-    forward: (data) => _.isArray(data) ? data[0] : data,
+    forward: (data) => {
+        if (_.isArray(data)) {
+            if (data.length > 1) {
+                throw new TypeError('Cannot unwrap the data as there is more than one element in the provided array');
+            }
+            return data[0];
+        }
+        return data;
+    },
 
     /**
      * Simply discards the token
