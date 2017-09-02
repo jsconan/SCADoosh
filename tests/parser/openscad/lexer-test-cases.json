@@ -890,7 +890,7 @@
                     "value": "/**\r\na multiline\r\ncomment */",
                     "text": "/**\r\na multiline\r\ncomment */",
                     "offset": 0,
-                    "lineBreaks": 0,
+                    "lineBreaks": 2,
                     "line": 1,
                     "col": 1
                 }

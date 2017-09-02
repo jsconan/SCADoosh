@@ -69,7 +69,10 @@ const openScadTokens = {
     },
 
     // comments
-    mcomment: /\/\*(?:[\s\S]*?)\*\//,
+    mcomment: {
+        match: /\/\*(?:[\s\S]*?)\*\//,
+        lineBreaks: true
+    },
     lcomment: /\/\/.*?$/,
 
     // punctuation
@@ -122,10 +125,10 @@ const lexer = {
      * Importantly, a token object must have a value attribute.
      * Some tokens are discarded, like the spaces, in order to simplify the grammar.
      */
-    next: function next() {
-        var token = mooLexer.next();
+    next: () => {
+        let token = mooLexer.next();
         while (typeof token !== "undefined" && _.startsWith(token.type, '_')) {
-          token = mooLexer.next();
+            token = mooLexer.next();
         }
         return token;
     },
@@ -134,7 +137,7 @@ const lexer = {
      * Returns an info object that describes the current state of the lexer.
      * Straight call to the delegated lexer.
      */
-    save: function save() {
+    save: () => {
         return mooLexer.save();
     },
 
@@ -143,23 +146,24 @@ const lexer = {
      * and restores its state to a state returned by save().
      * Straight call to the delegated lexer.
      */
-    reset: function reset(chunk, info) {
+    reset: (chunk, info) => {
         return mooLexer.reset(chunk, info);
     },
+
     /**
      * Returns a string with an error message describing a parse error at that token
      * (for example, the string might contain the line and column where the error was found).
      * Straight call to the delegated lexer.
      */
-    formatError: function formatError(token) {
-        return mooLexer.formatError(token);
+    formatError: (token, message) => {
+        return mooLexer.formatError(token, message);
     },
 
     /**
      * Returns true if the lexer can emit tokens with that name.
      * Straight call to the delegated lexer.
      */
-    has: function has(name) {
+    has: (name) => {
         return mooLexer.has(name);
     }
 };

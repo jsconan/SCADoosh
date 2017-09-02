@@ -51,7 +51,7 @@ const builders = {
      */
     string: (data) => {
         let token = data[0];
-        return ast.terminal(token, _.trim(token.value, '"'), 'string');
+        return ast.terminal(token, token.value.slice(1, -1), 'string');
     },
 
     /**
@@ -61,7 +61,7 @@ const builders = {
      */
     path: (data) => {
         let token = data[0];
-        return ast.terminal(token, _.trim(token.value, '<>'), 'path');
+        return ast.terminal(token, token.value.slice(1, -1), 'path');
     },
 
     /**
@@ -111,7 +111,7 @@ const builders = {
      */
     blockComment: (data) => {
         let token = data[0];
-        return ast.terminal(token, token.value.substr(2, token.value.length - 4), 'blockComment');
+        return ast.terminal(token, token.value.slice(2, -2), 'blockComment');
     },
 
     /**
