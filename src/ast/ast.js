@@ -276,10 +276,10 @@ const ast = {
     /**
      * Creates an AstBinaryOperator node.
      * @param {String} operator
-     * @param {AstNode} leftValue
-     * @param {AstNode} rightValue
+     * @param {AstNode} left
+     * @param {AstNode} right
      */
-    binaryOperator: (leftValue, operator, rightValue) => new AstBinaryOperator(leftValue, operator, rightValue),
+    binaryOperator: (left, operator, right) => new AstBinaryOperator(left, operator, right),
 
     /**
      * Creates an AstUnaryOperator node.

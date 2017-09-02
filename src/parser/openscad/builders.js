@@ -147,8 +147,8 @@ const builders = {
                 data[1].value,
                 data[2]
             );
-            node.startAt(node.leftValue);
-            node.endAt(node.rightValue);
+            node.startAt(node.left);
+            node.endAt(node.right);
             return node;
         } else {
             return utils.forward(data)

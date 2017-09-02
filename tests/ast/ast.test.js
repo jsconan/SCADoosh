@@ -717,14 +717,14 @@ describe('OpenSCAD AST hub', () => {
 
         it('should create an AstBinaryOperator', () => {
             const operator = '+';
-            const leftValue = ast.number(20);
-            const rightValue = ast.number(22);
-            const node = ast.binaryOperator(leftValue, operator, rightValue);
+            const left = ast.number(20);
+            const right = ast.number(22);
+            const node = ast.binaryOperator(left, operator, right);
             expect(node).to.be.an.instanceOf(AstBinaryOperator);
             expect(node).to.have.a.property('type').that.is.equal('binaryOperator');
             expect(node).to.have.a.property('operator').that.is.equal(operator);
-            expect(node).to.have.a.property('leftValue').that.is.equal(leftValue);
-            expect(node).to.have.a.property('rightValue').that.is.equal(rightValue);
+            expect(node).to.have.a.property('left').that.is.equal(left);
+            expect(node).to.have.a.property('right').that.is.equal(right);
         });
 
     });

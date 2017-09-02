@@ -43,20 +43,20 @@ describe('OpenSCAD AstBinaryOperator', () => {
     it('should create an AstBinaryOperator', () => {
         const type = 'binaryOperator';
         const operator = '+';
-        const leftValue = new AstNumber(1);
-        const rightValue = new AstNumber(2);
-        const node = new AstBinaryOperator(leftValue, operator, rightValue);
+        const left = new AstNumber(1);
+        const right = new AstNumber(2);
+        const node = new AstBinaryOperator(left, operator, right);
 
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstBinaryOperator);
-        expect(node.leftValue).to.be.instanceOf(AstNode);
-        expect(node.rightValue).to.be.instanceOf(AstNode);
+        expect(node.left).to.be.instanceOf(AstNode);
+        expect(node.right).to.be.instanceOf(AstNode);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('operator').that.is.equal(operator);
-        expect(node).to.have.a.property('leftValue').that.is.equal(leftValue);
-        expect(node).to.have.a.property('rightValue').that.is.equal(rightValue);
+        expect(node).to.have.a.property('left').that.is.equal(left);
+        expect(node).to.have.a.property('right').that.is.equal(right);
     });
 
     it('should throw a TypeError if one of the operands is not a valid AstNode', () => {
@@ -68,8 +68,8 @@ describe('OpenSCAD AstBinaryOperator', () => {
     it('should stringify an AstBinaryOperator', () => {
         const type = 'binaryOperator';
         const operator = '+';
-        const leftValue = new AstNumber(1);
-        const rightValue = new AstNumber(2);
+        const left = new AstNumber(1);
+        const right = new AstNumber(2);
         const startLine = 1;
         const startColumn = 1;
         const startOffset = 0;
@@ -79,15 +79,15 @@ describe('OpenSCAD AstBinaryOperator', () => {
         const expected = {
             type: type,
             operator: operator,
-            leftValue: {type: 'number', value: 1},
-            rightValue: {type: 'number', value: 2},
+            left: {type: 'number', value: 1},
+            right: {type: 'number', value: 2},
             start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
             end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
         };
-        const node = new AstBinaryOperator(leftValue, operator, rightValue);
+        const node = new AstBinaryOperator(left, operator, right);
         const stringified = '{"type":"' + type + '","operator":"' + operator + '",' +
-            '"leftValue":{"type":"number","value":1},' +
-            '"rightValue":{"type":"number","value":2},' +
+            '"left":{"type":"number","value":1},' +
+            '"right":{"type":"number","value":2},' +
             '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
             '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
@@ -99,8 +99,8 @@ describe('OpenSCAD AstBinaryOperator', () => {
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstBinaryOperator);
         expect(node).to.deep.equal(expected);
-        expect(node.leftValue).to.be.instanceOf(AstNode);
-        expect(node.rightValue).to.be.instanceOf(AstNode);
+        expect(node.left).to.be.instanceOf(AstNode);
+        expect(node.right).to.be.instanceOf(AstNode);
         expect(node.start).to.be.instanceOf(AstPosition);
         expect(node.end).to.be.instanceOf(AstPosition);
         expect(node + '').to.be.equal(stringified);
@@ -132,8 +132,8 @@ describe('OpenSCAD AstBinaryOperator', () => {
         const clone = node.clone({
             type: 'number',         // should not be allowed
             operator: newOperator,
-            leftValue: newLeft,
-            rightValue: newRight,
+            left: newLeft,
+            right: newRight,
         });
 
         expect(clone).to.be.an('object');
@@ -144,16 +144,16 @@ describe('OpenSCAD AstBinaryOperator', () => {
         expect(clone).to.be.not.deep.equal(node);
         expect(clone).to.have.a.property('type').that.is.equal(node.type);
         expect(clone).to.have.a.property('operator').that.is.equal(newOperator);
-        expect(clone).to.have.a.property('leftValue').that.is.equal(newLeft);
-        expect(clone).to.have.a.property('rightValue').that.is.equal(newRight);
+        expect(clone).to.have.a.property('left').that.is.equal(newLeft);
+        expect(clone).to.have.a.property('right').that.is.equal(newRight);
         expect(clone).to.have.a.property('start').that.is.equal(node.start);
         expect(clone).to.have.a.property('end').that.is.equal(node.end);
     });
 
     it('should throw a TypeError if one of the operands is not a valid AstNode when cloning', () => {
         const node = (new AstBinaryOperator(new AstNumber(1), '+', new AstNumber(2))).startAt(1, 1, 0).endAt(1, 4, 3);
-        expect(() => node.clone({leftValue: {}})).to.throw(TypeError);
-        expect(() => node.clone({rightValue: {}})).to.throw(TypeError);
+        expect(() => node.clone({left: {}})).to.throw(TypeError);
+        expect(() => node.clone({right: {}})).to.throw(TypeError);
     });
 
 });

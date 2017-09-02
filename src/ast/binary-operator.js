@@ -37,28 +37,28 @@ const AstFragment = require('./fragment');
  * @typedef {AstFragment} AstBinaryOperator
  * @property {String} type
  * @property {String} operator
- * @property {AstNode} leftValue
- * @property {AstNode} rightValue
+ * @property {AstNode} left
+ * @property {AstNode} right
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
 class AstBinaryOperator extends AstFragment {
     /**
      * Creates an AstBinaryOperator.
-     * @param {AstNode} leftValue
+     * @param {AstNode} left
      * @param {String} operator
-     * @param {AstNode} rightValue
+     * @param {AstNode} right
      * @throws {TypeError} if one of the operands is not a valid AstNode
      */
-    constructor(leftValue, operator, rightValue) {
-        if (!AstNode.validate(leftValue) || !AstNode.validate(rightValue)) {
+    constructor(left, operator, right) {
+        if (!AstNode.validate(left) || !AstNode.validate(right)) {
             throw new TypeError('An operand should be an AstNode!');
         }
         super({
             type: 'binaryOperator',
             operator: operator,
-            leftValue: leftValue,
-            rightValue: rightValue
+            left: left,
+            right: right
         });
     }
 
@@ -71,11 +71,11 @@ class AstBinaryOperator extends AstFragment {
     clone(properties) {
         if (properties) {
             let error = false;
-            if (typeof properties.leftValue !== 'undefined') {
-                error = error || !AstNode.validate(properties.leftValue);
+            if (typeof properties.left !== 'undefined') {
+                error = error || !AstNode.validate(properties.left);
             }
-            if (typeof properties.rightValue !== 'undefined') {
-                error = error || !AstNode.validate(properties.rightValue);
+            if (typeof properties.right !== 'undefined') {
+                error = error || !AstNode.validate(properties.right);
             }
             if (error) {
                 throw new TypeError('An operand should be an AstNode!');
