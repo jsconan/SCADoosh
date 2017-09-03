@@ -39,80 +39,56 @@ const builders = {
      * @param {Array} data
      * @returns {AstNumber}
      */
-    number: (data) => {
-        let token = data[0];
-        return ast.terminal(token, token.value, 'number');
-    },
+    number: (data) => ast.terminal(utils.forward(data), 'number'),
 
     /**
      * Processes a string
      * @param {Array} data
      * @returns {AstString}
      */
-    string: (data) => {
-        let token = data[0];
-        return ast.terminal(token, token.value.slice(1, -1), 'string');
-    },
+    string: (data) => ast.terminal(utils.forward(data), 'string'),
 
     /**
      * Processes a path
      * @param {Array} data
      * @returns {AstPath}
      */
-    path: (data) => {
-        let token = data[0];
-        return ast.terminal(token, token.value.slice(1, -1), 'path');
-    },
+    path: (data) => ast.terminal(utils.forward(data), 'path'),
 
     /**
      * Processes the boolean keywords
      * @param {Array} data
      * @returns {AstBoolean}
      */
-    boolean: (data) => {
-        let token = data[0];
-        return ast.terminal(token, token.value, 'boolean');
-    },
+    boolean: (data) => ast.terminal(utils.forward(data), 'boolean'),
 
     /**
      * Processes the "undef" keyword
      * @param {Array} data
      * @returns {AstUndefined}
      */
-    undef: (data) => {
-        let token = data[0];
-        return ast.terminal(token, token.value, 'undefined');
-    },
+    undef: (data) => ast.terminal(utils.forward(data), 'undefined'),
 
     /**
      * Processes an identifier
      * @param {Array} data
      * @returns {AstIdentifier}
      */
-    identifier: (data) => {
-        let token = data[0];
-        return ast.terminal(token, token.value, 'identifier');
-    },
+    identifier: (data) => ast.terminal(utils.forward(data), 'identifier'),
 
     /**
      * Processes a line comment
      * @param {Array} data
      * @returns {AstLineComment}
      */
-    lineComment: (data) => {
-        let token = data[0];
-        return ast.terminal(token, token.value.substr(2), 'lineComment');
-    },
+    lineComment: (data) => ast.terminal(utils.forward(data), 'lineComment'),
 
     /**
      * Processes a block comment
      * @param {Array} data
      * @returns {AstBlockComment}
      */
-    blockComment: (data) => {
-        let token = data[0];
-        return ast.terminal(token, token.value.slice(2, -2), 'blockComment');
-    },
+    blockComment: (data) => ast.terminal(utils.forward(data), 'blockComment'),
 
     /**
      * Processes a unary operator
@@ -126,7 +102,7 @@ const builders = {
                 data[0].value,
                 data[1]
             );
-            node.startAt(ast.utils.startPosition(data[0]));
+            node.startAt(utils.startPosition(data[0]));
             node.endAt(node.value);
             return node;
         } else {

@@ -92,21 +92,21 @@ const ast = {
          */
         is: (node, AstClass) => {
             if (typeof AstClass === 'string') {
-                AstClass = ast.nodes[AstClass] || _.noop;
+                AstClass = nodes[AstClass] || _.noop;
             }
             return typeof node === 'object' && node instanceof AstClass;
         },
 
         /**
          * Creates an AstPosition from a start token.
-         * @param {Object} token
+         * @param {Token|AstFragment} token
          * @returns {AstPosition}
          * @throws {TypeError} if the token is not valid
          */
         startPosition: (token) => {
             token = _.isObject(token) ? token : {};
 
-            if (ast.utils.is(token, AstFragment)) {
+            if (utils.is(token, AstFragment)) {
                 return token.start;
             }
 
@@ -115,18 +115,18 @@ const ast = {
 
         /**
          * Creates an AstPosition from an end token.
-         * @param {Object} token
+         * @param {Token|AstFragment} token
          * @returns {AstPosition}
          * @throws {TypeError} if the token is not valid
          */
         endPosition: (token) => {
             token = _.isObject(token) ? token : {};
 
-            if (ast.utils.is(token, AstFragment)) {
+            if (utils.is(token, AstFragment)) {
                 return token.end;
             }
 
-            const value = '' + token.value;
+            const value = '' + token.text;
             const lines = splitLines(value);
             const breaks = lines.length - 1;
             const col = breaks ? 1 + lines[breaks].length : token.col + value.length;
@@ -163,7 +163,7 @@ const ast = {
             if (data.length === 3) {
                 let [left, node, right] = data;
 
-                if (!ast.utils.is(node, AstFragment)) {
+                if (!utils.is(node, AstFragment)) {
                     throw new TypeError('Only a AstFragment instances can be surrounded!');
                 }
 
@@ -172,11 +172,11 @@ const ast = {
                 }
 
                 return node.clone({
-                    start: ast.utils.startPosition(left),
-                    end: ast.utils.endPosition(right)
+                    start: utils.startPosition(left),
+                    end: utils.endPosition(right)
                 });
             } else {
-                return ast.utils.forward(data)
+                return utils.forward(data)
             }
         },
 
@@ -190,20 +190,20 @@ const ast = {
     /**
      * Creates a terminal node from the provided token and class.
      * Set the fragment position according to the provided token.
-     * @param {Object} token - The token that represents the terminal
-     * @param {String} value - The refined token value
+     * @param {Token} token - The token that represents the terminal
      * @param {Function|String} AstNodeClass - The AstNode class or the name of an AST node class or factory
      * @returns {AstFragment}
      * @throws {TypeError} if the created node is not an AstFragment or if the AstNodeClass is not valid
      */
-    terminal: (token, value, AstNodeClass) => {
+    terminal: (token, AstNodeClass) => {
+        const value = token.value;
         let factory;
 
         if (typeof AstNodeClass === 'string') {
             if (ast[AstNodeClass]) {
                 factory = ast[AstNodeClass];
-            } else if (ast.nodes[AstNodeClass]) {
-                factory = (value) => new ast.nodes[AstNodeClass](value);
+            } else if (nodes[AstNodeClass]) {
+                factory = (value) => new nodes[AstNodeClass](value);
             } else {
                 throw new TypeError(`Unknown AST node class ${AstNodeClass}`);
             }
@@ -216,12 +216,12 @@ const ast = {
 
         const node = factory(value);
 
-        if (!ast.utils.is(node, AstFragment)) {
+        if (!utils.is(node, AstFragment)) {
             throw new TypeError('A terminal should be An AstFragment');
         }
 
-        node.startAt(ast.utils.startPosition(token));
-        node.endAt(ast.utils.endPosition(token));
+        node.startAt(utils.startPosition(token));
+        node.endAt(utils.endPosition(token));
 
         return node;
     },
@@ -288,5 +288,9 @@ const ast = {
      */
     unaryOperator: (operator, value) => new AstUnaryOperator(operator, value)
 };
+
+// shorthands...
+const nodes = ast.nodes;
+const utils = ast.utils;
 
 module.exports = ast;

@@ -475,7 +475,7 @@
             "output": [
                 {
                     "type": "string",
-                    "value": "\"\"",
+                    "value": "",
                     "text": "\"\"",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -490,7 +490,7 @@
             "output": [
                 {
                     "type": "string",
-                    "value": "\"contains\\\"quotes\\\"\"",
+                    "value": "contains\\\"quotes\\\"",
                     "text": "\"contains\\\"quotes\\\"\"",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -505,7 +505,7 @@
             "output": [
                 {
                     "type": "string",
-                    "value": "\"a\tstring\"",
+                    "value": "a\tstring",
                     "text": "\"a\tstring\"",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -520,7 +520,7 @@
             "output": [
                 {
                     "type": "string",
-                    "value": "\"this is a string\"",
+                    "value": "this is a string",
                     "text": "\"this is a string\"",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -535,7 +535,7 @@
             "output": [
                 {
                     "type": "string",
-                    "value": "\"123\"",
+                    "value": "123",
                     "text": "\"123\"",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -550,7 +550,7 @@
             "output": [
                 {
                     "type": "string",
-                    "value": "\"true\"",
+                    "value": "true",
                     "text": "\"true\"",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -771,7 +771,7 @@
             "output": [
                 {
                     "type": "path",
-                    "value": "<../an/external/library.scad>",
+                    "value": "../an/external/library.scad",
                     "text": "<../an/external/library.scad>",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -786,7 +786,7 @@
             "output": [
                 {
                     "type": "path",
-                    "value": "<library.scad>",
+                    "value": "library.scad",
                     "text": "<library.scad>",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -801,7 +801,7 @@
             "output": [
                 {
                     "type": "path",
-                    "value": "<library>",
+                    "value": "library",
                     "text": "<library>",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -818,7 +818,7 @@
             "output": [
                 {
                     "type": "mcomment",
-                    "value": "/* a comment */",
+                    "value": " a comment ",
                     "text": "/* a comment */",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -833,7 +833,7 @@
             "output": [
                 {
                     "type": "mcomment",
-                    "value": "/*** a comment ***/",
+                    "value": "** a comment **",
                     "text": "/*** a comment ***/",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -848,7 +848,7 @@
             "output": [
                 {
                     "type": "mcomment",
-                    "value": "/** a comment */",
+                    "value": "* a comment ",
                     "text": "/** a comment */",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -863,7 +863,7 @@
             "output": [
                 {
                     "type": "mcomment",
-                    "value": "/** a comment */",
+                    "value": "* a comment ",
                     "text": "/** a comment */",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -887,7 +887,7 @@
             "output": [
                 {
                     "type": "mcomment",
-                    "value": "/**\r\na multiline\r\ncomment */",
+                    "value": "*\r\na multiline\r\ncomment ",
                     "text": "/**\r\na multiline\r\ncomment */",
                     "offset": 0,
                     "lineBreaks": 2,
@@ -902,7 +902,7 @@
             "output": [
                 {
                     "type": "lcomment",
-                    "value": "// a comment",
+                    "value": " a comment",
                     "text": "// a comment",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -917,7 +917,7 @@
             "output": [
                 {
                     "type": "lcomment",
-                    "value": "// a comment",
+                    "value": " a comment",
                     "text": "// a comment",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -932,7 +932,7 @@
             "output": [
                 {
                     "type": "lcomment",
-                    "value": "// a comment",
+                    "value": " a comment",
                     "text": "// a comment",
                     "offset": 0,
                     "lineBreaks": 0,

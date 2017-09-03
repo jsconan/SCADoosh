@@ -167,7 +167,6 @@ describe('OpenSCAD AST hub', () => {
 
             it('should create a start AstPosition from the provided token', () => {
                 const token = {
-                    value: 'foo',
                     line: 2,
                     col: 7,
                     offset: 12
@@ -205,7 +204,7 @@ describe('OpenSCAD AST hub', () => {
 
             it('should create an end AstPosition from the provided token (single line)', () => {
                 const token = {
-                    value: 'foo',
+                    text: 'foo',
                     line: 2,
                     col: 7,
                     offset: 12
@@ -214,13 +213,13 @@ describe('OpenSCAD AST hub', () => {
 
                 expect(node).to.be.an.instanceOf(AstPosition);
                 expect(node).to.have.property('line').that.is.equal(token.line);
-                expect(node).to.have.property('column').that.is.equal(token.col + token.value.length);
-                expect(node).to.have.property('offset').that.is.equal(token.offset + token.value.length);
+                expect(node).to.have.property('column').that.is.equal(token.col + token.text.length);
+                expect(node).to.have.property('offset').that.is.equal(token.offset + token.text.length);
             });
 
             it('should create an end AstPosition from the provided token (multi lines)', () => {
                 const token = {
-                    value: '\nfoo\nbar',
+                    text: '\nfoo\nbar',
                     line: 2,
                     col: 7,
                     offset: 12
@@ -230,7 +229,7 @@ describe('OpenSCAD AST hub', () => {
                 expect(node).to.be.an.instanceOf(AstPosition);
                 expect(node).to.have.property('line').that.is.equal(token.line + 2);
                 expect(node).to.have.property('column').that.is.equal(4);
-                expect(node).to.have.property('offset').that.is.equal(token.offset + token.value.length);
+                expect(node).to.have.property('offset').that.is.equal(token.offset + token.text.length);
             });
 
             it('should return the end position of the provided AstFragment', () => {
@@ -247,9 +246,9 @@ describe('OpenSCAD AST hub', () => {
             it('should throw a TypeError if the provided token is wrong', () => {
                 expect(() => ast.utils.endPosition({})).to.throw(TypeError);
                 expect(() => ast.utils.endPosition('')).to.throw(TypeError);
-                expect(() => ast.utils.endPosition({value: '', line: -5, col: 1, offset: 0})).to.throw(TypeError);
-                expect(() => ast.utils.endPosition({value: '', line: 1, col: -5, offset: 0})).to.throw(TypeError);
-                expect(() => ast.utils.endPosition({value: '', line: 1, col: 1, offset: -5})).to.throw(TypeError);
+                expect(() => ast.utils.endPosition({text: '', line: -5, col: 1, offset: 0})).to.throw(TypeError);
+                expect(() => ast.utils.endPosition({text: '', line: 1, col: -5, offset: 0})).to.throw(TypeError);
+                expect(() => ast.utils.endPosition({text: '', line: 1, col: 1, offset: -5})).to.throw(TypeError);
             });
 
         });
@@ -300,14 +299,14 @@ describe('OpenSCAD AST hub', () => {
             it('should unwrap the nested AST node and update the position accordingly to the sibling tokens', () => {
 
                 const left = {
-                    value: '(',
+                    text: '(',
                     line: 1,
                     col: 2,
                     offset: 1
                 };
                 const node = ast.number(3);
                 const right = {
-                    value: ')',
+                    text: ')',
                     line: 1,
                     col: 5,
                     offset: 4
@@ -326,8 +325,8 @@ describe('OpenSCAD AST hub', () => {
                 expect(output).to.be.not.equal(node);
                 expect(output.start.offset).to.be.equal(left.offset);
                 expect(output.start.column).to.be.equal(left.col);
-                expect(output.end.offset).to.be.equal(right.offset + right.value.length);
-                expect(output.end.column).to.be.equal(right.col + right.value.length);
+                expect(output.end.offset).to.be.equal(right.offset + right.text.length);
+                expect(output.end.column).to.be.equal(right.col + right.text.length);
 
             });
 
@@ -366,7 +365,7 @@ describe('OpenSCAD AST hub', () => {
                 const left = ast.identifier('foo');
                 const node = ast.number(3);
                 const right = {
-                    value: 'bar',
+                    text: 'bar',
                     line: 1,
                     col: 6,
                     offset: 5
@@ -388,8 +387,8 @@ describe('OpenSCAD AST hub', () => {
                 expect(output).to.be.not.equal(node);
                 expect(output.start.offset).to.be.equal(left.start.offset);
                 expect(output.start.column).to.be.equal(left.start.column);
-                expect(output.end.offset).to.be.equal(right.offset + right.value.length);
-                expect(output.end.column).to.be.equal(right.col + right.value.length);
+                expect(output.end.offset).to.be.equal(right.offset + right.text.length);
+                expect(output.end.column).to.be.equal(right.col + right.text.length);
 
             });
 
@@ -457,11 +456,12 @@ describe('OpenSCAD AST hub', () => {
         it('should create the node using the provided factory name and set the position (single line)', () => {
             const token = {
                 value: 'foo',
+                text: 'foo',
                 line: 2,
                 col: 7,
                 offset: 12
             };
-            const node = ast.terminal(token, token.value, 'string');
+            const node = ast.terminal(token, 'string');
 
             expect(node).to.be.an.instanceOf(ast.nodes.AstString);
             expect(node).to.have.property('start');
@@ -479,11 +479,12 @@ describe('OpenSCAD AST hub', () => {
         it('should create the node using the provided class name and set the position (single line)', () => {
             const token = {
                 value: 'foo',
+                text: 'foo',
                 line: 2,
                 col: 7,
                 offset: 12
             };
-            const node = ast.terminal(token, token.value, 'AstString');
+            const node = ast.terminal(token, 'AstString');
 
             expect(node).to.be.an.instanceOf(ast.nodes.AstString);
             expect(node).to.have.property('start');
@@ -501,11 +502,12 @@ describe('OpenSCAD AST hub', () => {
         it('should create the node using the provided class and set the position (single line)', () => {
             const token = {
                 value: 'foo',
+                text: 'foo',
                 line: 2,
                 col: 7,
                 offset: 12
             };
-            const node = ast.terminal(token, token.value, ast.nodes.AstString);
+            const node = ast.terminal(token, ast.nodes.AstString);
 
             expect(node).to.be.an.instanceOf(ast.nodes.AstString);
             expect(node).to.have.property('start');
@@ -523,11 +525,12 @@ describe('OpenSCAD AST hub', () => {
         it('should create the node using the provided class name and set the position (multi lines)', () => {
             const token = {
                 value: '\nfoo\nbar',
+                text: '\nfoo\nbar',
                 line: 2,
                 col: 7,
                 offset: 12
             };
-            const node = ast.terminal(token, token.value, 'AstString');
+            const node = ast.terminal(token, 'AstString');
 
             expect(node).to.be.an.instanceOf(ast.nodes.AstString);
             expect(node).to.have.property('start');
@@ -545,11 +548,12 @@ describe('OpenSCAD AST hub', () => {
         it('should create the node using the provided factory name and set the position (multi lines)', () => {
             const token = {
                 value: '\nfoo\nbar',
+                text: '\nfoo\nbar',
                 line: 2,
                 col: 7,
                 offset: 12
             };
-            const node = ast.terminal(token, token.value, 'string');
+            const node = ast.terminal(token, 'string');
 
             expect(node).to.be.an.instanceOf(ast.nodes.AstString);
             expect(node).to.have.property('start');
@@ -567,11 +571,12 @@ describe('OpenSCAD AST hub', () => {
         it('should create the node using the provided class and set the position (multi lines)', () => {
             const token = {
                 value: '\nfoo\nbar',
+                text: '\nfoo\nbar',
                 line: 2,
                 col: 7,
                 offset: 12
             };
-            const node = ast.terminal(token, token.value, ast.nodes.AstString);
+            const node = ast.terminal(token, ast.nodes.AstString);
 
             expect(node).to.be.an.instanceOf(ast.nodes.AstString);
             expect(node).to.have.property('start');
@@ -589,14 +594,15 @@ describe('OpenSCAD AST hub', () => {
         it('should throw a TypeError if the AST class is not valid', () => {
             const token = {
                 value: 'foo',
+                text: 'foo',
                 line: 2,
                 col: 7,
                 offset: 12
             };
 
-            expect(() => ast.terminal(token, token.value, 'foo')).to.throw(TypeError);
-            expect(() => ast.terminal(token, token.value, {})).to.throw(TypeError);
-            expect(() => ast.terminal(token, token.value, () => {})).to.throw(TypeError);
+            expect(() => ast.terminal(token, 'foo')).to.throw(TypeError);
+            expect(() => ast.terminal(token, {})).to.throw(TypeError);
+            expect(() => ast.terminal(token, () => {})).to.throw(TypeError);
         });
 
         it('should throw a TypeError if the created node is not an AstFragment', () => {
@@ -607,12 +613,13 @@ describe('OpenSCAD AST hub', () => {
             }
             const token = {
                 value: 'foo',
+                text: 'foo',
                 line: 2,
                 col: 7,
                 offset: 12
             };
 
-            expect(() => ast.terminal(token, token.value, AstFoo)).to.throw(TypeError);
+            expect(() => ast.terminal(token, AstFoo)).to.throw(TypeError);
         });
 
     });

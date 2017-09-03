@@ -132,7 +132,7 @@
             "input": [
                 {
                     "type": "string",
-                    "value": "\"a long string\"",
+                    "value": "a long string",
                     "text": "\"a long string\"",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -163,7 +163,7 @@
             "input": [
                 {
                     "type": "string",
-                    "value": "\"a \"long\" string\"",
+                    "value": "a \"long\" string",
                     "text": "\"a \"long\" string\"",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -196,7 +196,7 @@
             "input": [
                 {
                     "type": "path",
-                    "value": "<./path/to/a/library.scad>",
+                    "value": "./path/to/a/library.scad",
                     "text": "<./path/to/a/library.scad>",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -452,7 +452,7 @@
             "input": [
                 {
                     "type": "lcomment",
-                    "value": "// a comment",
+                    "value": " a comment",
                     "text": "// a comment",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -483,7 +483,7 @@
             "input": [
                 {
                     "type": "lcomment",
-                    "value": "///// a comment",
+                    "value": "/// a comment",
                     "text": "///// a comment",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -514,7 +514,7 @@
             "input": [
                 {
                     "type": "lcomment",
-                    "value": "// a comment  ",
+                    "value": " a comment  ",
                     "text": "// a comment  ",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -545,7 +545,7 @@
             "input": [
                 {
                     "type": "mcomment",
-                    "value": "/* a comment */",
+                    "value": " a comment ",
                     "text": "/* a comment */",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -578,7 +578,7 @@
             "input": [
                 {
                     "type": "mcomment",
-                    "value": "/**  \r\n *\r\n * a comment  \r\n *  \r\n */",
+                    "value": "*  \r\n *\r\n * a comment  \r\n *  \r\n ",
                     "text": "/**  \r\n *\r\n * a comment  \r\n *  \r\n */",
                     "offset": 0,
                     "lineBreaks": 0,
@@ -615,7 +615,7 @@
             "input": [
                 {
                     "type": "mcomment",
-                    "value": "/* a\r\n\r\nmulti\r\n\r\nline\r\n\r\ncomment */",
+                    "value": " a\r\n\r\nmulti\r\n\r\nline\r\n\r\ncomment ",
                     "text": "/* a\r\n\r\nmulti\r\n\r\nline\r\n\r\ncomment */",
                     "offset": 0,
                     "lineBreaks": 0,
