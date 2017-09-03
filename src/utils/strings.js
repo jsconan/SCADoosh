@@ -23,7 +23,7 @@
 /**
  * Part of the SCADoosh tool.
  *
- * Defines a helper that splits a text into lines.
+ * Defines some helpers that apply on strings.
  *
  * @package src/utils
  * @author jsconan
@@ -35,8 +35,26 @@
  */
 const reLineBreak = /\r\n?|\n/;
 
-/**
- * Splits a text into lines.
- * @param {String|Object} str
- */
-module.exports = (str) => ('' + str).split(reLineBreak);
+module.exports = {
+    /**
+     * Splits a text into lines.
+     * @param {String|Object} str
+     */
+    splitLines: (str) => ('' + str).split(reLineBreak),
+
+    /**
+     * Removes the `n` first and the `n` last chars off the string
+     * @param {String} str
+     * @param {Number} n
+     * @returns {Token}
+     */
+    trimLength: (str, n) => n ? ('' + str).slice(+n, -n) : ('' + str),
+
+    /**
+     * Gets the rest of the value after `n` chars
+     * @param {String} str
+     * @param {Number} n
+     * @returns {Token}
+     */
+    rest: (str, n) => ('' + str).substr(+n),
+};

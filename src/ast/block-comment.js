@@ -29,7 +29,7 @@
  * @author jsconan
  */
 
-const splitLines = require('./../utils/split-lines');
+const splitLines = require('./../utils/strings').splitLines;
 const AstComment = require('./comment');
 
 /**

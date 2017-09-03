@@ -39,9 +39,8 @@
  * @license GPLv3
  */
 const lexer = require('./lexer');
-const ast = require('./../../ast/ast');
-const utils = ast.utils;
-const builders = require('./builders');
+const utils = require('./../../ast/utils');
+const builders = require('./../../ast/builders');
 %}
 
 @lexer lexer

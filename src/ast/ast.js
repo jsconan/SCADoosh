@@ -23,14 +23,11 @@
 /**
  * Part of the SCADoosh tool.
  *
- * Defines a hub that provides factories to create final AST nodes.
+ * Defines a hub that provides access to all AST node classes, and provides factories to create final AST nodes.
  *
  * @package src/ast
  * @author jsconan
  */
-
-const _ = require('lodash');
-const splitLines = require('./../utils/split-lines');
 
 const AstNode = require('./node');
 const AstPosition = require('./position');
@@ -54,7 +51,7 @@ const AstUnaryOperator = require('./unary-operator');
  * Hub that provides factories to create final AST nodes.
  * @type {Object}
  */
-const ast = {
+module.exports = {
     /**
      * List all the available AST node classes
      * @type {Object}
@@ -77,153 +74,6 @@ const ast = {
         AstBlockComment: AstBlockComment,
         AstBinaryOperator: AstBinaryOperator,
         AstUnaryOperator: AstUnaryOperator
-    },
-
-    /**
-     * Utility helpers
-     * @type {Object}
-     */
-    utils: {
-        /**
-         * Checks if an object is an instance of an AST node.
-         * @param {Object} node
-         * @param {Function|String} AstClass
-         * @returns {Boolean}
-         */
-        is: (node, AstClass) => {
-            if (typeof AstClass === 'string') {
-                AstClass = nodes[AstClass] || _.noop;
-            }
-            return typeof node === 'object' && node instanceof AstClass;
-        },
-
-        /**
-         * Creates an AstPosition from a start token.
-         * @param {Token|AstFragment} token
-         * @returns {AstPosition}
-         * @throws {TypeError} if the token is not valid
-         */
-        startPosition: (token) => {
-            token = _.isObject(token) ? token : {};
-
-            if (utils.is(token, AstFragment)) {
-                return token.start;
-            }
-
-            return new AstPosition(token.line, token.col, token.offset);
-        },
-
-        /**
-         * Creates an AstPosition from an end token.
-         * @param {Token|AstFragment} token
-         * @returns {AstPosition}
-         * @throws {TypeError} if the token is not valid
-         */
-        endPosition: (token) => {
-            token = _.isObject(token) ? token : {};
-
-            if (utils.is(token, AstFragment)) {
-                return token.end;
-            }
-
-            const value = '' + token.text;
-            const lines = splitLines(value);
-            const breaks = lines.length - 1;
-            const col = breaks ? 1 + lines[breaks].length : token.col + value.length;
-
-            return new AstPosition(token.line + breaks, col, token.offset + value.length);
-        },
-
-        /**
-         * Simply unwraps and forwards the data
-         * @param {Object|Array} data
-         * @returns {Object|Array}
-         * @throws {TypeError} if the provided array contains more than one element
-         */
-        forward: (data) => {
-            if (_.isArray(data)) {
-                if (data.length > 1) {
-                    throw new TypeError(`Only a single element can be forwarded, ${data.length} elements found!`);
-                }
-                return data[0];
-            }
-            return data;
-        },
-
-        /**
-         * Takes care of an AST node surrounded by tokens.
-         * It will update the position of the node accordingly, then return the node.
-         * @param {Object|Array} data
-         * @returns {AstFragment}
-         * @throws {TypeError} if the provided array does not contain the right number of elements,
-         *                     or if the resulting object is not an AstFragment
-         */
-        surrounded: (data) => {
-            data = _.isArray(data) ? _.flattenDeep(data) : data;
-            if (data.length === 3) {
-                let [left, node, right] = data;
-
-                if (!utils.is(node, AstFragment)) {
-                    throw new TypeError('Only a AstFragment instances can be surrounded!');
-                }
-
-                if (!_.isObject(left) || !_.isObject(right)) {
-                    throw new TypeError('The surrounding elements are not valid tokens!');
-                }
-
-                return node.clone({
-                    start: utils.startPosition(left),
-                    end: utils.endPosition(right)
-                });
-            } else {
-                return utils.forward(data)
-            }
-        },
-
-        /**
-         * Simply discards the data
-         * @returns {null}
-         */
-        discard: () => null
-    },
-
-    /**
-     * Creates a terminal node from the provided token and class.
-     * Set the fragment position according to the provided token.
-     * @param {Token} token - The token that represents the terminal
-     * @param {Function|String} AstNodeClass - The AstNode class or the name of an AST node class or factory
-     * @returns {AstFragment}
-     * @throws {TypeError} if the created node is not an AstFragment or if the AstNodeClass is not valid
-     */
-    terminal: (token, AstNodeClass) => {
-        const value = token.value;
-        let factory;
-
-        if (typeof AstNodeClass === 'string') {
-            if (ast[AstNodeClass]) {
-                factory = ast[AstNodeClass];
-            } else if (nodes[AstNodeClass]) {
-                factory = (value) => new nodes[AstNodeClass](value);
-            } else {
-                throw new TypeError(`Unknown AST node class ${AstNodeClass}`);
-            }
-        } else {
-            if (!_.isFunction(AstNodeClass)) {
-                throw new TypeError('AstNodeClass should be a constructor');
-            }
-            factory = (value) => new AstNodeClass(value);
-        }
-
-        const node = factory(value);
-
-        if (!utils.is(node, AstFragment)) {
-            throw new TypeError('A terminal should be An AstFragment');
-        }
-
-        node.startAt(utils.startPosition(token));
-        node.endAt(utils.endPosition(token));
-
-        return node;
     },
 
     /**
@@ -288,9 +138,3 @@ const ast = {
      */
     unaryOperator: (operator, value) => new AstUnaryOperator(operator, value)
 };
-
-// shorthands...
-const nodes = ast.nodes;
-const utils = ast.utils;
-
-module.exports = ast;
