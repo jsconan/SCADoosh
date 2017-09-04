@@ -38,7 +38,7 @@ const AstFragment = require('./../../src/ast/fragment');
 const AstComment = require('./../../src/ast/comment');
 const AstLineComment = require('./../../src/ast/line-comment');
 
-describe('OpenSCAD AstLineComment', () => {
+describe('AST node: AstLineComment', () => {
 
     it('should create an AstLineComment with the specified value', () => {
         const type = 'lineComment';

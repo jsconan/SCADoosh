@@ -42,7 +42,7 @@ const AstNumber = require('./../../src/ast/number');
 const AstString = require('./../../src/ast/string');
 const AstIdentifier = require('./../../src/ast/identifier');
 
-describe('OpenSCAD AST utils', () => {
+describe('AST utils', () => {
 
     describe('is', () => {
 

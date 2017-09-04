@@ -34,7 +34,7 @@ const expect = chai.expect;
 
 const AstNode = require('./../../src/ast/node');
 
-describe('OpenSCAD AstNode', () => {
+describe('AST node: AstNode', () => {
 
     it('should throw a TypeError if the type is missing', () => {
         expect(() => {

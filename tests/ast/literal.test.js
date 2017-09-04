@@ -37,7 +37,7 @@ const AstPosition = require('./../../src/ast/position');
 const AstFragment = require('./../../src/ast/fragment');
 const AstLiteral = require('./../../src/ast/literal');
 
-describe('OpenSCAD AstLiteral', () => {
+describe('AST node: AstLiteral', () => {
 
     it('should throw a TypeError if the type is missing', () => {
         expect(() => {

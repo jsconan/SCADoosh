@@ -38,7 +38,7 @@ const AstFragment = require('./../../src/ast/fragment');
 const AstNumber = require('./../../src/ast/number');
 const AstUnaryOperator = require('./../../src/ast/unary-operator');
 
-describe('OpenSCAD AstUnaryOperator', () => {
+describe('AST node: AstUnaryOperator', () => {
 
     it('should create an AstUnaryOperator', () => {
         const type = 'unaryOperator';

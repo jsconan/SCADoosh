@@ -38,7 +38,7 @@ const AstFragment = require('./../../src/ast/fragment');
 const AstPath = require('./../../src/ast/path');
 const AstInclude = require('./../../src/ast/include');
 
-describe('OpenSCAD AstInclude', () => {
+describe('AST node: AstInclude', () => {
 
     it('should create an AstInclude', () => {
         const type = 'include';

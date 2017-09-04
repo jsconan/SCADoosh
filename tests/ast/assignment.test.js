@@ -39,7 +39,7 @@ const AstIdentifier = require('./../../src/ast/identifier');
 const AstNumber = require('./../../src/ast/number');
 const AstAssignment = require('./../../src/ast/assignment');
 
-describe('OpenSCAD AstAssignment', () => {
+describe('AST node: AstAssignment', () => {
 
     it('should create an AstAssignment', () => {
         const type = 'assignment';

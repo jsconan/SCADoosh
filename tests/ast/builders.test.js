@@ -37,7 +37,7 @@ const ast = require('../../src/ast/ast');
 const builders = require('../../src/ast/builders');
 const buildersTestCases = require('./builders-test-cases.json');
 
-describe('OpenSCAD AST builders', () => {
+describe('AST node: AST builders', () => {
 
     describe('terminal', () => {
 

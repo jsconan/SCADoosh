@@ -37,7 +37,7 @@ const AstPosition = require('./../../src/ast/position');
 const AstFragment = require('./../../src/ast/fragment');
 const AstComment = require('./../../src/ast/comment');
 
-describe('OpenSCAD AstComment', () => {
+describe('AST node: AstComment', () => {
 
     it('should create an AstComment', () => {
         const type = 'comment';

@@ -38,7 +38,7 @@ const AstFragment = require('./../../src/ast/fragment');
 const AstLiteral = require('./../../src/ast/literal');
 const AstBoolean = require('./../../src/ast/boolean');
 
-describe('OpenSCAD AstBoolean', () => {
+describe('AST node: AstBoolean', () => {
 
     it('should create an AstBoolean with the specified value', () => {
         const type = 'boolean';

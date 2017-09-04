@@ -35,7 +35,7 @@ const expect = chai.expect;
 const AstNode = require('./../../src/ast/node');
 const AstPosition = require('./../../src/ast/position');
 
-describe('OpenSCAD AstPosition', () => {
+describe('AST node: AstPosition', () => {
 
     it('should create an AstPosition with the specified values', () => {
         const line = 1;

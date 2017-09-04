@@ -38,7 +38,7 @@ const AstFragment = require('./../../src/ast/fragment');
 const AstLiteral = require('./../../src/ast/literal');
 const AstString = require('./../../src/ast/string');
 
-describe('OpenSCAD AstString', () => {
+describe('AST node: AstString', () => {
 
     it('should create an AstString with the specified value', () => {
         const type = 'string';

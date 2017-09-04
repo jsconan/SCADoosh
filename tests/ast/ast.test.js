@@ -55,7 +55,7 @@ const AstInclude = require('./../../src/ast/include');
 const AstUse = require('./../../src/ast/use');
 const AstBlock = require('./../../src/ast/block');
 
-describe('OpenSCAD AST hub', () => {
+describe('AST hub', () => {
 
     it('should contains the AST node creation helpers', () => {
         [

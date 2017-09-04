@@ -40,7 +40,7 @@ const AstNumber = require('./../../src/ast/number');
 const AstAssignment = require('./../../src/ast/assignment');
 const AstBlock = require('./../../src/ast/block');
 
-describe('OpenSCAD AstBlock', () => {
+describe('AST node: AstBlock', () => {
 
     it('should create an AstBlock with a list of statements', () => {
         const type = 'block';

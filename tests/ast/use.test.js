@@ -38,7 +38,7 @@ const AstFragment = require('./../../src/ast/fragment');
 const AstPath = require('./../../src/ast/path');
 const AstUse = require('./../../src/ast/use');
 
-describe('OpenSCAD AstUse', () => {
+describe('AST node: AstUse', () => {
 
     it('should create an AstUse', () => {
         const type = 'use';

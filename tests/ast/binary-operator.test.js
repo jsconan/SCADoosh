@@ -38,7 +38,7 @@ const AstFragment = require('./../../src/ast/fragment');
 const AstNumber = require('./../../src/ast/number');
 const AstBinaryOperator = require('./../../src/ast/binary-operator');
 
-describe('OpenSCAD AstBinaryOperator', () => {
+describe('AST node: AstBinaryOperator', () => {
 
     it('should create an AstBinaryOperator', () => {
         const type = 'binaryOperator';

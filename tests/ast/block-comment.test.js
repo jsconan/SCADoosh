@@ -38,7 +38,7 @@ const AstFragment = require('./../../src/ast/fragment');
 const AstComment = require('./../../src/ast/comment');
 const AstBlockComment = require('./../../src/ast/block-comment');
 
-describe('OpenSCAD AstBlockComment', () => {
+describe('AST node: AstBlockComment', () => {
 
     it('should create an AstBlockComment with the specified value (single line)', () => {
         const type = 'blockComment';

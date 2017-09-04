@@ -38,7 +38,7 @@ const AstLiteral = require('./../../src/ast/literal');
 const AstBoolean = require('./../../src/ast/boolean');
 const AstTrue = require('./../../src/ast/true');
 
-describe('OpenSCAD AstTrue', () => {
+describe('AST node: AstTrue', () => {
 
     it('should create an AstTrue', () => {
         const type = 'boolean';

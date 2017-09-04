@@ -38,7 +38,7 @@ const AstFragment = require('./../../src/ast/fragment');
 const AstLiteral = require('./../../src/ast/literal');
 const AstUndefined = require('./../../src/ast/undefined');
 
-describe('OpenSCAD AstUndefined', () => {
+describe('AST node: AstUndefined', () => {
 
     it('should create an AstUndefined', () => {
         const type = 'undefined';

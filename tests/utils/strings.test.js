@@ -36,7 +36,7 @@ const strings = require('./../../src/utils/strings');
 
 chai.use(require('chai-json-schema'));
 
-describe('strings helpers', () => {
+describe('Utils: strings helpers', () => {
 
     describe('trimLength', () => {
 

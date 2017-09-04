@@ -38,7 +38,7 @@ const AstFragment = require('./../../src/ast/fragment');
 const AstLiteral = require('./../../src/ast/literal');
 const AstIdentifier = require('./../../src/ast/identifier');
 
-describe('OpenSCAD AstIdentifier', () => {
+describe('AST node: AstIdentifier', () => {
 
     it('should create an AstIdentifier with the specified value', () => {
         const type = 'identifier';
