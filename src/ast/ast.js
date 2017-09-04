@@ -46,6 +46,7 @@ const AstLineComment = require('./line-comment');
 const AstBlockComment = require('./block-comment');
 const AstBinaryOperator = require('./binary-operator');
 const AstUnaryOperator = require('./unary-operator');
+const AstAssignment = require('./assignment');
 
 /**
  * Hub that provides factories to create final AST nodes.
@@ -73,7 +74,8 @@ module.exports = {
         AstLineComment: AstLineComment,
         AstBlockComment: AstBlockComment,
         AstBinaryOperator: AstBinaryOperator,
-        AstUnaryOperator: AstUnaryOperator
+        AstUnaryOperator: AstUnaryOperator,
+        AstAssignment: AstAssignment,
     },
 
     /**
@@ -136,5 +138,12 @@ module.exports = {
      * @param {String} operator
      * @param {AstNode} value
      */
-    unaryOperator: (operator, value) => new AstUnaryOperator(operator, value)
+    unaryOperator: (operator, value) => new AstUnaryOperator(operator, value),
+
+    /**
+     * Creates an AstAssignment node.
+     * @param {AstIdentifier} identifier
+     * @param {AstNode} value
+     */
+    assignment: (identifier, value) => new AstAssignment(identifier, value)
 };

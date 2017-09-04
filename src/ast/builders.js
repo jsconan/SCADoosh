@@ -170,6 +170,26 @@ const builders = {
             return utils.forward(data)
         }
     },
+
+    /**
+     * Processes an assignment
+     * @param {Array} data
+     * @returns {AstAssignment}
+     */
+    assignment: (data) => {
+        data = _.isArray(data) ? _.flattenDeep(data) : data;
+        if (data.length === 3) {
+            let node = ast.assignment(
+                data[0],
+                data[2]
+            );
+            node.startAt(node.identifier);
+            node.endAt(node.value);
+            return node;
+        } else {
+            return utils.forward(data)
+        }
+    },
 };
 
 module.exports = builders;

@@ -360,4 +360,65 @@ describe('OpenSCAD AST builders', () => {
 
     });
 
+    describe('assignment', () => {
+
+        it('should produce the descriptor for the assignment expression "answer=42"', () => {
+            const identifier = ast.identifier('answer');
+            const value = ast.number(42);
+            const node = ast.assignment(identifier, value);
+            const input = [identifier, {
+                type: 'assign',
+                value: '=',
+                text: '=',
+                offset: 6,
+                lineBreaks: 0,
+                line: 1,
+                col: 7
+            }, value];
+
+            identifier.startAt(1, 1, 0);
+            identifier.endAt(1, 7, 6);
+            value.startAt(1, 8, 7);
+            value.endAt(1, 9, 8);
+            node.startAt(identifier);
+            node.endAt(value);
+
+            expect(builders.assignment(input)).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for the nested assignment expression "answer=42"', () => {
+            const identifier = ast.identifier('answer');
+            const value = ast.number(42);
+            const node = ast.assignment(identifier, value);
+            const input = [[identifier], [{
+                type: 'assign',
+                value: '=',
+                text: '=',
+                offset: 6,
+                lineBreaks: 0,
+                line: 1,
+                col: 7
+            }, [value]]];
+
+            identifier.startAt(1, 1, 0);
+            identifier.endAt(1, 7, 6);
+            value.startAt(1, 8, 7);
+            value.endAt(1, 9, 8);
+            node.startAt(identifier);
+            node.endAt(value);
+
+            expect(builders.assignment(input)).to.be.deep.equal(node);
+        });
+
+        it('should forward the existing descriptor for the assignment expression "answer=42"', () => {
+            const identifier = ast.identifier('answer');
+            const value = ast.number(42);
+            const node = ast.assignment(identifier, value);
+
+            expect(builders.assignment(node)).to.be.deep.equal(node);
+            expect(builders.assignment([node])).to.be.deep.equal(node);
+        });
+
+    });
+
 });

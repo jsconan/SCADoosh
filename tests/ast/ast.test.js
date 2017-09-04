@@ -50,6 +50,7 @@ const AstLineComment = require('./../../src/ast/line-comment');
 const AstBlockComment = require('./../../src/ast/block-comment');
 const AstBinaryOperator = require('./../../src/ast/binary-operator');
 const AstUnaryOperator = require('./../../src/ast/unary-operator');
+const AstAssignment = require('./../../src/ast/assignment');
 
 describe('OpenSCAD AST hub', () => {
 
@@ -64,7 +65,8 @@ describe('OpenSCAD AST hub', () => {
             'lineComment',
             'blockComment',
             'binaryOperator',
-            'unaryOperator'
+            'unaryOperator',
+            'assignment'
         ].forEach((name) => {
             expect(ast).to.have.a.property(name).that.is.a('function');
         });
@@ -92,6 +94,7 @@ describe('OpenSCAD AST hub', () => {
             expect(ast.nodes).to.have.a.property('AstBlockComment').that.is.equal(AstBlockComment);
             expect(ast.nodes).to.have.a.property('AstBinaryOperator').that.is.equal(AstBinaryOperator);
             expect(ast.nodes).to.have.a.property('AstUnaryOperator').that.is.equal(AstUnaryOperator);
+            expect(ast.nodes).to.have.a.property('AstAssignment').that.is.equal(AstAssignment);
 
             [
                 'AstNode',
@@ -110,7 +113,8 @@ describe('OpenSCAD AST hub', () => {
                 'AstLineComment',
                 'AstBlockComment',
                 'AstBinaryOperator',
-                'AstUnaryOperator'
+                'AstUnaryOperator',
+                'AstAssignment'
             ].forEach((name) => {
                 expect(ast.nodes).to.have.a.property(name).that.is.a('function');
             });
@@ -239,6 +243,20 @@ describe('OpenSCAD AST hub', () => {
             expect(node).to.be.an.instanceOf(AstUnaryOperator);
             expect(node).to.have.a.property('type').that.is.equal('unaryOperator');
             expect(node).to.have.a.property('operator').that.is.equal(operator);
+            expect(node).to.have.a.property('value').that.is.equal(value);
+        });
+
+    });
+
+    describe('assignment', () => {
+
+        it('should create an AstAssignment', () => {
+            const identifier = ast.identifier('answer');
+            const value = ast.number(42);
+            const node = ast.assignment(identifier, value);
+            expect(node).to.be.an.instanceOf(AstAssignment);
+            expect(node).to.have.a.property('type').that.is.equal('assignment');
+            expect(node).to.have.a.property('identifier').that.is.equal(identifier);
             expect(node).to.have.a.property('value').that.is.equal(value);
         });
 
