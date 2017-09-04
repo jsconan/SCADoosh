@@ -190,6 +190,44 @@ const builders = {
             return utils.forward(data)
         }
     },
+
+    /**
+     * Processes an include statement
+     * @param {Array} data
+     * @returns {AstInclude}
+     */
+    include: (data) => {
+        data = _.isArray(data) ? _.flattenDeep(data) : data;
+        if (data.length === 2) {
+            let node = ast.include(
+                data[1]
+            );
+            node.startAt(utils.startPosition(data[0]));
+            node.endAt(node.path);
+            return node;
+        } else {
+            return utils.forward(data)
+        }
+    },
+
+    /**
+     * Processes a use statement
+     * @param {Array} data
+     * @returns {AstUse}
+     */
+    use: (data) => {
+        data = _.isArray(data) ? _.flattenDeep(data) : data;
+        if (data.length === 2) {
+            let node = ast.use(
+                data[1]
+            );
+            node.startAt(utils.startPosition(data[0]));
+            node.endAt(node.path);
+            return node;
+        } else {
+            return utils.forward(data)
+        }
+    },
 };
 
 module.exports = builders;

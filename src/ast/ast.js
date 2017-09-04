@@ -47,6 +47,8 @@ const AstBlockComment = require('./block-comment');
 const AstBinaryOperator = require('./binary-operator');
 const AstUnaryOperator = require('./unary-operator');
 const AstAssignment = require('./assignment');
+const AstInclude = require('./include');
+const AstUse = require('./use');
 
 /**
  * Hub that provides factories to create final AST nodes.
@@ -76,52 +78,62 @@ module.exports = {
         AstBinaryOperator: AstBinaryOperator,
         AstUnaryOperator: AstUnaryOperator,
         AstAssignment: AstAssignment,
+        AstInclude: AstInclude,
+        AstUse: AstUse,
     },
 
     /**
      * Creates an AstNumber node.
      * @param {Number|String} value
+     * @returns {AstNumber}
      */
     number: (value) => new AstNumber(value),
 
     /**
      * Creates an AstString node.
      * @param {String} value
+     * @returns {AstString}
      */
     string: (value) => new AstString(value),
 
     /**
      * Creates an AstPath node.
      * @param {String} value
+     * @returns {AstPath}
      */
     path: (value) => new AstPath(value),
 
     /**
      * Creates an AstIdentifier node.
      * @param {String} value
+     * @returns {AstIdentifier}
      */
     identifier: (value) => new AstIdentifier(value),
 
     /**
      * Creates an AstBoolean node.
      * @param {Boolean|String} value
+     * @returns {AstBoolean}
      */
     boolean: (value) => new AstBoolean(value),
 
     /**
      * Creates an AstUndefined node.
+     * @returns {AstUndefined}
      */
     undefined: () => new AstUndefined(),
 
     /**
      * Creates an AstLineComment node.
      * @param {String} value
+     * @returns {AstLineComment}
      */
     lineComment: (value) => new AstLineComment(value),
 
     /**
      * Creates an AstBlockComment node.
      * @param {String} value
+     * @returns {AstBlockComment}
      */
     blockComment: (value) => new AstBlockComment(value),
 
@@ -130,6 +142,7 @@ module.exports = {
      * @param {String} operator
      * @param {AstNode} left
      * @param {AstNode} right
+     * @returns {AstBinaryOperator}
      */
     binaryOperator: (left, operator, right) => new AstBinaryOperator(left, operator, right),
 
@@ -137,6 +150,7 @@ module.exports = {
      * Creates an AstUnaryOperator node.
      * @param {String} operator
      * @param {AstNode} value
+     * @returns {AstUnaryOperator}
      */
     unaryOperator: (operator, value) => new AstUnaryOperator(operator, value),
 
@@ -144,6 +158,21 @@ module.exports = {
      * Creates an AstAssignment node.
      * @param {AstIdentifier} identifier
      * @param {AstNode} value
+     * * @returns {AstAssignment}
      */
-    assignment: (identifier, value) => new AstAssignment(identifier, value)
+    assignment: (identifier, value) => new AstAssignment(identifier, value),
+
+    /**
+     * Creates an AstInclude node.
+     * @param {AstPath} path
+     * @returns {AstInclude}
+     */
+    include: (path) => new AstInclude(path),
+
+    /**
+     * Creates an AstUse node.
+     * @param {AstPath} path
+     * @returns {AstUse}
+     */
+    use: (path) => new AstUse(path)
 };

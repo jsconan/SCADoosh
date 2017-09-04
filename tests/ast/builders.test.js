@@ -35,7 +35,7 @@ const expect = chai.expect;
 
 const ast = require('../../src/ast/ast');
 const builders = require('../../src/ast/builders');
-const buildersTestCases = require('../parser/builders-test-cases.json');
+const buildersTestCases = require('./builders-test-cases.json');
 
 describe('OpenSCAD AST builders', () => {
 
@@ -417,6 +417,114 @@ describe('OpenSCAD AST builders', () => {
 
             expect(builders.assignment(node)).to.be.deep.equal(node);
             expect(builders.assignment([node])).to.be.deep.equal(node);
+        });
+
+    });
+
+    describe('include', () => {
+
+        it('should produce the descriptor for an include statement', () => {
+            const path = ast.path('./path/to/library.scad');
+            const node = ast.include(path);
+            const input = [{
+                type: 'include',
+                value: 'include',
+                text: 'include',
+                offset: 0,
+                lineBreaks: 0,
+                line: 1,
+                col: 1
+            }, path];
+
+            path.startAt(1, 8, 7);
+            path.endAt(1, 32, 31);
+            node.startAt(1, 1, 0);
+            node.endAt(path);
+
+            expect(builders.include(input)).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for a nested include statement', () => {
+            const path = ast.path('./path/to/library.scad');
+            const node = ast.include(path);
+            const input = [[[{
+                type: 'include',
+                value: 'include',
+                text: 'include',
+                offset: 0,
+                lineBreaks: 0,
+                line: 1,
+                col: 1
+            }], [path]]];
+
+            path.startAt(1, 8, 7);
+            path.endAt(1, 32, 31);
+            node.startAt(1, 1, 0);
+            node.endAt(path);
+
+            expect(builders.include(input)).to.be.deep.equal(node);
+        });
+
+        it('should forward the existing descriptor for an include statement', () => {
+            const path = ast.path('./path/to/library.scad');
+            const node = ast.include(path);
+
+            expect(builders.include(node)).to.be.deep.equal(node);
+            expect(builders.include([node])).to.be.deep.equal(node);
+        });
+
+    });
+
+    describe('use', () => {
+
+        it('should produce the descriptor for a use statement', () => {
+            const path = ast.path('./path/to/library.scad');
+            const node = ast.use(path);
+            const input = [{
+                type: 'use',
+                value: 'use',
+                text: 'use',
+                offset: 0,
+                lineBreaks: 0,
+                line: 1,
+                col: 1
+            }, path];
+
+            path.startAt(1, 4, 3);
+            path.endAt(1, 28, 27);
+            node.startAt(1, 1, 0);
+            node.endAt(path);
+
+            expect(builders.use(input)).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for a nested use statement', () => {
+            const path = ast.path('./path/to/library.scad');
+            const node = ast.use(path);
+            const input = [[[{
+                type: 'use',
+                value: 'use',
+                text: 'use',
+                offset: 0,
+                lineBreaks: 0,
+                line: 1,
+                col: 1
+            }], [path]]];
+
+            path.startAt(1, 4, 3);
+            path.endAt(1, 28, 27);
+            node.startAt(1, 1, 0);
+            node.endAt(path);
+
+            expect(builders.use(input)).to.be.deep.equal(node);
+        });
+
+        it('should forward the existing descriptor for a use statement', () => {
+            const path = ast.path('./path/to/library.scad');
+            const node = ast.use(path);
+
+            expect(builders.use(node)).to.be.deep.equal(node);
+            expect(builders.use([node])).to.be.deep.equal(node);
         });
 
     });

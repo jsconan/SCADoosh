@@ -67,7 +67,7 @@ class AstAssignment extends AstFragment {
      * Clones the instance.
      * @param {Object} [properties] - an optional list of additional properties to set.
      * @returns {AstAssignment}
-     * @throws {TypeError} if one of the operands is not a valid AstNode
+     * @throws {TypeError} if the identifier is not an AstIdentifier, or if the value is not a valid AstNode
      */
     clone(properties) {
         if (properties) {

@@ -51,6 +51,8 @@ const AstBlockComment = require('./../../src/ast/block-comment');
 const AstBinaryOperator = require('./../../src/ast/binary-operator');
 const AstUnaryOperator = require('./../../src/ast/unary-operator');
 const AstAssignment = require('./../../src/ast/assignment');
+const AstInclude = require('./../../src/ast/include');
+const AstUse = require('./../../src/ast/use');
 
 describe('OpenSCAD AST hub', () => {
 
@@ -66,7 +68,9 @@ describe('OpenSCAD AST hub', () => {
             'blockComment',
             'binaryOperator',
             'unaryOperator',
-            'assignment'
+            'assignment',
+            'include',
+            'use'
         ].forEach((name) => {
             expect(ast).to.have.a.property(name).that.is.a('function');
         });
@@ -95,6 +99,8 @@ describe('OpenSCAD AST hub', () => {
             expect(ast.nodes).to.have.a.property('AstBinaryOperator').that.is.equal(AstBinaryOperator);
             expect(ast.nodes).to.have.a.property('AstUnaryOperator').that.is.equal(AstUnaryOperator);
             expect(ast.nodes).to.have.a.property('AstAssignment').that.is.equal(AstAssignment);
+            expect(ast.nodes).to.have.a.property('AstInclude').that.is.equal(AstInclude);
+            expect(ast.nodes).to.have.a.property('AstUse').that.is.equal(AstUse);
 
             [
                 'AstNode',
@@ -114,7 +120,9 @@ describe('OpenSCAD AST hub', () => {
                 'AstBlockComment',
                 'AstBinaryOperator',
                 'AstUnaryOperator',
-                'AstAssignment'
+                'AstAssignment',
+                'AstInclude',
+                'AstUse'
             ].forEach((name) => {
                 expect(ast.nodes).to.have.a.property(name).that.is.a('function');
             });
@@ -258,6 +266,30 @@ describe('OpenSCAD AST hub', () => {
             expect(node).to.have.a.property('type').that.is.equal('assignment');
             expect(node).to.have.a.property('identifier').that.is.equal(identifier);
             expect(node).to.have.a.property('value').that.is.equal(value);
+        });
+
+    });
+
+    describe('include', () => {
+
+        it('should create an AstInclude', () => {
+            const path = ast.path('./path/to/library.scad');
+            const node = ast.include(path);
+            expect(node).to.be.an.instanceOf(AstInclude);
+            expect(node).to.have.a.property('type').that.is.equal('include');
+            expect(node).to.have.a.property('path').that.is.equal(path);
+        });
+
+    });
+
+    describe('use', () => {
+
+        it('should create an AstUse', () => {
+            const path = ast.path('./path/to/library.scad');
+            const node = ast.use(path);
+            expect(node).to.be.an.instanceOf(AstUse);
+            expect(node).to.have.a.property('type').that.is.equal('use');
+            expect(node).to.have.a.property('path').that.is.equal(path);
         });
 
     });
