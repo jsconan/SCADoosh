@@ -33,7 +33,7 @@ const _ = require('lodash');
 const chai = require('chai');
 const expect = chai.expect;
 
-const lexer = require('./../../../src/parser/openscad/lexer');
+const openScadLexer = require('./../../../src/parser/openscad/lexer');
 const lexerTokenSchema = require('./../lexer-token-schema.json');
 const lexerTestCases = require('./lexer-test-cases.json');
 
@@ -42,6 +42,7 @@ chai.use(require('chai-json-schema'));
 describe('OpenSCAD lexer', () => {
 
     it('should be a valid lexer', () => {
+        const lexer = openScadLexer();
         expect(lexer).to.be.an('object');
         expect(lexer).to.have.a.property('next').that.is.a('function');
         expect(lexer).to.have.a.property('save').that.is.a('function');
@@ -64,7 +65,7 @@ describe('OpenSCAD lexer', () => {
 
                     // wrap each test case
                     it(title, () => {
-                        lexer.reset(testCase.input);
+                        const lexer = openScadLexer(testCase.input);
 
                         // sometimes no token is expected
                         if (testCase.output.length === 0) {
@@ -101,10 +102,11 @@ describe('OpenSCAD lexer', () => {
     describe('next', () => {
 
         it('should return a token object', () => {
-            lexer.reset('42 foo');
+            const lexer = openScadLexer('42 foo');
 
             const token1 = lexer.next();
             expect(token1).to.be.an('object');
+            expect(token1).to.have.property('type').that.is.equal('number');
             expect(token1).to.have.property('value').that.is.equal('42');
             expect(token1).to.have.property('text').that.is.equal('42');
             expect(token1).to.have.property('line').that.is.equal(1);
@@ -113,6 +115,7 @@ describe('OpenSCAD lexer', () => {
 
             const token2 = lexer.next();
             expect(token2).to.be.an('object');
+            expect(token2).to.have.property('type').that.is.equal('identifier');
             expect(token2).to.have.property('value').that.is.equal('foo');
             expect(token2).to.have.property('text').that.is.equal('foo');
             expect(token2).to.have.property('line').that.is.equal(1);
@@ -128,10 +131,11 @@ describe('OpenSCAD lexer', () => {
     describe('save', () => {
 
         it('should return an info object that describes the current state of the lexer', () => {
-            lexer.reset('42 foo 123');
+            const lexer = openScadLexer('42 foo 123');
 
             const token1 = lexer.next();
             expect(token1).to.be.an('object');
+            expect(token1).to.have.property('type').that.is.equal('number');
             expect(token1).to.have.property('value').that.is.equal('42');
             expect(token1).to.have.property('text').that.is.equal('42');
             expect(token1).to.have.property('line').that.is.equal(1);
@@ -150,10 +154,11 @@ describe('OpenSCAD lexer', () => {
     describe('reset', () => {
 
         it('should reset the state', () => {
-            lexer.reset('42 foo 123');
+            const lexer = openScadLexer('42 foo 123');
 
             const token1 = lexer.next();
             expect(token1).to.be.an('object');
+            expect(token1).to.have.property('type').that.is.equal('number');
             expect(token1).to.have.property('value').that.is.equal('42');
             expect(token1).to.have.property('text').that.is.equal('42');
             expect(token1).to.have.property('line').that.is.equal(1);
@@ -168,6 +173,7 @@ describe('OpenSCAD lexer', () => {
 
             const token2 = lexer.next();
             expect(token2).to.be.an('object');
+            expect(token2).to.have.property('type').that.is.equal('identifier');
             expect(token2).to.have.property('value').that.is.equal('foo');
             expect(token2).to.have.property('text').that.is.equal('foo');
             expect(token2).to.have.property('line').that.is.equal(1);
@@ -176,6 +182,7 @@ describe('OpenSCAD lexer', () => {
 
             const token3 = lexer.next();
             expect(token3).to.be.an('object');
+            expect(token3).to.have.property('type').that.is.equal('number');
             expect(token3).to.have.property('value').that.is.equal('123');
             expect(token3).to.have.property('text').that.is.equal('123');
             expect(token3).to.have.property('line').that.is.equal(1);
@@ -188,6 +195,7 @@ describe('OpenSCAD lexer', () => {
 
             const token4 = lexer.next();
             expect(token4).to.be.an('object');
+            expect(token4).to.have.property('type').that.is.equal('identifier');
             expect(token4).to.have.property('value').that.is.equal('bar');
             expect(token4).to.have.property('text').that.is.equal('bar');
             expect(token2).to.have.property('line').that.is.equal(1);
@@ -200,7 +208,7 @@ describe('OpenSCAD lexer', () => {
     describe('formatError', () => {
 
         it('should return a string with an error message describing a parse error at that token', () => {
-            lexer.reset('@');
+            const lexer = openScadLexer('@');
             expect(() => lexer.next()).to.throw('invalid syntax at line 1 col 1:\n\n  @\n  ^');
 
             expect(lexer.formatError({
@@ -217,6 +225,8 @@ describe('OpenSCAD lexer', () => {
     describe('has', () => {
 
         it('should return true if the lexer can emit tokens with that name', () => {
+            const lexer = openScadLexer();
+
             [
                 '_space',
                 'number',

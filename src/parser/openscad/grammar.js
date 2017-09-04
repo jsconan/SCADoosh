@@ -5,13 +5,13 @@ function id(x) {return x[0]; }
 
 /**
  * Part of the SCADoosh tool.
- * Grammar that abuilderslies on the OpenSCAD language.
+ * Grammar that applies on the OpenSCAD language.
  *
  * @package src/parser/openscad
  * @author jsconan
  * @license GPLv3
  */
-const lexer = require('./lexer');
+const lexer = require('./lexer')();
 const utils = require('./../../ast/utils');
 const builders = require('./../../ast/builders');
 var grammar = {
