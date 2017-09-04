@@ -17,14 +17,19 @@ const builders = require('./../../ast/builders');
 var grammar = {
     Lexer: lexer,
     ParserRules: [
-    {"name": "main", "symbols": [], "postprocess": utils.discard},
-    {"name": "main", "symbols": ["undef"], "postprocess": utils.forward},
-    {"name": "main", "symbols": ["boolean"], "postprocess": utils.forward},
-    {"name": "main", "symbols": ["expr"], "postprocess": utils.forward},
-    {"name": "main", "symbols": ["string"], "postprocess": utils.forward},
-    {"name": "main", "symbols": ["path"], "postprocess": utils.forward},
-    {"name": "main", "symbols": ["identifier"], "postprocess": utils.forward},
-    {"name": "main", "symbols": ["comment"], "postprocess": utils.forward},
+    {"name": "statement", "symbols": ["assignment", {"literal":";"}], "postprocess": utils.head},
+    {"name": "statement$subexpression$1", "symbols": [{"literal":";"}]},
+    {"name": "statement$subexpression$1", "symbols": []},
+    {"name": "statement", "symbols": ["include", "statement$subexpression$1"], "postprocess": utils.head},
+    {"name": "statement", "symbols": ["comment"], "postprocess": utils.forward},
+    {"name": "statement", "symbols": [], "postprocess": utils.discard},
+    {"name": "include", "symbols": [{"literal":"include"}, "path"], "postprocess": builders.include},
+    {"name": "include", "symbols": [{"literal":"use"}, "path"], "postprocess": builders.use},
+    {"name": "assignment$subexpression$1", "symbols": ["expr"]},
+    {"name": "assignment$subexpression$1", "symbols": ["undef"]},
+    {"name": "assignment$subexpression$1", "symbols": ["boolean"]},
+    {"name": "assignment$subexpression$1", "symbols": ["string"]},
+    {"name": "assignment", "symbols": ["identifier", {"literal":"="}, "assignment$subexpression$1"], "postprocess": builders.assignment},
     {"name": "expr$ebnf$1", "symbols": []},
     {"name": "expr$ebnf$1$subexpression$1$subexpression$1", "symbols": [{"literal":"+"}]},
     {"name": "expr$ebnf$1$subexpression$1$subexpression$1", "symbols": [{"literal":"-"}]},
@@ -34,6 +39,7 @@ var grammar = {
     {"name": "term$ebnf$1", "symbols": []},
     {"name": "term$ebnf$1$subexpression$1$subexpression$1", "symbols": [{"literal":"*"}]},
     {"name": "term$ebnf$1$subexpression$1$subexpression$1", "symbols": [{"literal":"/"}]},
+    {"name": "term$ebnf$1$subexpression$1$subexpression$1", "symbols": [{"literal":"%"}]},
     {"name": "term$ebnf$1$subexpression$1", "symbols": ["term$ebnf$1$subexpression$1$subexpression$1", "factor"]},
     {"name": "term$ebnf$1", "symbols": ["term$ebnf$1", "term$ebnf$1$subexpression$1"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
     {"name": "term", "symbols": ["factor", "term$ebnf$1"], "postprocess": builders.binaryOperator},
@@ -42,6 +48,7 @@ var grammar = {
     {"name": "factor", "symbols": ["factor$subexpression$1", "factor"], "postprocess": builders.unaryOperator},
     {"name": "factor", "symbols": ["number"], "postprocess": utils.forward},
     {"name": "factor", "symbols": [{"literal":"("}, "expr", {"literal":")"}], "postprocess": utils.surrounded},
+    {"name": "factor", "symbols": ["identifier"], "postprocess": utils.forward},
     {"name": "undef", "symbols": [{"literal":"undef"}], "postprocess": builders.undef},
     {"name": "boolean", "symbols": [{"literal":"true"}], "postprocess": builders.boolean},
     {"name": "boolean", "symbols": [{"literal":"false"}], "postprocess": builders.boolean},
@@ -52,7 +59,7 @@ var grammar = {
     {"name": "comment", "symbols": [(lexer.has("lcomment") ? {type: "lcomment"} : lcomment)], "postprocess": builders.lineComment},
     {"name": "comment", "symbols": [(lexer.has("mcomment") ? {type: "mcomment"} : mcomment)], "postprocess": builders.blockComment}
 ]
-  , ParserStart: "main"
+  , ParserStart: "statement"
 }
 if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
    module.exports = grammar;

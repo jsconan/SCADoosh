@@ -29,36 +29,950 @@
  * @author jsconan
  */
 
-const _ = require('lodash');
 const chai = require('chai');
 const expect = chai.expect;
 
 const nearley = require('nearley');
 const grammar = nearley.Grammar.fromCompiled(require('./../../../src/parser/openscad/grammar'));
-const grammarTestCases = require('./grammar-test-cases.json');
+
+const utils = require('../../../src/ast/utils');
+const builders = require('../../../src/ast/builders');
 
 describe('OpenSCAD grammar', () => {
 
-    // the test cases are defined inside the JSON file ./grammar-test-cases.json
-    _.forEach(grammarTestCases, (testCase) => {
-        // the title can contains placeholders
-        const title = testCase.title.replace('%input', JSON.stringify(testCase.input));
+    describe('empty', () => {
 
-        // wrap each test case
-        it(title, () => {
+        it('should parse empty text', () => {
             const parser = new nearley.Parser(grammar);
-            const doParse = _.bind(parser.feed, parser, testCase.input);
+            parser.feed('');
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal([null]);
+        });
 
-            if (testCase.error) {
-                // it may lead to an error as the source code should not be parsed
-                expect(doParse).to.throw();
-            } else {
-                doParse();
+    });
 
-                // when the output is provided it should comply to the expected format
-                expect(parser.results).to.be.an('array');
-                expect(parser.results).to.deep.equal(testCase.output);
-            }
+    describe('include', () => {
+
+        it('should parse an include statement', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.include([
+                    {
+                        type: 'include',
+                        value: 'include',
+                        text: 'include',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    },
+                    builders.path([{
+                        type: 'path',
+                        value: './path/to/file.scad',
+                        text: '<./path/to/file.scad>',
+                        line: 1,
+                        col: 9,
+                        offset: 8
+                    }])
+                ])
+            ];
+
+            parser.feed('include <./path/to/file.scad>');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an include statement with ending semicolon', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.include([
+                    {
+                        type: 'include',
+                        value: 'include',
+                        text: 'include',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    },
+                    builders.path([{
+                        type: 'path',
+                        value: './path/to/file.scad',
+                        text: '<./path/to/file.scad>',
+                        line: 1,
+                        col: 9,
+                        offset: 8
+                    }])
+                ])
+            ];
+
+            parser.feed('include <./path/to/file.scad>;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+    });
+
+    describe('use', () => {
+
+        it('should parse a use statement', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.use([
+                    {
+                        type: 'use',
+                        value: 'use',
+                        text: 'use',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    },
+                    builders.path([{
+                        type: 'path',
+                        value: './path/to/file.scad',
+                        text: '<./path/to/file.scad>',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    }])
+                ])
+            ];
+
+            parser.feed('use <./path/to/file.scad>');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse a use statement with ending semicolon', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.use([
+                    {
+                        type: 'use',
+                        value: 'use',
+                        text: 'use',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    },
+                    builders.path([{
+                        type: 'path',
+                        value: './path/to/file.scad',
+                        text: '<./path/to/file.scad>',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    }])
+                ])
+            ];
+
+            parser.feed('use <./path/to/file.scad>;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+    });
+
+    describe('comment', () => {
+
+        it('should parse a line comment', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.lineComment([
+                    {
+                        type: 'lcomment',
+                        value: ' a line comment',
+                        text: '// a line comment',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }
+                ])
+            ];
+
+            parser.feed('// a line comment');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse a block comment', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.blockComment([
+                    {
+                        type: 'mcomment',
+                        value: ' a\n block\n comment\n ',
+                        text: '/* a\n block\n comment\n */',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }
+                ])
+            ];
+
+            parser.feed('/* a\n block\n comment\n */');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+    });
+
+    describe('assignment', () => {
+
+        it('should parse a string assignment statement', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    },
+                    builders.string([{
+                        type: 'string',
+                        value: 'bar',
+                        text: '"bar"',
+                        line: 1,
+                        col: 7,
+                        offset: 6
+                    }])
+                ])
+            ];
+
+            parser.feed('foo = "bar";');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse a boolean assignment statement `true`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    },
+                    builders.boolean([{
+                        type: 'true',
+                        value: 'true',
+                        text: 'true',
+                        line: 1,
+                        col: 7,
+                        offset: 6
+                    }])
+                ])
+            ];
+
+            parser.feed('foo = true;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse a boolean assignment statement `false`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    },
+                    builders.boolean([{
+                        type: 'false',
+                        value: 'false',
+                        text: 'false',
+                        line: 1,
+                        col: 7,
+                        offset: 6
+                    }])
+                ])
+            ];
+
+            parser.feed('foo = false;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an undefined assignment statement', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    },
+                    builders.undef([{
+                        type: 'undef',
+                        value: 'undef',
+                        text: 'undef',
+                        line: 1,
+                        col: 7,
+                        offset: 6
+                    }])
+                ])
+            ];
+
+            parser.feed('foo = undef;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse a number assignment statement', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    },
+                    builders.number([{
+                        type: 'number',
+                        value: '42',
+                        text: '42',
+                        line: 1,
+                        col: 7,
+                        offset: 6
+                    }])
+                ])
+            ];
+
+            parser.feed('foo = 42;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an identifier assignment statement', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    },
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'bar',
+                        text: 'bar',
+                        line: 1,
+                        col: 7,
+                        offset: 6
+                    }])
+                ])
+            ];
+
+            parser.feed('foo = bar;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an expression assignment statement `1 + 2`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    },
+                    builders.binaryOperator([
+                        builders.number([
+                            {
+                                type: 'number',
+                                value: '1',
+                                text: '1',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            }
+                        ]),
+                        {
+                            type: 'add',
+                            value: '+',
+                            text: '+',
+                            line: 1,
+                            col: 9,
+                            offset: 8
+                        },
+                        builders.number([
+                            {
+                                type: 'number',
+                                value: '2',
+                                text: '2',
+                                line: 1,
+                                col: 11,
+                                offset: 10
+                            }
+                        ])
+                    ])
+                ])
+            ];
+
+            parser.feed('foo = 1 + 2;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an expression assignment statement `4 - 3`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 4,
+                        offset: 3
+                    },
+                    builders.binaryOperator([
+                        builders.number([
+                            {
+                                type: 'number',
+                                value: '4',
+                                text: '4',
+                                line: 1,
+                                col: 5,
+                                offset: 4
+                            }
+                        ]),
+                        {
+                            type: 'subtract',
+                            value: '-',
+                            text: '-',
+                            line: 1,
+                            col: 6,
+                            offset: 5
+                        },
+                        builders.number([
+                            {
+                                type: 'number',
+                                value: '3',
+                                text: '3',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            }
+                        ])
+                    ])
+                ])
+            ];
+
+            parser.feed('foo=4-3;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an expression assignment statement `2 * 4`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    },
+                    builders.binaryOperator([
+                        builders.number([
+                            {
+                                type: 'number',
+                                value: '2',
+                                text: '2',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            }
+                        ]),
+                        {
+                            type: 'multiply',
+                            value: '*',
+                            text: '*',
+                            line: 1,
+                            col: 9,
+                            offset: 8
+                        },
+                        builders.number([
+                            {
+                                type: 'number',
+                                value: '3',
+                                text: '3',
+                                line: 1,
+                                col: 11,
+                                offset: 10
+                            }
+                        ])
+                    ])
+                ])
+            ];
+
+            parser.feed('foo = 2 * 3;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an expression assignment statement `5 / 2`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    },
+                    builders.binaryOperator([
+                        builders.number([
+                            {
+                                type: 'number',
+                                value: '5',
+                                text: '5',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            }
+                        ]),
+                        {
+                            type: 'divide',
+                            value: '/',
+                            text: '/',
+                            line: 1,
+                            col: 9,
+                            offset: 8
+                        },
+                        builders.number([
+                            {
+                                type: 'number',
+                                value: '2',
+                                text: '2',
+                                line: 1,
+                                col: 11,
+                                offset: 10
+                            }
+                        ])
+                    ])
+                ])
+            ];
+
+            parser.feed('foo = 5 / 2;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an expression assignment statement `7 % 2`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 4,
+                        offset: 3
+                    },
+                    builders.binaryOperator([
+                        builders.number([
+                            {
+                                type: 'number',
+                                value: '7',
+                                text: '7',
+                                line: 1,
+                                col: 5,
+                                offset: 4
+                            }
+                        ]),
+                        {
+                            type: 'modulo',
+                            value: '%',
+                            text: '%',
+                            line: 1,
+                            col: 6,
+                            offset: 5
+                        },
+                        builders.number([
+                            {
+                                type: 'number',
+                                value: '2',
+                                text: '2',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            }
+                        ])
+                    ])
+                ])
+            ];
+
+            parser.feed('foo=7%2;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an expression assignment statement `-9`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    },
+                    builders.unaryOperator([
+                        {
+                            type: 'subtract',
+                            value: '-',
+                            text: '-',
+                            line: 1,
+                            col: 7,
+                            offset: 6
+                        },
+                        builders.number([
+                            {
+                                type: 'number',
+                                value: '9',
+                                text: '9',
+                                line: 1,
+                                col: 9,
+                                offset: 8
+                            }
+                        ])
+                    ])
+                ])
+            ];
+
+            parser.feed('foo = - 9;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an expression assignment statement `+1 + 2 * 3`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    },
+                    builders.binaryOperator([
+                        builders.unaryOperator([
+                            {
+                                type: 'add',
+                                value: '+',
+                                text: '+',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            },
+                            builders.number([
+                                {
+                                    type: 'number',
+                                    value: '1',
+                                    text: '1',
+                                    line: 1,
+                                    col: 8,
+                                    offset: 7
+                                }
+                            ])
+                        ]),
+                        {
+                            type: 'add',
+                            value: '+',
+                            text: '+',
+                            line: 1,
+                            col: 10,
+                            offset: 9
+                        },
+                        builders.binaryOperator([
+                            builders.number([
+                                {
+                                    type: 'number',
+                                    value: '2',
+                                    text: '2',
+                                    line: 1,
+                                    col: 12,
+                                    offset: 11
+                                }
+                            ]),
+                            {
+                                type: 'multiply',
+                                value: '*',
+                                text: '*',
+                                line: 1,
+                                col: 14,
+                                offset: 13
+                            },
+                            builders.number([
+                                {
+                                    type: 'number',
+                                    value: '3',
+                                    text: '3',
+                                    line: 1,
+                                    col: 16,
+                                    offset: 15
+                                }
+                            ])
+                        ])
+                    ])
+                ])
+            ];
+
+            parser.feed('foo = +1 + 2 * 3;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an expression assignment statement `2 * (4 - 1)`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.assignment([
+                    builders.identifier([{
+                        type: 'identifier',
+                        value: 'foo',
+                        text: 'foo',
+                        line: 1,
+                        col: 1,
+                        offset: 0
+                    }]),
+                    {
+                        type: 'assign',
+                        value: '=',
+                        text: '=',
+                        line: 1,
+                        col: 5,
+                        offset: 4
+                    },
+                    builders.binaryOperator([
+                        builders.number([
+                            {
+                                type: 'number',
+                                value: '2',
+                                text: '2',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            }
+                        ]),
+                        {
+                            type: 'multiply',
+                            value: '*',
+                            text: '*',
+                            line: 1,
+                            col: 9,
+                            offset: 8
+                        },
+                        utils.surrounded([
+                            {
+                                type: 'lparen',
+                                value: '(',
+                                text: '(',
+                                line: 1,
+                                col: 11,
+                                offset: 10
+                            },
+                            builders.binaryOperator([
+                                builders.number([
+                                    {
+                                        type: 'number',
+                                        value: '4',
+                                        text: '4',
+                                        line: 1,
+                                        col: 12,
+                                        offset: 11
+                                    }
+                                ]),
+                                {
+                                    type: 'subtract',
+                                    value: '-',
+                                    text: '-',
+                                    line: 1,
+                                    col: 14,
+                                    offset: 13
+                                },
+                                builders.number([
+                                    {
+                                        type: 'number',
+                                        value: '1',
+                                        text: '1',
+                                        line: 1,
+                                        col: 16,
+                                        offset: 15
+                                    }
+                                ])
+                            ]),
+                            {
+                                type: 'rparen',
+                                value: ')',
+                                text: ')',
+                                line: 1,
+                                col: 17,
+                                offset: 16
+                            }
+                        ])
+                    ])
+                ])
+            ];
+
+            parser.feed('foo = 2 * (4 - 1);');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
         });
     });
 

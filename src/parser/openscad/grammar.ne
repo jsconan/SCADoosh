@@ -45,28 +45,32 @@ const builders = require('./../../ast/builders');
 
 @lexer lexer
 
-main ->
-        null        {% utils.discard %}
-    |   undef       {% utils.forward %}
-    |   boolean     {% utils.forward %}
-    |   expr        {% utils.forward %}
-    |   string      {% utils.forward %}
-    |   path        {% utils.forward %}
-    |   identifier  {% utils.forward %}
-    |   comment     {% utils.forward %}
+statement ->
+        assignment ";"          {% utils.head %}
+    |   include (";" | null)    {% utils.head %}
+    |   comment                 {% utils.forward %}
+    |   null                    {% utils.discard %}
+
+include ->
+        "include" path          {% builders.include %}
+    |   "use" path              {% builders.use %}
+
+assignment ->
+        identifier "=" (expr | undef | boolean | string)    {% builders.assignment %}
 
 expr ->
-        term (("+" | "-") term):*       {% builders.binaryOperator %}
+        term (("+" | "-") term):*   {% builders.binaryOperator %}
 
 term ->
-        factor (("*" | "/") factor):*   {% builders.binaryOperator %}
+        factor (("*" | "/" | "%") factor):* {% builders.binaryOperator %}
 
 factor ->
-        ("+" | "-") factor              {% builders.unaryOperator %}
-    |   number                          {% utils.forward %}
-    |   "(" expr ")"                    {% utils.surrounded %}
+        ("+" | "-") factor      {% builders.unaryOperator %}
+    |   number                  {% utils.forward %}
+    |   "(" expr ")"            {% utils.surrounded %}
+    |   identifier              {% utils.forward %}
 
-# Symbols and primitives
+# Literals
 undef ->
         "undef"  {% builders.undef %}
 

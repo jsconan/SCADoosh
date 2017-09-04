@@ -123,7 +123,7 @@ const utils = {
     },
 
     /**
-     * Simply unwraps and forwards the data
+     * Simply unwraps and forwards the element in data
      * @param {Object|Array} data
      * @returns {Object|Array}
      * @throws {TypeError} if the provided array contains more than one element
@@ -134,6 +134,30 @@ const utils = {
                 throw new TypeError(`Only a single element can be forwarded, ${data.length} elements found!`);
             }
             return data[0];
+        }
+        return data;
+    },
+
+    /**
+     * Simply unwraps and forwards the first element in data
+     * @param {Object|Array} data
+     * @returns {Object|Array}
+     */
+    head: (data) => {
+        if (_.isArray(data)) {
+            return data[0];
+        }
+        return data;
+    },
+
+    /**
+     * Simply unwraps and forwards the last element in data
+     * @param {Object|Array} data
+     * @returns {Object|Array}
+     */
+    tail: (data) => {
+        if (_.isArray(data)) {
+            return data[data.length - 1];
         }
         return data;
     },

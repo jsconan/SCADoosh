@@ -358,6 +358,76 @@ describe('OpenSCAD AST utils', () => {
 
     });
 
+    describe('head', () => {
+
+        it('should straight returns the value if it is not an array', () => {
+
+            const values = [
+                42,
+                true,
+                "foo bar",
+                {foo: "bar"}
+            ];
+
+            values.forEach((value) => {
+                expect(utils.head(value)).to.be.equal(value);
+            });
+
+        });
+
+        it('should returns the first element of the array', () => {
+
+            const values = [
+                [],
+                [42, 43, 44],
+                [true, false],
+                ["foo bar", "bar foo", "hello"],
+                [{foo: "bar"}, {bar: "foo"}]
+            ];
+
+            values.forEach((value) => {
+                expect(utils.head(value)).to.be.equal(value[0]);
+            });
+
+        });
+
+    });
+
+    describe('tail', () => {
+
+        it('should straight returns the value if it is not an array', () => {
+
+            const values = [
+                42,
+                true,
+                "foo bar",
+                {foo: "bar"}
+            ];
+
+            values.forEach((value) => {
+                expect(utils.tail(value)).to.be.equal(value);
+            });
+
+        });
+
+        it('should returns the last element of the array', () => {
+
+            const values = [
+                [],
+                [42, 43, 44],
+                [true, false],
+                ["foo bar", "bar foo", "hello"],
+                [{foo: "bar"}, {bar: "foo"}]
+            ];
+
+            values.forEach((value) => {
+                expect(utils.tail(value)).to.be.equal(value[value.length - 1]);
+            });
+
+        });
+
+    });
+
     describe('discard', () => {
 
         it('should returns null whatever the input is', () => {
