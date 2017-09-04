@@ -49,6 +49,7 @@ const AstUnaryOperator = require('./unary-operator');
 const AstAssignment = require('./assignment');
 const AstInclude = require('./include');
 const AstUse = require('./use');
+const AstBlock = require('./block');
 
 /**
  * Hub that provides factories to create final AST nodes.
@@ -80,6 +81,7 @@ module.exports = {
         AstAssignment: AstAssignment,
         AstInclude: AstInclude,
         AstUse: AstUse,
+        AstBlock: AstBlock,
     },
 
     /**
@@ -174,5 +176,12 @@ module.exports = {
      * @param {AstPath} path
      * @returns {AstUse}
      */
-    use: (path) => new AstUse(path)
+    use: (path) => new AstUse(path),
+
+    /**
+     * Creates an AstBlock node.
+     * @param {AstNode[]|AstNode} statements
+     * @returns {AstBlock}
+     */
+    block: (statements) => new AstBlock(statements)
 };

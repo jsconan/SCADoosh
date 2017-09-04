@@ -228,6 +228,23 @@ const builders = {
             return utils.forward(data)
         }
     },
+
+    /**
+     * Processes a block of statements
+     * @param {Array} data
+     * @returns {AstBlock}
+     */
+    block: (data) => {
+        data = _.isArray(data) ? _.flattenDeep(data) : data;
+        if (data.length > 1) {
+            let node = ast.block(data.slice(1, -1));
+            node.startAt(utils.startPosition(data[0]));
+            node.endAt(utils.startPosition(data[data.length - 1]));
+            return node;
+        } else {
+            return utils.forward(data)
+        }
+    },
 };
 
 module.exports = builders;

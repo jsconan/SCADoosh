@@ -53,6 +53,7 @@ const AstUnaryOperator = require('./../../src/ast/unary-operator');
 const AstAssignment = require('./../../src/ast/assignment');
 const AstInclude = require('./../../src/ast/include');
 const AstUse = require('./../../src/ast/use');
+const AstBlock = require('./../../src/ast/block');
 
 describe('OpenSCAD AST hub', () => {
 
@@ -70,7 +71,8 @@ describe('OpenSCAD AST hub', () => {
             'unaryOperator',
             'assignment',
             'include',
-            'use'
+            'use',
+            'block'
         ].forEach((name) => {
             expect(ast).to.have.a.property(name).that.is.a('function');
         });
@@ -101,6 +103,7 @@ describe('OpenSCAD AST hub', () => {
             expect(ast.nodes).to.have.a.property('AstAssignment').that.is.equal(AstAssignment);
             expect(ast.nodes).to.have.a.property('AstInclude').that.is.equal(AstInclude);
             expect(ast.nodes).to.have.a.property('AstUse').that.is.equal(AstUse);
+            expect(ast.nodes).to.have.a.property('AstBlock').that.is.equal(AstBlock);
 
             [
                 'AstNode',
@@ -122,7 +125,8 @@ describe('OpenSCAD AST hub', () => {
                 'AstUnaryOperator',
                 'AstAssignment',
                 'AstInclude',
-                'AstUse'
+                'AstUse',
+                'AstBlock'
             ].forEach((name) => {
                 expect(ast.nodes).to.have.a.property(name).that.is.a('function');
             });
@@ -290,6 +294,21 @@ describe('OpenSCAD AST hub', () => {
             expect(node).to.be.an.instanceOf(AstUse);
             expect(node).to.have.a.property('type').that.is.equal('use');
             expect(node).to.have.a.property('path').that.is.equal(path);
+        });
+
+    });
+
+    describe('block', () => {
+
+        it('should create an AstBlock', () => {
+            const statements = [
+                ast.assignment(ast.identifier('foo'), ast.number(42)),
+            ];
+            const node = ast.block(statements);
+            expect(node).to.be.an.instanceOf(AstBlock);
+            expect(node).to.have.a.property('type').that.is.equal('block');
+            expect(node).to.have.a.property('statements').that.is.equal(statements);
+            expect(ast.block(statements[0])).to.have.a.property('statements').that.is.deep.equal(statements);
         });
 
     });

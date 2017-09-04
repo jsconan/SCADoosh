@@ -529,4 +529,157 @@ describe('OpenSCAD AST builders', () => {
 
     });
 
+    describe('block', () => {
+
+        it('should produce the descriptor for a block of statements', () => {
+            const nodes = [
+                ast.assignment(ast.identifier('foo'), ast.number(42)),
+                ast.assignment(ast.identifier('bar'), ast.number(21)),
+                ast.assignment(ast.identifier('x'), ast.number(3))
+            ];
+            const line = 2;
+            const column = 4;
+            const input = [{
+                type: 'lbrace',
+                value: '{',
+                text: '{',
+                line: line - 1,
+                col: 1,
+                offset: 0
+            }, nodes, {
+                type: 'rbrace',
+                value: '}',
+                text: '}',
+                line: line + nodes.length,
+                col: 1,
+                offset: 0
+            }];
+
+            const node = ast.block(nodes);
+            node.startAt(line - 1, 1, 0);
+            node.endAt(line + nodes.length, 1, 0);
+
+            nodes.forEach((node, idx) => {
+                node.identifier.startAt(line + idx, column, column - 1);
+                node.identifier.endAt(line + idx, node.identifier.start.column + node.identifier.value.length, node.identifier.start.offset + node.identifier.value.length);
+                node.value.startAt(line + idx, node.identifier.end.column + 2, node.identifier.end.offset + 2);
+                node.value.endAt(line + idx, node.value.start.column + ('' + node.value.value).length, node.value.start.offset + ('' + node.value.value).length);
+                node.startAt(node.identifier);
+                node.endAt(node.value);
+            });
+
+            expect(builders.block(input)).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for a block of statements no matter the depth', () => {
+            const nodes = [
+                ast.assignment(ast.identifier('foo'), ast.number(42)),
+                ast.assignment(ast.identifier('bar'), ast.number(21)),
+                ast.assignment(ast.identifier('x'), ast.number(3))
+            ];
+            const line = 2;
+            const column = 4;
+            const input = [[{
+                type: 'lbrace',
+                value: '{',
+                text: '{',
+                line: line - 1,
+                col: 1,
+                offset: 0
+            }], [nodes], [{
+                type: 'rbrace',
+                value: '}',
+                text: '}',
+                line: line + nodes.length,
+                col: 1,
+                offset: 0
+            }]];
+
+            const node = ast.block(nodes);
+            node.startAt(line - 1, 1, 0);
+            node.endAt(line + nodes.length, 1, 0);
+
+            nodes.forEach((node, idx) => {
+                node.identifier.startAt(line + idx, column, column - 1);
+                node.identifier.endAt(line + idx, node.identifier.start.column + node.identifier.value.length, node.identifier.start.offset + node.identifier.value.length);
+                node.value.startAt(line + idx, node.identifier.end.column + 2, node.identifier.end.offset + 2);
+                node.value.endAt(line + idx, node.value.start.column + ('' + node.value.value).length, node.value.start.offset + ('' + node.value.value).length);
+                node.startAt(node.identifier);
+                node.endAt(node.value);
+            });
+
+            expect(builders.block(input)).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for a block of one statement', () => {
+            const nodes = [
+                ast.assignment(ast.identifier('foo'), ast.number(42)),
+            ];
+            const line = 2;
+            const column = 4;
+            const input = [{
+                type: 'lbrace',
+                value: '{',
+                text: '{',
+                line: line - 1,
+                col: 1,
+                offset: 0
+            }, nodes, {
+                type: 'rbrace',
+                value: '}',
+                text: '}',
+                line: line + nodes.length,
+                col: 1,
+                offset: 0
+            }];
+
+            const node = ast.block(nodes);
+            node.startAt(line - 1, 1, 0);
+            node.endAt(line + nodes.length, 1, 0);
+
+            nodes.forEach((node, idx) => {
+                node.identifier.startAt(line + idx, column, column - 1);
+                node.identifier.endAt(line + idx, node.identifier.start.column + node.identifier.value.length, node.identifier.start.offset + node.identifier.value.length);
+                node.value.startAt(line + idx, node.identifier.end.column + 2, node.identifier.end.offset + 2);
+                node.value.endAt(line + idx, node.value.start.column + ('' + node.value.value).length, node.value.start.offset + ('' + node.value.value).length);
+                node.startAt(node.identifier);
+                node.endAt(node.value);
+            });
+
+            expect(builders.block(input)).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for an empty block of statements', () => {
+            const nodes = [];
+            const input = [{
+                type: 'lbrace',
+                value: '{',
+                text: '{',
+                line: 1,
+                col: 1,
+                offset: 0
+            }, nodes, {
+                type: 'rbrace',
+                value: '}',
+                text: '}',
+                line: 1,
+                col: 2,
+                offset: 1
+            }];
+            const node = ast.block(nodes);
+            node.startAt(1, 1, 0);
+            node.endAt(1, 2, 1);
+
+            expect(builders.block(input)).to.be.deep.equal(node);
+        });
+
+        it('should forward the existing descriptor for a block of statements', () => {
+            const node = ast.block([]);
+
+            expect(builders.block(node)).to.be.deep.equal(node);
+            expect(builders.block([node])).to.be.deep.equal(node);
+        });
+
+    });
+
 });
