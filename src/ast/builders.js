@@ -29,20 +29,33 @@
  * @author jsconan
  */
 
-const _ = require('lodash');
 const utils = require('./utils');
 const classes = require('./classes');
 
 const builders = {
     /**
-     * Creates a terminal node from the provided token and class.
+     * Creates a terminal node from the provided data and class.
      * Set the fragment position according to the provided token.
-     * @param {Token} token - The token that represents the terminal
+     * @param {Array|Token|AstNode} data - The data provided by the parser
      * @param {Function|String} AstClass - The AstNode class or the name of an AST node class
      * @returns {AstFragment}
-     * @throws {TypeError} if the created node is not an AstFragment or if the AstClass is not valid
+     * @throws {TypeError} if there is more than one token
+     * @throws {TypeError} if if the AstClass is not valid
+     * @throws {TypeError} if the created node is not an AstFragment
      */
-    terminal: (token, AstClass) => {
+    terminal: (data, AstClass) => {
+        data = utils.flatten(data);
+
+        if (!data.length || data.length > 1) {
+            throw new TypeError('A terminal should be represented by a single token');
+        }
+
+        const token = data[0];
+
+        if (utils.is(token, AstClass)) {
+            return token;
+        }
+
         const Class = utils.getClass(AstClass);
         const node = new Class(token.value);
 
@@ -50,83 +63,24 @@ const builders = {
             throw new TypeError('A terminal should be at least an AstFragment');
         }
 
-        node.startAt(utils.startPosition(token));
-        node.endAt(utils.endPosition(token));
-
-        return node;
+        return utils.setPosition(node, data);
     },
 
     /**
-     * Processes a number
-     * @param {Array} data
-     * @returns {AstNumber}
-     */
-    number: (data) => builders.terminal(utils.forward(data), 'AstNumber'),
-
-    /**
-     * Processes a string
-     * @param {Array} data
-     * @returns {AstString}
-     */
-    string: (data) => builders.terminal(utils.forward(data), 'AstString'),
-
-    /**
-     * Processes a path
-     * @param {Array} data
-     * @returns {AstPath}
-     */
-    path: (data) => builders.terminal(utils.forward(data), 'AstPath'),
-
-    /**
-     * Processes the boolean keywords
-     * @param {Array} data
-     * @returns {AstBoolean}
-     */
-    boolean: (data) => builders.terminal(utils.forward(data), 'AstBoolean'),
-
-    /**
-     * Processes the "undef" keyword
-     * @param {Array} data
-     * @returns {AstUndefined}
-     */
-    undef: (data) => builders.terminal(utils.forward(data), 'AstUndefined'),
-
-    /**
-     * Processes an identifier
-     * @param {Array} data
-     * @returns {AstIdentifier}
-     */
-    identifier: (data) => builders.terminal(utils.forward(data), 'AstIdentifier'),
-
-    /**
-     * Processes a line comment
-     * @param {Array} data
-     * @returns {AstLineComment}
-     */
-    lineComment: (data) => builders.terminal(utils.forward(data), 'AstLineComment'),
-
-    /**
-     * Processes a block comment
-     * @param {Array} data
-     * @returns {AstBlockComment}
-     */
-    blockComment: (data) => builders.terminal(utils.forward(data), 'AstBlockComment'),
-
-    /**
      * Processes a unary operator
-     * @param {Array} data
-     * @returns {AstUnaryOperator}
+     * @param {Array} data - The data provided by the parser
+     * @param {Function|String} AstClass - The AstNode class or the name of an AST node class
+     * @returns {AstFragment}
      */
-    unaryOperator: (data) => {
-        data = _.isArray(data) ? _.flattenDeep(data) : data;
+    unaryOperator: (data, AstClass = 'AstUnaryOperator') => {
+        data = utils.flatten(data);
         if (data.length === 2) {
-            let node = new classes.AstUnaryOperator(
+            const Class = utils.getClass(AstClass);
+            const node = new Class(
                 data[0].value,
                 data[1]
             );
-            node.startAt(utils.startPosition(data[0]));
-            node.endAt(node.value);
-            return node;
+            return utils.setPosition(node, data);
         } else {
             return utils.forward(data)
         }
@@ -134,20 +88,20 @@ const builders = {
 
     /**
      * Processes a binary operator
-     * @param {Array} data
-     * @returns {AstBinaryOperator}
+     * @param {Array} data - The data provided by the parser
+     * @param {Function|String} AstClass - The AstNode class or the name of an AST node class
+     * @returns {AstFragment}
      */
-    binaryOperator: (data) => {
-        data = _.isArray(data) ? _.flattenDeep(data) : data;
+    binaryOperator: (data, AstClass = 'AstBinaryOperator') => {
+        data = utils.flatten(data);
         if (data.length === 3) {
-            let node = new classes.AstBinaryOperator(
+            const Class = utils.getClass(AstClass);
+            const node = new Class(
                 data[0],
                 data[1].value,
                 data[2]
             );
-            node.startAt(node.left);
-            node.endAt(node.right);
-            return node;
+            return utils.setPosition(node, data);
         } else {
             return utils.forward(data)
         }
@@ -155,57 +109,39 @@ const builders = {
 
     /**
      * Processes an assignment
-     * @param {Array} data
-     * @returns {AstAssignment}
+     * @param {Array} data - The data provided by the parser
+     * @param {Function|String} AstClass - The AstNode class or the name of an AST node class
+     * @returns {AstFragment}
      */
-    assignment: (data) => {
-        data = _.isArray(data) ? _.flattenDeep(data) : data;
+    assignment: (data, AstClass = 'AstAssignment') => {
+        data = utils.flatten(data);
         if (data.length === 3) {
-            let node = new classes.AstAssignment(
+            const Class = utils.getClass(AstClass);
+            const node = new Class(
                 data[0],
                 data[2]
             );
-            node.startAt(node.identifier);
-            node.endAt(node.value);
-            return node;
+            return utils.setPosition(node, data);
         } else {
             return utils.forward(data)
         }
     },
 
     /**
-     * Processes an include statement
-     * @param {Array} data
-     * @returns {AstInclude}
+     * Processes a command statement
+     * @param {Array} data - The data provided by the parser
+     * @param {Function|String} AstClass - The AstNode class or the name of an AST node class
+     * @returns {AstFragment}
      */
-    include: (data) => {
-        data = _.isArray(data) ? _.flattenDeep(data) : data;
+    command: (data, AstClass) => {
+        data = utils.flatten(data);
         if (data.length === 2) {
-            let node = new classes.AstInclude(
-                data[1]
+            const Class = utils.getClass(AstClass);
+            const node = new Class(
+                data[1],
+                data[0].value
             );
-            node.startAt(utils.startPosition(data[0]));
-            node.endAt(node.path);
-            return node;
-        } else {
-            return utils.forward(data)
-        }
-    },
-
-    /**
-     * Processes a use statement
-     * @param {Array} data
-     * @returns {AstUse}
-     */
-    use: (data) => {
-        data = _.isArray(data) ? _.flattenDeep(data) : data;
-        if (data.length === 2) {
-            let node = new classes.AstUse(
-                data[1]
-            );
-            node.startAt(utils.startPosition(data[0]));
-            node.endAt(node.path);
-            return node;
+            return utils.setPosition(node, data);
         } else {
             return utils.forward(data)
         }
@@ -213,16 +149,16 @@ const builders = {
 
     /**
      * Processes a block of statements
-     * @param {Array} data
-     * @returns {AstBlock}
+     * @param {Array} data - The data provided by the parser
+     * @param {Function|String} AstClass - The AstNode class or the name of an AST node class
+     * @returns {AstFragment}
      */
-    block: (data) => {
-        data = _.isArray(data) ? _.flattenDeep(data) : data;
+    block: (data, AstClass = 'AstBlock') => {
+        data = utils.flatten(data);
         if (data.length > 1) {
-            let node = new classes.AstBlock(data.slice(1, -1));
-            node.startAt(utils.startPosition(data[0]));
-            node.endAt(utils.startPosition(data[data.length - 1]));
-            return node;
+            const Class = utils.getClass(AstClass);
+            const node = new Class(data.slice(1, -1));
+            return utils.setPosition(node, data);
         } else {
             return utils.forward(data)
         }

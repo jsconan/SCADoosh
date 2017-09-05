@@ -56,7 +56,7 @@ describe('OpenSCAD grammar', () => {
         it('should parse an include statement', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
-                builders.include([
+                builders.command([
                     {
                         type: 'include',
                         value: 'include',
@@ -65,15 +65,15 @@ describe('OpenSCAD grammar', () => {
                         col: 1,
                         offset: 0
                     },
-                    builders.path([{
+                    builders.terminal([{
                         type: 'path',
                         value: './path/to/file.scad',
                         text: '<./path/to/file.scad>',
                         line: 1,
                         col: 9,
                         offset: 8
-                    }])
-                ])
+                    }], 'AstPath')
+                ], 'AstInclude')
             ];
 
             parser.feed('include <./path/to/file.scad>');
@@ -85,7 +85,7 @@ describe('OpenSCAD grammar', () => {
         it('should parse an include statement with ending semicolon', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
-                builders.include([
+                builders.command([
                     {
                         type: 'include',
                         value: 'include',
@@ -94,15 +94,15 @@ describe('OpenSCAD grammar', () => {
                         col: 1,
                         offset: 0
                     },
-                    builders.path([{
+                    builders.terminal([{
                         type: 'path',
                         value: './path/to/file.scad',
                         text: '<./path/to/file.scad>',
                         line: 1,
                         col: 9,
                         offset: 8
-                    }])
-                ])
+                    }], 'AstPath')
+                ], 'AstInclude')
             ];
 
             parser.feed('include <./path/to/file.scad>;');
@@ -118,7 +118,7 @@ describe('OpenSCAD grammar', () => {
         it('should parse a use statement', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
-                builders.use([
+                builders.command([
                     {
                         type: 'use',
                         value: 'use',
@@ -127,15 +127,15 @@ describe('OpenSCAD grammar', () => {
                         col: 1,
                         offset: 0
                     },
-                    builders.path([{
+                    builders.terminal([{
                         type: 'path',
                         value: './path/to/file.scad',
                         text: '<./path/to/file.scad>',
                         line: 1,
                         col: 5,
                         offset: 4
-                    }])
-                ])
+                    }], 'AstPath')
+                ], 'AstUse')
             ];
 
             parser.feed('use <./path/to/file.scad>');
@@ -147,7 +147,7 @@ describe('OpenSCAD grammar', () => {
         it('should parse a use statement with ending semicolon', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
-                builders.use([
+                builders.command([
                     {
                         type: 'use',
                         value: 'use',
@@ -156,15 +156,15 @@ describe('OpenSCAD grammar', () => {
                         col: 1,
                         offset: 0
                     },
-                    builders.path([{
+                    builders.terminal([{
                         type: 'path',
                         value: './path/to/file.scad',
                         text: '<./path/to/file.scad>',
                         line: 1,
                         col: 5,
                         offset: 4
-                    }])
-                ])
+                    }], 'AstPath')
+                ], 'AstUse')
             ];
 
             parser.feed('use <./path/to/file.scad>;');
@@ -180,7 +180,7 @@ describe('OpenSCAD grammar', () => {
         it('should parse a line comment', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
-                builders.lineComment([
+                builders.terminal([
                     {
                         type: 'lcomment',
                         value: ' a line comment',
@@ -189,7 +189,7 @@ describe('OpenSCAD grammar', () => {
                         col: 1,
                         offset: 0
                     }
-                ])
+                ], 'AstLineComment')
             ];
 
             parser.feed('// a line comment');
@@ -201,7 +201,7 @@ describe('OpenSCAD grammar', () => {
         it('should parse a block comment', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
-                builders.blockComment([
+                builders.terminal([
                     {
                         type: 'mcomment',
                         value: ' a\n block\n comment\n ',
@@ -210,7 +210,7 @@ describe('OpenSCAD grammar', () => {
                         col: 1,
                         offset: 0
                     }
-                ])
+                ], 'AstBlockComment')
             ];
 
             parser.feed('/* a\n block\n comment\n */');
@@ -227,14 +227,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -243,14 +243,14 @@ describe('OpenSCAD grammar', () => {
                         col: 5,
                         offset: 4
                     },
-                    builders.string([{
+                    builders.terminal([{
                         type: 'string',
                         value: 'bar',
                         text: '"bar"',
                         line: 1,
                         col: 7,
                         offset: 6
-                    }])
+                    }], 'AstString')
                 ])
             ];
 
@@ -264,14 +264,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -280,14 +280,14 @@ describe('OpenSCAD grammar', () => {
                         col: 5,
                         offset: 4
                     },
-                    builders.boolean([{
+                    builders.terminal([{
                         type: 'true',
                         value: 'true',
                         text: 'true',
                         line: 1,
                         col: 7,
                         offset: 6
-                    }])
+                    }], 'AstBoolean')
                 ])
             ];
 
@@ -301,14 +301,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -317,14 +317,14 @@ describe('OpenSCAD grammar', () => {
                         col: 5,
                         offset: 4
                     },
-                    builders.boolean([{
+                    builders.terminal([{
                         type: 'false',
                         value: 'false',
                         text: 'false',
                         line: 1,
                         col: 7,
                         offset: 6
-                    }])
+                    }], 'AstBoolean')
                 ])
             ];
 
@@ -338,14 +338,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -354,14 +354,14 @@ describe('OpenSCAD grammar', () => {
                         col: 5,
                         offset: 4
                     },
-                    builders.undef([{
+                    builders.terminal([{
                         type: 'undef',
                         value: 'undef',
                         text: 'undef',
                         line: 1,
                         col: 7,
                         offset: 6
-                    }])
+                    }], 'AstUndefined')
                 ])
             ];
 
@@ -375,14 +375,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -391,14 +391,14 @@ describe('OpenSCAD grammar', () => {
                         col: 5,
                         offset: 4
                     },
-                    builders.number([{
+                    builders.terminal([{
                         type: 'number',
                         value: '42',
                         text: '42',
                         line: 1,
                         col: 7,
                         offset: 6
-                    }])
+                    }], 'AstNumber')
                 ])
             ];
 
@@ -412,14 +412,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -428,14 +428,14 @@ describe('OpenSCAD grammar', () => {
                         col: 5,
                         offset: 4
                     },
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'bar',
                         text: 'bar',
                         line: 1,
                         col: 7,
                         offset: 6
-                    }])
+                    }], 'AstIdentifier')
                 ])
             ];
 
@@ -449,14 +449,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -466,7 +466,7 @@ describe('OpenSCAD grammar', () => {
                         offset: 4
                     },
                     builders.binaryOperator([
-                        builders.number([
+                        builders.terminal([
                             {
                                 type: 'number',
                                 value: '1',
@@ -475,7 +475,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 7,
                                 offset: 6
                             }
-                        ]),
+                        ], 'AstNumber'),
                         {
                             type: 'add',
                             value: '+',
@@ -484,7 +484,7 @@ describe('OpenSCAD grammar', () => {
                             col: 9,
                             offset: 8
                         },
-                        builders.number([
+                        builders.terminal([
                             {
                                 type: 'number',
                                 value: '2',
@@ -493,7 +493,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 11,
                                 offset: 10
                             }
-                        ])
+                        ], 'AstNumber')
                     ])
                 ])
             ];
@@ -508,14 +508,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -525,7 +525,7 @@ describe('OpenSCAD grammar', () => {
                         offset: 3
                     },
                     builders.binaryOperator([
-                        builders.number([
+                        builders.terminal([
                             {
                                 type: 'number',
                                 value: '4',
@@ -534,7 +534,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 5,
                                 offset: 4
                             }
-                        ]),
+                        ], 'AstNumber'),
                         {
                             type: 'subtract',
                             value: '-',
@@ -543,7 +543,7 @@ describe('OpenSCAD grammar', () => {
                             col: 6,
                             offset: 5
                         },
-                        builders.number([
+                        builders.terminal([
                             {
                                 type: 'number',
                                 value: '3',
@@ -552,7 +552,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 7,
                                 offset: 6
                             }
-                        ])
+                        ], 'AstNumber')
                     ])
                 ])
             ];
@@ -567,14 +567,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -584,7 +584,7 @@ describe('OpenSCAD grammar', () => {
                         offset: 4
                     },
                     builders.binaryOperator([
-                        builders.number([
+                        builders.terminal([
                             {
                                 type: 'number',
                                 value: '2',
@@ -593,7 +593,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 7,
                                 offset: 6
                             }
-                        ]),
+                        ], 'AstNumber'),
                         {
                             type: 'multiply',
                             value: '*',
@@ -602,7 +602,7 @@ describe('OpenSCAD grammar', () => {
                             col: 9,
                             offset: 8
                         },
-                        builders.number([
+                        builders.terminal([
                             {
                                 type: 'number',
                                 value: '3',
@@ -611,7 +611,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 11,
                                 offset: 10
                             }
-                        ])
+                        ], 'AstNumber')
                     ])
                 ])
             ];
@@ -626,14 +626,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -643,7 +643,7 @@ describe('OpenSCAD grammar', () => {
                         offset: 4
                     },
                     builders.binaryOperator([
-                        builders.number([
+                        builders.terminal([
                             {
                                 type: 'number',
                                 value: '5',
@@ -652,7 +652,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 7,
                                 offset: 6
                             }
-                        ]),
+                        ], 'AstNumber'),
                         {
                             type: 'divide',
                             value: '/',
@@ -661,7 +661,7 @@ describe('OpenSCAD grammar', () => {
                             col: 9,
                             offset: 8
                         },
-                        builders.number([
+                        builders.terminal([
                             {
                                 type: 'number',
                                 value: '2',
@@ -670,7 +670,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 11,
                                 offset: 10
                             }
-                        ])
+                        ], 'AstNumber')
                     ])
                 ])
             ];
@@ -685,14 +685,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -702,7 +702,7 @@ describe('OpenSCAD grammar', () => {
                         offset: 3
                     },
                     builders.binaryOperator([
-                        builders.number([
+                        builders.terminal([
                             {
                                 type: 'number',
                                 value: '7',
@@ -711,7 +711,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 5,
                                 offset: 4
                             }
-                        ]),
+                        ], 'AstNumber'),
                         {
                             type: 'modulo',
                             value: '%',
@@ -720,7 +720,7 @@ describe('OpenSCAD grammar', () => {
                             col: 6,
                             offset: 5
                         },
-                        builders.number([
+                        builders.terminal([
                             {
                                 type: 'number',
                                 value: '2',
@@ -729,7 +729,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 7,
                                 offset: 6
                             }
-                        ])
+                        ], 'AstNumber')
                     ])
                 ])
             ];
@@ -744,14 +744,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -769,7 +769,7 @@ describe('OpenSCAD grammar', () => {
                             col: 7,
                             offset: 6
                         },
-                        builders.number([
+                        builders.terminal([
                             {
                                 type: 'number',
                                 value: '9',
@@ -778,7 +778,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 9,
                                 offset: 8
                             }
-                        ])
+                        ], 'AstNumber')
                     ])
                 ])
             ];
@@ -793,14 +793,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -819,7 +819,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 7,
                                 offset: 6
                             },
-                            builders.number([
+                            builders.terminal([
                                 {
                                     type: 'number',
                                     value: '1',
@@ -828,7 +828,7 @@ describe('OpenSCAD grammar', () => {
                                     col: 8,
                                     offset: 7
                                 }
-                            ])
+                            ], 'AstNumber')
                         ]),
                         {
                             type: 'add',
@@ -839,7 +839,7 @@ describe('OpenSCAD grammar', () => {
                             offset: 9
                         },
                         builders.binaryOperator([
-                            builders.number([
+                            builders.terminal([
                                 {
                                     type: 'number',
                                     value: '2',
@@ -848,7 +848,7 @@ describe('OpenSCAD grammar', () => {
                                     col: 12,
                                     offset: 11
                                 }
-                            ]),
+                            ], 'AstNumber'),
                             {
                                 type: 'multiply',
                                 value: '*',
@@ -857,7 +857,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 14,
                                 offset: 13
                             },
-                            builders.number([
+                            builders.terminal([
                                 {
                                     type: 'number',
                                     value: '3',
@@ -866,7 +866,7 @@ describe('OpenSCAD grammar', () => {
                                     col: 16,
                                     offset: 15
                                 }
-                            ])
+                            ], 'AstNumber')
                         ])
                     ])
                 ])
@@ -882,14 +882,14 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.assignment([
-                    builders.identifier([{
+                    builders.terminal([{
                         type: 'identifier',
                         value: 'foo',
                         text: 'foo',
                         line: 1,
                         col: 1,
                         offset: 0
-                    }]),
+                    }], 'AstIdentifier'),
                     {
                         type: 'assign',
                         value: '=',
@@ -899,7 +899,7 @@ describe('OpenSCAD grammar', () => {
                         offset: 4
                     },
                     builders.binaryOperator([
-                        builders.number([
+                        builders.terminal([
                             {
                                 type: 'number',
                                 value: '2',
@@ -908,7 +908,7 @@ describe('OpenSCAD grammar', () => {
                                 col: 7,
                                 offset: 6
                             }
-                        ]),
+                        ], 'AstNumber'),
                         {
                             type: 'multiply',
                             value: '*',
@@ -927,7 +927,7 @@ describe('OpenSCAD grammar', () => {
                                 offset: 10
                             },
                             builders.binaryOperator([
-                                builders.number([
+                                builders.terminal([
                                     {
                                         type: 'number',
                                         value: '4',
@@ -936,7 +936,7 @@ describe('OpenSCAD grammar', () => {
                                         col: 12,
                                         offset: 11
                                     }
-                                ]),
+                                ], 'AstNumber'),
                                 {
                                     type: 'subtract',
                                     value: '-',
@@ -945,7 +945,7 @@ describe('OpenSCAD grammar', () => {
                                     col: 14,
                                     offset: 13
                                 },
-                                builders.number([
+                                builders.terminal([
                                     {
                                         type: 'number',
                                         value: '1',
@@ -954,7 +954,7 @@ describe('OpenSCAD grammar', () => {
                                         col: 16,
                                         offset: 15
                                     }
-                                ])
+                                ], 'AstNumber')
                             ]),
                             {
                                 type: 'rparen',

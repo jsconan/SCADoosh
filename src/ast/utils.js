@@ -41,7 +41,7 @@ const utils = {
     /**
      * Checks if an object is an instance of an AST node.
      * @param {Object} node
-     * @param {Function|String} AstClass
+     * @param {Function|String|AstNode} AstClass
      * @returns {Boolean}
      */
     is: (node, AstClass) => {
@@ -115,6 +115,21 @@ const utils = {
     },
 
     /**
+     * Sets the position of an AST fragment according to the surrounding tokens
+     * @param {AstFragment} node
+     * @param {Array} data
+     * @throws {TypeError} if the provided node is not an AstFragment
+     */
+    setPosition: (node, data) => {
+        if (!utils.is(node, classes.AstFragment)) {
+            throw new TypeError('Only AstFragment instances can be positioned!');
+        }
+        return node
+            .startAt(utils.startPosition(utils.head(data)))
+            .endAt(utils.endPosition(utils.tail(data)))
+    },
+
+    /**
      * Takes care of an AST node surrounded by tokens.
      * It will update the position of the node accordingly, then return the node.
      * @param {Object|Array} data
@@ -128,7 +143,7 @@ const utils = {
             let [left, node, right] = data;
 
             if (!utils.is(node, classes.AstFragment)) {
-                throw new TypeError('Only a AstFragment instances can be surrounded!');
+                throw new TypeError('Only AstFragment instances can be surrounded!');
             }
 
             if (!_.isObject(left) || !_.isObject(right)) {
@@ -145,7 +160,7 @@ const utils = {
     },
 
     /**
-     * Simply unwraps and forwards the element in data
+     * Simply unwraps and forwards the element in data.
      * @param {Object|Array} data
      * @returns {Object|Array}
      * @throws {TypeError} if the provided array contains more than one element
@@ -161,7 +176,7 @@ const utils = {
     },
 
     /**
-     * Simply unwraps and forwards the first element in data
+     * Simply unwraps and forwards the first element in data.
      * @param {Object|Array} data
      * @returns {Object|Array}
      */
@@ -173,7 +188,7 @@ const utils = {
     },
 
     /**
-     * Simply unwraps and forwards the last element in data
+     * Simply unwraps and forwards the last element in data.
      * @param {Object|Array} data
      * @returns {Object|Array}
      */
@@ -185,7 +200,14 @@ const utils = {
     },
 
     /**
-     * Simply discards the data
+     * Ensures the provided data is an array and have only one dimension.
+     * @param {Array|Object} data
+     * @returns {Array}
+     */
+    flatten: (data) => _.isArray(data) ? _.flattenDeep(data) : [data],
+
+    /**
+     * Simply discards the data.
      * @returns {null}
      */
     discard: () => null

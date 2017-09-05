@@ -35,13 +35,12 @@ const expect = chai.expect;
 
 const classes = require('../../src/ast/classes');
 const builders = require('../../src/ast/builders');
-const buildersTestCases = require('./builders-test-cases.json');
 
-describe('AST node: AST builders', () => {
+describe('AST builders', () => {
 
     describe('terminal', () => {
 
-        it('should create the node using the provided class name and set the position (single line)', () => {
+        it('should create the node using the provided class name', () => {
             const token = {
                 value: 'foo',
                 text: 'foo',
@@ -49,7 +48,7 @@ describe('AST node: AST builders', () => {
                 col: 7,
                 offset: 12
             };
-            const node = builders.terminal(token, 'AstString');
+            const node = builders.terminal([token], 'AstString');
 
             expect(node).to.be.an.instanceOf(classes.AstString);
             expect(node).to.have.property('start');
@@ -64,7 +63,7 @@ describe('AST node: AST builders', () => {
             expect(node.end.offset).to.be.equal(token.offset + token.value.length);
         });
 
-        it('should create the node using the provided class and set the position (single line)', () => {
+        it('should create the node using the provided class', () => {
             const token = {
                 value: 'foo',
                 text: 'foo',
@@ -72,7 +71,7 @@ describe('AST node: AST builders', () => {
                 col: 7,
                 offset: 12
             };
-            const node = builders.terminal(token, classes.AstString);
+            const node = builders.terminal([token], classes.AstString);
 
             expect(node).to.be.an.instanceOf(classes.AstString);
             expect(node).to.have.property('start');
@@ -87,7 +86,7 @@ describe('AST node: AST builders', () => {
             expect(node.end.offset).to.be.equal(token.offset + token.value.length);
         });
 
-        it('should create the node using the provided class name and set the position (multi lines)', () => {
+        it('should create the node and set the position for a multi lines token', () => {
             const token = {
                 value: '\nfoo\nbar',
                 text: '\nfoo\nbar',
@@ -95,7 +94,7 @@ describe('AST node: AST builders', () => {
                 col: 7,
                 offset: 12
             };
-            const node = builders.terminal(token, 'AstString');
+            const node = builders.terminal([token], 'AstString');
 
             expect(node).to.be.an.instanceOf(classes.AstString);
             expect(node).to.have.property('start');
@@ -110,7 +109,7 @@ describe('AST node: AST builders', () => {
             expect(node.end.offset).to.be.equal(token.offset + token.value.length);
         });
 
-        it('should create the node using the provided class and set the position (multi lines)', () => {
+        it('should create the node from a direct token', () => {
             const token = {
                 value: '\nfoo\nbar',
                 text: '\nfoo\nbar',
@@ -131,6 +130,14 @@ describe('AST node: AST builders', () => {
             expect(node.end.line).to.be.equal(token.line + 2);
             expect(node.end.column).to.be.equal(4);
             expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should straight return the already existing node', () => {
+            const data = new classes.AstNumber(42).startAt(1, 1, 0).endAt(1, 3, 2);
+            expect(builders.terminal(data, 'AstNumber')).to.be.equal(data);
+            expect(builders.terminal([data], 'AstNumber')).to.be.equal(data);
+            expect(builders.terminal(data, 'AstString')).to.be.an.instanceOf(classes.AstString);
+            expect(builders.terminal(data, 'AstString')).to.have.a.property('value').that.is.equal('42');
         });
 
         it('should throw a TypeError if the AST class is not valid', () => {
@@ -146,6 +153,11 @@ describe('AST node: AST builders', () => {
             expect(() => builders.terminal(token, {})).to.throw(TypeError);
             expect(() => builders.terminal(token, () => {
             })).to.throw(TypeError);
+        });
+
+        it('should throw a TypeError if the data is not valid', () => {
+            expect(() => builders.terminal([], 'AstNumber')).to.throw(TypeError);
+            expect(() => builders.terminal([{}, {}], 'AstNumber')).to.throw(TypeError);
         });
 
         it('should throw a TypeError if the created node is not an AstFragment', () => {
@@ -168,40 +180,9 @@ describe('AST node: AST builders', () => {
 
     });
 
-    // unit tests for the builders that operate on terminals
-    // the test cases are defined inside the JSON file ./builders-test-cases.json
-    _.forEach(buildersTestCases, (testCases, category) => {
-
-        // the test cases are gathered by categories
-        describe(category, () => {
-            _.forEach(testCases, (testCase) => {
-                // wrap each test case
-                it(testCase.title, () => {
-                    const doCall = _.bind(builders[testCase.method], builders, testCase.input);
-
-                    if (testCase.error) {
-                        // it may lead to an error as the input token could be incompatible
-                        expect(doCall).to.throw();
-                    } else {
-                        const descriptor = doCall();
-                        if (testCase.output) {
-                            // the builder should return the expected descriptor
-                            expect(descriptor).to.be.an('object');
-                            expect(descriptor).to.deep.include(testCase.output);
-                        } else {
-                            // the builder should return the expected value
-                            expect(descriptor).to.equal(testCase.output);
-                        }
-                    }
-                });
-            });
-        })
-
-    });
-
     describe('unaryOperator', () => {
 
-        it('should produce the descriptor for the unary operator expression "-2"', () => {
+        it('should produce the descriptor for a unary operator expression', () => {
             const value = new classes.AstNumber(2);
             const node = new classes.AstUnaryOperator('-', value);
             const input = [{
@@ -219,10 +200,11 @@ describe('AST node: AST builders', () => {
             node.startAt(1, 2, 1);
             node.endAt(value);
 
+            expect(builders.unaryOperator(input)).to.be.an.instanceOf(classes.AstUnaryOperator);
             expect(builders.unaryOperator(input)).to.be.deep.equal(node);
         });
 
-        it('should produce the descriptor for the unary operator expression "+3"', () => {
+        it('should produce the descriptor for a unary operator expression, no matter the depth', () => {
             const value = new classes.AstNumber(3);
             const node = new classes.AstUnaryOperator('+', value);
             const input = [[[{
@@ -240,10 +222,35 @@ describe('AST node: AST builders', () => {
             node.startAt(1, 2, 1);
             node.endAt(value);
 
+            expect(builders.unaryOperator(input)).to.be.an.instanceOf(classes.AstUnaryOperator);
             expect(builders.unaryOperator(input)).to.be.deep.equal(node);
         });
 
-        it('should forward the existing descriptor for the unary operator expression "-5"', () => {
+        it('should produce the descriptor for a particular type of unary operator expression', () => {
+            class AstUnaryFoo extends classes.AstUnaryOperator {}
+            const value = new classes.AstNumber(3);
+            const node = new AstUnaryFoo('+', value);
+            const input = [[[{
+                type: 'add',
+                value: '+',
+                text: '+',
+                offset: 1,
+                lineBreaks: 0,
+                line: 1,
+                col: 2
+            }], [value]]];
+
+            value.startAt(1, 3, 2);
+            value.endAt(1, 4, 3);
+            node.startAt(1, 2, 1);
+            node.endAt(value);
+
+            expect(builders.unaryOperator(input, AstUnaryFoo)).to.be.an.instanceOf(classes.AstUnaryOperator);
+            expect(builders.unaryOperator(input, AstUnaryFoo)).to.be.an.instanceOf(AstUnaryFoo);
+            expect(builders.unaryOperator(input, AstUnaryFoo)).to.be.deep.equal(node);
+        });
+
+        it('should forward the existing descriptor for a unary operator expression', () => {
             const value = new classes.AstNumber(5);
             const node = new classes.AstUnaryOperator('-', value);
 
@@ -255,7 +262,7 @@ describe('AST node: AST builders', () => {
 
     describe('binaryOperator', () => {
 
-        it('should produce the descriptor for the binary operator expression "1+2"', () => {
+        it('should produce the descriptor for a binary operator expression', () => {
             const left = new classes.AstNumber(1);
             const right = new classes.AstNumber(2);
             const node = new classes.AstBinaryOperator(left, '+', right);
@@ -276,10 +283,11 @@ describe('AST node: AST builders', () => {
             node.startAt(left);
             node.endAt(right);
 
+            expect(builders.binaryOperator(input)).to.be.an.instanceOf(classes.AstBinaryOperator);
             expect(builders.binaryOperator(input)).to.be.deep.equal(node);
         });
 
-        it('should produce the descriptor for the binary operator expression "3-2"', () => {
+        it('should produce the descriptor for a binary operator expression, no matter the depth', () => {
             const left = new classes.AstNumber(3);
             const right = new classes.AstNumber(2);
             const node = new classes.AstBinaryOperator(left, '-', right);
@@ -300,10 +308,38 @@ describe('AST node: AST builders', () => {
             node.startAt(left);
             node.endAt(right);
 
+            expect(builders.binaryOperator(input)).to.be.an.instanceOf(classes.AstBinaryOperator);
             expect(builders.binaryOperator(input)).to.be.deep.equal(node);
         });
 
-        it('should forward the existing descriptor for the binary operator expression "2*4"', () => {
+        it('should produce the descriptor for a particular type of binary operator expression', () => {
+            class AstBinaryFoo extends classes.AstBinaryOperator {}
+            const left = new classes.AstNumber(3);
+            const right = new classes.AstNumber(2);
+            const node = new AstBinaryFoo(left, '-', right);
+            const input = [left, [[{
+                type: 'subtract',
+                value: '-',
+                text: '-',
+                offset: 1,
+                lineBreaks: 0,
+                line: 1,
+                col: 2
+            }], [right]]];
+
+            left.startAt(1, 1, 0);
+            left.endAt(1, 2, 1);
+            right.startAt(1, 3, 2);
+            right.endAt(1, 4, 3);
+            node.startAt(left);
+            node.endAt(right);
+
+            expect(builders.binaryOperator(input, AstBinaryFoo)).to.be.an.instanceOf(classes.AstBinaryOperator);
+            expect(builders.binaryOperator(input, AstBinaryFoo)).to.be.an.instanceOf(AstBinaryFoo);
+            expect(builders.binaryOperator(input, AstBinaryFoo)).to.be.deep.equal(node);
+        });
+
+        it('should forward the existing descriptor for a binary operator expression', () => {
             const left = new classes.AstNumber(2);
             const right = new classes.AstNumber(4);
             const node = new classes.AstBinaryOperator(left, '*', right);
@@ -316,7 +352,7 @@ describe('AST node: AST builders', () => {
 
     describe('assignment', () => {
 
-        it('should produce the descriptor for the assignment expression "answer=42"', () => {
+        it('should produce the descriptor for an assignment expression', () => {
             const identifier = new classes.AstIdentifier('answer');
             const value = new classes.AstNumber(42);
             const node = new classes.AstAssignment(identifier, value);
@@ -337,10 +373,11 @@ describe('AST node: AST builders', () => {
             node.startAt(identifier);
             node.endAt(value);
 
+            expect(builders.assignment(input)).to.be.an.instanceOf(classes.AstAssignment);
             expect(builders.assignment(input)).to.be.deep.equal(node);
         });
 
-        it('should produce the descriptor for the nested assignment expression "answer=42"', () => {
+        it('should produce the descriptor for an assignment expression, no matter the depth', () => {
             const identifier = new classes.AstIdentifier('answer');
             const value = new classes.AstNumber(42);
             const node = new classes.AstAssignment(identifier, value);
@@ -361,10 +398,38 @@ describe('AST node: AST builders', () => {
             node.startAt(identifier);
             node.endAt(value);
 
+            expect(builders.assignment(input)).to.be.an.instanceOf(classes.AstAssignment);
             expect(builders.assignment(input)).to.be.deep.equal(node);
         });
 
-        it('should forward the existing descriptor for the assignment expression "answer=42"', () => {
+        it('should produce the descriptor for a particular type of assignment expression', () => {
+            class AstFooAssignment extends classes.AstAssignment {}
+            const identifier = new classes.AstIdentifier('answer');
+            const value = new classes.AstNumber(42);
+            const node = new AstFooAssignment(identifier, value);
+            const input = [[identifier], [{
+                type: 'assign',
+                value: '=',
+                text: '=',
+                offset: 6,
+                lineBreaks: 0,
+                line: 1,
+                col: 7
+            }, [value]]];
+
+            identifier.startAt(1, 1, 0);
+            identifier.endAt(1, 7, 6);
+            value.startAt(1, 8, 7);
+            value.endAt(1, 9, 8);
+            node.startAt(identifier);
+            node.endAt(value);
+
+            expect(builders.assignment(input, AstFooAssignment)).to.be.an.instanceOf(classes.AstAssignment);
+            expect(builders.assignment(input, AstFooAssignment)).to.be.an.instanceOf(AstFooAssignment);
+            expect(builders.assignment(input, AstFooAssignment)).to.be.deep.equal(node);
+        });
+
+        it('should forward the existing descriptor for an assignment expression', () => {
             const identifier = new classes.AstIdentifier('answer');
             const value = new classes.AstNumber(42);
             const node = new classes.AstAssignment(identifier, value);
@@ -375,7 +440,7 @@ describe('AST node: AST builders', () => {
 
     });
 
-    describe('include', () => {
+    describe('command', () => {
 
         it('should produce the descriptor for an include statement', () => {
             const path = new classes.AstPath('./path/to/library.scad');
@@ -395,10 +460,11 @@ describe('AST node: AST builders', () => {
             node.startAt(1, 1, 0);
             node.endAt(path);
 
-            expect(builders.include(input)).to.be.deep.equal(node);
+            expect(builders.command(input, 'AstInclude')).to.be.an.instanceOf(classes.AstInclude);
+            expect(builders.command(input, 'AstInclude')).to.be.deep.equal(node);
         });
 
-        it('should produce the descriptor for a nested include statement', () => {
+        it('should produce the descriptor for an include statement, no matter the depth', () => {
             const path = new classes.AstPath('./path/to/library.scad');
             const node = new classes.AstInclude(path);
             const input = [[[{
@@ -416,20 +482,17 @@ describe('AST node: AST builders', () => {
             node.startAt(1, 1, 0);
             node.endAt(path);
 
-            expect(builders.include(input)).to.be.deep.equal(node);
+            expect(builders.command(input, 'AstInclude')).to.be.an.instanceOf(classes.AstInclude);
+            expect(builders.command(input, 'AstInclude')).to.be.deep.equal(node);
         });
 
         it('should forward the existing descriptor for an include statement', () => {
             const path = new classes.AstPath('./path/to/library.scad');
             const node = new classes.AstInclude(path);
 
-            expect(builders.include(node)).to.be.deep.equal(node);
-            expect(builders.include([node])).to.be.deep.equal(node);
+            expect(builders.command(node, 'AstInclude')).to.be.deep.equal(node);
+            expect(builders.command([node], 'AstInclude')).to.be.deep.equal(node);
         });
-
-    });
-
-    describe('use', () => {
 
         it('should produce the descriptor for a use statement', () => {
             const path = new classes.AstPath('./path/to/library.scad');
@@ -449,10 +512,41 @@ describe('AST node: AST builders', () => {
             node.startAt(1, 1, 0);
             node.endAt(path);
 
-            expect(builders.use(input)).to.be.deep.equal(node);
+            expect(builders.command(input, 'AstUse')).to.be.an.instanceOf(classes.AstUse);
+            expect(builders.command(input, 'AstUse')).to.be.deep.equal(node);
         });
 
-        it('should produce the descriptor for a nested use statement', () => {
+        it('should produce the descriptor for a particular type of command', () => {
+            class AstFooCommand extends classes.AstUse {
+                constructor(path, category) {
+                    super(path);
+                    this.addProperty('category', category);
+                }
+            }
+            const path = new classes.AstPath('./path/to/library.scad');
+            const node = new AstFooCommand(path, 'foo');
+            const input = [{
+                type: 'foo',
+                value: 'foo',
+                text: 'foo',
+                offset: 0,
+                lineBreaks: 0,
+                line: 1,
+                col: 1
+            }, path];
+
+            path.startAt(1, 4, 3);
+            path.endAt(1, 28, 27);
+            node.startAt(1, 1, 0);
+            node.endAt(path);
+
+            expect(builders.command(input, AstFooCommand)).to.be.an.instanceOf(classes.AstUse);
+            expect(builders.command(input, AstFooCommand)).to.be.an.instanceOf(AstFooCommand);
+            expect(builders.command(input, AstFooCommand)).to.be.deep.equal(node);
+            expect(builders.command(input, AstFooCommand)).to.have.a.property('category').that.is.equal('foo');
+        });
+
+        it('should produce the descriptor for a use statement, no matter the depth', () => {
             const path = new classes.AstPath('./path/to/library.scad');
             const node = new classes.AstUse(path);
             const input = [[[{
@@ -470,15 +564,16 @@ describe('AST node: AST builders', () => {
             node.startAt(1, 1, 0);
             node.endAt(path);
 
-            expect(builders.use(input)).to.be.deep.equal(node);
+            expect(builders.command(input, 'AstUse')).to.be.an.instanceOf(classes.AstUse);
+            expect(builders.command(input, 'AstUse')).to.be.deep.equal(node);
         });
 
         it('should forward the existing descriptor for a use statement', () => {
             const path = new classes.AstPath('./path/to/library.scad');
             const node = new classes.AstUse(path);
 
-            expect(builders.use(node)).to.be.deep.equal(node);
-            expect(builders.use([node])).to.be.deep.equal(node);
+            expect(builders.command(node, 'AstUse')).to.be.deep.equal(node);
+            expect(builders.command([node], 'AstUse')).to.be.deep.equal(node);
         });
 
     });
@@ -511,7 +606,7 @@ describe('AST node: AST builders', () => {
 
             const node = new classes.AstBlock(nodes);
             node.startAt(line - 1, 1, 0);
-            node.endAt(line + nodes.length, 1, 0);
+            node.endAt(line + nodes.length, 2, 1);
 
             nodes.forEach((node, idx) => {
                 node.identifier.startAt(line + idx, column, column - 1);
@@ -522,10 +617,11 @@ describe('AST node: AST builders', () => {
                 node.endAt(node.value);
             });
 
+            expect(builders.block(input)).to.be.an.instanceOf(classes.AstBlock);
             expect(builders.block(input)).to.be.deep.equal(node);
         });
 
-        it('should produce the descriptor for a block of statements no matter the depth', () => {
+        it('should produce the descriptor for a block of statements, no matter the depth', () => {
             const nodes = [
                 new classes.AstAssignment(new classes.AstIdentifier('foo'), new classes.AstNumber(42)),
                 new classes.AstAssignment(new classes.AstIdentifier('bar'), new classes.AstNumber(21)),
@@ -551,7 +647,7 @@ describe('AST node: AST builders', () => {
 
             const node = new classes.AstBlock(nodes);
             node.startAt(line - 1, 1, 0);
-            node.endAt(line + nodes.length, 1, 0);
+            node.endAt(line + nodes.length, 2, 1);
 
             nodes.forEach((node, idx) => {
                 node.identifier.startAt(line + idx, column, column - 1);
@@ -562,6 +658,7 @@ describe('AST node: AST builders', () => {
                 node.endAt(node.value);
             });
 
+            expect(builders.block(input)).to.be.an.instanceOf(classes.AstBlock);
             expect(builders.block(input)).to.be.deep.equal(node);
         });
 
@@ -589,7 +686,7 @@ describe('AST node: AST builders', () => {
 
             const node = new classes.AstBlock(nodes);
             node.startAt(line - 1, 1, 0);
-            node.endAt(line + nodes.length, 1, 0);
+            node.endAt(line + nodes.length, 2, 1);
 
             nodes.forEach((node, idx) => {
                 node.identifier.startAt(line + idx, column, column - 1);
@@ -600,6 +697,7 @@ describe('AST node: AST builders', () => {
                 node.endAt(node.value);
             });
 
+            expect(builders.block(input)).to.be.an.instanceOf(classes.AstBlock);
             expect(builders.block(input)).to.be.deep.equal(node);
         });
 
@@ -622,9 +720,37 @@ describe('AST node: AST builders', () => {
             }];
             const node = new classes.AstBlock(nodes);
             node.startAt(1, 1, 0);
-            node.endAt(1, 2, 1);
+            node.endAt(1, 3, 2);
 
+            expect(builders.block(input)).to.be.an.instanceOf(classes.AstBlock);
             expect(builders.block(input)).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for a particular type of block', () => {
+            class AstFooBlock extends classes.AstBlock {}
+            const nodes = [];
+            const input = [{
+                type: 'lbrace',
+                value: '{',
+                text: '{',
+                line: 1,
+                col: 1,
+                offset: 0
+            }, nodes, {
+                type: 'rbrace',
+                value: '}',
+                text: '}',
+                line: 1,
+                col: 2,
+                offset: 1
+            }];
+            const node = new AstFooBlock(nodes);
+            node.startAt(1, 1, 0);
+            node.endAt(1, 3, 2);
+
+            expect(builders.block(input, AstFooBlock)).to.be.an.instanceOf(classes.AstBlock);
+            expect(builders.block(input, AstFooBlock)).to.be.an.instanceOf(AstFooBlock);
+            expect(builders.block(input, AstFooBlock)).to.be.deep.equal(node);
         });
 
         it('should forward the existing descriptor for a block of statements', () => {

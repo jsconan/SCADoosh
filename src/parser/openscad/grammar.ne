@@ -52,45 +52,44 @@ statement ->
     |   null                    {% utils.discard %}
 
 include ->
-        "include" path          {% builders.include %}
-    |   "use" path              {% builders.use %}
+        "include" path          {% (data) => builders.command(data, 'AstInclude') %}
+    |   "use" path              {% (data) => builders.command(data, 'AstUse') %}
 
 assignment ->
-        identifier "=" (expr | undef | boolean | string)    {% builders.assignment %}
+        identifier "=" (expr | undef | boolean | string)    {% (data) => builders.assignment(data, 'AstAssignment') %}
 
 expr ->
-        term (("+" | "-") term):*   {% builders.binaryOperator %}
+        term (("+" | "-") term):*               {% (data) => builders.binaryOperator(data, 'AstBinaryOperator') %}
 
 term ->
-        factor (("*" | "/" | "%") factor):* {% builders.binaryOperator %}
+        factor (("*" | "/" | "%") factor):*     {% (data) => builders.binaryOperator(data, 'AstBinaryOperator') %}
 
 factor ->
-        ("+" | "-") factor      {% builders.unaryOperator %}
+        ("+" | "-") factor      {% (data) => builders.unaryOperator(data, 'AstUnaryOperator') %}
     |   number                  {% utils.forward %}
     |   "(" expr ")"            {% utils.surrounded %}
     |   identifier              {% utils.forward %}
 
 # Literals
 undef ->
-        "undef"  {% builders.undef %}
+        "undef"             {% (data) => builders.terminal(data, 'AstUndefined') %}
 
 boolean ->
-        "true"  {% builders.boolean %}
-    |   "false" {% builders.boolean %}
+        ("true" | "false")  {% (data) => builders.terminal(data, 'AstBoolean') %}
 
 number ->
-        %number {% builders.number %}
+        %number             {% (data) => builders.terminal(data, 'AstNumber') %}
 
 string ->
-        %string {% builders.string %}
+        %string             {% (data) => builders.terminal(data, 'AstString') %}
 
 path ->
-        %path {% builders.path %}
+        %path               {% (data) => builders.terminal(data, 'AstPath') %}
 
 identifier ->
-        %identifier {% builders.identifier %}
+        %identifier         {% (data) => builders.terminal(data, 'AstIdentifier') %}
 
 # General comments and annotations
 comment ->
-        %lcomment {% builders.lineComment %}
-    |   %mcomment {% builders.blockComment %}
+        %lcomment           {% (data) => builders.terminal(data, 'AstLineComment') %}
+    |   %mcomment           {% (data) => builders.terminal(data, 'AstBlockComment') %}

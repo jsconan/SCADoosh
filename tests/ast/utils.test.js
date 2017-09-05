@@ -34,7 +34,7 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const utils = require('./../../src/ast/utils');
-const ast = require('./../../src/ast/classes');
+const classes = require('./../../src/ast/classes');
 
 describe('AST utils', () => {
 
@@ -42,27 +42,27 @@ describe('AST utils', () => {
 
         it('should check using a class constructor', () => {
 
-            const node = new ast.AstNode('node');
-            const number = new ast.AstNumber(42);
+            const node = new classes.AstNode('node');
+            const number = new classes.AstNumber(42);
 
-            expect(utils.is(node, ast.AstNode)).to.be.equal(true);
-            expect(utils.is(node, ast.AstFragment)).to.be.equal(false);
+            expect(utils.is(node, classes.AstNode)).to.be.equal(true);
+            expect(utils.is(node, classes.AstFragment)).to.be.equal(false);
 
-            expect(utils.is(number, ast.AstNode)).to.be.equal(true);
-            expect(utils.is(number, ast.AstFragment)).to.be.equal(true);
-            expect(utils.is(number, ast.AstNumber)).to.be.equal(true);
-            expect(utils.is(number, ast.AstString)).to.be.equal(false);
+            expect(utils.is(number, classes.AstNode)).to.be.equal(true);
+            expect(utils.is(number, classes.AstFragment)).to.be.equal(true);
+            expect(utils.is(number, classes.AstNumber)).to.be.equal(true);
+            expect(utils.is(number, classes.AstString)).to.be.equal(false);
             expect(utils.is(number, _.noop)).to.be.equal(false);
 
-            expect(utils.is({}, ast.AstNode)).to.be.equal(false);
-            expect(utils.is(42, ast.AstNode)).to.be.equal(false);
+            expect(utils.is({}, classes.AstNode)).to.be.equal(false);
+            expect(utils.is(42, classes.AstNode)).to.be.equal(false);
 
         });
 
         it('should check using a class name', () => {
 
-            const node = new ast.AstNode('node');
-            const number = new ast.AstNumber(42);
+            const node = new classes.AstNode('node');
+            const number = new classes.AstNumber(42);
 
             expect(utils.is(node, 'AstNode')).to.be.equal(true);
             expect(utils.is(node, 'AstFragment')).to.be.equal(false);
@@ -83,17 +83,17 @@ describe('AST utils', () => {
     describe('getClass', () => {
 
         it('should get the class from a name', () => {
-            expect(utils.getClass('AstNode')).to.be.equal(ast.AstNode);
-            expect(utils.getClass('AstNumber')).to.be.equal(ast.AstNumber);
-            expect(utils.getClass('AstLiteral')).to.be.equal(ast.AstLiteral);
+            expect(utils.getClass('AstNode')).to.be.equal(classes.AstNode);
+            expect(utils.getClass('AstNumber')).to.be.equal(classes.AstNumber);
+            expect(utils.getClass('AstLiteral')).to.be.equal(classes.AstLiteral);
         });
 
         it('should straight retun the provided class if valid', () => {
-            class AstFoo extends ast.AstNode {}
+            class AstFoo extends classes.AstNode {}
             function Cls() {}
-            expect(utils.getClass(ast.AstNode)).to.be.equal(ast.AstNode);
-            expect(utils.getClass(ast.AstNumber)).to.be.equal(ast.AstNumber);
-            expect(utils.getClass(ast.AstLiteral)).to.be.equal(ast.AstLiteral);
+            expect(utils.getClass(classes.AstNode)).to.be.equal(classes.AstNode);
+            expect(utils.getClass(classes.AstNumber)).to.be.equal(classes.AstNumber);
+            expect(utils.getClass(classes.AstLiteral)).to.be.equal(classes.AstLiteral);
             expect(utils.getClass(AstFoo)).to.be.equal(AstFoo);
             expect(utils.getClass(Cls)).to.be.equal(Cls);
         });
@@ -116,20 +116,20 @@ describe('AST utils', () => {
             };
             const node = utils.startPosition(token);
 
-            expect(node).to.be.an.instanceOf(ast.AstPosition);
+            expect(node).to.be.an.instanceOf(classes.AstPosition);
             expect(node).to.have.property('line').that.is.equal(token.line);
             expect(node).to.have.property('column').that.is.equal(token.col);
             expect(node).to.have.property('offset').that.is.equal(token.offset);
         });
 
         it('should return the start position of the provided AstFragment', () => {
-            const fragment = new ast.AstNumber(1);
+            const fragment = new classes.AstNumber(1);
             fragment.startAt(1, 1, 0);
             fragment.endAt(1, 2, 1);
 
             const node = utils.startPosition(fragment);
 
-            expect(node).to.be.an.instanceOf(ast.AstPosition);
+            expect(node).to.be.an.instanceOf(classes.AstPosition);
             expect(node).to.be.equal(fragment.start);
         });
 
@@ -154,7 +154,7 @@ describe('AST utils', () => {
             };
             const node = utils.endPosition(token);
 
-            expect(node).to.be.an.instanceOf(ast.AstPosition);
+            expect(node).to.be.an.instanceOf(classes.AstPosition);
             expect(node).to.have.property('line').that.is.equal(token.line);
             expect(node).to.have.property('column').that.is.equal(token.col + token.text.length);
             expect(node).to.have.property('offset').that.is.equal(token.offset + token.text.length);
@@ -169,20 +169,20 @@ describe('AST utils', () => {
             };
             const node = utils.endPosition(token);
 
-            expect(node).to.be.an.instanceOf(ast.AstPosition);
+            expect(node).to.be.an.instanceOf(classes.AstPosition);
             expect(node).to.have.property('line').that.is.equal(token.line + 2);
             expect(node).to.have.property('column').that.is.equal(4);
             expect(node).to.have.property('offset').that.is.equal(token.offset + token.text.length);
         });
 
         it('should return the end position of the provided AstFragment', () => {
-            const fragment = new ast.AstNumber(1);
+            const fragment = new classes.AstNumber(1);
             fragment.startAt(1, 1, 0);
             fragment.endAt(1, 2, 1);
 
             const node = utils.endPosition(fragment);
 
-            expect(node).to.be.an.instanceOf(ast.AstPosition);
+            expect(node).to.be.an.instanceOf(classes.AstPosition);
             expect(node).to.be.equal(fragment.end);
         });
 
@@ -192,6 +192,83 @@ describe('AST utils', () => {
             expect(() => utils.endPosition({text: '', line: -5, col: 1, offset: 0})).to.throw(TypeError);
             expect(() => utils.endPosition({text: '', line: 1, col: -5, offset: 0})).to.throw(TypeError);
             expect(() => utils.endPosition({text: '', line: 1, col: 1, offset: -5})).to.throw(TypeError);
+        });
+
+    });
+
+    describe('setPosition', () => {
+
+        it('should set the position accordingly to the surrounding tokens', () => {
+
+            const data = [{
+                text: '(',
+                line: 1,
+                col: 2,
+                offset: 1
+            }, {}, {}, {
+                text: ')',
+                line: 1,
+                col: 5,
+                offset: 4
+            }];
+
+            const node = new classes.AstNumber(42);
+
+            expect(utils.setPosition(node, data)).to.be.equal(node);
+            expect(node).to.have.a.property('start').that.is.an.instanceOf(classes.AstPosition);
+            expect(node).to.have.a.property('end').that.is.an.instanceOf(classes.AstPosition);
+
+            expect(node.start.line).to.be.equal(1);
+            expect(node.start.column).to.be.equal(2);
+            expect(node.start.offset).to.be.equal(1);
+
+            expect(node.end.line).to.be.equal(1);
+            expect(node.end.column).to.be.equal(6);
+            expect(node.end.offset).to.be.equal(5);
+
+        });
+
+        it('should set the position accordingly to the provided token', () => {
+
+            const data = {
+                text: '42',
+                line: 1,
+                col: 2,
+                offset: 1
+            };
+
+            const node = new classes.AstNumber(42);
+
+            expect(utils.setPosition(node, data)).to.be.equal(node);
+            expect(node).to.have.a.property('start').that.is.an.instanceOf(classes.AstPosition);
+            expect(node).to.have.a.property('end').that.is.an.instanceOf(classes.AstPosition);
+
+            expect(node.start.line).to.be.equal(1);
+            expect(node.start.column).to.be.equal(2);
+            expect(node.start.offset).to.be.equal(1);
+
+            expect(node.end.line).to.be.equal(1);
+            expect(node.end.column).to.be.equal(4);
+            expect(node.end.offset).to.be.equal(3);
+
+        });
+
+        it('should throw a TypeError if the node is not an AstFragment', () => {
+            const data = [{
+                text: '(',
+                line: 1,
+                col: 2,
+                offset: 1
+            }, {}, {}, {
+                text: ')',
+                line: 1,
+                col: 5,
+                offset: 4
+            }];
+
+            expect(() => utils.setPosition({}, data)).to.throw(TypeError);
+            expect(() => utils.setPosition(new classes.AstNode('foo'), data)).to.throw(TypeError);
+
         });
 
     });
@@ -206,7 +283,7 @@ describe('AST utils', () => {
                 col: 2,
                 offset: 1
             };
-            const node = new ast.AstNumber(3);
+            const node = new classes.AstNumber(3);
             const right = {
                 text: ')',
                 line: 1,
@@ -234,9 +311,9 @@ describe('AST utils', () => {
 
         it('should unwrap the nested AST node and update the position accordingly to the sibling nodes', () => {
 
-            const left = new ast.AstIdentifier('foo');
-            const right = new ast.AstIdentifier('bar');
-            const node = new ast.AstNumber(3);
+            const left = new classes.AstIdentifier('foo');
+            const right = new classes.AstIdentifier('bar');
+            const node = new classes.AstNumber(3);
 
             left.startAt(1, 1, 0);
             left.endAt(1, 4, 3);
@@ -264,8 +341,8 @@ describe('AST utils', () => {
 
         it('should unwrap the nested AST node and update the position accordingly to the sibling nodes/tokens whatever the nested depth is', () => {
 
-            const left = new ast.AstIdentifier('foo');
-            const node = new ast.AstNumber(3);
+            const left = new classes.AstIdentifier('foo');
+            const node = new classes.AstNumber(3);
             const right = {
                 text: 'bar',
                 line: 1,
@@ -330,8 +407,8 @@ describe('AST utils', () => {
 
         it('should throw a TypeError if the data to unwrap does not contain a valid tokens', () => {
 
-            expect(() => utils.surrounded(['1', new ast.AstNumber(1), {value: '3'}])).to.throw(TypeError);
-            expect(() => utils.surrounded([{value: '1'}, new ast.AstNumber(1), '3'])).to.throw(TypeError);
+            expect(() => utils.surrounded(['1', new classes.AstNumber(1), {value: '3'}])).to.throw(TypeError);
+            expect(() => utils.surrounded([{value: '1'}, new classes.AstNumber(1), '3'])).to.throw(TypeError);
 
         });
 
@@ -444,6 +521,19 @@ describe('AST utils', () => {
                 expect(utils.tail(value)).to.be.equal(value[value.length - 1]);
             });
 
+        });
+
+    });
+
+    describe('flatten', () => {
+
+        it('should flatten the array', () => {
+            expect(utils.flatten([[[{foo: 'bar'}], 42], [[{bar: 'foo'}]], [42]])).to.be.deep.equal([{foo: 'bar'}, 42, {bar: 'foo'}, 42]);
+        });
+
+        it('should force the array', () => {
+            expect(utils.flatten(42)).to.be.deep.equal([42]);
+            expect(utils.flatten({foo: 'bar'})).to.be.deep.equal([{foo: 'bar'}]);
         });
 
     });
