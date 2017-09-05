@@ -133,3 +133,8 @@ module.exports.AstUse = require('./classes/use');
  * @type {AstBlock}
  */
 module.exports.AstBlock = require('./classes/block');
+
+/**
+ * @type {AstNoop}
+ */
+module.exports.AstNoop = require('./classes/noop');

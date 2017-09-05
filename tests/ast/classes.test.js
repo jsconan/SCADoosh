@@ -54,6 +54,7 @@ const AstAssignment = require('../../src/ast/classes/assignment');
 const AstInclude = require('../../src/ast/classes/include');
 const AstUse = require('../../src/ast/classes/use');
 const AstBlock = require('../../src/ast/classes/block');
+const AstNoop = require('../../src/ast/classes/noop');
 
 describe('AST hub', () => {
 
@@ -80,6 +81,7 @@ describe('AST hub', () => {
         expect(classes).to.have.a.property('AstInclude').that.is.a('function').and.is.equal(AstInclude);
         expect(classes).to.have.a.property('AstUse').that.is.a('function').and.is.equal(AstUse);
         expect(classes).to.have.a.property('AstBlock').that.is.a('function').and.is.equal(AstBlock);
+        expect(classes).to.have.a.property('AstNoop').that.is.a('function').and.is.equal(AstNoop);
     });
 
 });

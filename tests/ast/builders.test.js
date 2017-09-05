@@ -762,4 +762,192 @@ describe('AST builders', () => {
 
     });
 
+    describe('list', () => {
+
+        it('should produce the descriptor for a list of statements', () => {
+            const nodes = [
+                new classes.AstAssignment(new classes.AstIdentifier('foo'), new classes.AstNumber(42)),
+                new classes.AstAssignment(new classes.AstIdentifier('bar'), new classes.AstNumber(21)),
+                new classes.AstAssignment(new classes.AstIdentifier('x'), new classes.AstNumber(3))
+            ];
+            const line = 2;
+            const column = 4;
+            const input = nodes;
+
+            const node = new classes.AstBlock(nodes);
+
+            nodes.forEach((node, idx) => {
+                node.identifier.startAt(line + idx, column, column - 1);
+                node.identifier.endAt(line + idx, node.identifier.start.column + node.identifier.value.length, node.identifier.start.offset + node.identifier.value.length);
+                node.value.startAt(line + idx, node.identifier.end.column + 2, node.identifier.end.offset + 2);
+                node.value.endAt(line + idx, node.value.start.column + ('' + node.value.value).length, node.value.start.offset + ('' + node.value.value).length);
+                node.startAt(node.identifier);
+                node.endAt(node.value);
+            });
+            node.startAt(nodes[0]);
+            node.endAt(nodes[nodes.length - 1]);
+
+            expect(builders.list(input)).to.be.an.instanceOf(classes.AstBlock);
+            expect(builders.list(input)).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for a list of statements, no matter the depth', () => {
+            const nodes = [
+                new classes.AstAssignment(new classes.AstIdentifier('foo'), new classes.AstNumber(42)),
+                new classes.AstAssignment(new classes.AstIdentifier('bar'), new classes.AstNumber(21)),
+                new classes.AstAssignment(new classes.AstIdentifier('x'), new classes.AstNumber(3))
+            ];
+            const line = 2;
+            const column = 4;
+            const input = [[nodes[0]], [[[[nodes[1]]]], [nodes[2]]]];
+
+            const node = new classes.AstBlock(nodes);
+
+            nodes.forEach((node, idx) => {
+                node.identifier.startAt(line + idx, column, column - 1);
+                node.identifier.endAt(line + idx, node.identifier.start.column + node.identifier.value.length, node.identifier.start.offset + node.identifier.value.length);
+                node.value.startAt(line + idx, node.identifier.end.column + 2, node.identifier.end.offset + 2);
+                node.value.endAt(line + idx, node.value.start.column + ('' + node.value.value).length, node.value.start.offset + ('' + node.value.value).length);
+                node.startAt(node.identifier);
+                node.endAt(node.value);
+            });
+            node.startAt(nodes[0]);
+            node.endAt(nodes[nodes.length - 1]);
+
+            expect(builders.list(input)).to.be.an.instanceOf(classes.AstBlock);
+            expect(builders.list(input)).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for a list of one statement', () => {
+            const nodes = [
+                new classes.AstAssignment(new classes.AstIdentifier('foo'), new classes.AstNumber(42)),
+            ];
+            const line = 2;
+            const column = 4;
+            const input = nodes;
+
+            const node = new classes.AstBlock(nodes[0]);
+
+            nodes.forEach((node, idx) => {
+                node.identifier.startAt(line + idx, column, column - 1);
+                node.identifier.endAt(line + idx, node.identifier.start.column + node.identifier.value.length, node.identifier.start.offset + node.identifier.value.length);
+                node.value.startAt(line + idx, node.identifier.end.column + 2, node.identifier.end.offset + 2);
+                node.value.endAt(line + idx, node.value.start.column + ('' + node.value.value).length, node.value.start.offset + ('' + node.value.value).length);
+                node.startAt(node.identifier);
+                node.endAt(node.value);
+            });
+            node.startAt(nodes[0]);
+            node.endAt(nodes[nodes.length - 1]);
+
+            expect(builders.list(input)).to.be.an.instanceOf(classes.AstBlock);
+            expect(builders.list(input)).to.be.deep.equal(node);
+        });
+
+        it('should not produce the descriptor for an empty list of statements', () => {
+            expect(builders.list([])).to.be.null;
+        });
+
+        it('should produce the descriptor for a particular type of list', () => {
+            class AstFooBlock extends classes.AstBlock {}
+            const nodes = [
+                new classes.AstAssignment(new classes.AstIdentifier('foo'), new classes.AstNumber(42)),
+            ];
+            const line = 2;
+            const column = 4;
+            const input = nodes;
+            const node = new AstFooBlock(nodes);
+
+            nodes.forEach((node, idx) => {
+                node.identifier.startAt(line + idx, column, column - 1);
+                node.identifier.endAt(line + idx, node.identifier.start.column + node.identifier.value.length, node.identifier.start.offset + node.identifier.value.length);
+                node.value.startAt(line + idx, node.identifier.end.column + 2, node.identifier.end.offset + 2);
+                node.value.endAt(line + idx, node.value.start.column + ('' + node.value.value).length, node.value.start.offset + ('' + node.value.value).length);
+                node.startAt(node.identifier);
+                node.endAt(node.value);
+            });
+            node.startAt(nodes[0]);
+            node.endAt(nodes[nodes.length - 1]);
+
+            expect(builders.list(input, AstFooBlock)).to.be.an.instanceOf(classes.AstBlock);
+            expect(builders.list(input, AstFooBlock)).to.be.an.instanceOf(AstFooBlock);
+            expect(builders.list(input, AstFooBlock)).to.be.deep.equal(node);
+        });
+
+        it('should forward the existing descriptor for a block of statements', () => {
+            const node = new classes.AstBlock([
+                new classes.AstAssignment(new classes.AstIdentifier('foo'), new classes.AstNumber(42))
+            ]);
+
+            expect(builders.list(node)).to.be.deep.equal(node);
+            expect(builders.list([node])).to.be.deep.equal(node);
+        });
+
+    });
+
+    describe('noop', () => {
+
+        it('should produce the descriptor for an empty statement', () => {
+            const input = {
+                type: 'semicolon',
+                text: ';',
+                value: ';',
+                line: 1,
+                col: 1,
+                offset: 0
+            };
+            const node = new classes.AstNoop();
+            node.startAt(1, 1, 0);
+            node.endAt(1, 2, 1);
+
+            expect(builders.noop(input)).to.be.an.instanceOf(classes.AstNoop);
+            expect(builders.noop(input)).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for an empty statement, no matter the depth', () => {
+            const input = {
+                type: 'semicolon',
+                text: ';',
+                value: ';',
+                line: 1,
+                col: 1,
+                offset: 0
+            };
+            const node = new classes.AstNoop();
+            node.startAt(1, 1, 0);
+            node.endAt(1, 2, 1);
+
+            expect(builders.noop([[input]])).to.be.an.instanceOf(classes.AstNoop);
+            expect(builders.noop([[input]])).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for a particular type of empty statement', () => {
+            class AstFooNoop extends classes.AstNoop {}
+            const input = {
+                type: 'semicolon',
+                text: ';',
+                value: ';',
+                line: 1,
+                col: 1,
+                offset: 0
+            };
+            const node = new AstFooNoop();
+            node.startAt(1, 1, 0);
+            node.endAt(1, 2, 1);
+
+            expect(builders.noop(input, AstFooNoop)).to.be.an.instanceOf(classes.AstNoop);
+            expect(builders.noop(input, AstFooNoop)).to.be.an.instanceOf(AstFooNoop);
+            expect(builders.noop(input, AstFooNoop)).to.be.deep.equal(node);
+        });
+
+        it('should forward the existing descriptor for an empty statement', () => {
+            const node = new classes.AstNoop();
+            node.startAt(1, 1, 0);
+            node.endAt(1, 2, 1);
+
+            expect(builders.noop(node)).to.be.an.instanceOf(classes.AstNoop);
+            expect(builders.noop(node)).to.be.deep.equal(node);
+        });
+
+    });
+
 });

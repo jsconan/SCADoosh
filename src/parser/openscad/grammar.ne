@@ -45,11 +45,18 @@ const builders = require('./../../ast/builders');
 
 @lexer lexer
 
+package ->
+        statements              {% utils.forward %}
+
+statements ->
+        statement:*             {% (data) => builders.list(data, 'AstBlock') %}
+
 statement ->
-        assignment ";"          {% utils.head %}
-    |   include (";" | null)    {% utils.head %}
-    |   comment                 {% utils.forward %}
-    |   null                    {% utils.discard %}
+        ";"                     {% (data) => builders.noop(data) %}
+    |   "{" statements "}"      {% utils.surrounded %}
+    |   assignment ";"          {% utils.head %}
+    |   comment
+    |   include
 
 include ->
         "include" path          {% (data) => builders.command(data, 'AstInclude') %}
@@ -66,9 +73,9 @@ term ->
 
 factor ->
         ("+" | "-") factor      {% (data) => builders.unaryOperator(data, 'AstUnaryOperator') %}
-    |   number                  {% utils.forward %}
     |   "(" expr ")"            {% utils.surrounded %}
-    |   identifier              {% utils.forward %}
+    |   number
+    |   identifier
 
 # Literals
 undef ->

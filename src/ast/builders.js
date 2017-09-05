@@ -69,7 +69,7 @@ const builders = {
     /**
      * Processes a unary operator
      * @param {Array} data - The data provided by the parser
-     * @param {Function|String} AstClass - The AstNode class or the name of an AST node class
+     * @param {Function|String} [AstClass] - The AstNode class or the name of an AST node class
      * @returns {AstFragment}
      */
     unaryOperator: (data, AstClass = 'AstUnaryOperator') => {
@@ -89,7 +89,7 @@ const builders = {
     /**
      * Processes a binary operator
      * @param {Array} data - The data provided by the parser
-     * @param {Function|String} AstClass - The AstNode class or the name of an AST node class
+     * @param {Function|String} [AstClass] - The AstNode class or the name of an AST node class
      * @returns {AstFragment}
      */
     binaryOperator: (data, AstClass = 'AstBinaryOperator') => {
@@ -110,7 +110,7 @@ const builders = {
     /**
      * Processes an assignment
      * @param {Array} data - The data provided by the parser
-     * @param {Function|String} AstClass - The AstNode class or the name of an AST node class
+     * @param {Function|String} [AstClass] - The AstNode class or the name of an AST node class
      * @returns {AstFragment}
      */
     assignment: (data, AstClass = 'AstAssignment') => {
@@ -148,9 +148,9 @@ const builders = {
     },
 
     /**
-     * Processes a block of statements
+     * Processes a surrounded list of statements
      * @param {Array} data - The data provided by the parser
-     * @param {Function|String} AstClass - The AstNode class or the name of an AST node class
+     * @param {Function|String} [AstClass] - The AstNode class or the name of an AST node class
      * @returns {AstFragment}
      */
     block: (data, AstClass = 'AstBlock') => {
@@ -162,6 +162,39 @@ const builders = {
         } else {
             return utils.forward(data)
         }
+    },
+
+    /**
+     * Processes a list of statements
+     * @param {Array} data - The data provided by the parser
+     * @param {Function|String} [AstClass] - The AstNode class or the name of an AST node class
+     * @returns {AstFragment|null}
+     */
+    list: (data, AstClass = 'AstBlock') => {
+        data = utils.flatten(data);
+        if (data.length) {
+            const Class = utils.getClass(AstClass);
+            if (data.length === 1 && utils.is(data[0], AstClass)) {
+                return utils.forward(data);
+            }
+            return utils.setPosition(new Class(data), data);
+        }
+        return null;
+    },
+
+    /**
+     * Processes an empty statement
+     * @param {Array} data - The data provided by the parser
+     * @param {Function|String} [AstClass] - The AstNode class or the name of an AST node class
+     * @returns {AstFragment}
+     */
+    noop: (data, AstClass = 'AstNoop') => {
+        data = utils.flatten(data);
+        const Class = utils.getClass(AstClass);
+        if (data.length === 1 && utils.is(data[0], AstClass)) {
+            return utils.forward(data);
+        }
+        return utils.setPosition(new Class(data), data);
     },
 };
 
