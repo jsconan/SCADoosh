@@ -31,11 +31,7 @@
 
 const _ = require('lodash');
 const splitLines = require('./../utils/strings').splitLines;
-const ast = require('./ast');
-const nodes = ast.nodes;
-
-const AstPosition = require('./position');
-const AstFragment = require('./fragment');
+const classes = require('./classes');
 
 /**
  * Defines some AST utility helpers.
@@ -50,9 +46,35 @@ const utils = {
      */
     is: (node, AstClass) => {
         if (typeof AstClass === 'string') {
-            AstClass = nodes[AstClass] || _.noop;
+            AstClass = classes[AstClass] || _.noop;
         }
         return typeof node === 'object' && node instanceof AstClass;
+    },
+
+    /**
+     * Gets an AST node class.
+     * @param {String|Function} AstClass
+     * @returns {Function}
+     * @throws {TypeError} if the AstClass is not valid
+     */
+    getClass: (AstClass) => {
+        if (!AstClass) {
+            throw new TypeError(`Missing class or class name!`);
+        }
+
+        if (typeof AstClass === 'string') {
+            if (classes[AstClass]) {
+                AstClass = classes[AstClass];
+            } else {
+                throw new TypeError(`Unknown AST node class ${AstClass}`);
+            }
+        }
+
+        if (typeof AstClass !== 'function') {
+            throw new TypeError('AstClass should be a constructor');
+        }
+
+        return AstClass;
     },
 
     /**
@@ -64,11 +86,11 @@ const utils = {
     startPosition: (token) => {
         token = _.isObject(token) ? token : {};
 
-        if (utils.is(token, AstFragment)) {
+        if (utils.is(token, classes.AstFragment)) {
             return token.start;
         }
 
-        return new AstPosition(token.line, token.col, token.offset);
+        return new classes.AstPosition(token.line, token.col, token.offset);
     },
 
     /**
@@ -80,7 +102,7 @@ const utils = {
     endPosition: (token) => {
         token = _.isObject(token) ? token : {};
 
-        if (utils.is(token, AstFragment)) {
+        if (utils.is(token, classes.AstFragment)) {
             return token.end;
         }
 
@@ -89,7 +111,7 @@ const utils = {
         const breaks = lines.length - 1;
         const col = breaks ? 1 + lines[breaks].length : token.col + value.length;
 
-        return new AstPosition(token.line + breaks, col, token.offset + value.length);
+        return new classes.AstPosition(token.line + breaks, col, token.offset + value.length);
     },
 
     /**
@@ -105,7 +127,7 @@ const utils = {
         if (data.length === 3) {
             let [left, node, right] = data;
 
-            if (!utils.is(node, AstFragment)) {
+            if (!utils.is(node, classes.AstFragment)) {
                 throw new TypeError('Only a AstFragment instances can be surrounded!');
             }
 

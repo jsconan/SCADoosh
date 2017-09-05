@@ -31,41 +31,23 @@
 
 const _ = require('lodash');
 const utils = require('./utils');
-const ast = require('./ast');
-const nodes = ast.nodes;
+const classes = require('./classes');
 
 const builders = {
     /**
      * Creates a terminal node from the provided token and class.
      * Set the fragment position according to the provided token.
      * @param {Token} token - The token that represents the terminal
-     * @param {Function|String} AstNodeClass - The AstNode class or the name of an AST node class or factory
+     * @param {Function|String} AstClass - The AstNode class or the name of an AST node class
      * @returns {AstFragment}
-     * @throws {TypeError} if the created node is not an AstFragment or if the AstNodeClass is not valid
+     * @throws {TypeError} if the created node is not an AstFragment or if the AstClass is not valid
      */
-    terminal: (token, AstNodeClass) => {
-        const value = token.value;
-        let factory;
+    terminal: (token, AstClass) => {
+        const Class = utils.getClass(AstClass);
+        const node = new Class(token.value);
 
-        if (typeof AstNodeClass === 'string') {
-            if (ast[AstNodeClass]) {
-                factory = ast[AstNodeClass];
-            } else if (nodes[AstNodeClass]) {
-                factory = (value) => new nodes[AstNodeClass](value);
-            } else {
-                throw new TypeError(`Unknown AST node class ${AstNodeClass}`);
-            }
-        } else {
-            if (!_.isFunction(AstNodeClass)) {
-                throw new TypeError('AstNodeClass should be a constructor');
-            }
-            factory = (value) => new AstNodeClass(value);
-        }
-
-        const node = factory(value);
-
-        if (!utils.is(node, nodes.AstFragment)) {
-            throw new TypeError('A terminal should be An AstFragment');
+        if (!utils.is(node, classes.AstFragment)) {
+            throw new TypeError('A terminal should be at least an AstFragment');
         }
 
         node.startAt(utils.startPosition(token));
@@ -79,56 +61,56 @@ const builders = {
      * @param {Array} data
      * @returns {AstNumber}
      */
-    number: (data) => builders.terminal(utils.forward(data), 'number'),
+    number: (data) => builders.terminal(utils.forward(data), 'AstNumber'),
 
     /**
      * Processes a string
      * @param {Array} data
      * @returns {AstString}
      */
-    string: (data) => builders.terminal(utils.forward(data), 'string'),
+    string: (data) => builders.terminal(utils.forward(data), 'AstString'),
 
     /**
      * Processes a path
      * @param {Array} data
      * @returns {AstPath}
      */
-    path: (data) => builders.terminal(utils.forward(data), 'path'),
+    path: (data) => builders.terminal(utils.forward(data), 'AstPath'),
 
     /**
      * Processes the boolean keywords
      * @param {Array} data
      * @returns {AstBoolean}
      */
-    boolean: (data) => builders.terminal(utils.forward(data), 'boolean'),
+    boolean: (data) => builders.terminal(utils.forward(data), 'AstBoolean'),
 
     /**
      * Processes the "undef" keyword
      * @param {Array} data
      * @returns {AstUndefined}
      */
-    undef: (data) => builders.terminal(utils.forward(data), 'undefined'),
+    undef: (data) => builders.terminal(utils.forward(data), 'AstUndefined'),
 
     /**
      * Processes an identifier
      * @param {Array} data
      * @returns {AstIdentifier}
      */
-    identifier: (data) => builders.terminal(utils.forward(data), 'identifier'),
+    identifier: (data) => builders.terminal(utils.forward(data), 'AstIdentifier'),
 
     /**
      * Processes a line comment
      * @param {Array} data
      * @returns {AstLineComment}
      */
-    lineComment: (data) => builders.terminal(utils.forward(data), 'lineComment'),
+    lineComment: (data) => builders.terminal(utils.forward(data), 'AstLineComment'),
 
     /**
      * Processes a block comment
      * @param {Array} data
      * @returns {AstBlockComment}
      */
-    blockComment: (data) => builders.terminal(utils.forward(data), 'blockComment'),
+    blockComment: (data) => builders.terminal(utils.forward(data), 'AstBlockComment'),
 
     /**
      * Processes a unary operator
@@ -138,7 +120,7 @@ const builders = {
     unaryOperator: (data) => {
         data = _.isArray(data) ? _.flattenDeep(data) : data;
         if (data.length === 2) {
-            let node = ast.unaryOperator(
+            let node = new classes.AstUnaryOperator(
                 data[0].value,
                 data[1]
             );
@@ -158,7 +140,7 @@ const builders = {
     binaryOperator: (data) => {
         data = _.isArray(data) ? _.flattenDeep(data) : data;
         if (data.length === 3) {
-            let node = ast.binaryOperator(
+            let node = new classes.AstBinaryOperator(
                 data[0],
                 data[1].value,
                 data[2]
@@ -179,7 +161,7 @@ const builders = {
     assignment: (data) => {
         data = _.isArray(data) ? _.flattenDeep(data) : data;
         if (data.length === 3) {
-            let node = ast.assignment(
+            let node = new classes.AstAssignment(
                 data[0],
                 data[2]
             );
@@ -199,7 +181,7 @@ const builders = {
     include: (data) => {
         data = _.isArray(data) ? _.flattenDeep(data) : data;
         if (data.length === 2) {
-            let node = ast.include(
+            let node = new classes.AstInclude(
                 data[1]
             );
             node.startAt(utils.startPosition(data[0]));
@@ -218,7 +200,7 @@ const builders = {
     use: (data) => {
         data = _.isArray(data) ? _.flattenDeep(data) : data;
         if (data.length === 2) {
-            let node = ast.use(
+            let node = new classes.AstUse(
                 data[1]
             );
             node.startAt(utils.startPosition(data[0]));
@@ -237,7 +219,7 @@ const builders = {
     block: (data) => {
         data = _.isArray(data) ? _.flattenDeep(data) : data;
         if (data.length > 1) {
-            let node = ast.block(data.slice(1, -1));
+            let node = new classes.AstBlock(data.slice(1, -1));
             node.startAt(utils.startPosition(data[0]));
             node.endAt(utils.startPosition(data[data.length - 1]));
             return node;
