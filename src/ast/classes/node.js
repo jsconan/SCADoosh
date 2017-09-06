@@ -100,6 +100,14 @@ class AstNode {
     }
 
     /**
+     * Gets the properties of the object, without the type.
+     * @returns {Object}
+     */
+    getProperties() {
+        return _.omit(this, 'type');
+    }
+
+    /**
      * Clones the instance.
      * @param {Object} [properties] - an optional list of additional properties to set.
      * @returns {AstNode}
@@ -126,7 +134,7 @@ class AstNode {
      */
     static validate(obj, type) {
         const isClass = _.isFunction(type);
-        const Class = isClass ? type : AstNode;
+        const Class = isClass ? type : this;
         return (obj && obj instanceof Class) && (!type || isClass || obj.type === type);
     }
 }

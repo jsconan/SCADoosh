@@ -171,6 +171,26 @@ describe('AST node: AstNode', () => {
         expect(node.offset).to.be.equal(offset);
     });
 
+    it('should get the properties', () => {
+        const type = 'literal';
+        const properties = {
+            name: 'foo',
+            value: 42,
+            position: 10,
+            offset: 9
+        };
+        const node = new AstNode(type, Object.assign({}, properties));
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        Object.keys(properties).forEach((name) => {
+            expect(node).to.have.a.property(name).that.is.equal(properties[name]);
+        });
+
+        expect(node.getProperties()).to.be.deep.equal(properties);
+    });
+
     it('should clone an AstNode', () => {
         const type = 'literal';
         const position = 10;
@@ -254,6 +274,22 @@ describe('AST node: AstNode', () => {
         expect(AstNode.validate({})).to.be.false;
         expect(AstNode.validate({type: type})).to.be.false;
         expect(AstNode.validate({type: type}, type)).to.be.false;
+    });
+
+    it('should validate the inherited class instead of AstNode', () => {
+        class AstFoo extends AstNode {}
+
+        const type = 'literal';
+        const node = new AstNode(type);
+        const foo = new AstFoo(type);
+
+        expect(AstFoo.validate(node)).to.be.false;
+        expect(AstFoo.validate(foo)).to.be.true;
+        expect(AstFoo.validate(node, type)).to.be.false;
+        expect(AstFoo.validate(foo, type)).to.be.true;
+        expect(AstFoo.validate(node, AstFoo)).to.be.false;
+        expect(AstFoo.validate(node, AstNode)).to.be.true;
+        expect(AstFoo.validate(foo, AstFoo)).to.be.true;
     });
 
 });
