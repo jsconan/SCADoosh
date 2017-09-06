@@ -23,7 +23,7 @@
 /**
  * Part of the SCADoosh tool.
  *
- * Unit tests: AST node that represents a list of statements.
+ * Unit tests: AST node that represents a list of nodes.
  *
  * @package tests/ast/classes
  * @author jsconan
@@ -39,66 +39,85 @@ const AstIdentifier = require('../../../src/ast/classes/identifier');
 const AstNumber = require('../../../src/ast/classes/number');
 const AstAssignment = require('../../../src/ast/classes/assignment');
 const AstGroup = require('../../../src/ast/classes/group');
-const AstBlock = require('../../../src/ast/classes/block');
 
-describe('AST node: AstBlock', () => {
+describe('AST node: AstGroup', () => {
 
-    it('should create an AstBlock with a list of statements', () => {
-        const type = 'block';
+    it('should create an AstGroup with a list of statements', () => {
+        const type = 'group';
         const statements = [
             new AstAssignment(new AstIdentifier('foo'), new AstNumber(42)),
         ];
-        const node = new AstBlock(statements);
+        const node = new AstGroup(type, statements);
 
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstGroup);
-        expect(node).to.be.an.instanceOf(AstBlock);
         expect(node.statements).to.be.an('array');
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('statements').that.is.deep.equal(statements);
     });
 
-    it('should create an AstBlock with a single statement', () => {
-        const type = 'block';
+    it('should create an AstGroup with a single statement', () => {
+        const type = 'group';
         const statements = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
-        const node = new AstBlock(statements);
+        const node = new AstGroup(type, statements);
 
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstGroup);
-        expect(node).to.be.an.instanceOf(AstBlock);
         expect(node.statements).to.be.an('array');
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('statements').that.is.deep.equal([statements]);
     });
 
-    it('should create an AstBlock with no statement', () => {
-        const type = 'block';
+    it('should create an AstGroup with no statement', () => {
+        const type = 'group';
         const statements = [];
-        const node = new AstBlock(statements);
+        const node = new AstGroup(type, statements);
 
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstGroup);
-        expect(node).to.be.an.instanceOf(AstBlock);
         expect(node.statements).to.be.an('array');
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('statements').that.is.deep.equal(statements);
     });
 
-    it('should throw a TypeError if the statements are not valid', () => {
-        expect(() => new AstBlock([{}])).to.throw(TypeError);
-        expect(() => new AstBlock({})).to.throw(TypeError);
+    it('should throw a TypeError if the type is missing', () => {
+        expect(() => {
+            new AstGroup();
+        }).to.throw(TypeError);
+
+        expect(() => {
+            new AstGroup("", []);
+        }).to.throw(TypeError);
     });
 
-    it('should stringify an AstBlock', () => {
-        const type = 'block';
+    it('should throw a TypeError if the type is not a string', () => {
+        expect(() => {
+            new AstGroup({myProp: "a property"}, []);
+        }).to.throw(TypeError);
+
+        expect(() => {
+            new AstGroup(true, []);
+        }).to.throw(TypeError);
+    });
+
+    it('should throw a TypeError if the statements are not valid', () => {
+        const type = 'group';
+        expect(() => new AstGroup(type, [{}])).to.throw(TypeError);
+        expect(() => new AstGroup(type, {})).to.throw(TypeError);
+        expect(() => new AstGroup(type, new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstGroup(type, [new AstNode('foo')])).to.throw(TypeError);
+    });
+
+    it('should stringify an AstGroup', () => {
+        const type = 'group';
         const statements = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
-        const node = new AstBlock(statements);
+        const node = new AstGroup(type, statements);
         const expected = {
             type: type,
             statements: [{
@@ -145,7 +164,6 @@ describe('AST node: AstBlock', () => {
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstGroup);
-        expect(node).to.be.an.instanceOf(AstBlock);
         expect(node).to.deep.equal(expected);
         expect(node.statements).to.be.an('array');
         expect(node.start).to.be.instanceOf(AstPosition);
@@ -153,25 +171,26 @@ describe('AST node: AstBlock', () => {
         expect(node + '').to.be.equal(stringified);
     });
 
-    it('should clone an AstBlock', () => {
+    it('should clone an AstGroup', () => {
+        const type = 'group';
         const statements = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
-        const node = new AstBlock(statements);
+        const node = new AstGroup(type, statements);
         const clone = node.clone();
 
         expect(clone).to.be.an('object');
         expect(clone).to.be.an.instanceOf(AstNode);
         expect(clone).to.be.an.instanceOf(AstFragment);
-        expect(node).to.be.an.instanceOf(AstGroup);
-        expect(clone).to.be.an.instanceOf(AstBlock);
+        expect(clone).to.be.an.instanceOf(AstGroup);
         expect(clone).to.not.be.equal(node);
         expect(clone).to.be.deep.equal(node);
     });
 
-    it('should clone an AstBlock with the provided properties', () => {
+    it('should clone an AstGroup with the provided properties', () => {
+        const type = 'group';
         const statements = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
         const newStatements = [new AstAssignment(new AstIdentifier('bar'), new AstNumber(21))];
 
-        const node = (new AstBlock(statements)).startAt(1, 1, 0).endAt(1, 10, 9);
+        const node = (new AstGroup(type, statements)).startAt(1, 1, 0).endAt(1, 10, 9);
 
         const clone = node.clone({
             type: 'number',         // should not be allowed
@@ -181,8 +200,7 @@ describe('AST node: AstBlock', () => {
         expect(clone).to.be.an('object');
         expect(clone).to.be.an.instanceOf(AstNode);
         expect(clone).to.be.an.instanceOf(AstFragment);
-        expect(node).to.be.an.instanceOf(AstGroup);
-        expect(clone).to.be.an.instanceOf(AstBlock);
+        expect(clone).to.be.an.instanceOf(AstGroup);
         expect(clone).to.not.be.equal(node);
         expect(clone).to.be.not.deep.equal(node);
         expect(clone).to.have.a.property('type').that.is.equal(node.type);
@@ -192,10 +210,32 @@ describe('AST node: AstBlock', () => {
     });
 
     it('should throw a TypeError if the statements are not valid when cloning', () => {
+        const type = 'group';
         const statements = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
-        const node = (new AstBlock(statements)).startAt(1, 1, 0).endAt(1, 10, 9);
+        const node = (new AstGroup(type, statements)).startAt(1, 1, 0).endAt(1, 10, 9);
         expect(() => node.clone({statements: {}})).to.throw(TypeError);
         expect(() => node.clone({statements: [{}]})).to.throw(TypeError);
+    });
+
+    it('should validate a list of statements', () => {
+        const type = 'group';
+        const statements = [
+            new AstAssignment(new AstIdentifier('foo'), new AstNumber(42)),
+        ];
+        const node = new AstGroup(type, []);
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstGroup);
+        expect(node.statements).to.be.an('array');
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('statements').that.is.deep.equal([]);
+
+        expect(node.validateStatements(statements)).to.be.true;
+        expect(node.validateStatements([])).to.be.true;
+        expect(node.validateStatements([{}])).to.be.false;
+        expect(node.validateStatements([new AstNode('foo')])).to.be.false;
     });
 
 });

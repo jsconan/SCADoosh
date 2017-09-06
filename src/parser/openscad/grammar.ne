@@ -46,14 +46,14 @@ const builders = require('./../../ast/builders');
 @lexer lexer
 
 package ->
-        statements              {% utils.forward %}
+        statements              {% (data) => builders.list(data, 'AstPackage') %}
 
 statements ->
-        statement:*             {% (data) => builders.list(data, 'AstBlock') %}
+        statement:*
 
 statement ->
         ";"                     {% (data) => builders.noop(data) %}
-    |   "{" statements "}"      {% utils.surrounded %}
+    |   "{" statements "}"      {% (data) => builders.block(data, 'AstBlock') %}
     |   assignment ";"          {% utils.head %}
     |   comment
     |   include

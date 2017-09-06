@@ -130,9 +130,19 @@ module.exports.AstInclude = require('./classes/include');
 module.exports.AstUse = require('./classes/use');
 
 /**
+ * @type {AstGroup}
+ */
+module.exports.AstGroup = require('./classes/group');
+
+/**
  * @type {AstBlock}
  */
 module.exports.AstBlock = require('./classes/block');
+
+/**
+ * @type {AstPackage}
+ */
+module.exports.AstPackage = require('./classes/package');
 
 /**
  * @type {AstNoop}

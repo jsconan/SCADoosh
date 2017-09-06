@@ -23,7 +23,7 @@
 /**
  * Part of the SCADoosh tool.
  *
- * Defines an AST node that represents a list of statements.
+ * Defines an AST node that represents a package.
  *
  * @package src/ast/classes
  * @author jsconan
@@ -32,22 +32,22 @@
 const AstGroup = require('./group');
 
 /**
- * Defines an AST node that represents a list of statements.
- * @typedef {AstGroup} AstBlock
+ * Defines an AST node that represents a package.
+ * @typedef {AstGroup} AstPackage
  * @property {String} type
  * @property {AstNode[]} statements
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
-class AstBlock extends AstGroup {
+class AstPackage extends AstGroup {
     /**
-     * Creates an AstBlock.
+     * Creates an AstPackage.
      * @param {AstFragment[]|AstFragment} statements - A statement or a list of statements
      * @throws {TypeError} if the statements are not valid AST nodes
      */
     constructor(statements) {
-        super('block', statements);
+        super('package', statements);
     }
 }
 
-module.exports = AstBlock;
+module.exports = AstPackage;

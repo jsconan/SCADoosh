@@ -53,6 +53,8 @@ const AstUnaryOperator = require('../../src/ast/classes/unary-operator');
 const AstAssignment = require('../../src/ast/classes/assignment');
 const AstInclude = require('../../src/ast/classes/include');
 const AstUse = require('../../src/ast/classes/use');
+const AstGroup = require('../../src/ast/classes/group');
+const AstPackage = require('../../src/ast/classes/package');
 const AstBlock = require('../../src/ast/classes/block');
 const AstNoop = require('../../src/ast/classes/noop');
 
@@ -80,6 +82,8 @@ describe('AST hub', () => {
         expect(classes).to.have.a.property('AstAssignment').that.is.a('function').and.is.equal(AstAssignment);
         expect(classes).to.have.a.property('AstInclude').that.is.a('function').and.is.equal(AstInclude);
         expect(classes).to.have.a.property('AstUse').that.is.a('function').and.is.equal(AstUse);
+        expect(classes).to.have.a.property('AstGroup').that.is.a('function').and.is.equal(AstGroup);
+        expect(classes).to.have.a.property('AstPackage').that.is.a('function').and.is.equal(AstPackage);
         expect(classes).to.have.a.property('AstBlock').that.is.a('function').and.is.equal(AstBlock);
         expect(classes).to.have.a.property('AstNoop').that.is.a('function').and.is.equal(AstNoop);
     });

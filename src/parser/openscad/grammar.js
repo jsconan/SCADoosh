@@ -17,12 +17,12 @@ const builders = require('./../../ast/builders');
 var grammar = {
     Lexer: lexer,
     ParserRules: [
-    {"name": "package", "symbols": ["statements"], "postprocess": utils.forward},
+    {"name": "package", "symbols": ["statements"], "postprocess": (data) => builders.list(data, 'AstPackage')},
     {"name": "statements$ebnf$1", "symbols": []},
     {"name": "statements$ebnf$1", "symbols": ["statements$ebnf$1", "statement"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-    {"name": "statements", "symbols": ["statements$ebnf$1"], "postprocess": (data) => builders.list(data, 'AstBlock')},
+    {"name": "statements", "symbols": ["statements$ebnf$1"]},
     {"name": "statement", "symbols": [{"literal":";"}], "postprocess": (data) => builders.noop(data)},
-    {"name": "statement", "symbols": [{"literal":"{"}, "statements", {"literal":"}"}], "postprocess": utils.surrounded},
+    {"name": "statement", "symbols": [{"literal":"{"}, "statements", {"literal":"}"}], "postprocess": (data) => builders.block(data, 'AstBlock')},
     {"name": "statement", "symbols": ["assignment", {"literal":";"}], "postprocess": utils.head},
     {"name": "statement", "symbols": ["comment"]},
     {"name": "statement", "symbols": ["include"]},
