@@ -1,37 +1,40 @@
 {
-  "name": "SCADoosh",
-  "version": "0.1.0",
-  "description": "A doc generator for OpenSCAD, using javadoc-like style",
-  "main": "main.js",
-  "scripts": {
-    "test": "nyc mocha 'tests/**/*.test.js' --recursive",
-    "watch": "mocha 'tests/**/*.test.js' --recursive --watch",
-    "compile": "nearleyc ./src/parser/openscad/grammar.ne -o ./src/parser/openscad/grammar.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jsconan/SCADoosh"
-  },
-  "keywords": [
-    "doc",
-    "generator",
-    "openscad"
-  ],
-  "author": "jsconan",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/jsconan/SCADoosh/issues"
-  },
-  "homepage": "https://github.com/jsconan/SCADoosh",
-  "dependencies": {
-    "lodash": "^4.17.4",
-    "moo": "^0.4.1",
-    "nearley": "^2.10.5"
-  },
-  "devDependencies": {
-    "chai": "^4.1.1",
-    "chai-json-schema": "^1.5.0",
-    "mocha": "^3.5.0",
-    "nyc": "^11.1.0"
-  }
+    "name": "SCADoosh",
+    "version": "0.1.0",
+    "description": "A doc generator for OpenSCAD, using javadoc-like style",
+    "main": "main.js",
+    "scripts": {
+        "test": "nyc mocha 'tests/**/*.test.js' --recursive",
+        "watch": "mocha 'tests/**/*.test.js' --recursive --watch",
+        "compile": "nearleyc ./src/parser/openscad/grammar.ne -o ./src/parser/openscad/grammar.js",
+        "tokenize": "node scripts/tokenize",
+        "parse": "node scripts/parse"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jsconan/SCADoosh"
+    },
+    "keywords": [
+        "doc",
+        "generator",
+        "openscad"
+    ],
+    "author": "jsconan",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/jsconan/SCADoosh/issues"
+    },
+    "homepage": "https://github.com/jsconan/SCADoosh",
+    "dependencies": {
+        "commander": "^2.11.0",
+        "lodash": "^4.17.4",
+        "moo": "^0.4.1",
+        "nearley": "^2.10.5"
+    },
+    "devDependencies": {
+        "chai": "^4.1.1",
+        "chai-json-schema": "^1.5.0",
+        "mocha": "^3.5.0",
+        "nyc": "^11.1.0"
+    }
 }
