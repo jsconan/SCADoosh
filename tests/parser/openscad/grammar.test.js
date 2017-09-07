@@ -1083,6 +1083,254 @@ describe('OpenSCAD grammar', () => {
             expect(parser.results).to.deep.equal(expected);
         });
 
+        it('should parse an expression assignment statement `1 + -2 + 3 + 4`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.list([
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
+                                offset: 0,
+                                lineBreaks: 0,
+                                line: 1,
+                                col: 1
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                offset: 4,
+                                lineBreaks: 0,
+                                line: 1,
+                                col: 5
+                            },
+                            builders.binaryOperator([
+                                builders.binaryOperator([
+                                    builders.binaryOperator([
+                                        builders.terminal([{
+                                            type: 'number',
+                                            value: '1',
+                                            text: '1',
+                                            offset: 6,
+                                            lineBreaks: 0,
+                                            line: 1,
+                                            col: 7
+                                        }], 'AstNumber'),
+                                        {
+                                            type: 'add',
+                                            value: '+',
+                                            text: '+',
+                                            offset: 8,
+                                            lineBreaks: 0,
+                                            line: 1,
+                                            col: 9
+                                        },
+                                        builders.unaryOperator([
+                                            {
+                                                type: 'subtract',
+                                                value: '-',
+                                                text: '-',
+                                                offset: 10,
+                                                lineBreaks: 0,
+                                                line: 1,
+                                                col: 11
+                                            },
+                                            builders.terminal([{
+                                                type: 'number',
+                                                value: '2',
+                                                text: '2',
+                                                offset: 11,
+                                                lineBreaks: 0,
+                                                line: 1,
+                                                col: 12
+                                            }], 'AstNumber')
+                                        ]),
+                                    ]),
+                                    {
+                                        type: 'add',
+                                        value: '+',
+                                        text: '+',
+                                        offset: 13,
+                                        lineBreaks: 0,
+                                        line: 1,
+                                        col: 14
+                                    },
+                                    builders.terminal([{
+                                        type: 'number',
+                                        value: '3',
+                                        text: '3',
+                                        offset: 15,
+                                        lineBreaks: 0,
+                                        line: 1,
+                                        col: 16
+                                    }], 'AstNumber')
+                                ]),
+                                {
+                                    type: 'add',
+                                    value: '+',
+                                    text: '+',
+                                    offset: 17,
+                                    lineBreaks: 0,
+                                    line: 1,
+                                    col: 18
+                                },
+                                builders.terminal([{
+                                    type: 'number',
+                                    value: '4',
+                                    text: '4',
+                                    offset: 19,
+                                    lineBreaks: 0,
+                                    line: 1,
+                                    col: 20
+                                }], 'AstNumber')
+                            ]),
+                        ]),
+                        {
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
+                            offset: 20,
+                            lineBreaks: 0,
+                            line: 1,
+                            col: 21
+                        }
+                    ])
+                ], 'AstPackage')
+            ];
+
+            parser.feed('foo = 1 + -2 + 3 + 4;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an expression assignment statement `1 * -2 * 3 * 4`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.list([
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
+                                offset: 0,
+                                lineBreaks: 0,
+                                line: 1,
+                                col: 1
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                offset: 4,
+                                lineBreaks: 0,
+                                line: 1,
+                                col: 5
+                            },
+                            builders.binaryOperator([
+                                builders.binaryOperator([
+                                    builders.binaryOperator([
+                                        builders.terminal([{
+                                            type: 'number',
+                                            value: '1',
+                                            text: '1',
+                                            offset: 6,
+                                            lineBreaks: 0,
+                                            line: 1,
+                                            col: 7
+                                        }], 'AstNumber'),
+                                        {
+                                            type: 'multiply',
+                                            value: '*',
+                                            text: '*',
+                                            offset: 8,
+                                            lineBreaks: 0,
+                                            line: 1,
+                                            col: 9
+                                        },
+                                        builders.unaryOperator([
+                                            {
+                                                type: 'subtract',
+                                                value: '-',
+                                                text: '-',
+                                                offset: 10,
+                                                lineBreaks: 0,
+                                                line: 1,
+                                                col: 11
+                                            },
+                                            builders.terminal([{
+                                                type: 'number',
+                                                value: '2',
+                                                text: '2',
+                                                offset: 11,
+                                                lineBreaks: 0,
+                                                line: 1,
+                                                col: 12
+                                            }], 'AstNumber')
+                                        ]),
+                                    ]),
+                                    {
+                                        type: 'multiply',
+                                        value: '*',
+                                        text: '*',
+                                        offset: 13,
+                                        lineBreaks: 0,
+                                        line: 1,
+                                        col: 14
+                                    },
+                                    builders.terminal([{
+                                        type: 'number',
+                                        value: '3',
+                                        text: '3',
+                                        offset: 15,
+                                        lineBreaks: 0,
+                                        line: 1,
+                                        col: 16
+                                    }], 'AstNumber')
+                                ]),
+                                {
+                                    type: 'multiply',
+                                    value: '*',
+                                    text: '*',
+                                    offset: 17,
+                                    lineBreaks: 0,
+                                    line: 1,
+                                    col: 18
+                                },
+                                builders.terminal([{
+                                    type: 'number',
+                                    value: '4',
+                                    text: '4',
+                                    offset: 19,
+                                    lineBreaks: 0,
+                                    line: 1,
+                                    col: 20
+                                }], 'AstNumber')
+                            ]),
+                        ]),
+                        {
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
+                            offset: 20,
+                            lineBreaks: 0,
+                            line: 1,
+                            col: 21
+                        }
+                    ])
+                ], 'AstPackage')
+            ];
+
+            parser.feed('foo = 1 * -2 * 3 * 4;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
         it('should parse an expression assignment statement `2 * (4 - 1)`', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
@@ -1187,6 +1435,322 @@ describe('OpenSCAD grammar', () => {
             ];
 
             parser.feed('foo = 2 * (4 - 1);');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an expression assignment statement `2 * bar > 5 || bar <= 1;`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.list([
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
+                                offset: 0,
+                                lineBreaks: 0,
+                                line: 1,
+                                col: 1
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
+                            },
+                            builders.binaryOperator([
+                                builders.binaryOperator([
+                                    builders.binaryOperator([
+                                        builders.terminal([{
+                                            type: 'number',
+                                            value: '2',
+                                            text: '2',
+                                            offset: 4,
+                                            lineBreaks: 0,
+                                            line: 1,
+                                            col: 5
+                                        }], 'AstNumber'),
+                                        {
+                                            type: 'multiply',
+                                            value: '*',
+                                            text: '*',
+                                            offset: 5,
+                                            lineBreaks: 0,
+                                            line: 1,
+                                            col: 6
+                                        },
+                                        builders.terminal([{
+                                            type: 'identifier',
+                                            value: 'bar',
+                                            text: 'bar',
+                                            offset: 6,
+                                            lineBreaks: 0,
+                                            line: 1,
+                                            col: 7
+                                        }], 'AstIdentifier'),
+                                    ]),
+                                    {
+                                        type: 'greaterthan',
+                                        value: '>',
+                                        text: '>',
+                                        offset: 9,
+                                        lineBreaks: 0,
+                                        line: 1,
+                                        col: 10
+                                    },
+                                    builders.terminal([{
+                                        type: 'number',
+                                        value: '5',
+                                        text: '5',
+                                        offset: 10,
+                                        lineBreaks: 0,
+                                        line: 1,
+                                        col: 11
+                                    }], 'AstNumber')
+                                ]),
+                                {
+                                    type: 'or',
+                                    value: '||',
+                                    text: '||',
+                                    offset: 11,
+                                    lineBreaks: 0,
+                                    line: 1,
+                                    col: 12
+                                },
+                                builders.binaryOperator([
+                                    builders.terminal([{
+                                        type: 'identifier',
+                                        value: 'bar',
+                                        text: 'bar',
+                                        offset: 13,
+                                        lineBreaks: 0,
+                                        line: 1,
+                                        col: 14
+                                    }], 'AstIdentifier'),
+                                    {
+                                        type: 'lesserequal',
+                                        value: '<=',
+                                        text: '<=',
+                                        offset: 16,
+                                        lineBreaks: 0,
+                                        line: 1,
+                                        col: 17
+                                    },
+                                    builders.terminal([{
+                                        type: 'number',
+                                        value: '1',
+                                        text: '1',
+                                        offset: 18,
+                                        lineBreaks: 0,
+                                        line: 1,
+                                        col: 19
+                                    }], 'AstNumber')
+                                ])
+                            ])
+                        ]),
+                        {
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
+                            offset: 19,
+                            lineBreaks: 0,
+                            line: 1,
+                            col: 20
+                        }
+                    ])
+                ], 'AstPackage')
+            ];
+
+            parser.feed('foo=2*bar>5||bar<=1;');
+
+            expect(parser.results).to.be.an('array');
+            expect(parser.results).to.deep.equal(expected);
+        });
+
+        it('should parse an expression assignment statement `isZero = (value != undef && value > -EPSILON && value < EPSILON);`', () => {
+            const parser = new nearley.Parser(grammar);
+            const expected = [
+                builders.list([
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'isZero',
+                                text: 'isZero',
+                                offset: 0,
+                                lineBreaks: 0,
+                                line: 1,
+                                col: 1
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                offset: 7,
+                                lineBreaks: 0,
+                                line: 1,
+                                col: 8
+                            },
+                            utils.surrounded([
+                                {
+                                    type: 'lparen',
+                                    value: '(',
+                                    text: '(',
+                                    offset: 9,
+                                    lineBreaks: 0,
+                                    line: 1,
+                                    col: 10
+                                },
+                                builders.binaryOperator([
+                                    builders.binaryOperator([
+                                        builders.binaryOperator([
+                                            builders.terminal([{
+                                                type: 'identifier',
+                                                value: 'value',
+                                                text: 'value',
+                                                offset: 10,
+                                                lineBreaks: 0,
+                                                line: 1,
+                                                col: 11
+                                            }], 'AstIdentifier'),
+                                            {
+                                                type: 'notequal',
+                                                value: '!=',
+                                                text: '!=',
+                                                offset: 16,
+                                                lineBreaks: 0,
+                                                line: 1,
+                                                col: 17
+                                            },
+                                            builders.terminal([{
+                                                type: 'undef',
+                                                value: 'undef',
+                                                text: 'undef',
+                                                offset: 19,
+                                                lineBreaks: 0,
+                                                line: 1,
+                                                col: 20
+                                            }], 'AstUndefined')
+                                        ]),
+                                        {
+                                            type: 'and',
+                                            value: '&&',
+                                            text: '&&',
+                                            offset: 25,
+                                            lineBreaks: 0,
+                                            line: 1,
+                                            col: 26
+                                        },
+                                        builders.binaryOperator([
+                                            builders.terminal([{
+                                                type: 'identifier',
+                                                value: 'value',
+                                                text: 'value',
+                                                offset: 28,
+                                                lineBreaks: 0,
+                                                line: 1,
+                                                col: 29
+                                            }], 'AstIdentifier'),
+                                            {
+                                                type: 'greaterthan',
+                                                value: '>',
+                                                text: '>',
+                                                offset: 34,
+                                                lineBreaks: 0,
+                                                line: 1,
+                                                col: 35
+                                            },
+                                            builders.unaryOperator([
+                                                {
+                                                    type: 'subtract',
+                                                    value: '-',
+                                                    text: '-',
+                                                    offset: 36,
+                                                    lineBreaks: 0,
+                                                    line: 1,
+                                                    col: 37
+                                                },
+                                                builders.terminal([{
+                                                    type: 'identifier',
+                                                    value: 'EPSILON',
+                                                    text: 'EPSILON',
+                                                    offset: 37,
+                                                    lineBreaks: 0,
+                                                    line: 1,
+                                                    col: 38
+                                                }], 'AstIdentifier')
+                                            ])
+                                        ]),
+                                    ]),
+                                    {
+                                        type: 'and',
+                                        value: '&&',
+                                        text: '&&',
+                                        offset: 45,
+                                        lineBreaks: 0,
+                                        line: 1,
+                                        col: 46
+                                    },
+                                    builders.binaryOperator([
+                                        builders.terminal([{
+                                            type: 'identifier',
+                                            value: 'value',
+                                            text: 'value',
+                                            offset: 48,
+                                            lineBreaks: 0,
+                                            line: 1,
+                                            col: 49
+                                        }], 'AstIdentifier'),
+                                        {
+                                            type: 'lesserthan',
+                                            value: '<',
+                                            text: '<',
+                                            offset: 54,
+                                            lineBreaks: 0,
+                                            line: 1,
+                                            col: 55
+                                        },
+                                        builders.terminal([{
+                                            type: 'identifier',
+                                            value: 'EPSILON',
+                                            text: 'EPSILON',
+                                            offset: 56,
+                                            lineBreaks: 0,
+                                            line: 1,
+                                            col: 57
+                                        }], 'AstIdentifier')
+                                    ])
+                                ]),
+                                {
+                                    type: 'rparen',
+                                    value: ')',
+                                    text: ')',
+                                    offset: 63,
+                                    lineBreaks: 0,
+                                    line: 1,
+                                    col: 64
+                                }
+                            ])
+                        ]),
+                        {
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
+                            offset: 64,
+                            lineBreaks: 0,
+                            line: 1,
+                            col: 65
+                        }
+                    ])
+                ], 'AstPackage')
+            ];
+
+            parser.feed('isZero = (value != undef && value > -EPSILON && value < EPSILON);');
 
             expect(parser.results).to.be.an('array');
             expect(parser.results).to.deep.equal(expected);

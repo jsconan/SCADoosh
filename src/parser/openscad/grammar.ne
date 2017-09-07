@@ -55,48 +55,75 @@ statement ->
         ";"                     {% (data) => builders.noop(data) %}
     |   "{" statements "}"      {% (data) => builders.block(data, 'AstBlock') %}
     |   assignment ";"          {% utils.head %}
-    |   comment
-    |   include
+    |   comment                 {% id %}
+    |   include                 {% id %}
 
 include ->
         "include" path          {% (data) => builders.command(data, 'AstInclude') %}
     |   "use" path              {% (data) => builders.command(data, 'AstUse') %}
 
 assignment ->
-        identifier "=" (expr | undef | boolean | string)    {% (data) => builders.assignment(data, 'AstAssignment') %}
+        identifier "=" expr     {% (data) => builders.assignment(data, 'AstAssignment') %}
 
 expr ->
-        term (("+" | "-") term):*               {% (data) => builders.binaryOperator(data, 'AstBinaryOperator') %}
+       (expr "&&" cond
+    |   expr "||" cond)         {% (data) => builders.binaryOperator(data, 'AstBinaryOperator') %}
+    |   cond                    {% id %}
+
+cond ->
+       (cond "<" sum
+    |   cond "<=" sum
+    |   cond "==" sum
+    |   cond "!=" sum
+    |   cond ">" sum
+    |   cond ">=" sum)          {% (data) => builders.binaryOperator(data, 'AstBinaryOperator') %}
+    |   sum                     {% id %}
+
+sum ->
+       (sum "+" term
+    |   sum "-" term)           {% (data) => builders.binaryOperator(data, 'AstBinaryOperator') %}
+    |   term                    {% id %}
 
 term ->
-        factor (("*" | "/" | "%") factor):*     {% (data) => builders.binaryOperator(data, 'AstBinaryOperator') %}
+       (term "*" atom
+    |   term "/" atom
+    |   term "%" atom)          {% (data) => builders.binaryOperator(data, 'AstBinaryOperator') %}
+    |   atom                    {% id %}
 
-factor ->
-        ("+" | "-") factor      {% (data) => builders.unaryOperator(data, 'AstUnaryOperator') %}
+atom ->
+       ("+" atom
+    |   "-" atom
+    |   "!" atom)               {% (data) => builders.unaryOperator(data, 'AstUnaryOperator') %}
     |   "(" expr ")"            {% utils.surrounded %}
-    |   number
-    |   identifier
+    |   value                   {% id %}
 
 # Literals
+value ->
+        number                  {% id %}
+    |   string                  {% id %}
+    |   boolean                 {% id %}
+    |   undef                   {% id %}
+    |   identifier              {% id %}
+
 undef ->
-        "undef"             {% (data) => builders.terminal(data, 'AstUndefined') %}
+        "undef"                 {% (data) => builders.terminal(data, 'AstUndefined') %}
 
 boolean ->
-        ("true" | "false")  {% (data) => builders.terminal(data, 'AstBoolean') %}
+        ("true" | "false")      {% (data) => builders.terminal(data, 'AstBoolean') %}
 
 number ->
-        %number             {% (data) => builders.terminal(data, 'AstNumber') %}
+        %number                 {% (data) => builders.terminal(data, 'AstNumber') %}
 
 string ->
-        %string             {% (data) => builders.terminal(data, 'AstString') %}
+        %string                 {% (data) => builders.terminal(data, 'AstString') %}
 
 path ->
-        %path               {% (data) => builders.terminal(data, 'AstPath') %}
+        %path                   {% (data) => builders.terminal(data, 'AstPath') %}
 
 identifier ->
-        %identifier         {% (data) => builders.terminal(data, 'AstIdentifier') %}
+        %identifier             {% (data) => builders.terminal(data, 'AstIdentifier') %}
 
 # General comments and annotations
 comment ->
-        %lcomment           {% (data) => builders.terminal(data, 'AstLineComment') %}
-    |   %mcomment           {% (data) => builders.terminal(data, 'AstBlockComment') %}
+        %lcomment               {% (data) => builders.terminal(data, 'AstLineComment') %}
+    |   %mcomment               {% (data) => builders.terminal(data, 'AstBlockComment') %}
