@@ -138,7 +138,7 @@ const utils = {
      *                     or if the resulting object is not an AstFragment
      */
     surrounded: (data) => {
-        data = _.isArray(data) ? _.flattenDeep(data) : data;
+        data = utils.flatten(data);
         if (data.length === 3) {
             let [left, node, right] = data;
 
@@ -167,6 +167,7 @@ const utils = {
      */
     forward: (data) => {
         if (_.isArray(data)) {
+            data = utils.flatten(data);
             if (data.length > 1) {
                 throw new TypeError(`Only a single element can be forwarded, ${data.length} elements found!`);
             }
@@ -177,24 +178,41 @@ const utils = {
 
     /**
      * Simply unwraps and forwards the first element in data.
+     * It will update the position of the node accordingly to the discarded elements.
      * @param {Object|Array} data
      * @returns {Object|Array}
      */
     head: (data) => {
         if (_.isArray(data)) {
-            return data[0];
+            data = utils.flatten(data);
+            let first = data[0];
+            if (utils.is(first, classes.AstFragment) && data.length > 1) {
+                first = first.clone({
+                    end: utils.endPosition(data[data.length - 1])
+                });
+            }
+            return first;
         }
         return data;
     },
 
     /**
      * Simply unwraps and forwards the last element in data.
+     * It will update the position of the node accordingly to the discarded elements.
      * @param {Object|Array} data
      * @returns {Object|Array}
      */
     tail: (data) => {
         if (_.isArray(data)) {
-            return data[data.length - 1];
+            data = utils.flatten(data);
+
+            let last = data[data.length - 1];
+            if (utils.is(last, classes.AstFragment) && data.length > 1) {
+                last = last.clone({
+                    start: utils.startPosition(data[0])
+                });
+            }
+            return last;
         }
         return data;
     },

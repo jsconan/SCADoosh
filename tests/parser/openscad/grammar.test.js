@@ -276,31 +276,41 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
+                                line: 1,
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
+                            },
+                            builders.terminal([{
+                                type: 'string',
+                                value: 'bar',
+                                text: '"bar"',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            }], 'AstString')
+                        ]),
                         {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
                             line: 1,
-                            col: 5,
-                            offset: 4
-                        },
-                        builders.terminal([{
-                            type: 'string',
-                            value: 'bar',
-                            text: '"bar"',
-                            line: 1,
-                            col: 7,
-                            offset: 6
-                        }], 'AstString')
+                            col: 12,
+                            offset: 11
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -315,31 +325,41 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
+                                line: 1,
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
+                            },
+                            builders.terminal([{
+                                type: 'true',
+                                value: 'true',
+                                text: 'true',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            }], 'AstBoolean')
+                        ]),
                         {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
                             line: 1,
-                            col: 5,
-                            offset: 4
-                        },
-                        builders.terminal([{
-                            type: 'true',
-                            value: 'true',
-                            text: 'true',
-                            line: 1,
-                            col: 7,
-                            offset: 6
-                        }], 'AstBoolean')
+                            col: 11,
+                            offset: 10
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -354,31 +374,41 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
+                                line: 1,
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
+                            },
+                            builders.terminal([{
+                                type: 'false',
+                                value: 'false',
+                                text: 'false',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            }], 'AstBoolean')
+                        ]),
                         {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
                             line: 1,
-                            col: 5,
-                            offset: 4
-                        },
-                        builders.terminal([{
-                            type: 'false',
-                            value: 'false',
-                            text: 'false',
-                            line: 1,
-                            col: 7,
-                            offset: 6
-                        }], 'AstBoolean')
+                            col: 12,
+                            offset: 11
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -393,31 +423,41 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
+                                line: 1,
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
+                            },
+                            builders.terminal([{
+                                type: 'undef',
+                                value: 'undef',
+                                text: 'undef',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            }], 'AstUndefined')
+                        ]),
                         {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
                             line: 1,
-                            col: 5,
-                            offset: 4
-                        },
-                        builders.terminal([{
-                            type: 'undef',
-                            value: 'undef',
-                            text: 'undef',
-                            line: 1,
-                            col: 7,
-                            offset: 6
-                        }], 'AstUndefined')
+                            col: 12,
+                            offset: 11
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -432,31 +472,41 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
+                                line: 1,
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
+                            },
+                            builders.terminal([{
+                                type: 'number',
+                                value: '42',
+                                text: '42',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            }], 'AstNumber')
+                        ]),
                         {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
                             line: 1,
-                            col: 5,
-                            offset: 4
-                        },
-                        builders.terminal([{
-                            type: 'number',
-                            value: '42',
-                            text: '42',
-                            line: 1,
-                            col: 7,
-                            offset: 6
-                        }], 'AstNumber')
+                            col: 9,
+                            offset: 8
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -471,31 +521,41 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
+                                line: 1,
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
+                            },
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'bar',
+                                text: 'bar',
+                                line: 1,
+                                col: 7,
+                                offset: 6
+                            }], 'AstIdentifier')
+                        ]),
                         {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
                             line: 1,
-                            col: 5,
-                            offset: 4
-                        },
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'bar',
-                            text: 'bar',
-                            line: 1,
-                            col: 7,
-                            offset: 6
-                        }], 'AstIdentifier')
+                            col: 10,
+                            offset: 9
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -510,53 +570,63 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
-                        {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
-                            line: 1,
-                            col: 5,
-                            offset: 4
-                        },
-                        builders.binaryOperator([
-                            builders.terminal([
-                                {
-                                    type: 'number',
-                                    value: '1',
-                                    text: '1',
-                                    line: 1,
-                                    col: 7,
-                                    offset: 6
-                                }
-                            ], 'AstNumber'),
-                            {
-                                type: 'add',
-                                value: '+',
-                                text: '+',
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
                                 line: 1,
-                                col: 9,
-                                offset: 8
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
                             },
-                            builders.terminal([
+                            builders.binaryOperator([
+                                builders.terminal([
+                                    {
+                                        type: 'number',
+                                        value: '1',
+                                        text: '1',
+                                        line: 1,
+                                        col: 7,
+                                        offset: 6
+                                    }
+                                ], 'AstNumber'),
                                 {
-                                    type: 'number',
-                                    value: '2',
-                                    text: '2',
+                                    type: 'add',
+                                    value: '+',
+                                    text: '+',
                                     line: 1,
-                                    col: 11,
-                                    offset: 10
-                                }
-                            ], 'AstNumber')
-                        ])
+                                    col: 9,
+                                    offset: 8
+                                },
+                                builders.terminal([
+                                    {
+                                        type: 'number',
+                                        value: '2',
+                                        text: '2',
+                                        line: 1,
+                                        col: 11,
+                                        offset: 10
+                                    }
+                                ], 'AstNumber')
+                            ])
+                        ]),
+                        {
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
+                            line: 1,
+                            col: 12,
+                            offset: 11
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -571,53 +641,63 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
-                        {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
-                            line: 1,
-                            col: 4,
-                            offset: 3
-                        },
-                        builders.binaryOperator([
-                            builders.terminal([
-                                {
-                                    type: 'number',
-                                    value: '4',
-                                    text: '4',
-                                    line: 1,
-                                    col: 5,
-                                    offset: 4
-                                }
-                            ], 'AstNumber'),
-                            {
-                                type: 'subtract',
-                                value: '-',
-                                text: '-',
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
                                 line: 1,
-                                col: 6,
-                                offset: 5
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 4,
+                                offset: 3
                             },
-                            builders.terminal([
+                            builders.binaryOperator([
+                                builders.terminal([
+                                    {
+                                        type: 'number',
+                                        value: '4',
+                                        text: '4',
+                                        line: 1,
+                                        col: 5,
+                                        offset: 4
+                                    }
+                                ], 'AstNumber'),
                                 {
-                                    type: 'number',
-                                    value: '3',
-                                    text: '3',
+                                    type: 'subtract',
+                                    value: '-',
+                                    text: '-',
                                     line: 1,
-                                    col: 7,
-                                    offset: 6
-                                }
-                            ], 'AstNumber')
-                        ])
+                                    col: 6,
+                                    offset: 5
+                                },
+                                builders.terminal([
+                                    {
+                                        type: 'number',
+                                        value: '3',
+                                        text: '3',
+                                        line: 1,
+                                        col: 7,
+                                        offset: 6
+                                    }
+                                ], 'AstNumber')
+                            ])
+                        ]),
+                        {
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
+                            line: 1,
+                            col: 8,
+                            offset: 7
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -632,53 +712,63 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
-                        {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
-                            line: 1,
-                            col: 5,
-                            offset: 4
-                        },
-                        builders.binaryOperator([
-                            builders.terminal([
-                                {
-                                    type: 'number',
-                                    value: '2',
-                                    text: '2',
-                                    line: 1,
-                                    col: 7,
-                                    offset: 6
-                                }
-                            ], 'AstNumber'),
-                            {
-                                type: 'multiply',
-                                value: '*',
-                                text: '*',
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
                                 line: 1,
-                                col: 9,
-                                offset: 8
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
                             },
-                            builders.terminal([
+                            builders.binaryOperator([
+                                builders.terminal([
+                                    {
+                                        type: 'number',
+                                        value: '2',
+                                        text: '2',
+                                        line: 1,
+                                        col: 7,
+                                        offset: 6
+                                    }
+                                ], 'AstNumber'),
                                 {
-                                    type: 'number',
-                                    value: '3',
-                                    text: '3',
+                                    type: 'multiply',
+                                    value: '*',
+                                    text: '*',
                                     line: 1,
-                                    col: 11,
-                                    offset: 10
-                                }
-                            ], 'AstNumber')
-                        ])
+                                    col: 9,
+                                    offset: 8
+                                },
+                                builders.terminal([
+                                    {
+                                        type: 'number',
+                                        value: '3',
+                                        text: '3',
+                                        line: 1,
+                                        col: 11,
+                                        offset: 10
+                                    }
+                                ], 'AstNumber')
+                            ])
+                        ]),
+                        {
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
+                            line: 1,
+                            col: 12,
+                            offset: 11
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -693,53 +783,63 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
-                        {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
-                            line: 1,
-                            col: 5,
-                            offset: 4
-                        },
-                        builders.binaryOperator([
-                            builders.terminal([
-                                {
-                                    type: 'number',
-                                    value: '5',
-                                    text: '5',
-                                    line: 1,
-                                    col: 7,
-                                    offset: 6
-                                }
-                            ], 'AstNumber'),
-                            {
-                                type: 'divide',
-                                value: '/',
-                                text: '/',
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
                                 line: 1,
-                                col: 9,
-                                offset: 8
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
                             },
-                            builders.terminal([
+                            builders.binaryOperator([
+                                builders.terminal([
+                                    {
+                                        type: 'number',
+                                        value: '5',
+                                        text: '5',
+                                        line: 1,
+                                        col: 7,
+                                        offset: 6
+                                    }
+                                ], 'AstNumber'),
                                 {
-                                    type: 'number',
-                                    value: '2',
-                                    text: '2',
+                                    type: 'divide',
+                                    value: '/',
+                                    text: '/',
                                     line: 1,
-                                    col: 11,
-                                    offset: 10
-                                }
-                            ], 'AstNumber')
-                        ])
+                                    col: 9,
+                                    offset: 8
+                                },
+                                builders.terminal([
+                                    {
+                                        type: 'number',
+                                        value: '2',
+                                        text: '2',
+                                        line: 1,
+                                        col: 11,
+                                        offset: 10
+                                    }
+                                ], 'AstNumber')
+                            ])
+                        ]),
+                        {
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
+                            line: 1,
+                            col: 12,
+                            offset: 11
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -754,53 +854,63 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
-                        {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
-                            line: 1,
-                            col: 4,
-                            offset: 3
-                        },
-                        builders.binaryOperator([
-                            builders.terminal([
-                                {
-                                    type: 'number',
-                                    value: '7',
-                                    text: '7',
-                                    line: 1,
-                                    col: 5,
-                                    offset: 4
-                                }
-                            ], 'AstNumber'),
-                            {
-                                type: 'modulo',
-                                value: '%',
-                                text: '%',
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
                                 line: 1,
-                                col: 6,
-                                offset: 5
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 4,
+                                offset: 3
                             },
-                            builders.terminal([
+                            builders.binaryOperator([
+                                builders.terminal([
+                                    {
+                                        type: 'number',
+                                        value: '7',
+                                        text: '7',
+                                        line: 1,
+                                        col: 5,
+                                        offset: 4
+                                    }
+                                ], 'AstNumber'),
                                 {
-                                    type: 'number',
-                                    value: '2',
-                                    text: '2',
+                                    type: 'modulo',
+                                    value: '%',
+                                    text: '%',
                                     line: 1,
-                                    col: 7,
-                                    offset: 6
-                                }
-                            ], 'AstNumber')
-                        ])
+                                    col: 6,
+                                    offset: 5
+                                },
+                                builders.terminal([
+                                    {
+                                        type: 'number',
+                                        value: '2',
+                                        text: '2',
+                                        line: 1,
+                                        col: 7,
+                                        offset: 6
+                                    }
+                                ], 'AstNumber')
+                            ])
+                        ]),
+                        {
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
+                            line: 1,
+                            col: 8,
+                            offset: 7
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -815,43 +925,53 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
-                        {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
-                            line: 1,
-                            col: 5,
-                            offset: 4
-                        },
-                        builders.unaryOperator([
-                            {
-                                type: 'subtract',
-                                value: '-',
-                                text: '-',
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
                                 line: 1,
-                                col: 7,
-                                offset: 6
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
                             },
-                            builders.terminal([
+                            builders.unaryOperator([
                                 {
-                                    type: 'number',
-                                    value: '9',
-                                    text: '9',
+                                    type: 'subtract',
+                                    value: '-',
+                                    text: '-',
                                     line: 1,
-                                    col: 9,
-                                    offset: 8
-                                }
-                            ], 'AstNumber')
-                        ])
+                                    col: 7,
+                                    offset: 6
+                                },
+                                builders.terminal([
+                                    {
+                                        type: 'number',
+                                        value: '9',
+                                        text: '9',
+                                        line: 1,
+                                        col: 9,
+                                        offset: 8
+                                    }
+                                ], 'AstNumber')
+                            ])
+                        ]),
+                        {
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
+                            line: 1,
+                            col: 10,
+                            offset: 9
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -866,83 +986,93 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
-                        {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
-                            line: 1,
-                            col: 5,
-                            offset: 4
-                        },
-                        builders.binaryOperator([
-                            builders.unaryOperator([
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
+                                line: 1,
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
+                            },
+                            builders.binaryOperator([
+                                builders.unaryOperator([
+                                    {
+                                        type: 'add',
+                                        value: '+',
+                                        text: '+',
+                                        line: 1,
+                                        col: 7,
+                                        offset: 6
+                                    },
+                                    builders.terminal([
+                                        {
+                                            type: 'number',
+                                            value: '1',
+                                            text: '1',
+                                            line: 1,
+                                            col: 8,
+                                            offset: 7
+                                        }
+                                    ], 'AstNumber')
+                                ]),
                                 {
                                     type: 'add',
                                     value: '+',
                                     text: '+',
                                     line: 1,
-                                    col: 7,
-                                    offset: 6
+                                    col: 10,
+                                    offset: 9
                                 },
-                                builders.terminal([
+                                builders.binaryOperator([
+                                    builders.terminal([
+                                        {
+                                            type: 'number',
+                                            value: '2',
+                                            text: '2',
+                                            line: 1,
+                                            col: 12,
+                                            offset: 11
+                                        }
+                                    ], 'AstNumber'),
                                     {
-                                        type: 'number',
-                                        value: '1',
-                                        text: '1',
+                                        type: 'multiply',
+                                        value: '*',
+                                        text: '*',
                                         line: 1,
-                                        col: 8,
-                                        offset: 7
-                                    }
-                                ], 'AstNumber')
-                            ]),
-                            {
-                                type: 'add',
-                                value: '+',
-                                text: '+',
-                                line: 1,
-                                col: 10,
-                                offset: 9
-                            },
-                            builders.binaryOperator([
-                                builders.terminal([
-                                    {
-                                        type: 'number',
-                                        value: '2',
-                                        text: '2',
-                                        line: 1,
-                                        col: 12,
-                                        offset: 11
-                                    }
-                                ], 'AstNumber'),
-                                {
-                                    type: 'multiply',
-                                    value: '*',
-                                    text: '*',
-                                    line: 1,
-                                    col: 14,
-                                    offset: 13
-                                },
-                                builders.terminal([
-                                    {
-                                        type: 'number',
-                                        value: '3',
-                                        text: '3',
-                                        line: 1,
-                                        col: 16,
-                                        offset: 15
-                                    }
-                                ], 'AstNumber')
+                                        col: 14,
+                                        offset: 13
+                                    },
+                                    builders.terminal([
+                                        {
+                                            type: 'number',
+                                            value: '3',
+                                            text: '3',
+                                            line: 1,
+                                            col: 16,
+                                            offset: 15
+                                        }
+                                    ], 'AstNumber')
+                                ])
                             ])
-                        ])
+                        ]),
+                        {
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
+                            line: 1,
+                            col: 17,
+                            offset: 16
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -957,91 +1087,101 @@ describe('OpenSCAD grammar', () => {
             const parser = new nearley.Parser(grammar);
             const expected = [
                 builders.list([
-                    builders.assignment([
-                        builders.terminal([{
-                            type: 'identifier',
-                            value: 'foo',
-                            text: 'foo',
-                            line: 1,
-                            col: 1,
-                            offset: 0
-                        }], 'AstIdentifier'),
-                        {
-                            type: 'assign',
-                            value: '=',
-                            text: '=',
-                            line: 1,
-                            col: 5,
-                            offset: 4
-                        },
-                        builders.binaryOperator([
-                            builders.terminal([
-                                {
-                                    type: 'number',
-                                    value: '2',
-                                    text: '2',
-                                    line: 1,
-                                    col: 7,
-                                    offset: 6
-                                }
-                            ], 'AstNumber'),
-                            {
-                                type: 'multiply',
-                                value: '*',
-                                text: '*',
+                    utils.head([
+                        builders.assignment([
+                            builders.terminal([{
+                                type: 'identifier',
+                                value: 'foo',
+                                text: 'foo',
                                 line: 1,
-                                col: 9,
-                                offset: 8
+                                col: 1,
+                                offset: 0
+                            }], 'AstIdentifier'),
+                            {
+                                type: 'assign',
+                                value: '=',
+                                text: '=',
+                                line: 1,
+                                col: 5,
+                                offset: 4
                             },
-                            utils.surrounded([
-                                {
-                                    type: 'lparen',
-                                    value: '(',
-                                    text: '(',
-                                    line: 1,
-                                    col: 11,
-                                    offset: 10
-                                },
-                                builders.binaryOperator([
-                                    builders.terminal([
-                                        {
-                                            type: 'number',
-                                            value: '4',
-                                            text: '4',
-                                            line: 1,
-                                            col: 12,
-                                            offset: 11
-                                        }
-                                    ], 'AstNumber'),
+                            builders.binaryOperator([
+                                builders.terminal([
                                     {
-                                        type: 'subtract',
-                                        value: '-',
-                                        text: '-',
+                                        type: 'number',
+                                        value: '2',
+                                        text: '2',
                                         line: 1,
-                                        col: 14,
-                                        offset: 13
-                                    },
-                                    builders.terminal([
-                                        {
-                                            type: 'number',
-                                            value: '1',
-                                            text: '1',
-                                            line: 1,
-                                            col: 16,
-                                            offset: 15
-                                        }
-                                    ], 'AstNumber')
-                                ]),
+                                        col: 7,
+                                        offset: 6
+                                    }
+                                ], 'AstNumber'),
                                 {
-                                    type: 'rparen',
-                                    value: ')',
-                                    text: ')',
+                                    type: 'multiply',
+                                    value: '*',
+                                    text: '*',
                                     line: 1,
-                                    col: 17,
-                                    offset: 16
-                                }
+                                    col: 9,
+                                    offset: 8
+                                },
+                                utils.surrounded([
+                                    {
+                                        type: 'lparen',
+                                        value: '(',
+                                        text: '(',
+                                        line: 1,
+                                        col: 11,
+                                        offset: 10
+                                    },
+                                    builders.binaryOperator([
+                                        builders.terminal([
+                                            {
+                                                type: 'number',
+                                                value: '4',
+                                                text: '4',
+                                                line: 1,
+                                                col: 12,
+                                                offset: 11
+                                            }
+                                        ], 'AstNumber'),
+                                        {
+                                            type: 'subtract',
+                                            value: '-',
+                                            text: '-',
+                                            line: 1,
+                                            col: 14,
+                                            offset: 13
+                                        },
+                                        builders.terminal([
+                                            {
+                                                type: 'number',
+                                                value: '1',
+                                                text: '1',
+                                                line: 1,
+                                                col: 16,
+                                                offset: 15
+                                            }
+                                        ], 'AstNumber')
+                                    ]),
+                                    {
+                                        type: 'rparen',
+                                        value: ')',
+                                        text: ')',
+                                        line: 1,
+                                        col: 17,
+                                        offset: 16
+                                    }
+                                ])
                             ])
-                        ])
+                        ]),
+                        {
+                            type: 'semicolon',
+                            value: ';',
+                            text: ';',
+                            line: 1,
+                            col: 18,
+                            offset: 17
+                        }
                     ])
                 ], 'AstPackage')
             ];
@@ -1087,57 +1227,77 @@ describe('OpenSCAD grammar', () => {
                             offset: 30
                         },
                         [
-                            builders.assignment([
-                                builders.terminal([{
-                                    type: 'identifier',
-                                    value: 'foo',
-                                    text: 'foo',
-                                    line: 3,
-                                    col: 3,
-                                    offset: 34
-                                }], 'AstIdentifier'),
+                            utils.head([
+                                builders.assignment([
+                                    builders.terminal([{
+                                        type: 'identifier',
+                                        value: 'foo',
+                                        text: 'foo',
+                                        line: 3,
+                                        col: 3,
+                                        offset: 34
+                                    }], 'AstIdentifier'),
+                                    {
+                                        type: 'assign',
+                                        value: '=',
+                                        text: '=',
+                                        line: 3,
+                                        col: 6,
+                                        offset: 37
+                                    },
+                                    builders.terminal([{
+                                        type: 'string',
+                                        value: 'bar',
+                                        text: '"bar"',
+                                        line: 3,
+                                        col: 7,
+                                        offset: 38
+                                    }], 'AstString')
+                                ]),
                                 {
-                                    type: 'assign',
-                                    value: '=',
-                                    text: '=',
+                                    type: 'semicolon',
+                                    value: ';',
+                                    text: ';',
                                     line: 3,
-                                    col: 6,
-                                    offset: 37
-                                },
-                                builders.terminal([{
-                                    type: 'string',
-                                    value: 'bar',
-                                    text: '"bar"',
-                                    line: 3,
-                                    col: 7,
-                                    offset: 38
-                                }], 'AstString')
+                                    col: 12,
+                                    offset: 43
+                                }
                             ]),
-                            builders.assignment([
-                                builders.terminal([{
-                                    type: 'identifier',
-                                    value: 'answer',
-                                    text: 'answer',
-                                    line: 4,
-                                    col: 3,
-                                    offset: 47
-                                }], 'AstIdentifier'),
+                            utils.head([
+                                builders.assignment([
+                                    builders.terminal([{
+                                        type: 'identifier',
+                                        value: 'answer',
+                                        text: 'answer',
+                                        line: 4,
+                                        col: 3,
+                                        offset: 47
+                                    }], 'AstIdentifier'),
+                                    {
+                                        type: 'assign',
+                                        value: '=',
+                                        text: '=',
+                                        line: 4,
+                                        col: 9,
+                                        offset: 53
+                                    },
+                                    builders.terminal([{
+                                        type: 'number',
+                                        value: '42',
+                                        text: '42',
+                                        line: 4,
+                                        col: 10,
+                                        offset: 54
+                                    }], 'AstNumber')
+                                ]),
                                 {
-                                    type: 'assign',
-                                    value: '=',
-                                    text: '=',
+                                    type: 'semicolon',
+                                    value: ';',
+                                    text: ';',
                                     line: 4,
-                                    col: 9,
-                                    offset: 53
-                                },
-                                builders.terminal([{
-                                    type: 'number',
-                                    value: '42',
-                                    text: '42',
-                                    line: 4,
-                                    col: 10,
-                                    offset: 54
-                                }], 'AstNumber')
+                                    col: 12,
+                                    offset: 56
+                                }
                             ])
                         ],
                         {

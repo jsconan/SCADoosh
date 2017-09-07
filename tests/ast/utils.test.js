@@ -89,8 +89,12 @@ describe('AST utils', () => {
         });
 
         it('should straight retun the provided class if valid', () => {
-            class AstFoo extends classes.AstNode {}
-            function Cls() {}
+            class AstFoo extends classes.AstNode {
+            }
+
+            function Cls() {
+            }
+
             expect(utils.getClass(classes.AstNode)).to.be.equal(classes.AstNode);
             expect(utils.getClass(classes.AstNumber)).to.be.equal(classes.AstNumber);
             expect(utils.getClass(classes.AstLiteral)).to.be.equal(classes.AstLiteral);
@@ -294,18 +298,22 @@ describe('AST utils', () => {
             node.startAt(1, 3, 2);
             node.endAt(1, 4, 3);
 
-            expect(node.start.offset).to.be.equal(2);
+            expect(node.start.line).to.be.equal(1);
             expect(node.start.column).to.be.equal(3);
-            expect(node.end.offset).to.be.equal(3);
+            expect(node.start.offset).to.be.equal(2);
+            expect(node.end.line).to.be.equal(1);
             expect(node.end.column).to.be.equal(4);
+            expect(node.end.offset).to.be.equal(3);
 
             const output = utils.surrounded([left, [node, [right]]]);
 
             expect(output).to.be.not.equal(node);
-            expect(output.start.offset).to.be.equal(left.offset);
+            expect(output.start.line).to.be.equal(left.line);
             expect(output.start.column).to.be.equal(left.col);
-            expect(output.end.offset).to.be.equal(right.offset + right.text.length);
+            expect(output.start.offset).to.be.equal(left.offset);
+            expect(output.end.line).to.be.equal(right.line);
             expect(output.end.column).to.be.equal(right.col + right.text.length);
+            expect(output.end.offset).to.be.equal(right.offset + right.text.length);
 
         });
 
@@ -318,24 +326,28 @@ describe('AST utils', () => {
             left.startAt(1, 1, 0);
             left.endAt(1, 4, 3);
 
-            right.startAt(1, 6, 5);
-            right.endAt(1, 9, 8);
+            right.startAt(2, 6, 5);
+            right.endAt(2, 9, 8);
 
             node.startAt(1, 5, 4);
             node.endAt(1, 6, 5);
 
-            expect(node.start.offset).to.be.equal(4);
+            expect(node.start.line).to.be.equal(1);
             expect(node.start.column).to.be.equal(5);
-            expect(node.end.offset).to.be.equal(5);
+            expect(node.start.offset).to.be.equal(4);
+            expect(node.end.line).to.be.equal(1);
             expect(node.end.column).to.be.equal(6);
+            expect(node.end.offset).to.be.equal(5);
 
             const output = utils.surrounded([[[left], [node]], [right]]);
 
             expect(output).to.be.not.equal(node);
-            expect(output.start.offset).to.be.equal(left.start.offset);
+            expect(output.start.line).to.be.equal(left.start.line);
             expect(output.start.column).to.be.equal(left.start.column);
-            expect(output.end.offset).to.be.equal(right.end.offset);
+            expect(output.start.offset).to.be.equal(left.start.offset);
+            expect(output.end.line).to.be.equal(right.end.line);
             expect(output.end.column).to.be.equal(right.end.column);
+            expect(output.end.offset).to.be.equal(right.end.offset);
 
         });
 
@@ -356,22 +368,26 @@ describe('AST utils', () => {
             node.startAt(1, 5, 4);
             node.endAt(1, 6, 5);
 
-            expect(node.start.offset).to.be.equal(4);
+            expect(node.start.line).to.be.equal(1);
             expect(node.start.column).to.be.equal(5);
-            expect(node.end.offset).to.be.equal(5);
+            expect(node.start.offset).to.be.equal(4);
+            expect(node.end.line).to.be.equal(1);
             expect(node.end.column).to.be.equal(6);
+            expect(node.end.offset).to.be.equal(5);
 
             const output = utils.surrounded([left, node, right]);
 
             expect(output).to.be.not.equal(node);
-            expect(output.start.offset).to.be.equal(left.start.offset);
+            expect(output.start.line).to.be.equal(left.start.line);
             expect(output.start.column).to.be.equal(left.start.column);
-            expect(output.end.offset).to.be.equal(right.offset + right.text.length);
+            expect(output.start.offset).to.be.equal(left.start.offset);
+            expect(output.end.line).to.be.equal(right.line);
             expect(output.end.column).to.be.equal(right.col + right.text.length);
+            expect(output.end.offset).to.be.equal(right.offset + right.text.length);
 
         });
 
-        it('should straight returns the data if there is only one element', () => {
+        it('should straight return the data if there is only one element', () => {
 
             [
                 42,
@@ -416,33 +432,46 @@ describe('AST utils', () => {
 
     describe('forward', () => {
 
-        it('should straight returns the value if it is not an array', () => {
+        it('should straight return the value if it is not an array', () => {
 
-            const values = [
-                42,
-                true,
-                "foo bar",
-                {foo: "bar"}
-            ];
-
-            values.forEach((value) => {
+            [
+                {
+                    text: ';',
+                    line: 1,
+                    col: 3,
+                    offset: 2
+                },
+                new classes.AstNumber(42)
+            ].forEach((value) => {
                 expect(utils.forward(value)).to.be.equal(value);
             });
 
         });
 
-        it('should returns the first element of the array', () => {
+        it('should return the first element of the array', () => {
 
-            const values = [
-                [],
-                [42],
-                [true],
-                ["foo bar"],
-                [{foo: "bar"}]
-            ];
-
-            values.forEach((value) => {
+            [
+                [{
+                    text: ';',
+                    line: 1,
+                    col: 3,
+                    offset: 2
+                }],
+                [new classes.AstNumber(42)]
+            ].forEach((value) => {
                 expect(utils.forward(value)).to.be.equal(value[0]);
+            });
+
+            [
+                [[{
+                    text: ';',
+                    line: 1,
+                    col: 3,
+                    offset: 2
+                }]],
+                [[new classes.AstNumber(42)]]
+            ].forEach((value) => {
+                expect(utils.forward(value)).to.be.equal(value[0][0]);
             });
 
         });
@@ -457,34 +486,98 @@ describe('AST utils', () => {
 
     describe('head', () => {
 
-        it('should straight returns the value if it is not an array', () => {
+        it('should straight return the value if it is not an array', () => {
 
-            const values = [
-                42,
-                true,
-                "foo bar",
-                {foo: "bar"}
-            ];
-
-            values.forEach((value) => {
+            [
+                {
+                    text: ';',
+                    line: 1,
+                    col: 3,
+                    offset: 2
+                },
+                new classes.AstNumber(42)
+            ].forEach((value) => {
                 expect(utils.head(value)).to.be.equal(value);
             });
 
         });
 
-        it('should returns the first element of the array', () => {
+        it('should return the first element of the array', () => {
 
-            const values = [
-                [],
-                [42, 43, 44],
-                [true, false],
-                ["foo bar", "bar foo", "hello"],
-                [{foo: "bar"}, {bar: "foo"}]
-            ];
-
-            values.forEach((value) => {
+            [
+                [{
+                    text: 'echo',
+                    line: 1,
+                    col: 3,
+                    offset: 2
+                }, {
+                    text: 'hello',
+                    line: 1,
+                    col: 8,
+                    offset: 7
+                }, {
+                    text: ';',
+                    line: 1,
+                    col: 10,
+                    offset: 9
+                }],
+                [
+                    new classes.AstNumber(42)
+                ]
+            ].forEach((value) => {
                 expect(utils.head(value)).to.be.equal(value[0]);
             });
+
+            [
+                [[{
+                    text: 'echo',
+                    line: 1,
+                    col: 3,
+                    offset: 2
+                }], [{
+                    text: 'hello',
+                    line: 1,
+                    col: 8,
+                    offset: 7
+                }, {
+                    text: ';',
+                    line: 1,
+                    col: 10,
+                    offset: 9
+                }]],
+                [
+                    [
+                        new classes.AstNumber(42)
+                    ]
+                ]
+            ].forEach((value) => {
+                expect(utils.head(value)).to.be.equal(value[0][0]);
+            });
+
+        });
+
+        it('should return the first element of the array and update the position', () => {
+
+            const node = new classes.AstNumber(42);
+            const token = {
+                text: ';',
+                line: 1,
+                col: 3,
+                offset: 2
+            };
+
+            node.startAt(1, 1, 0);
+            node.endAt(1, 3, 2);
+
+            const output = utils.head([[node, [token]]]);
+
+            expect(output).to.be.an.instanceOf(classes.AstNumber);
+            expect(output.start.line).to.be.equal(1);
+            expect(output.start.column).to.be.equal(1);
+            expect(output.start.offset).to.be.equal(0);
+            expect(output.end.line).to.be.equal(token.line);
+            expect(output.end.column).to.be.equal(token.col + token.text.length);
+            expect(output.end.offset).to.be.equal(token.offset + token.text.length);
 
         });
 
@@ -492,34 +585,99 @@ describe('AST utils', () => {
 
     describe('tail', () => {
 
-        it('should straight returns the value if it is not an array', () => {
+        it('should straight return the value if it is not an array', () => {
 
-            const values = [
-                42,
-                true,
-                "foo bar",
-                {foo: "bar"}
-            ];
-
-            values.forEach((value) => {
+            [
+                {
+                    text: ';',
+                    line: 1,
+                    col: 3,
+                    offset: 2
+                },
+                new classes.AstNumber(42)
+            ].forEach((value) => {
                 expect(utils.tail(value)).to.be.equal(value);
             });
 
         });
 
-        it('should returns the last element of the array', () => {
+        it('should return the last element of the array', () => {
 
-            const values = [
-                [],
-                [42, 43, 44],
-                [true, false],
-                ["foo bar", "bar foo", "hello"],
-                [{foo: "bar"}, {bar: "foo"}]
-            ];
-
-            values.forEach((value) => {
+            [
+                [{
+                    text: 'echo',
+                    line: 1,
+                    col: 3,
+                    offset: 2
+                }, {
+                    text: 'hello',
+                    line: 1,
+                    col: 8,
+                    offset: 7
+                }, {
+                    text: ';',
+                    line: 1,
+                    col: 10,
+                    offset: 9
+                }],
+                [
+                    new classes.AstNumber(42)
+                ]
+            ].forEach((value) => {
                 expect(utils.tail(value)).to.be.equal(value[value.length - 1]);
             });
+
+            [
+                [[{
+                    text: 'echo',
+                    line: 1,
+                    col: 3,
+                    offset: 2
+                }], [{
+                    text: 'hello',
+                    line: 1,
+                    col: 8,
+                    offset: 7
+                }, {
+                    text: ';',
+                    line: 1,
+                    col: 10,
+                    offset: 9
+                }]],
+                [
+                    [
+                        new classes.AstNumber(42)
+                    ]
+                ]
+            ].forEach((value) => {
+                const v = value[value.length - 1];
+                expect(utils.tail(value)).to.be.equal(v[v.length - 1]);
+            });
+
+        });
+
+        it('should return the last element of the array and update the position', () => {
+
+            const node = new classes.AstNumber(42);
+            const token = {
+                text: 'echo',
+                line: 1,
+                col: 1,
+                offset: 0
+            };
+
+            node.startAt(1, 6, 5);
+            node.endAt(1, 9, 8);
+
+            const output = utils.tail([[token], [node]]);
+
+            expect(output).to.be.an.instanceOf(classes.AstNumber);
+            expect(output.start.line).to.be.equal(1);
+            expect(output.start.column).to.be.equal(1);
+            expect(output.start.offset).to.be.equal(0);
+            expect(output.end.line).to.be.equal(1);
+            expect(output.end.column).to.be.equal(9);
+            expect(output.end.offset).to.be.equal(8);
 
         });
 
@@ -540,7 +698,7 @@ describe('AST utils', () => {
 
     describe('discard', () => {
 
-        it('should returns null whatever the input is', () => {
+        it('should return null whatever the input is', () => {
 
             expect(utils.discard(42)).to.be.null;
             expect(utils.discard(true)).to.be.null;
