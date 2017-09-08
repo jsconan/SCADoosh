@@ -50,13 +50,13 @@ describe('AST node: AstUnaryOperator', () => {
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstUnaryOperator);
-        expect(node.value).to.be.instanceOf(AstNode);
+        expect(node.value).to.be.instanceOf(AstFragment);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('operator').that.is.equal(operator);
         expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
-    it('should throw a TypeError if the operand is not a valid AstNode', () => {
+    it('should throw a TypeError if the operand is not a valid AstFragment', () => {
         expect(() => new AstUnaryOperator('+', {})).to.throw(TypeError);
         expect(() => new AstUnaryOperator('+', new AstNode('foo'))).to.throw(TypeError);
     });
@@ -92,7 +92,7 @@ describe('AST node: AstUnaryOperator', () => {
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstUnaryOperator);
         expect(node).to.deep.equal(expected);
-        expect(node.value).to.be.instanceOf(AstNode);
+        expect(node.value).to.be.instanceOf(AstFragment);
         expect(node.start).to.be.instanceOf(AstPosition);
         expect(node.end).to.be.instanceOf(AstPosition);
         expect(node + '').to.be.equal(stringified);
@@ -138,7 +138,7 @@ describe('AST node: AstUnaryOperator', () => {
         expect(clone).to.have.a.property('end').that.is.equal(node.end);
     });
 
-    it('should throw a TypeError if one of the operands is not a valid AstNode when cloning', () => {
+    it('should throw a TypeError if one of the operands is not a valid AstFragment when cloning', () => {
         const node = (new AstUnaryOperator('+', new AstNumber(2))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({value: {}})).to.throw(TypeError);
         expect(() => node.clone({value: new AstNode('foo')})).to.throw(TypeError);

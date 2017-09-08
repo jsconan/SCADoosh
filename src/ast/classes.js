@@ -110,14 +110,19 @@ module.exports.AstLineComment = require('./classes/line-comment');
 module.exports.AstBlockComment = require('./classes/block-comment');
 
 /**
+ * @type {AstUnaryOperator}
+ */
+module.exports.AstUnaryOperator = require('./classes/unary-operator');
+
+/**
  * @type {AstBinaryOperator}
  */
 module.exports.AstBinaryOperator = require('./classes/binary-operator');
 
 /**
- * @type {AstUnaryOperator}
+ * @type {AstTernaryOperator}
  */
-module.exports.AstUnaryOperator = require('./classes/unary-operator');
+module.exports.AstTernaryOperator = require('./classes/ternary-operator');
 
 /**
  * @type {AstAssignment}

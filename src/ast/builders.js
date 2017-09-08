@@ -108,6 +108,27 @@ const builders = {
     },
 
     /**
+     * Processes a ternary operator
+     * @param {Array} data - The data provided by the parser
+     * @param {Function|String} [AstClass] - The AstNode class or the name of an AST node class
+     * @returns {AstFragment}
+     */
+    ternaryOperator: (data, AstClass = 'AstTernaryOperator') => {
+        data = utils.flatten(data);
+        if (data.length === 5) {
+            const Class = utils.getClass(AstClass);
+            const node = new Class(
+                data[0],
+                data[2],
+                data[4]
+            );
+            return utils.setPosition(node, data);
+        } else {
+            return utils.forward(data)
+        }
+    },
+
+    /**
      * Processes an assignment
      * @param {Array} data - The data provided by the parser
      * @param {Function|String} [AstClass] - The AstNode class or the name of an AST node class

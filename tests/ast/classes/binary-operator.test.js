@@ -51,15 +51,15 @@ describe('AST node: AstBinaryOperator', () => {
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstBinaryOperator);
-        expect(node.left).to.be.instanceOf(AstNode);
-        expect(node.right).to.be.instanceOf(AstNode);
+        expect(node.left).to.be.instanceOf(AstFragment);
+        expect(node.right).to.be.instanceOf(AstFragment);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('operator').that.is.equal(operator);
         expect(node).to.have.a.property('left').that.is.equal(left);
         expect(node).to.have.a.property('right').that.is.equal(right);
     });
 
-    it('should throw a TypeError if one of the operands is not a valid AstNode', () => {
+    it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {
         const operand = new AstNumber(1);
         expect(() => new AstBinaryOperator(operand, '+', {})).to.throw(TypeError);
         expect(() => new AstBinaryOperator(operand, '+', new AstNode('foo'))).to.throw(TypeError);
@@ -101,8 +101,8 @@ describe('AST node: AstBinaryOperator', () => {
         expect(node).to.be.an.instanceOf(AstFragment);
         expect(node).to.be.an.instanceOf(AstBinaryOperator);
         expect(node).to.deep.equal(expected);
-        expect(node.left).to.be.instanceOf(AstNode);
-        expect(node.right).to.be.instanceOf(AstNode);
+        expect(node.left).to.be.instanceOf(AstFragment);
+        expect(node.right).to.be.instanceOf(AstFragment);
         expect(node.start).to.be.instanceOf(AstPosition);
         expect(node.end).to.be.instanceOf(AstPosition);
         expect(node + '').to.be.equal(stringified);
@@ -152,7 +152,7 @@ describe('AST node: AstBinaryOperator', () => {
         expect(clone).to.have.a.property('end').that.is.equal(node.end);
     });
 
-    it('should throw a TypeError if one of the operands is not a valid AstNode when cloning', () => {
+    it('should throw a TypeError if one of the operands is not a valid AstFragment when cloning', () => {
         const node = (new AstBinaryOperator(new AstNumber(1), '+', new AstNumber(2))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({left: {}})).to.throw(TypeError);
         expect(() => node.clone({left: new AstNode('foo')})).to.throw(TypeError);

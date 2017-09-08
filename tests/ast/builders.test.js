@@ -350,6 +350,115 @@ describe('AST builders', () => {
 
     });
 
+    describe('ternaryOperator', () => {
+
+        it('should produce the descriptor for a ternary operator expression', () => {
+            const condition = new classes.AstNumber(1).startAt(1, 1, 0).endAt(1, 2, 1);
+            const consequent = new classes.AstNumber(1).startAt(1, 3, 2).endAt(1, 4, 3);
+            const alternative = new classes.AstNumber(1).startAt(1, 5, 4).endAt(1, 6, 5);
+            const node = new classes.AstTernaryOperator(condition, consequent, alternative);
+            const input = [condition, {
+                type: 'cond',
+                value: '?',
+                text: '?',
+                offset: 1,
+                lineBreaks: 0,
+                line: 1,
+                col: 2
+            }, consequent, {
+                type: 'colon',
+                value: ':',
+                text: ':',
+                offset: 3,
+                lineBreaks: 0,
+                line: 1,
+                col: 4
+            }, alternative];
+
+            node.startAt(condition);
+            node.endAt(alternative);
+
+            expect(builders.ternaryOperator(input)).to.be.an.instanceOf(classes.AstTernaryOperator);
+            expect(builders.ternaryOperator(input)).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for a ternary operator expression, no matter the depth', () => {
+            const condition = new classes.AstNumber(1).startAt(1, 1, 0).endAt(1, 2, 1);
+            const consequent = new classes.AstNumber(1).startAt(1, 3, 2).endAt(1, 4, 3);
+            const alternative = new classes.AstNumber(1).startAt(1, 5, 4).endAt(1, 6, 5);
+            const node = new classes.AstTernaryOperator(condition, consequent, alternative);
+            const input = [[condition], [[{
+                type: 'cond',
+                value: '?',
+                text: '?',
+                offset: 1,
+                lineBreaks: 0,
+                line: 1,
+                col: 2
+            }], [[consequent]]], [[{
+                type: 'colon',
+                value: ':',
+                text: ':',
+                offset: 3,
+                lineBreaks: 0,
+                line: 1,
+                col: 4
+            }], [[alternative]]]];
+
+            node.startAt(condition);
+            node.endAt(alternative);
+
+            expect(builders.ternaryOperator(input)).to.be.an.instanceOf(classes.AstTernaryOperator);
+            expect(builders.ternaryOperator(input)).to.be.deep.equal(node);
+        });
+
+        it('should produce the descriptor for a particular type of ternary operator expression', () => {
+            class AstTernaryFoo extends classes.AstTernaryOperator {}
+            const condition = new classes.AstNumber(1).startAt(1, 1, 0).endAt(1, 2, 1);
+            const consequent = new classes.AstNumber(1).startAt(1, 3, 2).endAt(1, 4, 3);
+            const alternative = new classes.AstNumber(1).startAt(1, 5, 4).endAt(1, 6, 5);
+            const node = new AstTernaryFoo(condition, consequent, alternative);
+            const input = [condition, {
+                type: 'cond',
+                value: '?',
+                text: '?',
+                offset: 1,
+                lineBreaks: 0,
+                line: 1,
+                col: 2
+            }, consequent, {
+                type: 'colon',
+                value: ':',
+                text: ':',
+                offset: 3,
+                lineBreaks: 0,
+                line: 1,
+                col: 4
+            }, alternative];
+
+            node.startAt(condition);
+            node.endAt(alternative);
+
+            expect(builders.ternaryOperator(input, AstTernaryFoo)).to.be.an.instanceOf(classes.AstTernaryOperator);
+            expect(builders.ternaryOperator(input, AstTernaryFoo)).to.be.an.instanceOf(AstTernaryFoo);
+            expect(builders.ternaryOperator(input, AstTernaryFoo)).to.be.deep.equal(node);
+        });
+
+        it('should forward the existing descriptor for a ternary operator expression', () => {
+            const condition = new classes.AstNumber(1).startAt(1, 1, 0).endAt(1, 2, 1);
+            const consequent = new classes.AstNumber(1).startAt(1, 3, 2).endAt(1, 4, 3);
+            const alternative = new classes.AstNumber(1).startAt(1, 5, 4).endAt(1, 6, 5);
+            const node = new classes.AstTernaryOperator(condition, consequent, alternative);
+
+            node.startAt(condition);
+            node.endAt(alternative);
+
+            expect(builders.ternaryOperator(node)).to.be.deep.equal(node);
+            expect(builders.ternaryOperator([node])).to.be.deep.equal(node);
+        });
+
+    });
+
     describe('assignment', () => {
 
         it('should produce the descriptor for an assignment expression', () => {
