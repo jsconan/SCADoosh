@@ -29,7 +29,6 @@
  * @author jsconan
  */
 
-const _ = require('lodash');
 const AstNode = require('./node');
 
 /**

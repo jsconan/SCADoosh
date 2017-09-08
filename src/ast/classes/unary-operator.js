@@ -29,7 +29,6 @@
  * @author jsconan
  */
 
-const AstNode = require('./node');
 const AstFragment = require('./fragment');
 
 /**
@@ -37,7 +36,7 @@ const AstFragment = require('./fragment');
  * @typedef {AstFragment} AstUnaryOperator
  * @property {String} type
  * @property {String} operator
- * @property {AstNode} value
+ * @property {AstFragment} value
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
@@ -46,11 +45,11 @@ class AstUnaryOperator extends AstFragment {
      * Creates an AstUnaryOperator.
      * @param {String} operator
      * @param {AstNode} value
-     * @throws {TypeError} if the operand is not a valid AstNode
+     * @throws {TypeError} if the operand is not a valid AstFragment
      */
     constructor(operator, value) {
-        if (!AstNode.validate(value)) {
-            throw new TypeError('The operand should be an AstNode!');
+        if (!AstFragment.validate(value)) {
+            throw new TypeError('The operand should be an AstFragment!');
         }
         super({
             type: 'unaryOperator',
@@ -63,12 +62,12 @@ class AstUnaryOperator extends AstFragment {
      * Clones the instance.
      * @param {Object} [properties] - an optional list of additional properties to set.
      * @returns {AstUnaryOperator}
-     * @throws {TypeError} if the operand is not a valid AstNode
+     * @throws {TypeError} if the operand is not a valid AstFragment
      */
     clone(properties) {
         if (properties && typeof properties.value !== 'undefined') {
-            if (!AstNode.validate(properties.value)) {
-                throw new TypeError('The operand should be an AstNode!');
+            if (!AstFragment.validate(properties.value)) {
+                throw new TypeError('The operand should be an AstFragment!');
             }
         }
 

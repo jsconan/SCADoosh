@@ -277,12 +277,14 @@ describe('AST node: AstFragment', () => {
         expect(() => node.clone({start: ''})).to.throw(TypeError);
         expect(() => node.clone({start: 'foo'})).to.throw(TypeError);
         expect(() => node.clone({start: {}})).to.throw(TypeError);
+        expect(() => node.clone({start: new AstNode('foo')})).to.throw(TypeError);
         expect(() => node.clone({start: 10})).to.throw(TypeError);
         expect(() => node.clone({start: 0})).to.throw(TypeError);
 
         expect(() => node.clone({end: ''})).to.throw(TypeError);
         expect(() => node.clone({end: 'foo'})).to.throw(TypeError);
         expect(() => node.clone({end: {}})).to.throw(TypeError);
+        expect(() => node.clone({end: new AstNode('foo')})).to.throw(TypeError);
         expect(() => node.clone({end: 10})).to.throw(TypeError);
         expect(() => node.clone({end: 0})).to.throw(TypeError);
     });

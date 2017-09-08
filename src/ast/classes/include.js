@@ -29,7 +29,6 @@
  * @author jsconan
  */
 
-const AstNode = require('./node');
 const AstPath = require('./path');
 const AstFragment = require('./fragment');
 
@@ -48,7 +47,7 @@ class AstInclude extends AstFragment {
      * @throws {TypeError} if the path is not an AstPath
      */
     constructor(path) {
-        if (!AstNode.validate(path, AstPath)) {
+        if (!AstPath.validate(path)) {
             throw new TypeError('The path should be an AstPath!');
         }
         super({
@@ -65,7 +64,7 @@ class AstInclude extends AstFragment {
      */
     clone(properties) {
         if (properties) {
-            if (typeof properties.path !== 'undefined' && !AstNode.validate(properties.path, AstPath)) {
+            if (typeof properties.path !== 'undefined' && !AstPath.validate(properties.path)) {
                 throw new TypeError('The path should be an AstPath!');
             }
         }

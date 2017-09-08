@@ -29,7 +29,6 @@
  * @author jsconan
  */
 
-const AstNode = require('./node');
 const AstFragment = require('./fragment');
 
 /**
@@ -37,22 +36,22 @@ const AstFragment = require('./fragment');
  * @typedef {AstFragment} AstBinaryOperator
  * @property {String} type
  * @property {String} operator
- * @property {AstNode} left
- * @property {AstNode} right
+ * @property {AstFragment} left
+ * @property {AstFragment} right
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
 class AstBinaryOperator extends AstFragment {
     /**
      * Creates an AstBinaryOperator.
-     * @param {AstNode} left
+     * @param {AstFragment} left
      * @param {String} operator
-     * @param {AstNode} right
-     * @throws {TypeError} if one of the operands is not a valid AstNode
+     * @param {AstFragment} right
+     * @throws {TypeError} if one of the operands is not a valid AstFragment
      */
     constructor(left, operator, right) {
-        if (!AstNode.validate(left) || !AstNode.validate(right)) {
-            throw new TypeError('An operand should be an AstNode!');
+        if (!AstFragment.validate(left) || !AstFragment.validate(right)) {
+            throw new TypeError('An operand should be an AstFragment!');
         }
         super({
             type: 'binaryOperator',
@@ -66,19 +65,19 @@ class AstBinaryOperator extends AstFragment {
      * Clones the instance.
      * @param {Object} [properties] - an optional list of additional properties to set.
      * @returns {AstBinaryOperator}
-     * @throws {TypeError} if one of the operands is not a valid AstNode
+     * @throws {TypeError} if one of the operands is not a valid AstFragment
      */
     clone(properties) {
         if (properties) {
             let error = false;
             if (typeof properties.left !== 'undefined') {
-                error = error || !AstNode.validate(properties.left);
+                error = error || !AstFragment.validate(properties.left);
             }
             if (typeof properties.right !== 'undefined') {
-                error = error || !AstNode.validate(properties.right);
+                error = error || !AstFragment.validate(properties.right);
             }
             if (error) {
-                throw new TypeError('An operand should be an AstNode!');
+                throw new TypeError('An operand should be an AstFragment!');
             }
         }
 

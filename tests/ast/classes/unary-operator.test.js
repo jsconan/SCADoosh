@@ -58,6 +58,7 @@ describe('AST node: AstUnaryOperator', () => {
 
     it('should throw a TypeError if the operand is not a valid AstNode', () => {
         expect(() => new AstUnaryOperator('+', {})).to.throw(TypeError);
+        expect(() => new AstUnaryOperator('+', new AstNode('foo'))).to.throw(TypeError);
     });
 
     it('should stringify an AstUnaryOperator', () => {
@@ -140,6 +141,7 @@ describe('AST node: AstUnaryOperator', () => {
     it('should throw a TypeError if one of the operands is not a valid AstNode when cloning', () => {
         const node = (new AstUnaryOperator('+', new AstNumber(2))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({value: {}})).to.throw(TypeError);
+        expect(() => node.clone({value: new AstNode('foo')})).to.throw(TypeError);
     });
 
 });

@@ -60,7 +60,9 @@ describe('AST node: AstAssignment', () => {
 
     it('should throw a TypeError if one of the operands is not a valid AstNode', () => {
         expect(() => new AstAssignment(new AstIdentifier(1), {})).to.throw(TypeError);
+        expect(() => new AstAssignment(new AstIdentifier(1), new AstNode('foo'))).to.throw(TypeError);
         expect(() => new AstAssignment({}, new AstNumber(1))).to.throw(TypeError);
+        expect(() => new AstAssignment(new AstNode('foo'), new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstAssignment(new AstNumber(2), new AstNumber(1))).to.throw(TypeError);
     });
 
@@ -147,7 +149,9 @@ describe('AST node: AstAssignment', () => {
         const node = (new AstAssignment(new AstIdentifier(1), new AstNumber(2))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({identifier: new AstNumber(3)})).to.throw(TypeError);
         expect(() => node.clone({identifier: {}})).to.throw(TypeError);
+        expect(() => node.clone({identifier: new AstNode('foo')})).to.throw(TypeError);
         expect(() => node.clone({value: {}})).to.throw(TypeError);
+        expect(() => node.clone({value: new AstNode('foo')})).to.throw(TypeError);
     });
 
 });

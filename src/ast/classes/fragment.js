@@ -100,19 +100,19 @@ class AstFragment extends AstNode {
      * Clones the instance.
      * @param {Object} [properties] - an optional list of additional properties to set.
      * @returns {AstFragment}
-     * @throws {TypeError} if one of the operands is not a valid AstNode
+     * @throws {TypeError} if the position is set with a non AstPosition
      */
     clone(properties) {
         if (properties) {
             let error = false;
             if (typeof properties.start !== 'undefined') {
-                error = error || !AstNode.validate(properties.start, AstPosition);
+                error = error || !AstPosition.validate(properties.start);
             }
             if (typeof properties.end !== 'undefined') {
-                error = error || !AstNode.validate(properties.end, AstPosition);
+                error = error || !AstPosition.validate(properties.end);
             }
             if (error) {
-                throw new TypeError('Cannot set a position from a non AstFragment');
+                throw new TypeError('The position should be an instance of AstPosition');
             }
         }
 

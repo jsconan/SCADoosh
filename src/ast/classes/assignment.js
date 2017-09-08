@@ -29,7 +29,6 @@
  * @author jsconan
  */
 
-const AstNode = require('./node');
 const AstIdentifier = require('./identifier');
 const AstFragment = require('./fragment');
 
@@ -38,7 +37,7 @@ const AstFragment = require('./fragment');
  * @typedef {AstFragment} AstAssignment
  * @property {String} type
  * @property {AstIdentifier} identifier
- * @property {AstNode} value
+ * @property {AstFragment} value
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
@@ -46,15 +45,15 @@ class AstAssignment extends AstFragment {
     /**
      * Creates an AstAssignment.
      * @param {AstIdentifier} identifier
-     * @param {AstNode} value
-     * @throws {TypeError} if the identifier is not an AstIdentifier, or if the value is not a valid AstNode
+     * @param {AstFragment} value
+     * @throws {TypeError} if the identifier is not an AstIdentifier, or if the value is not a valid AstFragment
      */
     constructor(identifier, value) {
-        if (!AstNode.validate(identifier, AstIdentifier)) {
+        if (!AstIdentifier.validate(identifier)) {
             throw new TypeError('The identifier should be an AstIdentifier!');
         }
-        if (!AstNode.validate(value)) {
-            throw new TypeError('The value should be an AstNode!');
+        if (!AstFragment.validate(value)) {
+            throw new TypeError('The value should be an AstFragment!');
         }
         super({
             type: 'assignment',
@@ -67,15 +66,15 @@ class AstAssignment extends AstFragment {
      * Clones the instance.
      * @param {Object} [properties] - an optional list of additional properties to set.
      * @returns {AstAssignment}
-     * @throws {TypeError} if the identifier is not an AstIdentifier, or if the value is not a valid AstNode
+     * @throws {TypeError} if the identifier is not an AstIdentifier, or if the value is not a valid AstFragment
      */
     clone(properties) {
         if (properties) {
-            if (typeof properties.identifier !== 'undefined' && !AstNode.validate(properties.identifier, AstIdentifier)) {
+            if (typeof properties.identifier !== 'undefined' && !AstIdentifier.validate(properties.identifier)) {
                 throw new TypeError('The identifier should be an AstIdentifier!');
             }
-            if (typeof properties.value !== 'undefined' && !AstNode.validate(properties.value)) {
-                throw new TypeError('The value should be an AstNode!');
+            if (typeof properties.value !== 'undefined' && !AstFragment.validate(properties.value)) {
+                throw new TypeError('The value should be an AstFragment!');
             }
         }
 

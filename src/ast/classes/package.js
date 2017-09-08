@@ -35,7 +35,7 @@ const AstGroup = require('./group');
  * Defines an AST node that represents a package.
  * @typedef {AstGroup} AstPackage
  * @property {String} type
- * @property {AstNode[]} statements
+ * @property {AstFragment[]} statements
  * @property {AstPosition} start
  * @property {AstPosition} end
  */

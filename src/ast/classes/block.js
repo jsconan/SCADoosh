@@ -35,7 +35,7 @@ const AstGroup = require('./group');
  * Defines an AST node that represents a list of statements.
  * @typedef {AstGroup} AstBlock
  * @property {String} type
- * @property {AstNode[]} statements
+ * @property {AstFragment[]} statements
  * @property {AstPosition} start
  * @property {AstPosition} end
  */

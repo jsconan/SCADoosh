@@ -62,7 +62,9 @@ describe('AST node: AstBinaryOperator', () => {
     it('should throw a TypeError if one of the operands is not a valid AstNode', () => {
         const operand = new AstNumber(1);
         expect(() => new AstBinaryOperator(operand, '+', {})).to.throw(TypeError);
+        expect(() => new AstBinaryOperator(operand, '+', new AstNode('foo'))).to.throw(TypeError);
         expect(() => new AstBinaryOperator({}, '+', operand)).to.throw(TypeError);
+        expect(() => new AstBinaryOperator(new AstNode('foo'), '+', operand)).to.throw(TypeError);
     });
 
     it('should stringify an AstBinaryOperator', () => {
@@ -153,7 +155,9 @@ describe('AST node: AstBinaryOperator', () => {
     it('should throw a TypeError if one of the operands is not a valid AstNode when cloning', () => {
         const node = (new AstBinaryOperator(new AstNumber(1), '+', new AstNumber(2))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({left: {}})).to.throw(TypeError);
+        expect(() => node.clone({left: new AstNode('foo')})).to.throw(TypeError);
         expect(() => node.clone({right: {}})).to.throw(TypeError);
+        expect(() => node.clone({right: new AstNode('foo')})).to.throw(TypeError);
     });
 
 });
