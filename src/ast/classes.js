@@ -90,6 +90,11 @@ module.exports.AstFalse = require('./classes/false');
 module.exports.AstUndefined = require('./classes/undefined');
 
 /**
+ * @type {AstRange}
+ */
+module.exports.AstRange = require('./classes/range');
+
+/**
  * @type {AstComment}
  */
 module.exports.AstComment = require('./classes/comment');

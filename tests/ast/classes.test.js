@@ -45,6 +45,7 @@ const AstBoolean = require('../../src/ast/classes/boolean');
 const AstTrue = require('../../src/ast/classes/true');
 const AstFalse = require('../../src/ast/classes/false');
 const AstUndefined = require('../../src/ast/classes/undefined');
+const AstRange = require('../../src/ast/classes/range');
 const AstComment = require('../../src/ast/classes/comment');
 const AstLineComment = require('../../src/ast/classes/line-comment');
 const AstBlockComment = require('../../src/ast/classes/block-comment');
@@ -74,6 +75,7 @@ describe('AST hub', () => {
         expect(classes).to.have.a.property('AstTrue').that.is.a('function').and.is.equal(AstTrue);
         expect(classes).to.have.a.property('AstFalse').that.is.a('function').and.is.equal(AstFalse);
         expect(classes).to.have.a.property('AstUndefined').that.is.a('function').and.is.equal(AstUndefined);
+        expect(classes).to.have.a.property('AstRange').that.is.a('function').and.is.equal(AstRange);
         expect(classes).to.have.a.property('AstComment').that.is.a('function').and.is.equal(AstComment);
         expect(classes).to.have.a.property('AstLineComment').that.is.a('function').and.is.equal(AstLineComment);
         expect(classes).to.have.a.property('AstBlockComment').that.is.a('function').and.is.equal(AstBlockComment);
