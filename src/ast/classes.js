@@ -125,6 +125,21 @@ module.exports.AstUnaryOperator = require('./classes/unary-operator');
 module.exports.AstAssignment = require('./classes/assignment');
 
 /**
+ * @type {AstLookup}
+ */
+module.exports.AstLookup = require('./classes/lookup');
+
+/**
+ * @type {AstMemberLookup}
+ */
+module.exports.AstMemberLookup = require('./classes/member-lookup');
+
+/**
+ * @type {AstArrayLookup}
+ */
+module.exports.AstArrayLookup = require('./classes/array-lookup');
+
+/**
  * @type {AstInclude}
  */
 module.exports.AstInclude = require('./classes/include');

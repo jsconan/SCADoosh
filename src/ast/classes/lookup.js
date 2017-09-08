@@ -1,0 +1,76 @@
+/**
+ * @license
+ * GPLv3 License
+ *
+ * Copyright (c) 2017 Jean-Sebastien CONAN
+ *
+ * This file is part of SCADoosh.
+ *
+ * SCADoosh is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SCADoosh is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with SCADoosh. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Part of the SCADoosh tool.
+ *
+ * Defines an AST node that represents an identifier lookup.
+ *
+ * @package src/ast/classes
+ * @author jsconan
+ */
+
+const AstIdentifier = require('./identifier');
+const AstFragment = require('./fragment');
+
+/**
+ * Defines an AST node that represents an identifier lookup.
+ * @typedef {AstFragment} AstLookup
+ * @property {String} type
+ * @property {AstIdentifier} name
+ * @property {AstPosition} start
+ * @property {AstPosition} end
+ */
+class AstLookup extends AstFragment {
+    /**
+     * Creates an AstLookup.
+     * @param {AstIdentifier} name
+     * @throws {TypeError} if the name is not an AstIdentifier
+     */
+    constructor(name) {
+        if (!AstIdentifier.validate(name)) {
+            throw new TypeError('The name should be an AstIdentifier!');
+        }
+        super({
+            type: 'lookup',
+            name: name,
+        });
+    }
+
+    /**
+     * Clones the instance.
+     * @param {Object} [properties] - an optional list of additional properties to set.
+     * @returns {AstLookup}
+     * @throws {TypeError} if the name is not an AstIdentifier
+     */
+    clone(properties) {
+        if (properties) {
+            if (typeof properties.name !== 'undefined' && !AstIdentifier.validate(properties.name)) {
+                throw new TypeError('The name should be an AstIdentifier!');
+            }
+        }
+
+        return super.clone(properties);
+    }
+}
+
+module.exports = AstLookup;

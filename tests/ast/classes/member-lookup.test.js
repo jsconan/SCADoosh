@@ -23,7 +23,7 @@
 /**
  * Part of the SCADoosh tool.
  *
- * Unit tests: AST node that represents an assignment.
+ * Unit tests: AST node that represents a member lookup.
  *
  * @package tests/ast/classes
  * @author jsconan
@@ -37,39 +37,39 @@ const AstPosition = require('../../../src/ast/classes/position');
 const AstFragment = require('../../../src/ast/classes/fragment');
 const AstIdentifier = require('../../../src/ast/classes/identifier');
 const AstNumber = require('../../../src/ast/classes/number');
-const AstAssignment = require('../../../src/ast/classes/assignment');
+const AstMemberLookup = require('../../../src/ast/classes/member-lookup');
 
-describe('AST node: AstAssignment', () => {
+describe('AST node: AstMemberLookup', () => {
 
-    it('should create an AstAssignment', () => {
-        const type = 'assignment';
-        const identifier = new AstIdentifier('foo');
-        const value = new AstNumber(2);
-        const node = new AstAssignment(identifier, value);
+    it('should create an AstMemberLookup', () => {
+        const type = 'member-lookup';
+        const expr = new AstNumber(2);
+        const member = new AstIdentifier('foo');
+        const node = new AstMemberLookup(expr, member);
 
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
-        expect(node).to.be.an.instanceOf(AstAssignment);
-        expect(node.identifier).to.be.instanceOf(AstIdentifier);
-        expect(node.value).to.be.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstMemberLookup);
+        expect(node.expr).to.be.instanceOf(AstFragment);
+        expect(node.member).to.be.instanceOf(AstIdentifier);
         expect(node).to.have.a.property('type').that.is.equal(type);
-        expect(node).to.have.a.property('identifier').that.is.equal(identifier);
-        expect(node).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.have.a.property('expr').that.is.equal(expr);
+        expect(node).to.have.a.property('member').that.is.equal(member);
     });
 
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {
-        expect(() => new AstAssignment(new AstIdentifier(1), {})).to.throw(TypeError);
-        expect(() => new AstAssignment(new AstIdentifier(1), new AstNode('foo'))).to.throw(TypeError);
-        expect(() => new AstAssignment({}, new AstNumber(1))).to.throw(TypeError);
-        expect(() => new AstAssignment(new AstNode('foo'), new AstNumber(1))).to.throw(TypeError);
-        expect(() => new AstAssignment(new AstNumber(2), new AstNumber(1))).to.throw(TypeError);
+        expect(() => new AstMemberLookup(new AstNumber(1), {})).to.throw(TypeError);
+        expect(() => new AstMemberLookup(new AstNumber(1), new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstMemberLookup({}, new AstIdentifier(1))).to.throw(TypeError);
+        expect(() => new AstMemberLookup(new AstNode('foo'), new AstIdentifier(1))).to.throw(TypeError);
+        expect(() => new AstMemberLookup(new AstNumber(2), new AstNumber(1))).to.throw(TypeError);
     });
 
-    it('should stringify an AstAssignment', () => {
-        const type = 'assignment';
-        const identifier = new AstIdentifier('foo');
-        const value = new AstNumber(2);
+    it('should stringify an AstMemberLookup', () => {
+        const type = 'member-lookup';
+        const expr = new AstNumber(2);
+        const member = new AstIdentifier('foo');
         const startLine = 1;
         const startColumn = 1;
         const startOffset = 0;
@@ -78,15 +78,15 @@ describe('AST node: AstAssignment', () => {
         const endOffset = 5;
         const expected = {
             type: type,
-            identifier: {type: 'identifier', value: 'foo'},
-            value: {type: 'number', value: 2},
+            expr: {type: 'number', value: 2},
+            member: {type: 'identifier', value: 'foo'},
             start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
             end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
         };
-        const node = new AstAssignment(identifier, value);
+        const node = new AstMemberLookup(expr, member);
         const stringified = '{"type":"' + type + '",' +
-            '"identifier":{"type":"identifier","value":"foo"},' +
-            '"value":{"type":"number","value":2},' +
+            '"expr":{"type":"number","value":2},' +
+            '"member":{"type":"identifier","value":"foo"},' +
             '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
             '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
@@ -96,62 +96,62 @@ describe('AST node: AstAssignment', () => {
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
-        expect(node).to.be.an.instanceOf(AstAssignment);
+        expect(node).to.be.an.instanceOf(AstMemberLookup);
         expect(node).to.deep.equal(expected);
-        expect(node.identifier).to.be.instanceOf(AstIdentifier);
-        expect(node.value).to.be.instanceOf(AstFragment);
+        expect(node.expr).to.be.instanceOf(AstFragment);
+        expect(node.member).to.be.instanceOf(AstIdentifier);
         expect(node.start).to.be.instanceOf(AstPosition);
         expect(node.end).to.be.instanceOf(AstPosition);
         expect(node + '').to.be.equal(stringified);
     });
 
-    it('should clone an AstAssignment', () => {
-        const node = (new AstAssignment(new AstIdentifier('foo'), new AstNumber(2))).startAt(1, 1, 0).endAt(1, 6, 5);
+    it('should clone an AstMemberLookup', () => {
+        const node = (new AstMemberLookup(new AstNumber(2), new AstIdentifier('foo'))).startAt(1, 1, 0).endAt(1, 6, 5);
 
         const clone = node.clone();
 
         expect(clone).to.be.an('object');
         expect(clone).to.be.an.instanceOf(AstNode);
         expect(clone).to.be.an.instanceOf(AstFragment);
-        expect(clone).to.be.an.instanceOf(AstAssignment);
+        expect(clone).to.be.an.instanceOf(AstMemberLookup);
         expect(clone).to.not.be.equal(node);
         expect(clone).to.be.deep.equal(node);
     });
 
-    it('should clone an AstAssignment with the provided properties', () => {
-        const identifier = new AstIdentifier('foo');
-        const value = new AstNumber(2);
-        const newIdentifier = new AstIdentifier('bar');
-        const newValue = new AstNumber(1);
+    it('should clone an AstMemberLookup with the provided properties', () => {
+        const expr = new AstNumber(2);
+        const member = new AstIdentifier('foo');
+        const newExpr = new AstNumber(1);
+        const newMember = new AstIdentifier('bar');
 
-        const node = (new AstAssignment(identifier, value)).startAt(1, 1, 0).endAt(1, 6, 5);
+        const node = (new AstMemberLookup(expr, member)).startAt(1, 1, 0).endAt(1, 6, 5);
 
         const clone = node.clone({
             type: 'number',         // should not be allowed
-            identifier: newIdentifier,
-            value: newValue,
+            expr: newExpr,
+            member: newMember,
         });
 
         expect(clone).to.be.an('object');
         expect(clone).to.be.an.instanceOf(AstNode);
         expect(clone).to.be.an.instanceOf(AstFragment);
-        expect(clone).to.be.an.instanceOf(AstAssignment);
+        expect(clone).to.be.an.instanceOf(AstMemberLookup);
         expect(clone).to.not.be.equal(node);
         expect(clone).to.be.not.deep.equal(node);
         expect(clone).to.have.a.property('type').that.is.equal(node.type);
-        expect(clone).to.have.a.property('identifier').that.is.equal(newIdentifier);
-        expect(clone).to.have.a.property('value').that.is.equal(newValue);
+        expect(clone).to.have.a.property('expr').that.is.equal(newExpr);
+        expect(clone).to.have.a.property('member').that.is.equal(newMember);
         expect(clone).to.have.a.property('start').that.is.equal(node.start);
         expect(clone).to.have.a.property('end').that.is.equal(node.end);
     });
 
     it('should throw a TypeError if one of the operands is not a valid AstFragment when cloning', () => {
-        const node = (new AstAssignment(new AstIdentifier(1), new AstNumber(2))).startAt(1, 1, 0).endAt(1, 4, 3);
-        expect(() => node.clone({identifier: new AstNumber(3)})).to.throw(TypeError);
-        expect(() => node.clone({identifier: {}})).to.throw(TypeError);
-        expect(() => node.clone({identifier: new AstNode('foo')})).to.throw(TypeError);
-        expect(() => node.clone({value: {}})).to.throw(TypeError);
-        expect(() => node.clone({value: new AstNode('foo')})).to.throw(TypeError);
+        const node = (new AstMemberLookup(new AstNumber(2), new AstIdentifier(1))).startAt(1, 1, 0).endAt(1, 4, 3);
+        expect(() => node.clone({expr: {}})).to.throw(TypeError);
+        expect(() => node.clone({expr: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({member: {}})).to.throw(TypeError);
+        expect(() => node.clone({member: new AstNumber(3)})).to.throw(TypeError);
+        expect(() => node.clone({member: new AstNode('foo')})).to.throw(TypeError);
     });
 
 });
