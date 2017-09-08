@@ -228,7 +228,27 @@ const utils = {
      * Simply discards the data.
      * @returns {null}
      */
-    discard: () => null
+    discard: () => null,
+
+    /**
+     * Creates a debug node that contains the data.
+     * @param {Object|Array} data
+     * @returns {AstFragment}
+     */
+    debug: (data) => {
+        const node = new classes.AstFragment({
+            type: 'debug',
+            data: data
+        });
+
+        if (data && data.length) {
+            utils.setPosition(node, data);
+        } else {
+            node.startAt(1, 1, 0).endAt(1, 1, 0);
+        }
+
+        return node;
+    }
 };
 
 module.exports = utils;

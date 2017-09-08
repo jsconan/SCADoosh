@@ -710,4 +710,98 @@ describe('AST utils', () => {
 
     });
 
+    describe('debug', () => {
+
+        it('should return a debug node containing the raw data', () => {
+
+            const data = [{
+                type: "identifier",
+                value: "foo",
+                text: "foo",
+                offset: 0,
+                lineBreaks: 0,
+                line: 1,
+                col: 1
+            },{
+                type: "assign",
+                value: "=",
+                text: "=",
+                offset: 4,
+                lineBreaks: 0,
+                line: 1,
+                col: 5
+            },{
+                type: "number",
+                value: "3",
+                text: "3",
+                offset: 6,
+                lineBreaks: 0,
+                line: 1,
+                col: 7
+            },{
+                type: "add",
+                value: "+",
+                text: "+",
+                offset: 8,
+                lineBreaks: 0,
+                line: 1,
+                col: 9
+            },{
+                type: "number",
+                value: "4",
+                text: "4",
+                offset: 10,
+                lineBreaks: 0,
+                line: 1,
+                col: 11
+            },{
+                type: "semicolon",
+                value: ";",
+                text: ";",
+                offset: 11,
+                lineBreaks: 0,
+                line: 1,
+                col: 12
+            }];
+
+            const first = data[0];
+            const last = data[data.length - 1];
+            const node = utils.debug(data);
+
+            expect(node).to.be.an.instanceOf(classes.AstFragment);
+            expect(node).to.have.a.property('start').that.is.an.instanceOf(classes.AstPosition);
+            expect(node).to.have.a.property('end').that.is.an.instanceOf(classes.AstPosition);
+            expect(node).to.have.a.property('data').that.is.equal(data);
+
+            expect(node.start.line).to.be.equal(first.line);
+            expect(node.start.column).to.be.equal(first.col);
+            expect(node.start.offset).to.be.equal(first.offset);
+            expect(node.end.line).to.be.equal(last.line);
+            expect(node.end.column).to.be.equal(last.col + last.text.length);
+            expect(node.end.offset).to.be.equal(last.offset + last.text.length);
+
+        });
+
+        it('should return a debug node containing the raw data, and a default position', () => {
+
+            const data = [];
+
+            const node = utils.debug(data);
+
+            expect(node).to.be.an.instanceOf(classes.AstFragment);
+            expect(node).to.have.a.property('start').that.is.an.instanceOf(classes.AstPosition);
+            expect(node).to.have.a.property('end').that.is.an.instanceOf(classes.AstPosition);
+            expect(node).to.have.a.property('data').that.is.equal(data);
+
+            expect(node.start.line).to.be.equal(1);
+            expect(node.start.column).to.be.equal(1);
+            expect(node.start.offset).to.be.equal(0);
+            expect(node.end.line).to.be.equal(1);
+            expect(node.end.column).to.be.equal(1);
+            expect(node.end.offset).to.be.equal(0);
+
+        });
+
+    });
+
 });
