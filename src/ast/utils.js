@@ -39,6 +39,39 @@ const classes = require('./classes');
  */
 const utils = {
     /**
+     * Creates a node that represents a literal from the provided data and class.
+     * Set the fragment position according to the provided token.
+     * @param {Array|Token|AstNode} data - The data provided by the parser
+     * @param {Function|String} AstClass - The AstNode class or the name of an AST node class
+     * @returns {AstFragment}
+     * @throws {TypeError} if there is more than one token
+     * @throws {TypeError} if if the AstClass is not valid
+     * @throws {TypeError} if the created node is not an AstFragment
+     */
+    literal: (data, AstClass) => {
+        data = utils.flatten(data);
+
+        if (!data.length || data.length > 1) {
+            throw new TypeError('A literal should be represented by a single token');
+        }
+
+        const token = data[0];
+
+        if (utils.is(token, AstClass)) {
+            return token;
+        }
+
+        const Class = utils.getClass(AstClass);
+        const node = new Class(token.value);
+
+        if (!utils.is(node, classes.AstFragment)) {
+            throw new TypeError('A literal should be at least an AstFragment');
+        }
+
+        return utils.setPosition(node, data);
+    },
+
+    /**
      * Checks if an object is an instance of an AST node.
      * @param {Object} node
      * @param {Function|String|AstNode} AstClass
@@ -223,6 +256,13 @@ const utils = {
      * @returns {Array}
      */
     flatten: (data) => _.isArray(data) ? _.flattenDeep(data) : [data],
+
+    /**
+     * Ensures the provided data is an array and only contains AST nodes
+     * @param {Array|Object} data
+     * @returns {AstFragment[]}
+     */
+    compact: (data) => _.filter(utils.flatten(data), (node) => utils.is(node, classes.AstFragment)),
 
     /**
      * Simply discards the data.

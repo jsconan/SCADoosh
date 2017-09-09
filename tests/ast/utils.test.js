@@ -38,6 +38,148 @@ const classes = require('./../../src/ast/classes');
 
 describe('AST utils', () => {
 
+    describe('literal', () => {
+
+        it('should create the node using the provided class name', () => {
+            const token = {
+                value: 'foo',
+                text: 'foo',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = utils.literal([token], 'AstString');
+
+            expect(node).to.be.an.instanceOf(classes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(classes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(classes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line);
+            expect(node.end.column).to.be.equal(token.col + token.value.length);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should create the node using the provided class', () => {
+            const token = {
+                value: 'foo',
+                text: 'foo',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = utils.literal([token], classes.AstString);
+
+            expect(node).to.be.an.instanceOf(classes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(classes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(classes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line);
+            expect(node.end.column).to.be.equal(token.col + token.value.length);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should create the node and set the position for a multi lines token', () => {
+            const token = {
+                value: '\nfoo\nbar',
+                text: '\nfoo\nbar',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = utils.literal([token], 'AstString');
+
+            expect(node).to.be.an.instanceOf(classes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(classes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(classes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line + 2);
+            expect(node.end.column).to.be.equal(4);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should create the node from a direct token', () => {
+            const token = {
+                value: '\nfoo\nbar',
+                text: '\nfoo\nbar',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+            const node = utils.literal(token, classes.AstString);
+
+            expect(node).to.be.an.instanceOf(classes.AstString);
+            expect(node).to.have.property('start');
+            expect(node.start).to.be.an.instanceOf(classes.AstPosition);
+            expect(node.start.line).to.be.equal(token.line);
+            expect(node.start.column).to.be.equal(token.col);
+            expect(node.start.offset).to.be.equal(token.offset);
+            expect(node).to.have.property('end');
+            expect(node.end).to.be.an.instanceOf(classes.AstPosition);
+            expect(node.end.line).to.be.equal(token.line + 2);
+            expect(node.end.column).to.be.equal(4);
+            expect(node.end.offset).to.be.equal(token.offset + token.value.length);
+        });
+
+        it('should straight return the already existing node', () => {
+            const data = new classes.AstNumber(42).startAt(1, 1, 0).endAt(1, 3, 2);
+            expect(utils.literal(data, 'AstNumber')).to.be.equal(data);
+            expect(utils.literal([data], 'AstNumber')).to.be.equal(data);
+            expect(utils.literal(data, 'AstString')).to.be.an.instanceOf(classes.AstString);
+            expect(utils.literal(data, 'AstString')).to.have.a.property('value').that.is.equal('42');
+        });
+
+        it('should throw a TypeError if the AST class is not valid', () => {
+            const token = {
+                value: 'foo',
+                text: 'foo',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+
+            expect(() => utils.literal(token, 'foo')).to.throw(TypeError);
+            expect(() => utils.literal(token, {})).to.throw(TypeError);
+            expect(() => utils.literal(token, () => {
+            })).to.throw(TypeError);
+        });
+
+        it('should throw a TypeError if the data is not valid', () => {
+            expect(() => utils.literal([], 'AstNumber')).to.throw(TypeError);
+            expect(() => utils.literal([{}, {}], 'AstNumber')).to.throw(TypeError);
+        });
+
+        it('should throw a TypeError if the created node is not an AstFragment', () => {
+            class AstFoo extends classes.AstNode {
+                constructor() {
+                    super('foo');
+                }
+            }
+
+            const token = {
+                value: 'foo',
+                text: 'foo',
+                line: 2,
+                col: 7,
+                offset: 12
+            };
+
+            expect(() => utils.literal(token, AstFoo)).to.throw(TypeError);
+        });
+
+    });
+
     describe('is', () => {
 
         it('should check using a class constructor', () => {
@@ -692,6 +834,29 @@ describe('AST utils', () => {
         it('should force the array', () => {
             expect(utils.flatten(42)).to.be.deep.equal([42]);
             expect(utils.flatten({foo: 'bar'})).to.be.deep.equal([{foo: 'bar'}]);
+        });
+
+    });
+
+    describe('compact', () => {
+
+        it('should remove all elements thar are not AstNode from the array', () => {
+            const node1 = new classes.AstFragment('foo1');
+            const node2 = new classes.AstFragment('foo2');
+            const node3 = new classes.AstFragment('foo3');
+
+            expect(utils.compact([{}])).to.be.deep.equal([]);
+            expect(utils.compact([new classes.AstNode('foo')])).to.be.deep.equal([]);
+            expect(utils.compact([new classes.AstNode('foo'), node1, {type: 'comma'}, node2, {type: 'comma'}, {type: 'comma'}, node3, {}])).to.be.deep.equal([node1, node2, node3]);
+            expect(utils.compact([[[new classes.AstNode('foo'), node1], [{type: 'comma'}]], [[node2], [{type: 'comma'}, [{type: 'comma'}], [[node3], {}]]]])).to.be.deep.equal([node1, node2, node3]);
+        });
+
+        it('should force the array', () => {
+            const node = new classes.AstFragment('foo');
+            expect(utils.compact(42)).to.be.deep.equal([]);
+            expect(utils.compact({foo: 'bar'})).to.be.deep.equal([]);
+            expect(utils.compact(new classes.AstNode('foo'))).to.be.deep.equal([]);
+            expect(utils.compact(node)).to.be.deep.equal([node]);
         });
 
     });
