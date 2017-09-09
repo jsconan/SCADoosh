@@ -137,6 +137,18 @@ class AstNode {
         const Class = isClass ? type : this;
         return (obj && obj instanceof Class) && (!type || isClass || obj.type === type);
     }
+
+    /**
+     * Checks if the nodes are valid AST nodes
+     * @param {AstFragment[]} nodes
+     * @param {String|Function} [type] - Could be a type name or a class constructor.
+     * @returns {Boolean}
+     */
+    static validateNodes(nodes, type) {
+        return _.isArray(nodes) && nodes.every((parameter) => {
+            return this.validate(parameter, type);
+        });
+    }
 }
 
 module.exports = AstNode;

@@ -276,7 +276,7 @@ describe('AST node: AstNode', () => {
         expect(AstNode.validate({type: type}, type)).to.be.false;
     });
 
-    it('should validate the inherited class instead of AstNode', () => {
+    it('should validate the node from the inherited class instead of AstNode', () => {
         class AstFoo extends AstNode {}
 
         const type = 'literal';
@@ -290,6 +290,39 @@ describe('AST node: AstNode', () => {
         expect(AstFoo.validate(node, AstFoo)).to.be.false;
         expect(AstFoo.validate(node, AstNode)).to.be.true;
         expect(AstFoo.validate(foo, AstFoo)).to.be.true;
+    });
+
+    it('should validate a list of nodes', () => {
+        const type = 'literal';
+        const node = new AstNode(type);
+
+        expect(AstNode.validateNodes(node)).to.be.false;
+        expect(AstNode.validateNodes({})).to.be.false;
+        expect(AstNode.validateNodes([node])).to.be.true;
+        expect(AstNode.validateNodes([node], type)).to.be.true;
+        expect(AstNode.validateNodes([node], 'foo')).to.be.false;
+        expect(AstNode.validateNodes([])).to.be.true;
+        expect(AstNode.validateNodes([{}])).to.be.false;
+    });
+
+    it('should validate a list of nodes from the inherited class instead of AstNode', () => {
+        class AstFoo extends AstNode {}
+        const type = 'foo';
+        const node = new AstNode(type);
+        const foo = new AstFoo(type);
+
+        expect(AstFoo.validateNodes(node)).to.be.false;
+        expect(AstFoo.validateNodes({})).to.be.false;
+        expect(AstFoo.validateNodes([node])).to.be.false;
+        expect(AstFoo.validateNodes([foo])).to.be.true;
+        expect(AstFoo.validateNodes([foo, node])).to.be.false;
+        expect(AstFoo.validateNodes([node], type)).to.be.false;
+        expect(AstFoo.validateNodes([foo], type)).to.be.true;
+        expect(AstFoo.validateNodes([foo, node], type)).to.be.false;
+        expect(AstFoo.validateNodes([node, foo], AstFoo)).to.be.false;
+        expect(AstFoo.validateNodes([node, foo], AstNode)).to.be.true;
+        expect(AstFoo.validateNodes([foo], AstFoo)).to.be.true;
+        expect(AstFoo.validateNodes([foo, node], AstFoo)).to.be.false;
     });
 
 });

@@ -217,25 +217,4 @@ describe('AST node: AstGroup', () => {
         expect(() => node.clone({statements: [{}]})).to.throw(TypeError);
     });
 
-    it('should validate a list of statements', () => {
-        const type = 'group';
-        const statements = [
-            new AstAssignment(new AstIdentifier('foo'), new AstNumber(42)),
-        ];
-        const node = new AstGroup(type, []);
-
-        expect(node).to.be.an('object');
-        expect(node).to.be.an.instanceOf(AstNode);
-        expect(node).to.be.an.instanceOf(AstFragment);
-        expect(node).to.be.an.instanceOf(AstGroup);
-        expect(node.statements).to.be.an('array');
-        expect(node).to.have.a.property('type').that.is.equal(type);
-        expect(node).to.have.a.property('statements').that.is.deep.equal([]);
-
-        expect(node.validateStatements(statements)).to.be.true;
-        expect(node.validateStatements([])).to.be.true;
-        expect(node.validateStatements([{}])).to.be.false;
-        expect(node.validateStatements([new AstNode('foo')])).to.be.false;
-    });
-
 });

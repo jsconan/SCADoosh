@@ -57,8 +57,8 @@ class AstGroup extends AstFragment {
             statements: statements
         });
 
-        if (!this.validateStatements(statements)) {
-            throw new TypeError('The statement should be an AstFragment!');
+        if (!AstFragment.validateNodes(statements)) {
+            throw new TypeError('The statements should be a a list of AstFragment!');
         }
     }
 
@@ -74,23 +74,12 @@ class AstGroup extends AstFragment {
                 properties.statements = [properties.statements];
             }
 
-            if (!this.validateStatements(properties.statements)) {
-                throw new TypeError('The statement should be an AstFragment!');
+            if (!AstFragment.validateNodes(properties.statements)) {
+                throw new TypeError('The statements should be a a list of AstFragment!');
             }
         }
 
         return super.clone(properties);
-    }
-
-    /**
-     * Checks if the statements are valid AST nodes
-     * @param {AstFragment[]} statements
-     * @returns {Boolean}
-     */
-    validateStatements(statements) {
-        return statements.every((statement) => {
-            return AstFragment.validate(statement);
-        });
     }
 }
 
