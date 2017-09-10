@@ -54,6 +54,8 @@ const AstBinaryOperator = require('../../src/ast/classes/binary-operator');
 const AstTernaryOperator = require('../../src/ast/classes/ternary-operator');
 const AstAssignment = require('../../src/ast/classes/assignment');
 const AstFunctionCall = require('../../src/ast/classes/function-call');
+const AstModuleCall = require('../../src/ast/classes/module-call');
+const AstOperatorCall = require('../../src/ast/classes/operator-call');
 const AstExpression = require('../../src/ast/classes/expression');
 const AstLookup = require('../../src/ast/classes/lookup');
 const AstMemberLookup = require('../../src/ast/classes/member-lookup');
@@ -65,7 +67,7 @@ const AstPackage = require('../../src/ast/classes/package');
 const AstBlock = require('../../src/ast/classes/block');
 const AstNoop = require('../../src/ast/classes/noop');
 
-describe('AST hub', () => {
+describe('AST classes', () => {
 
     it('should expose the list of node classes', () => {
 
@@ -90,6 +92,8 @@ describe('AST hub', () => {
         expect(classes).to.have.a.property('AstTernaryOperator').that.is.a('function').and.is.equal(AstTernaryOperator);
         expect(classes).to.have.a.property('AstAssignment').that.is.a('function').and.is.equal(AstAssignment);
         expect(classes).to.have.a.property('AstFunctionCall').that.is.a('function').and.is.equal(AstFunctionCall);
+        expect(classes).to.have.a.property('AstModuleCall').that.is.a('function').and.is.equal(AstModuleCall);
+        expect(classes).to.have.a.property('AstOperatorCall').that.is.a('function').and.is.equal(AstOperatorCall);
         expect(classes).to.have.a.property('AstExpression').that.is.a('function').and.is.equal(AstExpression);
         expect(classes).to.have.a.property('AstLookup').that.is.a('function').and.is.equal(AstLookup);
         expect(classes).to.have.a.property('AstMemberLookup').that.is.a('function').and.is.equal(AstMemberLookup);
