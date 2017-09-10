@@ -77,7 +77,7 @@ class AstRange extends AstFragment {
             !AstFragment.validate(properties.last)) {
             throw new TypeError('The value should be an AstFragment!');
         }
-        return _.omitBy(properties, _.isNull);
+        return super.mapProperties(_.omitBy(properties, _.isNull));
     }
 }
 

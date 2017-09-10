@@ -70,7 +70,7 @@ class AstArrayLookup extends AstFragment {
         if (!AstFragment.validate(properties.index)) {
             throw new TypeError('The index should be an AstFragment!');
         }
-        return properties;
+        return super.mapProperties(properties);
     }
 }
 

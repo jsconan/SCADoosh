@@ -75,7 +75,7 @@ class AstPosition extends AstNode {
             throw new TypeError('The text coordinates cannot be negative or null');
         }
 
-        return properties;
+        return super.mapProperties(properties);
     }
 }
 

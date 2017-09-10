@@ -105,7 +105,7 @@ class AstFragment extends AstNode {
         if (typeof properties.end !== 'undefined') {
             properties.end = end(properties.end);
         }
-        return properties;
+        return super.mapProperties(properties);
     }
 
     /**

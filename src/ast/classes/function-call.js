@@ -77,7 +77,7 @@ class AstFunctionCall extends AstFragment {
             throw new TypeError('The parameters should be a list of AstFragment!');
         }
 
-        return properties;
+        return super.mapProperties(properties);
     }
 }
 

@@ -71,7 +71,7 @@ class AstAssignment extends AstFragment {
         if (!AstFragment.validate(properties.value)) {
             throw new TypeError('The value should be an AstFragment!');
         }
-        return properties;
+        return super.mapProperties(properties);
     }
 }
 

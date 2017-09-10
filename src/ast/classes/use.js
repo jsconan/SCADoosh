@@ -66,7 +66,7 @@ class AstUse extends AstFragment {
             throw new TypeError('The path should be an AstPath!');
         }
 
-        return properties;
+        return super.mapProperties(properties);
     }
 }
 

@@ -62,7 +62,7 @@ class AstLiteral extends AstFragment {
      */
     mapProperties(properties) {
         properties.value = this.cast(properties.value);
-        return properties;
+        return super.mapProperties(properties);
     }
 
     /**

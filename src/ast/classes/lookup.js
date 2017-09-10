@@ -65,7 +65,7 @@ class AstLookup extends AstFragment {
         if (!AstIdentifier.validate(properties.name)) {
             throw new TypeError('The name should be an AstIdentifier!');
         }
-        return properties;
+        return super.mapProperties(properties);
     }
 }
 

@@ -71,7 +71,7 @@ class AstMemberLookup extends AstFragment {
         if (!AstIdentifier.validate(properties.member)) {
             throw new TypeError('The member should be an AstIdentifier!');
         }
-        return properties;
+        return super.mapProperties(properties);
     }
 }
 

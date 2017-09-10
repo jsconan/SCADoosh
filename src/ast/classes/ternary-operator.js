@@ -72,7 +72,7 @@ class AstTernaryOperator extends AstFragment {
             !AstFragment.validate(properties.alternative)) {
             throw new TypeError('An operand should be an AstFragment!');
         }
-        return properties;
+        return super.mapProperties(properties);
     }
 }
 

@@ -71,7 +71,7 @@ class AstBinaryOperator extends AstFragment {
             throw new TypeError('An operand should be an AstFragment!');
         }
         properties.operator = '' + properties.operator;
-        return properties;
+        return super.mapProperties(properties);
     }
 }
 

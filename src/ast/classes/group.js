@@ -69,7 +69,7 @@ class AstGroup extends AstFragment {
         if (!AstFragment.validateNodes(properties.statements)) {
             throw new TypeError('The statements should be a a list of AstFragment!');
         }
-        return properties;
+        return super.mapProperties(properties);
     }
 }
 

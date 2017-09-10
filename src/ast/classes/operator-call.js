@@ -66,8 +66,6 @@ class AstOperatorCall extends AstFunctionCall {
      * @throws {TypeError} if the properties are invalid
      */
     mapProperties(properties) {
-        properties = super.mapProperties(properties);
-
         if (!_.isArray(properties.statements)) {
             properties.statements = [properties.statements];
         }
@@ -76,7 +74,7 @@ class AstOperatorCall extends AstFunctionCall {
             throw new TypeError('The statements should be a list of AstFragment!');
         }
 
-        return properties;
+        return super.mapProperties(properties);
     }
 }
 
