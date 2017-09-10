@@ -130,6 +130,11 @@ module.exports.AstTernaryOperator = require('./classes/ternary-operator');
 module.exports.AstAssignment = require('./classes/assignment');
 
 /**
+ * @type {AstFunctionCall}
+ */
+module.exports.AstFunctionCall = require('./classes/function-call');
+
+/**
  * @type {AstLookup}
  */
 module.exports.AstLookup = require('./classes/lookup');
