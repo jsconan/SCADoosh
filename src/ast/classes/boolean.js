@@ -32,30 +32,6 @@
 const AstLiteral = require('./literal');
 
 /**
- * Gets a boolean value.
- * @param {Boolean|String} value
- * @returns {Boolean}
- * @throws {TypeError} if the value is not a valid boolean
- */
-function boolean(value) {
-    if (typeof value !== 'boolean') {
-        switch ('' + value) {
-            case 'true':
-                value = true;
-                break;
-
-            case 'false':
-                value = false;
-                break;
-
-            default:
-                throw new TypeError(`${value} is not a valid boolean value`);
-        }
-    }
-    return value;
-}
-
-/**
  * Defines an AST node that represents a string literal.
  * @typedef {AstLiteral} AstBoolean
  * @property {String} type
@@ -67,24 +43,35 @@ class AstBoolean extends AstLiteral {
     /**
      * Creates an AstBoolean.
      * @param {Boolean|String} value
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the value is not a valid boolean
      */
-    constructor(value) {
-        super('boolean', boolean(value));
+    constructor(value, properties) {
+        super('boolean', value, properties);
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstBoolean}
+     * Gets a boolean value.
+     * @param {*} value
+     * @returns {Boolean}
      * @throws {TypeError} if the value is not a valid boolean
      */
-    clone(properties) {
-        if (properties && typeof properties.value !== 'undefined') {
-            properties.value = boolean(properties.value);
-        }
+    cast(value) {
+        if (typeof value !== 'boolean') {
+            switch ('' + value) {
+                case 'true':
+                    value = true;
+                    break;
 
-        return super.clone(properties);
+                case 'false':
+                    value = false;
+                    break;
+
+                default:
+                    throw new TypeError(`${value} is not a valid boolean value`);
+            }
+        }
+        return value;
     }
 }
 

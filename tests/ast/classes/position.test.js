@@ -35,7 +35,7 @@ const expect = chai.expect;
 const AstNode = require('../../../src/ast/classes/node');
 const AstPosition = require('../../../src/ast/classes/position');
 
-describe('AST node: AstPosition', () => {
+describe('AstPosition', () => {
 
     it('should create an AstPosition with the specified values', () => {
         const line = 1;
@@ -43,6 +43,24 @@ describe('AST node: AstPosition', () => {
         const offset = 1;
         const expected = {type: 'position', line: line, column: column, offset: offset};
         const node = new AstPosition(line, column, offset);
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstPosition);
+        expect(node).to.be.deep.equal(expected);
+    });
+
+    it('should create an AstPosition with the specified properties', () => {
+        const line = 1;
+        const column = 2;
+        const offset = 1;
+        const expected = {type: 'position', line: line, column: column, offset: offset, info: 'foo'};
+        const node = new AstPosition(0, 0, 0, {
+            line: line,
+            column: column,
+            offset: offset,
+            info: 'foo'
+        });
 
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);

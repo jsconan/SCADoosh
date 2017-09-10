@@ -37,7 +37,7 @@ const AstPosition = require('../../../src/ast/classes/position');
 const AstFragment = require('../../../src/ast/classes/fragment');
 const AstNoop = require('../../../src/ast/classes/noop');
 
-describe('AST node: AstNoop', () => {
+describe('AstNoop', () => {
 
     it('should create an AstNoop', () => {
         const type = 'noop';

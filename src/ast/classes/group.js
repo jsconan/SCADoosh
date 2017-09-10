@@ -45,41 +45,31 @@ class AstGroup extends AstFragment {
      * Creates an AstGroup.
      * @param {String} type
      * @param {AstFragment[]|AstFragment} statements - A statement or a list of statements
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the statements are not valid AST nodes
      */
-    constructor(type, statements) {
-        if (!_.isArray(statements)) {
-            statements = [statements];
-        }
-
-        super({
+    constructor(type, statements, properties) {
+        super(_.assign({
             type: type,
             statements: statements
-        });
-
-        if (!AstFragment.validateNodes(statements)) {
-            throw new TypeError('The statements should be a a list of AstFragment!');
-        }
+        }, properties));
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstGroup}
-     * @throws {TypeError} if the statements are not valid AST nodes
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
      */
-    clone(properties) {
-        if (properties && typeof properties.statements !== 'undefined') {
-            if (!_.isArray(properties.statements)) {
-                properties.statements = [properties.statements];
-            }
-
-            if (!AstFragment.validateNodes(properties.statements)) {
-                throw new TypeError('The statements should be a a list of AstFragment!');
-            }
+    mapProperties(properties) {
+        if (!_.isArray(properties.statements)) {
+            properties.statements = [properties.statements];
         }
 
-        return super.clone(properties);
+        if (!AstFragment.validateNodes(properties.statements)) {
+            throw new TypeError('The statements should be a a list of AstFragment!');
+        }
+        return properties;
     }
 }
 

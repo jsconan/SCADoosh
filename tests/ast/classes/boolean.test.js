@@ -38,7 +38,7 @@ const AstFragment = require('../../../src/ast/classes/fragment');
 const AstLiteral = require('../../../src/ast/classes/literal');
 const AstBoolean = require('../../../src/ast/classes/boolean');
 
-describe('AST node: AstBoolean', () => {
+describe('AstBoolean', () => {
 
     it('should create an AstBoolean with the specified value', () => {
         const type = 'boolean';
@@ -82,12 +82,33 @@ describe('AST node: AstBoolean', () => {
         expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
+    it('should create an AstBoolean with the specified properties', () => {
+        const type = 'boolean';
+        const value = true;
+        const node = new AstBoolean(false, {value: 'true', info: 'foo'});
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstBoolean);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.have.a.property('info').that.is.equal('foo');
+    });
+
     it('should throw a TypeError if the value is not compatible with boolean', () => {
         expect(() => new AstBoolean('')).to.throw(TypeError);
         expect(() => new AstBoolean('foo')).to.throw(TypeError);
         expect(() => new AstBoolean({})).to.throw(TypeError);
         expect(() => new AstBoolean(10)).to.throw(TypeError);
         expect(() => new AstBoolean(0)).to.throw(TypeError);
+
+        expect(() => new AstBoolean(true, {value: ''})).to.throw(TypeError);
+        expect(() => new AstBoolean(true, {value: 'foo'})).to.throw(TypeError);
+        expect(() => new AstBoolean(true, {value: {}})).to.throw(TypeError);
+        expect(() => new AstBoolean(true, {value: 10})).to.throw(TypeError);
+        expect(() => new AstBoolean(true, {value: 0})).to.throw(TypeError);
     });
 
     it('should stringify an AstBoolean', () => {

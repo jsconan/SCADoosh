@@ -41,7 +41,7 @@ const AstAssignment = require('../../../src/ast/classes/assignment');
 const AstGroup = require('../../../src/ast/classes/group');
 const AstBlock = require('../../../src/ast/classes/block');
 
-describe('AST node: AstBlock', () => {
+describe('AstBlock', () => {
 
     it('should create an AstBlock with a list of statements', () => {
         const type = 'block';
@@ -90,9 +90,33 @@ describe('AST node: AstBlock', () => {
         expect(node).to.have.a.property('statements').that.is.deep.equal(statements);
     });
 
+    it('should create an AstBlock with the specified properties', () => {
+        const type = 'foo';
+        const statements = [
+            new AstAssignment(new AstIdentifier('foo'), new AstNumber(42)),
+        ];
+        const node = new AstBlock('statements', {
+            type: type,
+            statements: statements,
+            foo: 'bar'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstGroup);
+        expect(node).to.be.an.instanceOf(AstBlock);
+        expect(node.statements).to.be.an('array');
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('statements').that.is.deep.equal(statements);
+        expect(node).to.have.a.property('foo').that.is.equal('bar');
+    });
+
     it('should throw a TypeError if the statements are not valid', () => {
         expect(() => new AstBlock([{}])).to.throw(TypeError);
         expect(() => new AstBlock({})).to.throw(TypeError);
+        expect(() => new AstBlock(new AstFragment('foo'), {statements: {}})).to.throw(TypeError);
+        expect(() => new AstBlock(new AstFragment('foo'), {statements: new AstNode('foo')})).to.throw(TypeError);
     });
 
     it('should stringify an AstBlock', () => {

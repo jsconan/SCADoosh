@@ -29,6 +29,7 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
 const AstFragment = require('./fragment');
 
 /**
@@ -44,12 +45,35 @@ class AstLiteral extends AstFragment {
      * Creates an AstLiteral.
      * @param {String} type
      * @param {*} value
+     * @param {Object} [properties] - An optional list of additional properties to set.
      */
-    constructor(type, value) {
-        super({
+    constructor(type, value, properties) {
+        super(_.assign({
             type: type,
             value: value
-        });
+        }, properties));
+    }
+
+    /**
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
+     */
+    mapProperties(properties) {
+        properties.value = this.cast(properties.value);
+        return properties;
+    }
+
+    /**
+     * Cast the value to the type handled by the node.
+     * The inherited classes should override this method
+     * @param {*} value
+     * @returns {*}
+     * @throws {TypeError} if the value is invalid
+     */
+    cast(value) {
+        return value;
     }
 }
 

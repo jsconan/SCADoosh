@@ -35,9 +35,10 @@ const expect = chai.expect;
 const AstNode = require('../../../src/ast/classes/node');
 const AstPosition = require('../../../src/ast/classes/position');
 const AstFragment = require('../../../src/ast/classes/fragment');
+const AstLiteral = require('../../../src/ast/classes/literal');
 const AstComment = require('../../../src/ast/classes/comment');
 
-describe('AST node: AstComment', () => {
+describe('AstComment', () => {
 
     it('should create an AstComment', () => {
         const type = 'comment';
@@ -47,9 +48,28 @@ describe('AST node: AstComment', () => {
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
         expect(node).to.be.an.instanceOf(AstComment);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('value').that.is.equal(value);
+    });
+
+    it('should create an AstComment with the specified properties', () => {
+        const type = 'comment';
+        const value = 'a comment';
+        const node = new AstComment('foo', 'bar', {
+            type: type,
+            value: value,
+            info: 'foo'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstComment);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.have.a.property('info').that.is.equal('foo');
     });
 
     it('should create an AstComment with the specified value as a stringable', () => {
@@ -65,6 +85,7 @@ describe('AST node: AstComment', () => {
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
         expect(node).to.be.an.instanceOf(AstComment);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('value').that.is.equal(value);
@@ -78,6 +99,7 @@ describe('AST node: AstComment', () => {
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
         expect(node).to.be.an.instanceOf(AstComment);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('value').that.is.equal(value);
@@ -109,6 +131,7 @@ describe('AST node: AstComment', () => {
         expect(node).to.be.an('object');
         expect(node).to.be.an.instanceOf(AstNode);
         expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
         expect(node).to.be.an.instanceOf(AstComment);
         expect(node).to.deep.equal(expected);
         expect(node.start).to.be.instanceOf(AstPosition);
@@ -126,12 +149,13 @@ describe('AST node: AstComment', () => {
         expect(clone).to.be.an('object');
         expect(clone).to.be.an.instanceOf(AstNode);
         expect(clone).to.be.an.instanceOf(AstFragment);
+
         expect(clone).to.be.an.instanceOf(AstComment);
         expect(clone).to.not.be.equal(node);
         expect(clone).to.be.deep.equal(node);
     });
 
-    it('should clone an AstComment with the provided properties', () => {
+    it('should clone an AstComment with the provided properties (string)', () => {
         const type = 'lineComment';
         const value = 'foo';
         const newValue = 123;
@@ -145,11 +169,36 @@ describe('AST node: AstComment', () => {
         expect(clone).to.be.an('object');
         expect(clone).to.be.an.instanceOf(AstNode);
         expect(clone).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
         expect(clone).to.be.an.instanceOf(AstComment);
         expect(clone).to.not.be.equal(node);
         expect(clone).to.be.not.deep.equal(node);
         expect(clone).to.have.a.property('type').that.is.equal(node.type);
         expect(clone).to.have.a.property('value').that.is.equal('' + newValue);
+        expect(clone).to.have.a.property('start').that.is.equal(node.start);
+        expect(clone).to.have.a.property('end').that.is.equal(node.end);
+    });
+
+    it('should clone an AstComment with the provided properties (array)', () => {
+        const type = 'blockComment';
+        const value = 'foo';
+        const newValue = ['a comment'];
+        const node = (new AstComment(type, value)).startAt(1, 1, 0).endAt(1, 4, 3);
+
+        const clone = node.clone({
+            type: 'number',         // should not be allowed
+            value: newValue
+        });
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(clone).to.be.an.instanceOf(AstComment);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.not.deep.equal(node);
+        expect(clone).to.have.a.property('type').that.is.equal(node.type);
+        expect(clone).to.have.a.property('value').that.is.equal(newValue);
         expect(clone).to.have.a.property('start').that.is.equal(node.start);
         expect(clone).to.have.a.property('end').that.is.equal(node.end);
     });

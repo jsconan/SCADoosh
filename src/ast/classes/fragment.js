@@ -33,6 +33,58 @@ const AstNode = require('./node');
 const AstPosition = require('./position');
 
 /**
+ * Creates a start position. Accept to copy the position from another AstFragment or AstPosition.
+ * @param {Number|String|AstFragment|AstPosition} line
+ * @param {Number|String} [column]
+ * @param {Number|String} [offset]
+ * @returns {AstPosition}
+ * @throws {TypeError} if the position is not valid
+ */
+function start(line, column, offset) {
+    let position;
+
+    if (typeof line === 'object') {
+        if (line instanceof AstFragment) {
+            position = line.start;
+        } else if (line instanceof AstPosition) {
+            position = line;
+        } else {
+            throw new TypeError('Cannot set a start position from a non AstFragment');
+        }
+    } else {
+        position = new AstPosition(line, column, offset);
+    }
+
+    return position;
+}
+
+/**
+ * Creates an end position. Accept to copy the position from another AstFragment or AstPosition.
+ * @param {Number|String|AstFragment|AstPosition} line
+ * @param {Number|String} [column]
+ * @param {Number|String} [offset]
+ * @returns {AstPosition}
+ * @throws {TypeError} if the position is not valid
+ */
+function end(line, column, offset) {
+    let position;
+
+    if (typeof line === 'object') {
+        if (line instanceof AstFragment) {
+            position = line.end;
+        } else if (line instanceof AstPosition) {
+            position = line;
+        } else {
+            throw new TypeError('Cannot set an end position from a non AstFragment');
+        }
+    } else {
+        position = new AstPosition(line, column, offset);
+    }
+
+    return position;
+}
+
+/**
  * Defines an AST node that represents a language fragment.
  * @typedef {AstNode} AstFragment
  * @property {String} type
@@ -40,6 +92,22 @@ const AstPosition = require('./position');
  * @property {AstPosition} end
  */
 class AstFragment extends AstNode {
+    /**
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the position is intended to be set from an object that is not an AstFragment
+     */
+    mapProperties(properties) {
+        if (typeof properties.start !== 'undefined') {
+            properties.start = start(properties.start);
+        }
+        if (typeof properties.end !== 'undefined') {
+            properties.end = end(properties.end);
+        }
+        return properties;
+    }
+
     /**
      * Sets the start position of the fragment. Accept to copy the position from another AstFragment.
      * @param {Number|String|AstFragment|AstPosition} line
@@ -49,22 +117,7 @@ class AstFragment extends AstNode {
      * @throws {TypeError} if the position is intended to be set from an object that is not an AstFragment
      */
     startAt(line, column, offset) {
-        let position;
-
-        if (typeof line === 'object') {
-            if (line instanceof AstFragment) {
-                position = line.start;
-            } else if (line instanceof AstPosition) {
-                position = line;
-            } else {
-                throw new TypeError('Cannot set a start position from a non AstFragment');
-            }
-        } else {
-            position = new AstPosition(line, column, offset);
-        }
-
-        this.addProperty('start', position);
-
+        this.addProperty('start', start(line, column, offset));
         return this;
     }
 
@@ -77,46 +130,8 @@ class AstFragment extends AstNode {
      * @throws {TypeError} if the position is intended to be set from an object that is not an AstFragment
      */
     endAt(line, column, offset) {
-        let position;
-
-        if (typeof line === 'object') {
-            if (line instanceof AstFragment) {
-                position = line.end;
-            } else if (line instanceof AstPosition) {
-                position = line;
-            } else {
-                throw new TypeError('Cannot set an end position from a non AstFragment');
-            }
-        } else {
-            position = new AstPosition(line, column, offset);
-        }
-
-        this.addProperty('end', position);
-
+        this.addProperty('end', end(line, column, offset));
         return this;
-    }
-
-    /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstFragment}
-     * @throws {TypeError} if the position is set with a non AstPosition
-     */
-    clone(properties) {
-        if (properties) {
-            let error = false;
-            if (typeof properties.start !== 'undefined') {
-                error = error || !AstPosition.validate(properties.start);
-            }
-            if (typeof properties.end !== 'undefined') {
-                error = error || !AstPosition.validate(properties.end);
-            }
-            if (error) {
-                throw new TypeError('The position should be an instance of AstPosition');
-            }
-        }
-
-        return super.clone(properties);
     }
 }
 

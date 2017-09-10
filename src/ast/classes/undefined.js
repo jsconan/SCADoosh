@@ -42,9 +42,20 @@ const AstLiteral = require('./literal');
 class AstUndefined extends AstLiteral {
     /**
      * Creates an AstUndefined.
+     * @param {Number|String} [value]
+     * @param {Object} [properties] - An optional list of additional properties to set.
      */
-    constructor() {
-        super('undefined', null);
+    constructor(value, properties) {
+        super('undefined', value || null, properties);
+    }
+
+    /**
+     * Gets a null value.
+     * @param {*} value
+     * @returns {null}
+     */
+    cast(value) {
+        return null;
     }
 }
 

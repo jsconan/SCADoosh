@@ -29,6 +29,7 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
 const AstPath = require('./path');
 const AstFragment = require('./fragment');
 
@@ -44,32 +45,28 @@ class AstUse extends AstFragment {
     /**
      * Creates an AstUse.
      * @param {AstPath} path
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the path is not an AstPath
      */
-    constructor(path) {
-        if (!AstPath.validate(path)) {
-            throw new TypeError('The path should be an AstPath!');
-        }
-        super({
+    constructor(path, properties) {
+        super(_.assign({
             type: 'use',
             path: path
-        });
+        }, properties));
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstUse}
-     * @throws {TypeError} if the path is not an AstPath
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
      */
-    clone(properties) {
-        if (properties) {
-            if (typeof properties.path !== 'undefined' && !AstPath.validate(properties.path)) {
-                throw new TypeError('The path should be an AstPath!');
-            }
+    mapProperties(properties) {
+        if (!AstPath.validate(properties.path)) {
+            throw new TypeError('The path should be an AstPath!');
         }
 
-        return super.clone(properties);
+        return properties;
     }
 }
 

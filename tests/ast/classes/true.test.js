@@ -38,7 +38,7 @@ const AstLiteral = require('../../../src/ast/classes/literal');
 const AstBoolean = require('../../../src/ast/classes/boolean');
 const AstTrue = require('../../../src/ast/classes/true');
 
-describe('AST node: AstTrue', () => {
+describe('AstTrue', () => {
 
     it('should create an AstTrue', () => {
         const type = 'boolean';

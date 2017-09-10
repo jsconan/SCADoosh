@@ -39,7 +39,7 @@ const AstIdentifier = require('../../../src/ast/classes/identifier');
 const AstNumber = require('../../../src/ast/classes/number');
 const AstAssignment = require('../../../src/ast/classes/assignment');
 
-describe('AST node: AstAssignment', () => {
+describe('AstAssignment', () => {
 
     it('should create an AstAssignment', () => {
         const type = 'assignment';
@@ -58,12 +58,41 @@ describe('AST node: AstAssignment', () => {
         expect(node).to.have.a.property('value').that.is.equal(value);
     });
 
+    it('should create an AstAssignment with the provided properties', () => {
+        const type = 'foo';
+        const identifier = new AstIdentifier('foo');
+        const value = new AstNumber(2);
+        const node = new AstAssignment('identifier', 'value', {
+            type: type,
+            identifier: identifier,
+            value: value,
+            foo: 'bar'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstAssignment);
+        expect(node.identifier).to.be.instanceOf(AstIdentifier);
+        expect(node.value).to.be.instanceOf(AstFragment);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('identifier').that.is.equal(identifier);
+        expect(node).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.have.a.property('foo').that.is.equal('bar');
+    });
+
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {
         expect(() => new AstAssignment(new AstIdentifier(1), {})).to.throw(TypeError);
         expect(() => new AstAssignment(new AstIdentifier(1), new AstNode('foo'))).to.throw(TypeError);
         expect(() => new AstAssignment({}, new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstAssignment(new AstNode('foo'), new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstAssignment(new AstNumber(2), new AstNumber(1))).to.throw(TypeError);
+
+        expect(() => new AstAssignment(new AstIdentifier('foo'), new AstNumber(1), {identifier: {}})).to.throw(TypeError);
+        expect(() => new AstAssignment(new AstIdentifier('foo'), new AstNumber(1), {identifier: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstAssignment(new AstIdentifier('foo'), new AstNumber(1), {identifier: new AstNumber(1)})).to.throw(TypeError);
+        expect(() => new AstAssignment(new AstIdentifier('foo'), new AstNumber(1), {value: {}})).to.throw(TypeError);
+        expect(() => new AstAssignment(new AstIdentifier('foo'), new AstNumber(1), {value: new AstNode('foo')})).to.throw(TypeError);
     });
 
     it('should stringify an AstAssignment', () => {

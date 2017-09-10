@@ -38,7 +38,7 @@ const AstFragment = require('../../../src/ast/classes/fragment');
 const AstNumber = require('../../../src/ast/classes/number');
 const AstUnaryOperator = require('../../../src/ast/classes/unary-operator');
 
-describe('AST node: AstUnaryOperator', () => {
+describe('AstUnaryOperator', () => {
 
     it('should create an AstUnaryOperator', () => {
         const type = 'unaryOperator';
@@ -54,6 +54,27 @@ describe('AST node: AstUnaryOperator', () => {
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('operator').that.is.equal(operator);
         expect(node).to.have.a.property('value').that.is.equal(value);
+    });
+
+    it('should create an AstUnaryOperator with the provided properties', () => {
+        const type = 'unaryOperator';
+        const operator = '-';
+        const value = new AstNumber(1);
+        const node = new AstUnaryOperator('operator', 'value', {
+            operator: operator,
+            value: value,
+            foo: 'bar'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstUnaryOperator);
+        expect(node.value).to.be.instanceOf(AstFragment);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('operator').that.is.equal(operator);
+        expect(node).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.have.a.property('foo').that.is.equal('bar');
     });
 
     it('should throw a TypeError if the operand is not a valid AstFragment', () => {

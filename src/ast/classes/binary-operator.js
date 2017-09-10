@@ -29,6 +29,7 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
 const AstFragment = require('./fragment');
 
 /**
@@ -47,41 +48,30 @@ class AstBinaryOperator extends AstFragment {
      * @param {AstFragment} left
      * @param {String} operator
      * @param {AstFragment} right
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if one of the operands is not a valid AstFragment
      */
-    constructor(left, operator, right) {
-        if (!AstFragment.validate(left) || !AstFragment.validate(right)) {
-            throw new TypeError('An operand should be an AstFragment!');
-        }
-        super({
+    constructor(left, operator, right, properties) {
+        super(_.assign({
             type: 'binaryOperator',
             operator: operator,
             left: left,
             right: right
-        });
+        }, properties));
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstBinaryOperator}
-     * @throws {TypeError} if one of the operands is not a valid AstFragment
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
      */
-    clone(properties) {
-        if (properties) {
-            let error = false;
-            if (typeof properties.left !== 'undefined') {
-                error = error || !AstFragment.validate(properties.left);
-            }
-            if (typeof properties.right !== 'undefined') {
-                error = error || !AstFragment.validate(properties.right);
-            }
-            if (error) {
-                throw new TypeError('An operand should be an AstFragment!');
-            }
+    mapProperties(properties) {
+        if (!AstFragment.validate(properties.left) || !AstFragment.validate(properties.right)) {
+            throw new TypeError('An operand should be an AstFragment!');
         }
-
-        return super.clone(properties);
+        properties.operator = '' + properties.operator;
+        return properties;
     }
 }
 

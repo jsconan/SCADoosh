@@ -29,7 +29,7 @@
  * @author jsconan
  */
 
-const AstIdentifier = require('./identifier');
+const _ = require('lodash');
 const AstFragment = require('./fragment');
 
 /**
@@ -46,39 +46,31 @@ class AstArrayLookup extends AstFragment {
      * Creates an AstArrayLookup.
      * @param {AstFragment} array
      * @param {AstFragment} index
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the array or the index is not a valid AstFragment
      */
-    constructor(array, index) {
-        if (!AstFragment.validate(array)) {
-            throw new TypeError('The array should be an AstFragment!');
-        }
-        if (!AstFragment.validate(index)) {
-            throw new TypeError('The index should be an AstFragment!');
-        }
-        super({
+    constructor(array, index, properties) {
+        super(_.assign({
             type: 'array-lookup',
             array: array,
             index: index,
-        });
+        }, properties));
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstArrayLookup}
-     * @throws {TypeError} if the array or the index is not a valid AstFragment
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
      */
-    clone(properties) {
-        if (properties) {
-            if (typeof properties.array !== 'undefined' && !AstFragment.validate(properties.array)) {
-                throw new TypeError('The array should be an AstFragment!');
-            }
-            if (typeof properties.index !== 'undefined' && !AstFragment.validate(properties.index)) {
-                throw new TypeError('The index should be an AstFragment!');
-            }
+    mapProperties(properties) {
+        if (!AstFragment.validate(properties.array)) {
+            throw new TypeError('The array should be an AstFragment!');
         }
-
-        return super.clone(properties);
+        if (!AstFragment.validate(properties.index)) {
+            throw new TypeError('The index should be an AstFragment!');
+        }
+        return properties;
     }
 }
 

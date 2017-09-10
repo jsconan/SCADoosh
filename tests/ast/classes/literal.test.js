@@ -37,7 +37,7 @@ const AstPosition = require('../../../src/ast/classes/position');
 const AstFragment = require('../../../src/ast/classes/fragment');
 const AstLiteral = require('../../../src/ast/classes/literal');
 
-describe('AST node: AstLiteral', () => {
+describe('AstLiteral', () => {
 
     it('should throw a TypeError if the type is missing', () => {
         expect(() => {
@@ -81,6 +81,30 @@ describe('AST node: AstLiteral', () => {
         expect(node).to.be.an.instanceOf(AstLiteral);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('value').that.is.equal(value);
+    });
+
+    it('should create an AstLiteral with the specified properties', () => {
+        class AstFoo extends AstLiteral {
+            cast(value) {
+                return parseFloat(value);
+            }
+        }
+        const type = 'number';
+        const value = 42;
+        const node = new AstFoo('foo', 21, {
+            type: type,
+            value: '' + value,
+            info: 'foo'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstFoo);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.have.a.property('info').that.is.equal('foo');
     });
 
     it('should stringify an AstLiteral', () => {
@@ -150,6 +174,34 @@ describe('AST node: AstLiteral', () => {
         expect(clone).to.be.not.deep.equal(node);
         expect(clone).to.have.a.property('type').that.is.equal(node.type);
         expect(clone).to.have.a.property('value').that.is.equal(newValue);
+        expect(clone).to.have.a.property('start').that.is.equal(node.start);
+        expect(clone).to.have.a.property('end').that.is.equal(node.end);
+    });
+
+    it('should clone an inherited AstLiteral with the provided properties and cast the value', () => {
+        class AstFoo extends AstLiteral {
+            cast(value) {
+                return '' + value;
+            }
+        }
+        const type = 'string';
+        const value = 'foo';
+        const newValue = 42;
+        const node = (new AstFoo(type, value)).startAt(1, 1, 0).endAt(1, 4, 3);
+
+        const clone = node.clone({
+            type: 'number',         // should not be allowed
+            value: newValue
+        });
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstFragment);
+        expect(clone).to.be.an.instanceOf(AstLiteral);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.not.deep.equal(node);
+        expect(clone).to.have.a.property('type').that.is.equal(node.type);
+        expect(clone).to.have.a.property('value').that.is.equal('' + newValue);
         expect(clone).to.have.a.property('start').that.is.equal(node.start);
         expect(clone).to.have.a.property('end').that.is.equal(node.end);
     });

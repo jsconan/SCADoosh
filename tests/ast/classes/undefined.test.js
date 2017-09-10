@@ -38,7 +38,7 @@ const AstFragment = require('../../../src/ast/classes/fragment');
 const AstLiteral = require('../../../src/ast/classes/literal');
 const AstUndefined = require('../../../src/ast/classes/undefined');
 
-describe('AST node: AstUndefined', () => {
+describe('AstUndefined', () => {
 
     it('should create an AstUndefined', () => {
         const type = 'undefined';
@@ -51,6 +51,22 @@ describe('AST node: AstUndefined', () => {
         expect(node).to.be.an.instanceOf(AstUndefined);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('value').that.is.null;
+    });
+
+    it('should create an AstUndefined with the specified properties', () => {
+        const type = 'undefined';
+        const node = new AstUndefined('foo', {
+            info: 'foo'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstUndefined);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.null;
+        expect(node).to.have.a.property('info').that.is.equal('foo');
     });
 
     it('should stringify an AstUndefined', () => {
@@ -106,7 +122,8 @@ describe('AST node: AstUndefined', () => {
 
         const clone = node.clone({
             type: 'number',         // should not be allowed
-            value: value
+            value: value,
+            info: value
         });
 
         expect(clone).to.be.an('object');
@@ -117,7 +134,8 @@ describe('AST node: AstUndefined', () => {
         expect(clone).to.not.be.equal(node);
         expect(clone).to.be.not.deep.equal(node);
         expect(clone).to.have.a.property('type').that.is.equal(node.type);
-        expect(clone).to.have.a.property('value').that.is.equal(value);
+        expect(clone).to.have.a.property('value').that.is.null;
+        expect(clone).to.have.a.property('info').that.is.equal(value);
         expect(clone).to.have.a.property('start').that.is.equal(node.start);
         expect(clone).to.have.a.property('end').that.is.equal(node.end);
     });

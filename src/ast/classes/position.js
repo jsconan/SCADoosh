@@ -29,6 +29,7 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
 const AstNode = require('./node');
 
 /**
@@ -45,55 +46,36 @@ class AstPosition extends AstNode {
      * @param {Number|String} line - The line coordinate, must be an integer above 0
      * @param {Number|String} column - The column coordinate, must be an integer above 0
      * @param {Number|String} offset - The offset from the beginning of the text
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the values are negative or null
      */
-    constructor(line, column, offset) {
-        line = parseInt(line, 10);
-        column = parseInt(column, 10);
-        offset = parseInt(offset, 10);
-
-        if (line < 1 || column < 1 || offset < 0) {
-            throw new TypeError('The text coordinates cannot be negative or null');
-        }
-        if (isNaN(line) || isNaN(column) || isNaN(offset)) {
-            throw new TypeError('The text coordinates must be valid numbers');
-        }
-
-        super({
+    constructor(line, column, offset, properties) {
+        super(_.assign({
             type: 'position',
             line: line,
             column: column,
             offset: offset
-        });
+        }, properties));
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstPosition}
-     * @throws {TypeError} if the values are negative or null
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
      */
-    clone(properties) {
-        if (properties) {
-            let error = false;
-            if (typeof properties.line !== 'undefined') {
-                properties.line = parseInt(properties.line, 10);
-                error = error || isNaN(properties.line) || properties.line < 1;
-            }
-            if (typeof properties.column !== 'undefined') {
-                properties.column = parseInt(properties.column, 10);
-                error = error || isNaN(properties.column) || properties.column < 1;
-            }
-            if (typeof properties.offset !== 'undefined') {
-                properties.offset = parseInt(properties.offset, 10);
-                error = error || isNaN(properties.offset) || properties.offset < 0;
-            }
-            if (error) {
-                throw new TypeError('The text coordinates cannot be negative or null');
-            }
+    mapProperties(properties) {
+        properties.line = parseInt(properties.line, 10);
+        properties.column = parseInt(properties.column, 10);
+        properties.offset = parseInt(properties.offset, 10);
+
+        if (isNaN(properties.line) || properties.line < 1 ||
+            isNaN(properties.column) || properties.column < 1 ||
+            isNaN(properties.offset) || properties.offset < 0) {
+            throw new TypeError('The text coordinates cannot be negative or null');
         }
 
-        return super.clone(properties);
+        return properties;
     }
 }
 

@@ -39,7 +39,7 @@ const AstIdentifier = require('../../../src/ast/classes/identifier');
 const AstNumber = require('../../../src/ast/classes/number');
 const AstArrayLookup = require('../../../src/ast/classes/array-lookup');
 
-describe('AST node: AstArrayLookup', () => {
+describe('AstArrayLookup', () => {
 
     it('should create an AstArrayLookup', () => {
         const type = 'array-lookup';
@@ -58,11 +58,39 @@ describe('AST node: AstArrayLookup', () => {
         expect(node).to.have.a.property('index').that.is.equal(index);
     });
 
+    it('should create an AstArrayLookup with the provided properties', () => {
+        const type = 'foo';
+        const array = new AstIdentifier(2);
+        const index = new AstNumber(1);
+        const node = new AstArrayLookup('array', 'index', {
+            type: type,
+            array: array,
+            index: index,
+            foo: 'bar'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstArrayLookup);
+        expect(node.array).to.be.instanceOf(AstFragment);
+        expect(node.index).to.be.instanceOf(AstFragment);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('array').that.is.equal(array);
+        expect(node).to.have.a.property('index').that.is.equal(index);
+        expect(node).to.have.a.property('foo').that.is.equal('bar');
+    });
+
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {
         expect(() => new AstArrayLookup(new AstIdentifier(1), {})).to.throw(TypeError);
         expect(() => new AstArrayLookup(new AstIdentifier(1), new AstNode('foo'))).to.throw(TypeError);
         expect(() => new AstArrayLookup({}, new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstArrayLookup(new AstNode('foo'), new AstNumber(1))).to.throw(TypeError);
+
+        expect(() => new AstArrayLookup(new AstIdentifier('foo'), new AstNumber(1), {array: {}})).to.throw(TypeError);
+        expect(() => new AstArrayLookup(new AstIdentifier('foo'), new AstNumber(1), {array: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstArrayLookup(new AstIdentifier('foo'), new AstNumber(1), {index: {}})).to.throw(TypeError);
+        expect(() => new AstArrayLookup(new AstIdentifier('foo'), new AstNumber(1), {index: new AstNode('foo')})).to.throw(TypeError);
     });
 
     it('should stringify an AstArrayLookup', () => {

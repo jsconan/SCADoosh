@@ -39,7 +39,7 @@ const AstIdentifier = require('../../../src/ast/classes/identifier');
 const AstNumber = require('../../../src/ast/classes/number');
 const AstRange = require('../../../src/ast/classes/range');
 
-describe('AST node: AstRange', () => {
+describe('AstRange', () => {
 
     it('should create an AstRange', () => {
         const type = 'range';
@@ -88,6 +88,30 @@ describe('AST node: AstRange', () => {
         expect(node).to.have.a.property('first').that.is.an.instanceOf(AstNumber).and.is.equal(first);
         expect(node).to.not.have.a.property('step');
         expect(node).to.have.a.property('last').that.an.instanceOf(AstNumber).and.is.is.equal(last);
+    });
+
+    it('should create an AstRange with the provided properties', () => {
+        const type = 'foo';
+        const first = new AstNumber(3);
+        const step = new AstNumber(2);
+        const last = new AstNumber(11);
+        const node = new AstRange('first', 'step', 'last', {
+            type: type,
+            first: first,
+            step: step,
+            last: last,
+            foo: 'bar'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstRange);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('first').that.is.an.instanceOf(AstNumber).and.is.equal(first);
+        expect(node).to.have.a.property('step').that.is.an.instanceOf(AstNumber).and.is.equal(step);
+        expect(node).to.have.a.property('last').that.is.an.instanceOf(AstNumber).and.is.equal(last);
+        expect(node).to.have.a.property('foo').that.is.equal('bar');
     });
 
     it('should throw a TypeError if one of the operands is not a valid AstNode', () => {
@@ -199,7 +223,6 @@ describe('AST node: AstRange', () => {
         expect(() => node.clone({first: null})).to.throw(TypeError);
         expect(() => node.clone({first: {}})).to.throw(TypeError);
         expect(() => node.clone({first: new AstNode('foo')})).to.throw(TypeError);
-        expect(() => node.clone({step: null})).to.throw(TypeError);
         expect(() => node.clone({step: {}})).to.throw(TypeError);
         expect(() => node.clone({step: new AstNode('foo')})).to.throw(TypeError);
         expect(() => node.clone({last: null})).to.throw(TypeError);

@@ -29,6 +29,7 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
 const splitLines = require('../../utils/strings').splitLines;
 const AstComment = require('./comment');
 
@@ -44,9 +45,19 @@ class AstBlockComment extends AstComment {
     /**
      * Creates an AstBlockComment.
      * @param {String} value
+     * @param {Object} [properties] - An optional list of additional properties to set.
      */
-    constructor(value) {
-        super('blockComment', splitLines(value));
+    constructor(value, properties) {
+        super('blockComment', value, properties);
+    }
+
+    /**
+     * Gets an array.
+     * @param {*} value
+     * @returns {Array}
+     */
+    cast(value) {
+        return _.isArray(value) ? value : splitLines(value);
     }
 }
 

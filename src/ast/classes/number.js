@@ -43,22 +43,19 @@ class AstNumber extends AstLiteral {
     /**
      * Creates an AstNumber.
      * @param {Number|String} value
+     * @param {Object} [properties] - An optional list of additional properties to set.
      */
-    constructor(value) {
-        super('number', parseFloat(value));
+    constructor(value, properties) {
+        super('number', value, properties);
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstNumber}
+     * Gets a numeric value.
+     * @param {*} value
+     * @returns {Number}
      */
-    clone(properties) {
-        if (properties && typeof properties.value !== 'undefined') {
-            properties.value = parseFloat(properties.value);
-        }
-
-        return super.clone(properties);
+    cast(value) {
+        return parseFloat(value);
     }
 }
 

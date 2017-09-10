@@ -39,7 +39,7 @@ const AstIdentifier = require('../../../src/ast/classes/identifier');
 const AstNumber = require('../../../src/ast/classes/number');
 const AstMemberLookup = require('../../../src/ast/classes/member-lookup');
 
-describe('AST node: AstMemberLookup', () => {
+describe('AstMemberLookup', () => {
 
     it('should create an AstMemberLookup', () => {
         const type = 'member-lookup';
@@ -58,12 +58,40 @@ describe('AST node: AstMemberLookup', () => {
         expect(node).to.have.a.property('member').that.is.equal(member);
     });
 
+    it('should create an AstMemberLookup with the provided properties', () => {
+        const type = 'foo';
+        const expr = new AstNumber(2);
+        const member = new AstIdentifier('foo');
+        const node = new AstMemberLookup('expr', 'member', {
+            type: type,
+            expr: expr,
+            member: member,
+            foo: 'bar'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstMemberLookup);
+        expect(node.expr).to.be.instanceOf(AstFragment);
+        expect(node.member).to.be.instanceOf(AstIdentifier);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('expr').that.is.equal(expr);
+        expect(node).to.have.a.property('member').that.is.equal(member);
+        expect(node).to.have.a.property('foo').that.is.equal('bar');
+    });
+
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {
         expect(() => new AstMemberLookup(new AstNumber(1), {})).to.throw(TypeError);
         expect(() => new AstMemberLookup(new AstNumber(1), new AstNode('foo'))).to.throw(TypeError);
         expect(() => new AstMemberLookup({}, new AstIdentifier(1))).to.throw(TypeError);
         expect(() => new AstMemberLookup(new AstNode('foo'), new AstIdentifier(1))).to.throw(TypeError);
         expect(() => new AstMemberLookup(new AstNumber(2), new AstNumber(1))).to.throw(TypeError);
+
+        expect(() => new AstMemberLookup(new AstNumber(1), new AstIdentifier('foo'), {expr: {}})).to.throw(TypeError);
+        expect(() => new AstMemberLookup(new AstNumber(1), new AstIdentifier('foo'), {expr: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstMemberLookup(new AstNumber(1), new AstIdentifier('foo'), {member: {}})).to.throw(TypeError);
+        expect(() => new AstMemberLookup(new AstNumber(1), new AstIdentifier('foo'), {member: new AstNode('foo')})).to.throw(TypeError);
     });
 
     it('should stringify an AstMemberLookup', () => {

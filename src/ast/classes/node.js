@@ -43,17 +43,13 @@ class AstNode {
      * @param {String|Object} type - The node's type. It is mandatory, a `TypeError` will be thrown if missing.
      * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the type is missing
+     * @throws {TypeError} if the properties are invalid
      */
     constructor(type, properties) {
         if (typeof type === 'object') {
             properties = type;
-            type = null;
         } else {
-            properties = properties || {};
-        }
-
-        if (type) {
-            properties.type = type;
+            properties = _.assign({}, properties, {type: type});
         }
 
         if (!properties.type || typeof properties.type !== "string") {
@@ -91,9 +87,10 @@ class AstNode {
      * Adds a list of read-only properties to the object.
      * @param {Object} properties
      * @returns {AstNode}
+     * @throws {TypeError} if the properties are invalid
      */
     addProperties(properties) {
-        _.forEach(properties, (value, name) => {
+        _.forEach(this.mapProperties(properties), (value, name) => {
             this.addProperty(name, value);
         });
         return this;
@@ -108,9 +105,20 @@ class AstNode {
     }
 
     /**
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
+     */
+    mapProperties(properties) {
+        return properties;
+    }
+
+    /**
      * Clones the instance.
      * @param {Object} [properties] - an optional list of additional properties to set.
      * @returns {AstNode}
+     * @throws {TypeError} if the properties are invalid
      */
     clone(properties) {
         const clone = Object.create(this.constructor.prototype);

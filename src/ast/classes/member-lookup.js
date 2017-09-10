@@ -29,6 +29,7 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
 const AstIdentifier = require('./identifier');
 const AstFragment = require('./fragment');
 
@@ -46,39 +47,31 @@ class AstMemberLookup extends AstFragment {
      * Creates an AstMemberLookup.
      * @param {AstFragment} expr
      * @param {AstIdentifier} member
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the member is not an AstIdentifier, or if the expression is not a valid AstFragment
      */
-    constructor(expr, member) {
-        if (!AstFragment.validate(expr)) {
-            throw new TypeError('The expression should be an AstFragment!');
-        }
-        if (!AstIdentifier.validate(member)) {
-            throw new TypeError('The member should be an AstIdentifier!');
-        }
-        super({
+    constructor(expr, member, properties) {
+        super(_.assign({
             type: 'member-lookup',
             expr: expr,
             member: member,
-        });
+        }, properties));
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstMemberLookup}
-     * @throws {TypeError} if the member is not an AstIdentifier, or if the expression is not a valid AstFragment
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
      */
-    clone(properties) {
-        if (properties) {
-            if (typeof properties.expr !== 'undefined' && !AstFragment.validate(properties.expr)) {
-                throw new TypeError('The expression should be an AstFragment!');
-            }
-            if (typeof properties.member !== 'undefined' && !AstIdentifier.validate(properties.member)) {
-                throw new TypeError('The member should be an AstIdentifier!');
-            }
+    mapProperties(properties) {
+        if (!AstFragment.validate(properties.expr)) {
+            throw new TypeError('The expression should be an AstFragment!');
         }
-
-        return super.clone(properties);
+        if (!AstIdentifier.validate(properties.member)) {
+            throw new TypeError('The member should be an AstIdentifier!');
+        }
+        return properties;
     }
 }
 

@@ -38,7 +38,7 @@ const AstFragment = require('../../../src/ast/classes/fragment');
 const AstLiteral = require('../../../src/ast/classes/literal');
 const AstNumber = require('../../../src/ast/classes/number');
 
-describe('AST node: AstNumber', () => {
+describe('AstNumber', () => {
 
     it('should create an AstNumber with the specified value', () => {
         const type = 'number';
@@ -52,6 +52,23 @@ describe('AST node: AstNumber', () => {
         expect(node).to.be.an.instanceOf(AstNumber);
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('value').that.is.equal(value);
+    });
+
+    it('should create an AstNumber with the specified properties', () => {
+        const type = 'number';
+        const value = 42;
+        const node = new AstNumber('' + value, {
+            info: 'foo'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLiteral);
+        expect(node).to.be.an.instanceOf(AstNumber);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal(value);
+        expect(node).to.have.a.property('info').that.is.equal('foo');
     });
 
     it('should create an AstNumber with the specified value as a string', () => {

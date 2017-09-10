@@ -48,46 +48,36 @@ class AstRange extends AstFragment {
      * @param {AstFragment} first
      * @param {AstFragment} [step]
      * @param {AstFragment} last
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if one of the values is not a valid AstFragment
      */
-    constructor(first, step, last) {
-        const properties = {
+    constructor(first, step, last, properties) {
+        if (typeof last === 'undefined') {
+            last = step;
+            step = null;
+        }
+
+        super(_.assign({
             type: 'range',
             first: first,
             step: step,
             last: last,
-        };
-
-        if (typeof last === 'undefined') {
-            properties.last = step;
-            properties.step = null;
-        }
-
-        if (!AstFragment.validate(properties.first) ||
-            (properties.step !== null && !AstFragment.validate(properties.step)) ||
-            !AstFragment.validate(properties.last)) {
-            throw new TypeError('The value should be an AstFragment!');
-        }
-
-        super(_.omitBy(properties, _.isNull));
+        }, properties));
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstRange}
-     * @throws {TypeError} if one of the values is not a valid AstFragment
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
      */
-    clone(properties) {
-        if (properties) {
-            if ((typeof properties.first !== 'undefined' && !AstFragment.validate(properties.first)) ||
-                (typeof properties.step !== 'undefined' && !AstFragment.validate(properties.step)) ||
-                (typeof properties.last !== 'undefined' && !AstFragment.validate(properties.last))) {
-                throw new TypeError('The value should be an AstFragment!');
-            }
+    mapProperties(properties) {
+        if (!AstFragment.validate(properties.first) ||
+            (typeof properties.step !== 'undefined' && properties.step !== null && !AstFragment.validate(properties.step)) ||
+            !AstFragment.validate(properties.last)) {
+            throw new TypeError('The value should be an AstFragment!');
         }
-
-        return super.clone(_.omitBy(properties, _.isNull));
+        return _.omitBy(properties, _.isNull);
     }
 }
 

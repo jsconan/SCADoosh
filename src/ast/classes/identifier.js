@@ -43,22 +43,19 @@ class AstIdentifier extends AstLiteral {
     /**
      * Creates an AstIdentifier.
      * @param {String} value
+     * @param {Object} [properties] - An optional list of additional properties to set.
      */
-    constructor(value) {
-        super('identifier', '' + value);
+    constructor(value, properties) {
+        super('identifier', value, properties);
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstIdentifier}
+     * Gets a string value.
+     * @param {*} value
+     * @returns {String}
      */
-    clone(properties) {
-        if (properties && typeof properties.value !== 'undefined') {
-            properties.value = '' + properties.value;
-        }
-
-        return super.clone(properties);
+    cast(value) {
+        return '' + value;
     }
 }
 

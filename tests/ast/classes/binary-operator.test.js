@@ -38,7 +38,7 @@ const AstFragment = require('../../../src/ast/classes/fragment');
 const AstNumber = require('../../../src/ast/classes/number');
 const AstBinaryOperator = require('../../../src/ast/classes/binary-operator');
 
-describe('AST node: AstBinaryOperator', () => {
+describe('AstBinaryOperator', () => {
 
     it('should create an AstBinaryOperator', () => {
         const type = 'binaryOperator';
@@ -57,6 +57,31 @@ describe('AST node: AstBinaryOperator', () => {
         expect(node).to.have.a.property('operator').that.is.equal(operator);
         expect(node).to.have.a.property('left').that.is.equal(left);
         expect(node).to.have.a.property('right').that.is.equal(right);
+    });
+
+    it('should create an AstBinaryOperator with the provided properties', () => {
+        const type = 'binaryOperator';
+        const operator = '+';
+        const left = new AstNumber(1);
+        const right = new AstNumber(2);
+        const node = new AstBinaryOperator('left', 'operator', 'right', {
+            operator: operator,
+            left: left,
+            right: right,
+            foo: 'bar'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstBinaryOperator);
+        expect(node.left).to.be.instanceOf(AstFragment);
+        expect(node.right).to.be.instanceOf(AstFragment);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('operator').that.is.equal(operator);
+        expect(node).to.have.a.property('left').that.is.equal(left);
+        expect(node).to.have.a.property('right').that.is.equal(right);
+        expect(node).to.have.a.property('foo').that.is.equal('bar');
     });
 
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {

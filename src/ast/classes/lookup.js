@@ -29,6 +29,7 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
 const AstIdentifier = require('./identifier');
 const AstFragment = require('./fragment');
 
@@ -44,32 +45,27 @@ class AstLookup extends AstFragment {
     /**
      * Creates an AstLookup.
      * @param {AstIdentifier} name
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the name is not an AstIdentifier
      */
-    constructor(name) {
-        if (!AstIdentifier.validate(name)) {
-            throw new TypeError('The name should be an AstIdentifier!');
-        }
-        super({
+    constructor(name, properties) {
+        super(_.assign({
             type: 'lookup',
             name: name,
-        });
+        }, properties));
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstLookup}
-     * @throws {TypeError} if the name is not an AstIdentifier
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
      */
-    clone(properties) {
-        if (properties) {
-            if (typeof properties.name !== 'undefined' && !AstIdentifier.validate(properties.name)) {
-                throw new TypeError('The name should be an AstIdentifier!');
-            }
+    mapProperties(properties) {
+        if (!AstIdentifier.validate(properties.name)) {
+            throw new TypeError('The name should be an AstIdentifier!');
         }
-
-        return super.clone(properties);
+        return properties;
     }
 }
 

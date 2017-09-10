@@ -39,7 +39,7 @@ const AstIdentifier = require('../../../src/ast/classes/identifier');
 const AstNumber = require('../../../src/ast/classes/number');
 const AstLookup = require('../../../src/ast/classes/lookup');
 
-describe('AST node: AstLookup', () => {
+describe('AstLookup', () => {
 
     it('should create an AstLookup', () => {
         const type = 'lookup';
@@ -55,10 +55,32 @@ describe('AST node: AstLookup', () => {
         expect(node).to.have.a.property('name').that.is.equal(name);
     });
 
+    it('should create an AstLookup with the provided properties', () => {
+        const type = 'foo';
+        const name = new AstIdentifier('foo');
+        const node = new AstLookup('name', {
+            type: type,
+            name: name,
+            foo: 'bar'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstLookup);
+        expect(node.name).to.be.instanceOf(AstIdentifier);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('name').that.is.equal(name);
+        expect(node).to.have.a.property('foo').that.is.equal('bar');
+    });
+
     it('should throw a TypeError if the name is not a valid AstIdentifier', () => {
         expect(() => new AstLookup({})).to.throw(TypeError);
         expect(() => new AstLookup(new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstLookup(new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstLookup(new AstIdentifier('foo'), {name: {}})).to.throw(TypeError);
+        expect(() => new AstLookup(new AstIdentifier('foo'), {name: new AstNode(1)})).to.throw(TypeError);
+        expect(() => new AstLookup(new AstIdentifier('foo'), {name: new AstNumber(1)})).to.throw(TypeError);
     });
 
     it('should stringify an AstLookup', () => {

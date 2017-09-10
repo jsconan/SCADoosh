@@ -38,7 +38,7 @@ const AstFragment = require('../../../src/ast/classes/fragment');
 const AstNumber = require('../../../src/ast/classes/number');
 const AstTernaryOperator = require('../../../src/ast/classes/ternary-operator');
 
-describe('AST node: AstTernaryOperator', () => {
+describe('AstTernaryOperator', () => {
 
     it('should create an AstTernaryOperator', () => {
         const type = 'ternaryOperator';
@@ -58,6 +58,32 @@ describe('AST node: AstTernaryOperator', () => {
         expect(node).to.have.a.property('condition').that.is.equal(condition);
         expect(node).to.have.a.property('consequent').that.is.equal(consequent);
         expect(node).to.have.a.property('alternative').that.is.equal(alternative);
+    });
+
+    it('should create an AstTernaryOperator with the provided properties', () => {
+        const type = 'ternaryOperator';
+        const condition = new AstNumber(1);
+        const consequent = new AstNumber(2);
+        const alternative = new AstNumber(3);
+        const node = new AstTernaryOperator('condition', 'consequent', 'alternative', {
+            condition: condition,
+            consequent: consequent,
+            alternative: alternative,
+            foo: 'bar'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstTernaryOperator);
+        expect(node.condition).to.be.instanceOf(AstFragment);
+        expect(node.consequent).to.be.instanceOf(AstFragment);
+        expect(node.alternative).to.be.instanceOf(AstFragment);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('condition').that.is.equal(condition);
+        expect(node).to.have.a.property('consequent').that.is.equal(consequent);
+        expect(node).to.have.a.property('alternative').that.is.equal(alternative);
+        expect(node).to.have.a.property('foo').that.is.equal('bar');
     });
 
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {

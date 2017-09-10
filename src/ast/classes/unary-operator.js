@@ -29,6 +29,7 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
 const AstFragment = require('./fragment');
 
 /**
@@ -45,33 +46,29 @@ class AstUnaryOperator extends AstFragment {
      * Creates an AstUnaryOperator.
      * @param {String} operator
      * @param {AstNode} value
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the operand is not a valid AstFragment
      */
-    constructor(operator, value) {
-        if (!AstFragment.validate(value)) {
-            throw new TypeError('The operand should be an AstFragment!');
-        }
-        super({
+    constructor(operator, value, properties) {
+        super(_.assign({
             type: 'unaryOperator',
             operator: operator,
             value: value
-        });
+        }, properties));
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstUnaryOperator}
-     * @throws {TypeError} if the operand is not a valid AstFragment
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
      */
-    clone(properties) {
-        if (properties && typeof properties.value !== 'undefined') {
-            if (!AstFragment.validate(properties.value)) {
-                throw new TypeError('The operand should be an AstFragment!');
-            }
+    mapProperties(properties) {
+        if (!AstFragment.validate(properties.value)) {
+            throw new TypeError('The operand should be an AstFragment!');
         }
-
-        return super.clone(properties);
+        properties.operator = '' + properties.operator;
+        return properties;
     }
 }
 

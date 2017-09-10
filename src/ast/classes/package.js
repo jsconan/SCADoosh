@@ -43,10 +43,11 @@ class AstPackage extends AstGroup {
     /**
      * Creates an AstPackage.
      * @param {AstFragment[]|AstFragment} statements - A statement or a list of statements
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the statements are not valid AST nodes
      */
-    constructor(statements) {
-        super('package', statements);
+    constructor(statements, properties) {
+        super('package', statements, properties);
     }
 }
 

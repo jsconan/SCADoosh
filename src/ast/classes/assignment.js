@@ -29,6 +29,7 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
 const AstIdentifier = require('./identifier');
 const AstFragment = require('./fragment');
 
@@ -46,39 +47,31 @@ class AstAssignment extends AstFragment {
      * Creates an AstAssignment.
      * @param {AstIdentifier} identifier
      * @param {AstFragment} value
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the identifier is not an AstIdentifier, or if the value is not a valid AstFragment
      */
-    constructor(identifier, value) {
-        if (!AstIdentifier.validate(identifier)) {
-            throw new TypeError('The identifier should be an AstIdentifier!');
-        }
-        if (!AstFragment.validate(value)) {
-            throw new TypeError('The value should be an AstFragment!');
-        }
-        super({
+    constructor(identifier, value, properties) {
+        super(_.assign({
             type: 'assignment',
             identifier: identifier,
             value: value
-        });
+        }, properties));
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstAssignment}
-     * @throws {TypeError} if the identifier is not an AstIdentifier, or if the value is not a valid AstFragment
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
      */
-    clone(properties) {
-        if (properties) {
-            if (typeof properties.identifier !== 'undefined' && !AstIdentifier.validate(properties.identifier)) {
-                throw new TypeError('The identifier should be an AstIdentifier!');
-            }
-            if (typeof properties.value !== 'undefined' && !AstFragment.validate(properties.value)) {
-                throw new TypeError('The value should be an AstFragment!');
-            }
+    mapProperties(properties) {
+        if (!AstIdentifier.validate(properties.identifier)) {
+            throw new TypeError('The identifier should be an AstIdentifier!');
         }
-
-        return super.clone(properties);
+        if (!AstFragment.validate(properties.value)) {
+            throw new TypeError('The value should be an AstFragment!');
+        }
+        return properties;
     }
 }
 

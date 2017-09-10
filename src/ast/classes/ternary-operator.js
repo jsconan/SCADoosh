@@ -29,6 +29,7 @@
  * @author jsconan
  */
 
+const _ = require('lodash');
 const AstFragment = require('./fragment');
 
 /**
@@ -47,44 +48,31 @@ class AstTernaryOperator extends AstFragment {
      * @param {AstFragment} condition
      * @param {AstFragment} consequent
      * @param {AstFragment} alternative
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if one of the operands is not a valid AstFragment
      */
-    constructor(condition, consequent, alternative) {
-        if (!AstFragment.validate(condition) || !AstFragment.validate(consequent) || !AstFragment.validate(alternative)) {
-            throw new TypeError('An operand should be an AstFragment!');
-        }
-        super({
+    constructor(condition, consequent, alternative, properties) {
+        super(_.assign({
             type: 'ternaryOperator',
             condition: condition,
             consequent: consequent,
             alternative: alternative
-        });
+        }, properties));
     }
 
     /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstTernaryOperator}
-     * @throws {TypeError} if one of the operands is not a valid AstFragment
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
      */
-    clone(properties) {
-        if (properties) {
-            let error = false;
-            if (typeof properties.condition !== 'undefined') {
-                error = error || !AstFragment.validate(properties.condition);
-            }
-            if (typeof properties.consequent !== 'undefined') {
-                error = error || !AstFragment.validate(properties.consequent);
-            }
-            if (typeof properties.alternative !== 'undefined') {
-                error = error || !AstFragment.validate(properties.alternative);
-            }
-            if (error) {
-                throw new TypeError('An operand should be an AstFragment!');
-            }
+    mapProperties(properties) {
+        if (!AstFragment.validate(properties.condition) ||
+            !AstFragment.validate(properties.consequent) ||
+            !AstFragment.validate(properties.alternative)) {
+            throw new TypeError('An operand should be an AstFragment!');
         }
-
-        return super.clone(properties);
+        return properties;
     }
 }
 

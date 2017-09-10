@@ -30,40 +30,26 @@
  */
 
 const _ = require('lodash');
-const AstFragment = require('./fragment');
+const AstLiteral = require('./literal');
 
 /**
  * Defines an AST node that represents a comment.
- * @typedef {AstFragment} AstComment
+ * @typedef {AstLiteral} AstComment
  * @property {String} type
  * @property {String|Array} value
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
-class AstComment extends AstFragment {
+class AstComment extends AstLiteral {
     /**
-     * Creates an AstComment.
-     * @param {String} type
-     * @param {String|Array} value
+     * Cast the value to the type handled by the node.
+     * The inherited classes should override this method
+     * @param {*} value
+     * @returns {Array|String}
+     * @throws {TypeError} if the value is invalid
      */
-    constructor(type, value) {
-        super({
-            type: type,
-            value: _.isArray(value) ? value : '' + value
-        });
-    }
-
-    /**
-     * Clones the instance.
-     * @param {Object} [properties] - an optional list of additional properties to set.
-     * @returns {AstComment}
-     */
-    clone(properties) {
-        if (properties && typeof properties.value !== 'undefined') {
-            properties.value = '' + properties.value;
-        }
-
-        return super.clone(properties);
+    cast(value) {
+        return _.isArray(value) ? value : '' + value;
     }
 }
 

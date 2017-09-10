@@ -38,7 +38,7 @@ const AstFragment = require('../../../src/ast/classes/fragment');
 const AstPath = require('../../../src/ast/classes/path');
 const AstInclude = require('../../../src/ast/classes/include');
 
-describe('AST node: AstInclude', () => {
+describe('AstInclude', () => {
 
     it('should create an AstInclude', () => {
         const type = 'include';
@@ -54,8 +54,31 @@ describe('AST node: AstInclude', () => {
         expect(node).to.have.a.property('path').that.is.equal(path);
     });
 
+    it('should create an AstInclude with the provided properties', () => {
+        const type = 'foo';
+        const path = new AstPath('./path/to/library.scad');
+        const node = new AstInclude(new AstPath('./a/path'), {
+            type: type,
+            path: path,
+            category: 'include'
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFragment);
+        expect(node).to.be.an.instanceOf(AstInclude);
+        expect(node.path).to.be.instanceOf(AstPath);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('path').that.is.equal(path);
+        expect(node).to.have.a.property('category').that.is.equal('include');
+    });
+
     it('should throw a TypeError if the path is not an AstPath', () => {
+        expect(() => new AstInclude(new AstPath('foo'), {path: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstInclude(new AstPath('foo'), {path: 'foo'})).to.throw(TypeError);
+        expect(() => new AstInclude(new AstPath('foo'), {path: {}})).to.throw(TypeError);
         expect(() => new AstInclude(new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstInclude('foo')).to.throw(TypeError);
         expect(() => new AstInclude({})).to.throw(TypeError);
     });
 

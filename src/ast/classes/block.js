@@ -43,10 +43,11 @@ class AstBlock extends AstGroup {
     /**
      * Creates an AstBlock.
      * @param {AstFragment[]|AstFragment} statements - A statement or a list of statements
+     * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the statements are not valid AST nodes
      */
-    constructor(statements) {
-        super('block', statements);
+    constructor(statements, properties) {
+        super('block', statements, properties);
     }
 }
 

@@ -34,7 +34,7 @@ const expect = chai.expect;
 
 const AstNode = require('../../../src/ast/classes/node');
 
-describe('AST node: AstNode', () => {
+describe('AstNode', () => {
 
     it('should throw a TypeError if the type is missing', () => {
         expect(() => {
@@ -96,6 +96,28 @@ describe('AST node: AstNode', () => {
         expect(node).to.have.a.property('type').that.is.equal(type);
         expect(node).to.have.a.property('position').that.is.equal(position);
         expect(node).to.have.a.property('offset').that.is.equal(offset);
+    });
+
+    it('should create an AstNode with the transformed properties', () => {
+        class AstFoo extends AstNode {
+            mapProperties(properties) {
+                if (properties && properties.value) {
+                    properties.value = '' + properties.value
+                }
+                return properties;
+            }
+        }
+        const type = 'literal';
+        const value = 42;
+        const node = new AstFoo(type, {
+            value: value
+        });
+
+        expect(node).to.be.an('object');
+        expect(node).to.be.an.instanceOf(AstNode);
+        expect(node).to.be.an.instanceOf(AstFoo);
+        expect(node).to.have.a.property('type').that.is.equal(type);
+        expect(node).to.have.a.property('value').that.is.equal('' + value);
     });
 
     it('should stringify an AstNode', () => {
@@ -234,6 +256,38 @@ describe('AST node: AstNode', () => {
         expect(clone).to.have.a.property('type').that.is.equal(node.type);
         expect(clone).to.have.a.property('position').that.is.equal(newPosition);
         expect(clone).to.have.a.property('offset').that.is.equal(newOffset);
+    });
+
+    it('should clone an AstNode with the transformed properties', () => {
+        class AstFoo extends AstNode {
+            mapProperties(properties) {
+                if (properties && properties.value) {
+                    properties.value = '' + properties.value
+                }
+                return properties;
+            }
+        }
+
+        const type = 'literal';
+        const value = 42;
+        const newValue = 21;
+        const node = new AstFoo({
+            type: type,
+            value: value
+        });
+
+        const clone = node.clone({
+            type: 'number',         // should not be allowed
+            value: newValue
+        });
+
+        expect(clone).to.be.an('object');
+        expect(clone).to.be.an.instanceOf(AstNode);
+        expect(clone).to.be.an.instanceOf(AstFoo);
+        expect(clone).to.not.be.equal(node);
+        expect(clone).to.be.not.deep.equal(node);
+        expect(clone).to.have.a.property('type').that.is.equal(node.type);
+        expect(clone).to.have.a.property('value').that.is.equal('' + newValue);
     });
 
     it('should tell if the AstNode has the right type', () => {
