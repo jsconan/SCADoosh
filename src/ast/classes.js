@@ -135,6 +135,11 @@ module.exports.AstAssignment = require('./classes/assignment');
 module.exports.AstFunctionCall = require('./classes/function-call');
 
 /**
+ * @type {AstExpression}
+ */
+module.exports.AstExpression = require('./classes/expression');
+
+/**
  * @type {AstLookup}
  */
 module.exports.AstLookup = require('./classes/lookup');
