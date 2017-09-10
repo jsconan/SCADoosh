@@ -125,6 +125,16 @@ module.exports.AstBinaryOperator = require('./classes/binary-operator');
 module.exports.AstTernaryOperator = require('./classes/ternary-operator');
 
 /**
+ * @type {AstFunction}
+ */
+module.exports.AstFunction = require('./classes/function');
+
+/**
+ * @type {AstModule}
+ */
+module.exports.AstModule = require('./classes/module');
+
+/**
  * @type {AstAssignment}
  */
 module.exports.AstAssignment = require('./classes/assignment');
