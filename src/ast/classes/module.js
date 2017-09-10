@@ -38,7 +38,7 @@ const AstFunction = require('./function');
  * @property {String} type
  * @property {AstIdentifier} identifier
  * @property {AstFragment[]} parameters
- * @property {AstFragment[]} statements
+ * @property {AstFragment} body
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
@@ -47,12 +47,12 @@ class AstModule extends AstFunction {
      * Creates an AstModule.
      * @param {AstIdentifier} identifier
      * @param {AstFragment[]} parameters
-     * @param {AstFragment[]} statements
+     * @param {AstFragment} body
      * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the identifier is not an AstIdentifier, or if the parameters are not valid AstFragment
      */
-    constructor(identifier, parameters, statements, properties) {
-        super(identifier, parameters, statements, _.assign({type: 'module'}, properties));
+    constructor(identifier, parameters, body, properties) {
+        super(identifier, parameters, body, _.assign({type: 'module'}, properties));
     }
 }
 

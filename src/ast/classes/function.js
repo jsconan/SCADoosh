@@ -39,7 +39,7 @@ const AstFragment = require('./fragment');
  * @property {String} type
  * @property {AstIdentifier} identifier
  * @property {AstFragment[]} parameters
- * @property {AstFragment[]} statements
+ * @property {AstFragment} body
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
@@ -48,16 +48,16 @@ class AstFunction extends AstFragment {
      * Creates an AstFunction.
      * @param {AstIdentifier} identifier
      * @param {AstFragment[]} parameters
-     * @param {AstFragment[]} statements
+     * @param {AstFragment} body
      * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the identifier is not an AstIdentifier, or if the parameters are not valid AstFragment
      */
-    constructor(identifier, parameters, statements, properties) {
+    constructor(identifier, parameters, body, properties) {
         super(_.assign({
             type: 'function',
             identifier: identifier,
             parameters: parameters,
-            statements: statements
+            body: body
         }, properties));
     }
 
@@ -80,12 +80,8 @@ class AstFunction extends AstFragment {
             throw new TypeError('The parameters should be a list of AstFragment!');
         }
 
-        if (!_.isArray(properties.statements)) {
-            properties.statements = [properties.statements];
-        }
-
-        if (!AstFragment.validateNodes(properties.statements)) {
-            throw new TypeError('The statements should be a list of AstFragment!');
+        if (!AstFragment.validate(properties.body)) {
+            throw new TypeError('The body should be an AstFragment!');
         }
 
         return super.mapProperties(properties);
