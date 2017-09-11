@@ -42,7 +42,7 @@ const AstFunctionCall = require('../../../src/ast/classes/function-call');
 describe('AstFunctionCall', () => {
 
     it('should create an AstFunctionCall with a list of parameters', () => {
-        const type = 'function-call';
+        const type = 'FunctionCall';
         const identifier = new AstIdentifier('foo');
         const parameters = [new AstNumber(1), new AstNumber(2)];
         const node = new AstFunctionCall(identifier, parameters);
@@ -59,7 +59,7 @@ describe('AstFunctionCall', () => {
     });
 
     it('should create an AstFunctionCall with a single parameter', () => {
-        const type = 'function-call';
+        const type = 'FunctionCall';
         const identifier = new AstIdentifier('foo');
         const parameters = new AstNumber(1);
         const node = new AstFunctionCall(identifier, parameters);
@@ -76,7 +76,7 @@ describe('AstFunctionCall', () => {
     });
 
     it('should create an AstFunctionCall with no parameter', () => {
-        const type = 'function-call';
+        const type = 'FunctionCall';
         const identifier = new AstIdentifier('foo');
         const parameters = [];
         const node = new AstFunctionCall(identifier, parameters);
@@ -93,7 +93,7 @@ describe('AstFunctionCall', () => {
     });
 
     it('should create an AstFunctionCall with the provided properties', () => {
-        const type = 'foo';
+        const type = 'Foo';
         const identifier = new AstIdentifier('foo');
         const parameters = [new AstNumber(1), new AstNumber(2)];
         const node = new AstFunctionCall('identifier', 'parameters', {
@@ -119,24 +119,24 @@ describe('AstFunctionCall', () => {
         expect(() => new AstFunctionCall(new AstIdentifier(1), {})).to.throw(TypeError);
         expect(() => new AstFunctionCall(new AstIdentifier(1), [{}])).to.throw(TypeError);
         expect(() => new AstFunctionCall(new AstIdentifier(1), [new AstNumber(1), {}])).to.throw(TypeError);
-        expect(() => new AstFunctionCall(new AstIdentifier(1), new AstNode('foo'))).to.throw(TypeError);
-        expect(() => new AstFunctionCall(new AstIdentifier(1), [new AstNode('foo')])).to.throw(TypeError);
+        expect(() => new AstFunctionCall(new AstIdentifier(1), new AstNode('Foo'))).to.throw(TypeError);
+        expect(() => new AstFunctionCall(new AstIdentifier(1), [new AstNode('Foo')])).to.throw(TypeError);
         expect(() => new AstFunctionCall({}, new AstNumber(1))).to.throw(TypeError);
-        expect(() => new AstFunctionCall(new AstNode('foo'), new AstNumber(1))).to.throw(TypeError);
+        expect(() => new AstFunctionCall(new AstNode('Foo'), new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstFunctionCall(new AstNumber(2), new AstNumber(1))).to.throw(TypeError);
 
 
         expect(() => new AstFunctionCall(new AstIdentifier('foo'), new AstNumber(1), {identifier: {}})).to.throw(TypeError);
-        expect(() => new AstFunctionCall(new AstIdentifier('foo'), new AstNumber(1), {identifier: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstFunctionCall(new AstIdentifier('foo'), new AstNumber(1), {identifier: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => new AstFunctionCall(new AstIdentifier('foo'), new AstNumber(1), {identifier: new AstNumber(1)})).to.throw(TypeError);
         expect(() => new AstFunctionCall(new AstIdentifier('foo'), new AstNumber(1), {parameters: {}})).to.throw(TypeError);
         expect(() => new AstFunctionCall(new AstIdentifier('foo'), new AstNumber(1), {parameters: [{}]})).to.throw(TypeError);
-        expect(() => new AstFunctionCall(new AstIdentifier('foo'), new AstNumber(1), {parameters: new AstNode('foo')})).to.throw(TypeError);
-        expect(() => new AstFunctionCall(new AstIdentifier('foo'), new AstNumber(1), {parameters: [new AstNode('foo')]})).to.throw(TypeError);
+        expect(() => new AstFunctionCall(new AstIdentifier('foo'), new AstNumber(1), {parameters: new AstNode('Foo')})).to.throw(TypeError);
+        expect(() => new AstFunctionCall(new AstIdentifier('foo'), new AstNumber(1), {parameters: [new AstNode('Foo')]})).to.throw(TypeError);
     });
 
     it('should stringify an AstFunctionCall', () => {
-        const type = 'function-call';
+        const type = 'FunctionCall';
         const identifier = new AstIdentifier('foo');
         const parameters = [new AstNumber(1), new AstNumber(2)];
 
@@ -148,20 +148,20 @@ describe('AstFunctionCall', () => {
         const endOffset = 5;
         const expected = {
             type: type,
-            identifier: {type: 'identifier', value: 'foo'},
+            identifier: {type: 'Identifier', value: 'foo'},
             parameters: [
-                {type: 'number', value: 1},
-                {type: 'number', value: 2}
+                {type: 'Number', value: 1},
+                {type: 'Number', value: 2}
             ],
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstFunctionCall(identifier, parameters);
         const stringified = '{"type":"' + type + '",' +
-            '"identifier":{"type":"identifier","value":"foo"},' +
-            '"parameters":[{"type":"number","value":1},{"type":"number","value":2}],' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"identifier":{"type":"Identifier","value":"foo"},' +
+            '"parameters":[{"type":"Number","value":1},{"type":"Number","value":2}],' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -201,7 +201,7 @@ describe('AstFunctionCall', () => {
         const node = (new AstFunctionCall(identifier, parameters)).startAt(1, 1, 0).endAt(1, 6, 5);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             identifier: newIdentifier,
             parameters: newParameters
         });
@@ -224,12 +224,12 @@ describe('AstFunctionCall', () => {
 
         expect(() => node.clone({identifier: new AstNumber(3)})).to.throw(TypeError);
         expect(() => node.clone({identifier: {}})).to.throw(TypeError);
-        expect(() => node.clone({identifier: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({identifier: new AstNode('Foo')})).to.throw(TypeError);
 
         expect(() => node.clone({parameters: {}})).to.throw(TypeError);
         expect(() => node.clone({parameters: [{}]})).to.throw(TypeError);
-        expect(() => node.clone({parameters: new AstNode('foo')})).to.throw(TypeError);
-        expect(() => node.clone({parameters: [new AstNode('foo')]})).to.throw(TypeError);
+        expect(() => node.clone({parameters: new AstNode('Foo')})).to.throw(TypeError);
+        expect(() => node.clone({parameters: [new AstNode('Foo')]})).to.throw(TypeError);
     });
 
 });

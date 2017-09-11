@@ -75,16 +75,6 @@ module.exports.AstIdentifier = require('./classes/identifier');
 module.exports.AstBoolean = require('./classes/boolean');
 
 /**
- * @type {AstTrue}
- */
-module.exports.AstTrue = require('./classes/true');
-
-/**
- * @type {AstFalse}
- */
-module.exports.AstFalse = require('./classes/false');
-
-/**
  * @type {AstUndefined}
  */
 module.exports.AstUndefined = require('./classes/undefined');

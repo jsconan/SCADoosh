@@ -41,7 +41,7 @@ const AstBoolean = require('../../../src/ast/classes/boolean');
 describe('AstBoolean', () => {
 
     it('should create an AstBoolean with the specified value', () => {
-        const type = 'boolean';
+        const type = 'Boolean';
         const value = true;
         const node = new AstBoolean(value);
 
@@ -55,7 +55,7 @@ describe('AstBoolean', () => {
     });
 
     it('should create an AstBoolean with the specified value as a string (true)', () => {
-        const type = 'boolean';
+        const type = 'Boolean';
         const value = true;
         const node = new AstBoolean('true');
 
@@ -69,7 +69,7 @@ describe('AstBoolean', () => {
     });
 
     it('should create an AstBoolean with the specified value as a string (false)', () => {
-        const type = 'boolean';
+        const type = 'Boolean';
         const value = false;
         const node = new AstBoolean('false');
 
@@ -83,7 +83,7 @@ describe('AstBoolean', () => {
     });
 
     it('should create an AstBoolean with the specified properties', () => {
-        const type = 'boolean';
+        const type = 'Boolean';
         const value = true;
         const node = new AstBoolean(false, {value: 'true', info: 'foo'});
 
@@ -112,7 +112,7 @@ describe('AstBoolean', () => {
     });
 
     it('should stringify an AstBoolean', () => {
-        const type = 'boolean';
+        const type = 'Boolean';
         const value = true;
         const startLine = 1;
         const startColumn = 1;
@@ -123,13 +123,13 @@ describe('AstBoolean', () => {
         const expected = {
             type: type,
             value: value,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstBoolean(value);
         const stringified = '{"type":"' + type + '","value":' + value + ',' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -166,7 +166,7 @@ describe('AstBoolean', () => {
         const node = (new AstBoolean(value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: '' + newValue
         });
 

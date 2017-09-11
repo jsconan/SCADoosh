@@ -60,24 +60,24 @@ describe('AstFragment', () => {
 
     it('should throw a TypeError if the positions are not AstPosition', () => {
         expect(() => {
-            new AstFragment({type: "foo", start: {}});
+            new AstFragment({type: 'Foo', start: {}});
         }).to.throw(TypeError);
 
         expect(() => {
-            new AstFragment({type: "foo", start: new AstNode('foo')});
+            new AstFragment({type: 'Foo', start: new AstNode('Foo')});
         }).to.throw(TypeError);
 
         expect(() => {
-            new AstFragment({type: "foo", end: {}});
+            new AstFragment({type: 'Foo', end: {}});
         }).to.throw(TypeError);
 
         expect(() => {
-            new AstFragment({type: "foo", end: new AstNode('foo')});
+            new AstFragment({type: 'Foo', end: new AstNode('Foo')});
         }).to.throw(TypeError);
     });
 
     it('should create an AstFragment with the specified type', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const node = new AstFragment(type);
 
         expect(node).to.be.an('object');
@@ -87,7 +87,7 @@ describe('AstFragment', () => {
     });
 
     it('should create an AstFragment with the specified properties', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const start = new AstPosition(1, 2, 1);
         const end = new AstPosition(2, 3, 2);
         const node = new AstFragment({
@@ -105,7 +105,7 @@ describe('AstFragment', () => {
     });
 
     it('should create an AstFragment with the specified type and properties', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const start = new AstPosition(1, 2, 1);
         const end = new AstPosition(2, 3, 2);
         const node = new AstFragment(type, {
@@ -122,7 +122,7 @@ describe('AstFragment', () => {
     });
 
     it('should create an AstFragment with the specified position from other AstFragment', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const startLine = 1;
         const startColumn = 1;
         const startOffset = 0;
@@ -131,8 +131,8 @@ describe('AstFragment', () => {
         const endOffset = 10;
         const expected = {
             type: type,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const other = (new AstFragment(type)).startAt(startLine, startColumn, startOffset).endAt(endLine, endColumn, endOffset);
         const node = new AstFragment(type, {
@@ -149,7 +149,7 @@ describe('AstFragment', () => {
     });
 
     it('should create an AstFragment with the specified position from provided AstPosition', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const startLine = 1;
         const startColumn = 1;
         const startOffset = 0;
@@ -158,8 +158,8 @@ describe('AstFragment', () => {
         const endOffset = 10;
         const expected = {
             type: type,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const start = new AstPosition(startLine, startColumn, startOffset);
         const end = new AstPosition(endLine, endColumn, endOffset);
@@ -179,7 +179,7 @@ describe('AstFragment', () => {
     });
 
     it('should add a position in an AstFragment from line, column, offset values', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const startLine = 1;
         const startColumn = 1;
         const startOffset = 0;
@@ -188,8 +188,8 @@ describe('AstFragment', () => {
         const endOffset = 10;
         const expected = {
             type: type,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstFragment(type);
 
@@ -205,7 +205,7 @@ describe('AstFragment', () => {
     });
 
     it('should add a position in an AstFragment from other AstFragment', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const startLine = 1;
         const startColumn = 1;
         const startOffset = 0;
@@ -214,8 +214,8 @@ describe('AstFragment', () => {
         const endOffset = 10;
         const expected = {
             type: type,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const other = new AstFragment(type);
         const node = new AstFragment(type);
@@ -235,7 +235,7 @@ describe('AstFragment', () => {
     });
 
     it('should add a position in an AstFragment from provided AstPosition', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const startLine = 1;
         const startColumn = 1;
         const startOffset = 0;
@@ -244,8 +244,8 @@ describe('AstFragment', () => {
         const endOffset = 10;
         const expected = {
             type: type,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const start = new AstPosition(startLine, startColumn, startOffset);
         const end = new AstPosition(endLine, endColumn, endOffset);
@@ -265,9 +265,9 @@ describe('AstFragment', () => {
     });
 
     it('should not add a position in an AstFragment from non AstFragment', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const node = new AstFragment(type);
-        const other = new AstNode('other');
+        const other = new AstNode('Other');
 
         expect(() => node.startAt({})).to.throw(TypeError);
         expect(() => node.endAt({})).to.throw(TypeError);
@@ -277,7 +277,7 @@ describe('AstFragment', () => {
     });
 
     it('should stringify an AstFragment', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const startLine = 1;
         const startColumn = 1;
         const startOffset = 0;
@@ -286,13 +286,13 @@ describe('AstFragment', () => {
         const endOffset = 10;
         const expected = {
             type: type,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstFragment(type);
         const stringified = '{"type":"' + type + '",' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -305,7 +305,7 @@ describe('AstFragment', () => {
     });
 
     it('should clone an AstFragment', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const value = 'foo';
         const node = (new AstFragment({
             type: type,
@@ -322,7 +322,7 @@ describe('AstFragment', () => {
     });
 
     it('should clone an AstFragment with the provided properties', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const value = 'foo';
         const newValue = 'bar';
         const other = (new AstFragment(type)).startAt(3, 4, 5).endAt(6, 7, 8);
@@ -333,7 +333,7 @@ describe('AstFragment', () => {
         })).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: newValue,
             start: other,
             end: end
@@ -351,19 +351,19 @@ describe('AstFragment', () => {
     });
 
     it('should throw a TypeError if the position to set in a clone is not an AstPosition', () => {
-        const node = (new AstFragment('foo')).startAt(1, 1, 0).endAt(1, 4, 3);
+        const node = (new AstFragment('Foo')).startAt(1, 1, 0).endAt(1, 4, 3);
 
         expect(() => node.clone({start: ''})).to.throw(TypeError);
         expect(() => node.clone({start: 'foo'})).to.throw(TypeError);
         expect(() => node.clone({start: {}})).to.throw(TypeError);
-        expect(() => node.clone({start: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({start: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({start: 10})).to.throw(TypeError);
         expect(() => node.clone({start: 0})).to.throw(TypeError);
 
         expect(() => node.clone({end: ''})).to.throw(TypeError);
         expect(() => node.clone({end: 'foo'})).to.throw(TypeError);
         expect(() => node.clone({end: {}})).to.throw(TypeError);
-        expect(() => node.clone({end: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({end: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({end: 10})).to.throw(TypeError);
         expect(() => node.clone({end: 0})).to.throw(TypeError);
     });

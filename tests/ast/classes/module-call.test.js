@@ -44,7 +44,7 @@ const AstModuleCall = require('../../../src/ast/classes/module-call');
 describe('AstModuleCall', () => {
 
     it('should create an AstModuleCall with a list of parameters', () => {
-        const type = 'module-call';
+        const type = 'ModuleCall';
         const identifier = new AstIdentifier('foo');
         const parameters = [new AstNumber(1), new AstNumber(2)];
         const node = new AstModuleCall(identifier, parameters);
@@ -63,7 +63,7 @@ describe('AstModuleCall', () => {
     });
 
     it('should create an AstModuleCall with a body', () => {
-        const type = 'module-call';
+        const type = 'ModuleCall';
         const identifier = new AstIdentifier('foo');
         const parameters = [new AstNumber(1), new AstNumber(2)];
         const body = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
@@ -83,7 +83,7 @@ describe('AstModuleCall', () => {
     });
 
     it('should create an AstModuleCall with a single parameter', () => {
-        const type = 'module-call';
+        const type = 'ModuleCall';
         const identifier = new AstIdentifier('foo');
         const parameters = new AstNumber(1);
         const node = new AstModuleCall(identifier, parameters);
@@ -102,7 +102,7 @@ describe('AstModuleCall', () => {
     });
 
     it('should create an AstModuleCall with no parameter', () => {
-        const type = 'module-call';
+        const type = 'ModuleCall';
         const identifier = new AstIdentifier('foo');
         const parameters = [];
         const node = new AstModuleCall(identifier, parameters);
@@ -121,7 +121,7 @@ describe('AstModuleCall', () => {
     });
 
     it('should create an AstModuleCall with the provided properties', () => {
-        const type = 'foo';
+        const type = 'Foo';
         const identifier = new AstIdentifier('foo');
         const parameters = [new AstNumber(1), new AstNumber(2)];
         const body = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
@@ -151,30 +151,30 @@ describe('AstModuleCall', () => {
         expect(() => new AstModuleCall(new AstIdentifier(1), {})).to.throw(TypeError);
         expect(() => new AstModuleCall(new AstIdentifier(1), [{}])).to.throw(TypeError);
         expect(() => new AstModuleCall(new AstIdentifier(1), [new AstNumber(1), {}])).to.throw(TypeError);
-        expect(() => new AstModuleCall(new AstIdentifier(1), new AstNode('foo'))).to.throw(TypeError);
-        expect(() => new AstModuleCall(new AstIdentifier(1), [new AstNode('foo')])).to.throw(TypeError);
+        expect(() => new AstModuleCall(new AstIdentifier(1), new AstNode('Foo'))).to.throw(TypeError);
+        expect(() => new AstModuleCall(new AstIdentifier(1), [new AstNode('Foo')])).to.throw(TypeError);
         expect(() => new AstModuleCall({}, new AstNumber(1))).to.throw(TypeError);
-        expect(() => new AstModuleCall(new AstNode('foo'), new AstNumber(1))).to.throw(TypeError);
+        expect(() => new AstModuleCall(new AstNode('Foo'), new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstModuleCall(new AstNumber(2), new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstModuleCall(new AstIdentifier(2), new AstNumber(1), {})).to.throw(TypeError);
         expect(() => new AstModuleCall(new AstIdentifier(2), new AstNumber(1), [])).to.throw(TypeError);
-        expect(() => new AstModuleCall(new AstIdentifier(2), new AstNumber(1), new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstModuleCall(new AstIdentifier(2), new AstNumber(1), new AstNode('Foo'))).to.throw(TypeError);
 
 
         expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {identifier: {}})).to.throw(TypeError);
-        expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {identifier: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {identifier: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {identifier: new AstNumber(1)})).to.throw(TypeError);
         expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {parameters: {}})).to.throw(TypeError);
         expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {parameters: [{}]})).to.throw(TypeError);
-        expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {parameters: new AstNode('foo')})).to.throw(TypeError);
-        expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {parameters: [new AstNode('foo')]})).to.throw(TypeError);
+        expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {parameters: new AstNode('Foo')})).to.throw(TypeError);
+        expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {parameters: [new AstNode('Foo')]})).to.throw(TypeError);
         expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {body: {}})).to.throw(TypeError);
         expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {body: []})).to.throw(TypeError);
-        expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {body: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstModuleCall(new AstIdentifier('foo'), new AstNumber(1), null, {body: new AstNode('Foo')})).to.throw(TypeError);
     });
 
     it('should stringify an AstModuleCall', () => {
-        const type = 'module-call';
+        const type = 'ModuleCall';
         const identifier = new AstIdentifier('foo');
         const parameters = [new AstNumber(1), new AstNumber(2)];
         const body = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
@@ -187,26 +187,26 @@ describe('AstModuleCall', () => {
         const endOffset = 5;
         const expected = {
             type: type,
-            identifier: {type: 'identifier', value: 'foo'},
+            identifier: {type: 'Identifier', value: 'foo'},
             parameters: [
-                {type: 'number', value: 1},
-                {type: 'number', value: 2}
+                {type: 'Number', value: 1},
+                {type: 'Number', value: 2}
             ],
             body: {
-                type: 'assignment',
-                identifier: {type: 'identifier', value: 'foo'},
-                value: {type: 'number', value: 42}
+                type: 'Assignment',
+                identifier: {type: 'Identifier', value: 'foo'},
+                value: {type: 'Number', value: 42}
             },
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstModuleCall(identifier, parameters, body);
         const stringified = '{"type":"' + type + '",' +
-            '"identifier":{"type":"identifier","value":"foo"},' +
-            '"parameters":[{"type":"number","value":1},{"type":"number","value":2}],' +
-            '"body":{"type":"assignment","identifier":{"type":"identifier","value":"foo"},"value":{"type":"number","value":42}},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"identifier":{"type":"Identifier","value":"foo"},' +
+            '"parameters":[{"type":"Number","value":1},{"type":"Number","value":2}],' +
+            '"body":{"type":"Assignment","identifier":{"type":"Identifier","value":"foo"},"value":{"type":"Number","value":42}},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -251,7 +251,7 @@ describe('AstModuleCall', () => {
         const node = (new AstModuleCall(identifier, parameters, body)).startAt(1, 1, 0).endAt(1, 6, 5);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             identifier: newIdentifier,
             parameters: newParameters,
             body: newBody
@@ -277,16 +277,16 @@ describe('AstModuleCall', () => {
 
         expect(() => node.clone({identifier: new AstNumber(3)})).to.throw(TypeError);
         expect(() => node.clone({identifier: {}})).to.throw(TypeError);
-        expect(() => node.clone({identifier: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({identifier: new AstNode('Foo')})).to.throw(TypeError);
 
         expect(() => node.clone({parameters: {}})).to.throw(TypeError);
         expect(() => node.clone({parameters: [{}]})).to.throw(TypeError);
-        expect(() => node.clone({parameters: new AstNode('foo')})).to.throw(TypeError);
-        expect(() => node.clone({parameters: [new AstNode('foo')]})).to.throw(TypeError);
+        expect(() => node.clone({parameters: new AstNode('Foo')})).to.throw(TypeError);
+        expect(() => node.clone({parameters: [new AstNode('Foo')]})).to.throw(TypeError);
 
         expect(() => node.clone({body: {}})).to.throw(TypeError);
         expect(() => node.clone({body: []})).to.throw(TypeError);
-        expect(() => node.clone({body: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({body: new AstNode('Foo')})).to.throw(TypeError);
     });
 
 });

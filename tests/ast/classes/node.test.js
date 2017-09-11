@@ -57,7 +57,7 @@ describe('AstNode', () => {
     });
 
     it('should create an AstNode with the specified type', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const node = new AstNode(type);
 
         expect(node).to.be.an('object');
@@ -66,7 +66,7 @@ describe('AstNode', () => {
     });
 
     it('should create an AstNode with the specified properties', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const position = 10;
         const offset = 9;
         const node = new AstNode({
@@ -83,7 +83,7 @@ describe('AstNode', () => {
     });
 
     it('should create an AstNode with the specified type and properties', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const position = 10;
         const offset = 9;
         const node = new AstNode(type, {
@@ -107,7 +107,7 @@ describe('AstNode', () => {
                 return properties;
             }
         }
-        const type = 'literal';
+        const type = 'Literal';
         const value = 42;
         const node = new AstFoo(type, {
             value: value
@@ -121,7 +121,7 @@ describe('AstNode', () => {
     });
 
     it('should stringify an AstNode', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const node = new AstNode(type);
         const stringified = '{"type":"' + type + '"}';
 
@@ -132,7 +132,7 @@ describe('AstNode', () => {
     });
 
     it('should add read-only values', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const prop = 'an additional property';
         const props = {
             one: 1,
@@ -164,7 +164,7 @@ describe('AstNode', () => {
     });
 
     it('should not allow to redefine existing properties', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const position = 10;
         const offset = 9;
         const node = new AstNode({
@@ -179,11 +179,11 @@ describe('AstNode', () => {
         expect(node).to.have.a.property('position').that.is.equal(position);
         expect(node).to.have.a.property('offset').that.is.equal(offset);
 
-        expect(() => node.addProperty('type', 'identifier')).to.throw(TypeError);
+        expect(() => node.addProperty('type', 'Identifier')).to.throw(TypeError);
         expect(() => node.addProperty('position', 20)).to.throw(TypeError);
         expect(() => node.addProperty('offset', 19)).to.throw(TypeError);
         expect(() => node.addProperties({
-            type: 'number',
+            type: 'Number',
             position: 8,
             offset: 7
         })).to.throw(TypeError);
@@ -194,7 +194,7 @@ describe('AstNode', () => {
     });
 
     it('should get the properties', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const properties = {
             name: 'foo',
             value: 42,
@@ -214,7 +214,7 @@ describe('AstNode', () => {
     });
 
     it('should clone an AstNode', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const position = 10;
         const offset = 9;
         const node = new AstNode({
@@ -232,7 +232,7 @@ describe('AstNode', () => {
     });
 
     it('should clone an AstNode with the provided properties', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const position = 10;
         const offset = 9;
         const newPosition = 5;
@@ -244,7 +244,7 @@ describe('AstNode', () => {
         });
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             position: newPosition,
             offset: newOffset
         });
@@ -268,7 +268,7 @@ describe('AstNode', () => {
             }
         }
 
-        const type = 'literal';
+        const type = 'Literal';
         const value = 42;
         const newValue = 21;
         const node = new AstFoo({
@@ -277,7 +277,7 @@ describe('AstNode', () => {
         });
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: newValue
         });
 
@@ -293,29 +293,29 @@ describe('AstNode', () => {
     it('should tell if the AstNode has the right type', () => {
         class AstFoo extends AstNode {}
 
-        const type = 'literal';
+        const type = 'Literal';
         const node = new AstNode(type);
-        const foo = new AstFoo('identifier');
+        const foo = new AstFoo('Identifier');
 
         expect(node.is(AstNode)).to.be.true;
         expect(node.is(AstFoo)).to.be.false;
         expect(node.is(type)).to.be.true;
-        expect(node.is('identifier')).to.be.false;
-        expect(node.is('test')).to.be.false;
+        expect(node.is('Identifier')).to.be.false;
+        expect(node.is('Test')).to.be.false;
         expect(node.is(1)).to.be.false;
 
         expect(foo.is(AstNode)).to.be.true;
         expect(foo.is(AstFoo)).to.be.true;
         expect(foo.is(type)).to.be.false;
-        expect(foo.is('identifier')).to.be.true;
-        expect(foo.is('test')).to.be.false;
+        expect(foo.is('Identifier')).to.be.true;
+        expect(foo.is('Test')).to.be.false;
         expect(foo.is(1)).to.be.false;
     });
 
     it('should validate an AstNode object or not', () => {
         class AstFoo extends AstNode {}
 
-        const type = 'literal';
+        const type = 'Literal';
         const node = new AstNode(type);
         const foo = new AstFoo(type);
 
@@ -333,7 +333,7 @@ describe('AstNode', () => {
     it('should validate the node from the inherited class instead of AstNode', () => {
         class AstFoo extends AstNode {}
 
-        const type = 'literal';
+        const type = 'Literal';
         const node = new AstNode(type);
         const foo = new AstFoo(type);
 
@@ -347,7 +347,7 @@ describe('AstNode', () => {
     });
 
     it('should validate a list of nodes', () => {
-        const type = 'literal';
+        const type = 'Literal';
         const node = new AstNode(type);
 
         expect(AstNode.validateNodes(node)).to.be.false;
@@ -361,7 +361,7 @@ describe('AstNode', () => {
 
     it('should validate a list of nodes from the inherited class instead of AstNode', () => {
         class AstFoo extends AstNode {}
-        const type = 'foo';
+        const type = 'Foo';
         const node = new AstNode(type);
         const foo = new AstFoo(type);
 

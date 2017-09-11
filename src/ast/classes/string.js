@@ -46,7 +46,7 @@ class AstString extends AstLiteral {
      * @param {Object} [properties] - An optional list of additional properties to set.
      */
     constructor(value, properties) {
-        super('string', value, properties);
+        super('String', value, properties);
     }
 
     /**

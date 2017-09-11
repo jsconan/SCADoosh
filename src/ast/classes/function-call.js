@@ -52,7 +52,7 @@ class AstFunctionCall extends AstFragment {
      */
     constructor(identifier, parameters, properties) {
         super(_.assign({
-            type: 'function-call',
+            type: 'FunctionCall',
             identifier: identifier,
             parameters: parameters
         }, properties));

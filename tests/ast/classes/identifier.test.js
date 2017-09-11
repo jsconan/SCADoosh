@@ -41,7 +41,7 @@ const AstIdentifier = require('../../../src/ast/classes/identifier');
 describe('AstIdentifier', () => {
 
     it('should create an AstIdentifier with the specified value', () => {
-        const type = 'identifier';
+        const type = 'Identifier';
         const value = 'fooBar';
         const node = new AstIdentifier(value);
 
@@ -55,7 +55,7 @@ describe('AstIdentifier', () => {
     });
 
     it('should create an AstIdentifier with the specified properties', () => {
-        const type = 'identifier';
+        const type = 'Identifier';
         const value = 42;
         const node = new AstIdentifier(value, {
             info: 'foo'
@@ -72,7 +72,7 @@ describe('AstIdentifier', () => {
     });
 
     it('should create an AstIdentifier with the specified value as a stringable', () => {
-        const type = 'identifier';
+        const type = 'Identifier';
         const value = 'fooBar';
         const node = new AstIdentifier({
             value: 'fooBar',
@@ -91,7 +91,7 @@ describe('AstIdentifier', () => {
     });
 
     it('should stringify an AstIdentifier', () => {
-        const type = 'identifier';
+        const type = 'Identifier';
         const value = 'fooBar';
         const startLine = 1;
         const startColumn = 1;
@@ -102,13 +102,13 @@ describe('AstIdentifier', () => {
         const expected = {
             type: type,
             value: value,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstIdentifier(value);
         const stringified = '{"type":"' + type + '","value":"' + value + '",' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -145,7 +145,7 @@ describe('AstIdentifier', () => {
         const node = (new AstIdentifier(value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: newValue
         });
 

@@ -41,7 +41,7 @@ const AstUndefined = require('../../../src/ast/classes/undefined');
 describe('AstUndefined', () => {
 
     it('should create an AstUndefined', () => {
-        const type = 'undefined';
+        const type = 'Undefined';
         const node = new AstUndefined();
 
         expect(node).to.be.an('object');
@@ -54,7 +54,7 @@ describe('AstUndefined', () => {
     });
 
     it('should create an AstUndefined with the specified properties', () => {
-        const type = 'undefined';
+        const type = 'Undefined';
         const node = new AstUndefined('foo', {
             info: 'foo'
         });
@@ -70,7 +70,7 @@ describe('AstUndefined', () => {
     });
 
     it('should stringify an AstUndefined', () => {
-        const type = 'undefined';
+        const type = 'Undefined';
         const startLine = 1;
         const startColumn = 1;
         const startOffset = 0;
@@ -80,13 +80,13 @@ describe('AstUndefined', () => {
         const expected = {
             type: type,
             value: null,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstUndefined();
         const stringified = '{"type":"' + type + '","value":null,' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -121,7 +121,7 @@ describe('AstUndefined', () => {
         const node = (new AstUndefined()).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: value,
             info: value
         });

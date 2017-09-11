@@ -53,7 +53,7 @@ class AstBinaryOperator extends AstFragment {
      */
     constructor(left, operator, right, properties) {
         super(_.assign({
-            type: 'binaryOperator',
+            type: 'BinaryOperator',
             operator: operator,
             left: left,
             right: right

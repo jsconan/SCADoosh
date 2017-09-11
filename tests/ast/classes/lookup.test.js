@@ -42,7 +42,7 @@ const AstLookup = require('../../../src/ast/classes/lookup');
 describe('AstLookup', () => {
 
     it('should create an AstLookup', () => {
-        const type = 'lookup';
+        const type = 'Lookup';
         const name = new AstIdentifier('foo');
         const node = new AstLookup(name);
 
@@ -56,7 +56,7 @@ describe('AstLookup', () => {
     });
 
     it('should create an AstLookup with the provided properties', () => {
-        const type = 'foo';
+        const type = 'Foo';
         const name = new AstIdentifier('foo');
         const node = new AstLookup('name', {
             type: type,
@@ -77,14 +77,14 @@ describe('AstLookup', () => {
     it('should throw a TypeError if the name is not a valid AstIdentifier', () => {
         expect(() => new AstLookup({})).to.throw(TypeError);
         expect(() => new AstLookup(new AstNumber(1))).to.throw(TypeError);
-        expect(() => new AstLookup(new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstLookup(new AstNode('Foo'))).to.throw(TypeError);
         expect(() => new AstLookup(new AstIdentifier('foo'), {name: {}})).to.throw(TypeError);
         expect(() => new AstLookup(new AstIdentifier('foo'), {name: new AstNode(1)})).to.throw(TypeError);
         expect(() => new AstLookup(new AstIdentifier('foo'), {name: new AstNumber(1)})).to.throw(TypeError);
     });
 
     it('should stringify an AstLookup', () => {
-        const type = 'lookup';
+        const type = 'Lookup';
         const name = new AstIdentifier('foo');
         const startLine = 1;
         const startColumn = 1;
@@ -94,15 +94,15 @@ describe('AstLookup', () => {
         const endOffset = 5;
         const expected = {
             type: type,
-            name: {type: 'identifier', value: 'foo'},
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            name: {type: 'Identifier', value: 'foo'},
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstLookup(name);
         const stringified = '{"type":"' + type + '",' +
-            '"name":{"type":"identifier","value":"foo"},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"name":{"type":"Identifier","value":"foo"},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -138,7 +138,7 @@ describe('AstLookup', () => {
         const node = (new AstLookup(name)).startAt(1, 1, 0).endAt(1, 6, 5);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             name: newName,
         });
 
@@ -158,7 +158,7 @@ describe('AstLookup', () => {
         const node = (new AstLookup(new AstIdentifier(1))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({name: {}})).to.throw(TypeError);
         expect(() => node.clone({name: new AstNumber(3)})).to.throw(TypeError);
-        expect(() => node.clone({name: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({name: new AstNode('Foo')})).to.throw(TypeError);
     });
 
 });

@@ -47,7 +47,7 @@ class AstBlock extends AstGroup {
      * @throws {TypeError} if the statements are not valid AST nodes
      */
     constructor(statements, properties) {
-        super('block', statements, properties);
+        super('Block', statements, properties);
     }
 }
 

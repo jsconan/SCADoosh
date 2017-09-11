@@ -42,7 +42,7 @@ const AstLineComment = require('../../../src/ast/classes/line-comment');
 describe('AstLineComment', () => {
 
     it('should create an AstLineComment with the specified value', () => {
-        const type = 'lineComment';
+        const type = 'LineComment';
         const value = 'a comment';
         const node = new AstLineComment(value);
 
@@ -57,7 +57,7 @@ describe('AstLineComment', () => {
     });
 
     it('should create an AstLineComment with the specified properties', () => {
-        const type = 'foo';
+        const type = 'Foo';
         const value = 42;
         const node = new AstLineComment('bar', {
             type: type,
@@ -77,7 +77,7 @@ describe('AstLineComment', () => {
     });
 
     it('should create an AstLineComment with the specified value as a stringable', () => {
-        const type = 'lineComment';
+        const type = 'LineComment';
         const value = 'a comment';
         const node = new AstLineComment({
             value: 'a comment',
@@ -97,7 +97,7 @@ describe('AstLineComment', () => {
     });
 
     it('should stringify an AstLineComment', () => {
-        const type = 'lineComment';
+        const type = 'LineComment';
         const value = 'a comment';
         const startLine = 1;
         const startColumn = 1;
@@ -108,13 +108,13 @@ describe('AstLineComment', () => {
         const expected = {
             type: type,
             value: value,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstLineComment(value);
         const stringified = '{"type":"' + type + '","value":"' + value + '",' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -153,7 +153,7 @@ describe('AstLineComment', () => {
         const node = (new AstLineComment(value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: newValue
         });
 

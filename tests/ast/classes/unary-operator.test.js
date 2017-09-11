@@ -41,7 +41,7 @@ const AstUnaryOperator = require('../../../src/ast/classes/unary-operator');
 describe('AstUnaryOperator', () => {
 
     it('should create an AstUnaryOperator', () => {
-        const type = 'unaryOperator';
+        const type = 'UnaryOperator';
         const operator = '-';
         const value = new AstNumber(1);
         const node = new AstUnaryOperator(operator, value);
@@ -57,7 +57,7 @@ describe('AstUnaryOperator', () => {
     });
 
     it('should create an AstUnaryOperator with the provided properties', () => {
-        const type = 'unaryOperator';
+        const type = 'UnaryOperator';
         const operator = '-';
         const value = new AstNumber(1);
         const node = new AstUnaryOperator('operator', 'value', {
@@ -79,11 +79,11 @@ describe('AstUnaryOperator', () => {
 
     it('should throw a TypeError if the operand is not a valid AstFragment', () => {
         expect(() => new AstUnaryOperator('+', {})).to.throw(TypeError);
-        expect(() => new AstUnaryOperator('+', new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstUnaryOperator('+', new AstNode('Foo'))).to.throw(TypeError);
     });
 
     it('should stringify an AstUnaryOperator', () => {
-        const type = 'unaryOperator';
+        const type = 'UnaryOperator';
         const operator = '-';
         const value = new AstNumber(1);
         const startLine = 1;
@@ -95,15 +95,15 @@ describe('AstUnaryOperator', () => {
         const expected = {
             type: type,
             operator: operator,
-            value: {type: 'number', value: 1},
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            value: {type: 'Number', value: 1},
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstUnaryOperator(operator, value);
         const stringified = '{"type":"' + type + '","operator":"' + operator + '",' +
-            '"value":{"type":"number","value":1},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"value":{"type":"Number","value":1},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -141,7 +141,7 @@ describe('AstUnaryOperator', () => {
         const node = (new AstUnaryOperator(operator, value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             operator: newOperator,
             value: newValue
         });
@@ -162,7 +162,7 @@ describe('AstUnaryOperator', () => {
     it('should throw a TypeError if one of the operands is not a valid AstFragment when cloning', () => {
         const node = (new AstUnaryOperator('+', new AstNumber(2))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({value: {}})).to.throw(TypeError);
-        expect(() => node.clone({value: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({value: new AstNode('Foo')})).to.throw(TypeError);
     });
 
 });

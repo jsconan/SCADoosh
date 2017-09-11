@@ -54,7 +54,7 @@ class AstModuleCall extends AstFunctionCall {
      */
     constructor(identifier, parameters, body, properties) {
         super(identifier, parameters, _.assign({
-            type: 'module-call',
+            type: 'ModuleCall',
             body: body || null
         }, properties));
     }

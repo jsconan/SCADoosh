@@ -50,7 +50,7 @@ class AstLookup extends AstFragment {
      */
     constructor(name, properties) {
         super(_.assign({
-            type: 'lookup',
+            type: 'Lookup',
             name: name,
         }, properties));
     }

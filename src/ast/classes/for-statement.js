@@ -55,7 +55,7 @@ class AstForStatement extends AstFragment {
      */
     constructor(init, condition, increment, body, properties) {
         super(_.assign({
-            type: 'for-statement',
+            type: 'ForStatement',
             init: init,
             condition: condition,
             increment: increment,

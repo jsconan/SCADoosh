@@ -50,7 +50,7 @@ class AstInclude extends AstFragment {
      */
     constructor(path, properties) {
         super(_.assign({
-            type: 'include',
+            type: 'Include',
             path: path
         }, properties));
     }

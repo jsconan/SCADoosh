@@ -46,7 +46,7 @@ class AstLineComment extends AstComment {
      * @param {Object} [properties] - An optional list of additional properties to set.
      */
     constructor(value, properties) {
-        super('lineComment', value, properties);
+        super('LineComment', value, properties);
     }
 
     /**

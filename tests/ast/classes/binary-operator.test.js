@@ -41,7 +41,7 @@ const AstBinaryOperator = require('../../../src/ast/classes/binary-operator');
 describe('AstBinaryOperator', () => {
 
     it('should create an AstBinaryOperator', () => {
-        const type = 'binaryOperator';
+        const type = 'BinaryOperator';
         const operator = '+';
         const left = new AstNumber(1);
         const right = new AstNumber(2);
@@ -60,7 +60,7 @@ describe('AstBinaryOperator', () => {
     });
 
     it('should create an AstBinaryOperator with the provided properties', () => {
-        const type = 'binaryOperator';
+        const type = 'BinaryOperator';
         const operator = '+';
         const left = new AstNumber(1);
         const right = new AstNumber(2);
@@ -87,13 +87,13 @@ describe('AstBinaryOperator', () => {
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {
         const operand = new AstNumber(1);
         expect(() => new AstBinaryOperator(operand, '+', {})).to.throw(TypeError);
-        expect(() => new AstBinaryOperator(operand, '+', new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstBinaryOperator(operand, '+', new AstNode('Foo'))).to.throw(TypeError);
         expect(() => new AstBinaryOperator({}, '+', operand)).to.throw(TypeError);
-        expect(() => new AstBinaryOperator(new AstNode('foo'), '+', operand)).to.throw(TypeError);
+        expect(() => new AstBinaryOperator(new AstNode('Foo'), '+', operand)).to.throw(TypeError);
     });
 
     it('should stringify an AstBinaryOperator', () => {
-        const type = 'binaryOperator';
+        const type = 'BinaryOperator';
         const operator = '+';
         const left = new AstNumber(1);
         const right = new AstNumber(2);
@@ -106,17 +106,17 @@ describe('AstBinaryOperator', () => {
         const expected = {
             type: type,
             operator: operator,
-            left: {type: 'number', value: 1},
-            right: {type: 'number', value: 2},
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            left: {type: 'Number', value: 1},
+            right: {type: 'Number', value: 2},
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstBinaryOperator(left, operator, right);
         const stringified = '{"type":"' + type + '","operator":"' + operator + '",' +
-            '"left":{"type":"number","value":1},' +
-            '"right":{"type":"number","value":2},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"left":{"type":"Number","value":1},' +
+            '"right":{"type":"Number","value":2},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -157,7 +157,7 @@ describe('AstBinaryOperator', () => {
         const node = (new AstBinaryOperator(left, operator, right)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             operator: newOperator,
             left: newLeft,
             right: newRight,
@@ -180,9 +180,9 @@ describe('AstBinaryOperator', () => {
     it('should throw a TypeError if one of the operands is not a valid AstFragment when cloning', () => {
         const node = (new AstBinaryOperator(new AstNumber(1), '+', new AstNumber(2))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({left: {}})).to.throw(TypeError);
-        expect(() => node.clone({left: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({left: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({right: {}})).to.throw(TypeError);
-        expect(() => node.clone({right: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({right: new AstNode('Foo')})).to.throw(TypeError);
     });
 
 });

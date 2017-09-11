@@ -43,7 +43,7 @@ const AstGroup = require('../../../src/ast/classes/group');
 describe('AstGroup', () => {
 
     it('should create an AstGroup with a list of statements', () => {
-        const type = 'group';
+        const type = 'Group';
         const statements = [
             new AstAssignment(new AstIdentifier('foo'), new AstNumber(42)),
         ];
@@ -59,7 +59,7 @@ describe('AstGroup', () => {
     });
 
     it('should create an AstGroup with a single statement', () => {
-        const type = 'group';
+        const type = 'Group';
         const statements = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
         const node = new AstGroup(type, statements);
 
@@ -73,7 +73,7 @@ describe('AstGroup', () => {
     });
 
     it('should create an AstGroup with no statement', () => {
-        const type = 'group';
+        const type = 'Group';
         const statements = [];
         const node = new AstGroup(type, statements);
 
@@ -88,11 +88,11 @@ describe('AstGroup', () => {
 
 
     it('should create an AstGroup with the specified properties', () => {
-        const type = 'foo';
+        const type = 'Foo';
         const statements = [
             new AstAssignment(new AstIdentifier('foo'), new AstNumber(42)),
         ];
-        const node = new AstGroup('group', 'statements', {
+        const node = new AstGroup('Group', 'statements', {
             type: type,
             statements: statements,
             foo: 'bar'
@@ -129,54 +129,54 @@ describe('AstGroup', () => {
     });
 
     it('should throw a TypeError if the statements are not valid', () => {
-        const type = 'group';
+        const type = 'Group';
         expect(() => new AstGroup(type, [{}])).to.throw(TypeError);
         expect(() => new AstGroup(type, {})).to.throw(TypeError);
-        expect(() => new AstGroup(type, new AstNode('foo'))).to.throw(TypeError);
-        expect(() => new AstGroup(type, [new AstNode('foo')])).to.throw(TypeError);
+        expect(() => new AstGroup(type, new AstNode('Foo'))).to.throw(TypeError);
+        expect(() => new AstGroup(type, [new AstNode('Foo')])).to.throw(TypeError);
 
-        expect(() => new AstGroup(type, [new AstFragment('foo')], {statements: [{}]})).to.throw(TypeError);
-        expect(() => new AstGroup(type, [new AstFragment('foo')], {statements: {}})).to.throw(TypeError);
-        expect(() => new AstGroup(type, [new AstFragment('foo')], {statements: new AstNode('foo')})).to.throw(TypeError);
-        expect(() => new AstGroup(type, [new AstFragment('foo')], {statements: [new AstNode('foo')]})).to.throw(TypeError);
+        expect(() => new AstGroup(type, [new AstFragment('Foo')], {statements: [{}]})).to.throw(TypeError);
+        expect(() => new AstGroup(type, [new AstFragment('Foo')], {statements: {}})).to.throw(TypeError);
+        expect(() => new AstGroup(type, [new AstFragment('Foo')], {statements: new AstNode('Foo')})).to.throw(TypeError);
+        expect(() => new AstGroup(type, [new AstFragment('Foo')], {statements: [new AstNode('Foo')]})).to.throw(TypeError);
     });
 
     it('should stringify an AstGroup', () => {
-        const type = 'group';
+        const type = 'Group';
         const statements = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
         const node = new AstGroup(type, statements);
         const expected = {
             type: type,
             statements: [{
-                type: 'assignment',
+                type: 'Assignment',
                 identifier: {
-                    type: 'identifier', value: 'foo',
-                    start: {type: 'position', line: 1, column: 2, offset: 1},
-                    end: {type: 'position', line: 1, column: 5, offset: 4}
+                    type: 'Identifier', value: 'foo',
+                    start: {type: 'Position', line: 1, column: 2, offset: 1},
+                    end: {type: 'Position', line: 1, column: 5, offset: 4}
                 },
                 value: {
-                    type: 'number', value: 42,
-                    start: {type: 'position', line: 1, column: 7, offset: 6},
-                    end: {type: 'position', line: 1, column: 9, offset: 8}
+                    type: 'Number', value: 42,
+                    start: {type: 'Position', line: 1, column: 7, offset: 6},
+                    end: {type: 'Position', line: 1, column: 9, offset: 8}
                 },
-                start: {type: 'position', line: 1, column: 2, offset: 1},
-                end: {type: 'position', line: 1, column: 9, offset: 8}
+                start: {type: 'Position', line: 1, column: 2, offset: 1},
+                end: {type: 'Position', line: 1, column: 9, offset: 8}
             }],
-            start: {type: 'position', line: 1, column: 1, offset: 0},
-            end: {type: 'position', line: 1, column: 10, offset: 9}
+            start: {type: 'Position', line: 1, column: 1, offset: 0},
+            end: {type: 'Position', line: 1, column: 10, offset: 9}
         };
         const stringified = '{"type":"' + type + '",' +
-            '"statements":[{"type":"assignment",' +
-            '"identifier":{"type":"identifier","value":"foo",' +
-            '"start":{"type":"position","line":1,"column":2,"offset":1},' +
-            '"end":{"type":"position","line":1,"column":5,"offset":4}},' +
-            '"value":{"type":"number","value":42,' +
-            '"start":{"type":"position","line":1,"column":7,"offset":6},' +
-            '"end":{"type":"position","line":1,"column":9,"offset":8}},' +
-            '"start":{"type":"position","line":1,"column":2,"offset":1},' +
-            '"end":{"type":"position","line":1,"column":9,"offset":8}}],' +
-            '"start":{"type":"position","line":1,"column":1,"offset":0},' +
-            '"end":{"type":"position","line":1,"column":10,"offset":9}}';
+            '"statements":[{"type":"Assignment",' +
+            '"identifier":{"type":"Identifier","value":"foo",' +
+            '"start":{"type":"Position","line":1,"column":2,"offset":1},' +
+            '"end":{"type":"Position","line":1,"column":5,"offset":4}},' +
+            '"value":{"type":"Number","value":42,' +
+            '"start":{"type":"Position","line":1,"column":7,"offset":6},' +
+            '"end":{"type":"Position","line":1,"column":9,"offset":8}},' +
+            '"start":{"type":"Position","line":1,"column":2,"offset":1},' +
+            '"end":{"type":"Position","line":1,"column":9,"offset":8}}],' +
+            '"start":{"type":"Position","line":1,"column":1,"offset":0},' +
+            '"end":{"type":"Position","line":1,"column":10,"offset":9}}';
 
         node.statements[0].identifier.startAt(1, 2, 1);
         node.statements[0].identifier.endAt(1, 5, 4);
@@ -199,7 +199,7 @@ describe('AstGroup', () => {
     });
 
     it('should clone an AstGroup', () => {
-        const type = 'group';
+        const type = 'Group';
         const statements = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
         const node = new AstGroup(type, statements);
         const clone = node.clone();
@@ -213,14 +213,14 @@ describe('AstGroup', () => {
     });
 
     it('should clone an AstGroup with the provided properties', () => {
-        const type = 'group';
+        const type = 'Group';
         const statements = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
         const newStatements = [new AstAssignment(new AstIdentifier('bar'), new AstNumber(21))];
 
         const node = (new AstGroup(type, statements)).startAt(1, 1, 0).endAt(1, 10, 9);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             statements: newStatements
         });
 
@@ -237,7 +237,7 @@ describe('AstGroup', () => {
     });
 
     it('should throw a TypeError if the statements are not valid when cloning', () => {
-        const type = 'group';
+        const type = 'Group';
         const statements = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
         const node = (new AstGroup(type, statements)).startAt(1, 1, 0).endAt(1, 10, 9);
         expect(() => node.clone({statements: {}})).to.throw(TypeError);

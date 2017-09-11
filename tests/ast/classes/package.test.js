@@ -44,7 +44,7 @@ const AstPackage = require('../../../src/ast/classes/package');
 describe('AstPackage', () => {
 
     it('should create an AstPackage with a list of statements', () => {
-        const type = 'package';
+        const type = 'Package';
         const statements = [
             new AstAssignment(new AstIdentifier('foo'), new AstNumber(42)),
         ];
@@ -61,7 +61,7 @@ describe('AstPackage', () => {
     });
 
     it('should create an AstPackage with a single statement', () => {
-        const type = 'package';
+        const type = 'Package';
         const statements = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
         const node = new AstPackage(statements);
 
@@ -76,7 +76,7 @@ describe('AstPackage', () => {
     });
 
     it('should create an AstPackage with no statement', () => {
-        const type = 'package';
+        const type = 'Package';
         const statements = [];
         const node = new AstPackage(statements);
 
@@ -91,7 +91,7 @@ describe('AstPackage', () => {
     });
 
     it('should create an AstPackage with the specified properties', () => {
-        const type = 'foo';
+        const type = 'Foo';
         const statements = [
             new AstAssignment(new AstIdentifier('foo'), new AstNumber(42)),
         ];
@@ -115,46 +115,46 @@ describe('AstPackage', () => {
     it('should throw a TypeError if the statements are not valid', () => {
         expect(() => new AstPackage([{}])).to.throw(TypeError);
         expect(() => new AstPackage({})).to.throw(TypeError);
-        expect(() => new AstPackage(new AstFragment('foo'), {statements: {}})).to.throw(TypeError);
-        expect(() => new AstPackage(new AstFragment('foo'), {statements: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstPackage(new AstFragment('Foo'), {statements: {}})).to.throw(TypeError);
+        expect(() => new AstPackage(new AstFragment('Foo'), {statements: new AstNode('Foo')})).to.throw(TypeError);
     });
 
     it('should stringify an AstPackage', () => {
-        const type = 'package';
+        const type = 'Package';
         const statements = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
         const node = new AstPackage(statements);
         const expected = {
             type: type,
             statements: [{
-                type: 'assignment',
+                type: 'Assignment',
                 identifier: {
-                    type: 'identifier', value: 'foo',
-                    start: {type: 'position', line: 1, column: 2, offset: 1},
-                    end: {type: 'position', line: 1, column: 5, offset: 4}
+                    type: 'Identifier', value: 'foo',
+                    start: {type: 'Position', line: 1, column: 2, offset: 1},
+                    end: {type: 'Position', line: 1, column: 5, offset: 4}
                 },
                 value: {
-                    type: 'number', value: 42,
-                    start: {type: 'position', line: 1, column: 7, offset: 6},
-                    end: {type: 'position', line: 1, column: 9, offset: 8}
+                    type: 'Number', value: 42,
+                    start: {type: 'Position', line: 1, column: 7, offset: 6},
+                    end: {type: 'Position', line: 1, column: 9, offset: 8}
                 },
-                start: {type: 'position', line: 1, column: 2, offset: 1},
-                end: {type: 'position', line: 1, column: 9, offset: 8}
+                start: {type: 'Position', line: 1, column: 2, offset: 1},
+                end: {type: 'Position', line: 1, column: 9, offset: 8}
             }],
-            start: {type: 'position', line: 1, column: 1, offset: 0},
-            end: {type: 'position', line: 1, column: 10, offset: 9}
+            start: {type: 'Position', line: 1, column: 1, offset: 0},
+            end: {type: 'Position', line: 1, column: 10, offset: 9}
         };
         const stringified = '{"type":"' + type + '",' +
-            '"statements":[{"type":"assignment",' +
-            '"identifier":{"type":"identifier","value":"foo",' +
-            '"start":{"type":"position","line":1,"column":2,"offset":1},' +
-            '"end":{"type":"position","line":1,"column":5,"offset":4}},' +
-            '"value":{"type":"number","value":42,' +
-            '"start":{"type":"position","line":1,"column":7,"offset":6},' +
-            '"end":{"type":"position","line":1,"column":9,"offset":8}},' +
-            '"start":{"type":"position","line":1,"column":2,"offset":1},' +
-            '"end":{"type":"position","line":1,"column":9,"offset":8}}],' +
-            '"start":{"type":"position","line":1,"column":1,"offset":0},' +
-            '"end":{"type":"position","line":1,"column":10,"offset":9}}';
+            '"statements":[{"type":"Assignment",' +
+            '"identifier":{"type":"Identifier","value":"foo",' +
+            '"start":{"type":"Position","line":1,"column":2,"offset":1},' +
+            '"end":{"type":"Position","line":1,"column":5,"offset":4}},' +
+            '"value":{"type":"Number","value":42,' +
+            '"start":{"type":"Position","line":1,"column":7,"offset":6},' +
+            '"end":{"type":"Position","line":1,"column":9,"offset":8}},' +
+            '"start":{"type":"Position","line":1,"column":2,"offset":1},' +
+            '"end":{"type":"Position","line":1,"column":9,"offset":8}}],' +
+            '"start":{"type":"Position","line":1,"column":1,"offset":0},' +
+            '"end":{"type":"Position","line":1,"column":10,"offset":9}}';
 
         node.statements[0].identifier.startAt(1, 2, 1);
         node.statements[0].identifier.endAt(1, 5, 4);
@@ -198,7 +198,7 @@ describe('AstPackage', () => {
         const node = (new AstPackage(statements)).startAt(1, 1, 0).endAt(1, 10, 9);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             statements: newStatements
         });
 

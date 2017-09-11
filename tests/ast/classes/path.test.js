@@ -41,7 +41,7 @@ const AstPath = require('../../../src/ast/classes/path');
 describe('AstPath', () => {
 
     it('should create an AstPath with the specified value', () => {
-        const type = 'path';
+        const type = 'Path';
         const value = './a/path/to/library.scad';
         const node = new AstPath(value);
 
@@ -55,7 +55,7 @@ describe('AstPath', () => {
     });
 
     it('should create an AstPath with the specified properties', () => {
-        const type = 'path';
+        const type = 'Path';
         const value = 42;
         const node = new AstPath(value, {
             info: 'foo'
@@ -72,7 +72,7 @@ describe('AstPath', () => {
     });
 
     it('should create an AstPath with the specified value as a stringable', () => {
-        const type = 'path';
+        const type = 'Path';
         const value = './a/path/to/library.scad';
         const node = new AstPath({
             value: './a/path/to/library.scad',
@@ -91,7 +91,7 @@ describe('AstPath', () => {
     });
 
     it('should stringify an AstPath', () => {
-        const type = 'path';
+        const type = 'Path';
         const value = './a/path/to/library.scad';
         const startLine = 1;
         const startColumn = 1;
@@ -102,13 +102,13 @@ describe('AstPath', () => {
         const expected = {
             type: type,
             value: value,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstPath(value);
         const stringified = '{"type":"' + type + '","value":"' + value + '",' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -145,7 +145,7 @@ describe('AstPath', () => {
         const node = (new AstPath(value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: newValue
         });
 

@@ -45,7 +45,7 @@ const AstIfStatement = require('../../../src/ast/classes/if-statement');
 describe('AstIfStatement', () => {
 
     it('should create an AstIfStatement', () => {
-        const type = 'if-statement';
+        const type = 'IfStatement';
         const condition = new AstBinaryOperator(new AstNumber(1), '==', new AstNumber(2));
         const consequent = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));;
         const alternative = new AstAssignment(new AstIdentifier('bar'), new AstNumber(42));;
@@ -65,7 +65,7 @@ describe('AstIfStatement', () => {
     });
 
     it('should create an AstIfStatement with no alternative', () => {
-        const type = 'if-statement';
+        const type = 'IfStatement';
         const condition = new AstBinaryOperator(new AstNumber(1), '==', new AstNumber(2));
         const consequent = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));;
         const node = new AstIfStatement(condition, consequent);
@@ -83,7 +83,7 @@ describe('AstIfStatement', () => {
     });
 
     it('should create an AstIfStatement with the provided properties', () => {
-        const type = 'if-statement';
+        const type = 'IfStatement';
         const condition = new AstBinaryOperator(new AstNumber(1), '==', new AstNumber(2));
         const consequent = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));;
         const alternative = new AstAssignment(new AstIdentifier('bar'), new AstNumber(42));;
@@ -110,17 +110,17 @@ describe('AstIfStatement', () => {
 
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {
         expect(() => new AstIfStatement(new AstNumber(1), new AstNoop(), {})).to.throw(TypeError);
-        expect(() => new AstIfStatement(new AstNumber(1), new AstNoop(), new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstIfStatement(new AstNumber(1), new AstNoop(), new AstNode('Foo'))).to.throw(TypeError);
 
         expect(() => new AstIfStatement(new AstNumber(1), {}, new AstNoop())).to.throw(TypeError);
-        expect(() => new AstIfStatement(new AstNumber(1), new AstNode('foo'), new AstNoop())).to.throw(TypeError);
+        expect(() => new AstIfStatement(new AstNumber(1), new AstNode('Foo'), new AstNoop())).to.throw(TypeError);
 
         expect(() => new AstIfStatement({}, new AstNoop(), new AstNoop())).to.throw(TypeError);
-        expect(() => new AstIfStatement(new AstNode('foo'), new AstNoop(), new AstNoop())).to.throw(TypeError);
+        expect(() => new AstIfStatement(new AstNode('Foo'), new AstNoop(), new AstNoop())).to.throw(TypeError);
     });
 
     it('should stringify an AstIfStatement', () => {
-        const type = 'if-statement';
+        const type = 'IfStatement';
         const condition = new AstNumber(1);
         const consequent = new AstNumber(2);
         const alternative = new AstNumber(3);
@@ -132,19 +132,19 @@ describe('AstIfStatement', () => {
         const endOffset = 2;
         const expected = {
             type: type,
-            condition: {type: 'number', value: 1},
-            consequent: {type: 'number', value: 2},
-            alternative: {type: 'number', value: 3},
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            condition: {type: 'Number', value: 1},
+            consequent: {type: 'Number', value: 2},
+            alternative: {type: 'Number', value: 3},
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstIfStatement(condition, consequent, alternative);
         const stringified = '{"type":"' + type + '",' +
-            '"condition":{"type":"number","value":1},' +
-            '"consequent":{"type":"number","value":2},' +
-            '"alternative":{"type":"number","value":3},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"condition":{"type":"Number","value":1},' +
+            '"consequent":{"type":"Number","value":2},' +
+            '"alternative":{"type":"Number","value":3},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -186,7 +186,7 @@ describe('AstIfStatement', () => {
         const node = (new AstIfStatement(condition, consequent, alternative)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             condition: newCondition,
             consequent: newConsequent,
             alternative: newAlternative,
@@ -211,11 +211,11 @@ describe('AstIfStatement', () => {
     it('should throw a TypeError if one of the operands is not a valid AstFragment when cloning', () => {
         const node = (new AstIfStatement(new AstNumber(1), new AstNumber(2), new AstNumber(3))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({condition: {}})).to.throw(TypeError);
-        expect(() => node.clone({condition: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({condition: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({consequent: {}})).to.throw(TypeError);
-        expect(() => node.clone({consequent: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({consequent: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({alternative: {}})).to.throw(TypeError);
-        expect(() => node.clone({alternative: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({alternative: new AstNode('Foo')})).to.throw(TypeError);
     });
 
 });

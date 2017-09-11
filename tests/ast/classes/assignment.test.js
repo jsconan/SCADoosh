@@ -42,7 +42,7 @@ const AstAssignment = require('../../../src/ast/classes/assignment');
 describe('AstAssignment', () => {
 
     it('should create an AstAssignment', () => {
-        const type = 'assignment';
+        const type = 'Assignment';
         const identifier = new AstIdentifier('foo');
         const value = new AstNumber(2);
         const node = new AstAssignment(identifier, value);
@@ -59,8 +59,8 @@ describe('AstAssignment', () => {
     });
 
     it('should create an AstAssignment with the provided properties', () => {
-        const type = 'foo';
-        const identifier = new AstIdentifier('foo');
+        const type = 'Foo';
+        const identifier = new AstIdentifier('Foo');
         const value = new AstNumber(2);
         const node = new AstAssignment('identifier', 'value', {
             type: type,
@@ -83,20 +83,20 @@ describe('AstAssignment', () => {
 
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {
         expect(() => new AstAssignment(new AstIdentifier(1), {})).to.throw(TypeError);
-        expect(() => new AstAssignment(new AstIdentifier(1), new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstAssignment(new AstIdentifier(1), new AstNode('Foo'))).to.throw(TypeError);
         expect(() => new AstAssignment({}, new AstNumber(1))).to.throw(TypeError);
-        expect(() => new AstAssignment(new AstNode('foo'), new AstNumber(1))).to.throw(TypeError);
+        expect(() => new AstAssignment(new AstNode('Foo'), new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstAssignment(new AstNumber(2), new AstNumber(1))).to.throw(TypeError);
 
         expect(() => new AstAssignment(new AstIdentifier('foo'), new AstNumber(1), {identifier: {}})).to.throw(TypeError);
-        expect(() => new AstAssignment(new AstIdentifier('foo'), new AstNumber(1), {identifier: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstAssignment(new AstIdentifier('foo'), new AstNumber(1), {identifier: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => new AstAssignment(new AstIdentifier('foo'), new AstNumber(1), {identifier: new AstNumber(1)})).to.throw(TypeError);
         expect(() => new AstAssignment(new AstIdentifier('foo'), new AstNumber(1), {value: {}})).to.throw(TypeError);
-        expect(() => new AstAssignment(new AstIdentifier('foo'), new AstNumber(1), {value: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstAssignment(new AstIdentifier('foo'), new AstNumber(1), {value: new AstNode('Foo')})).to.throw(TypeError);
     });
 
     it('should stringify an AstAssignment', () => {
-        const type = 'assignment';
+        const type = 'Assignment';
         const identifier = new AstIdentifier('foo');
         const value = new AstNumber(2);
         const startLine = 1;
@@ -107,17 +107,17 @@ describe('AstAssignment', () => {
         const endOffset = 5;
         const expected = {
             type: type,
-            identifier: {type: 'identifier', value: 'foo'},
-            value: {type: 'number', value: 2},
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            identifier: {type: 'Identifier', value: 'foo'},
+            value: {type: 'Number', value: 2},
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstAssignment(identifier, value);
         const stringified = '{"type":"' + type + '",' +
-            '"identifier":{"type":"identifier","value":"foo"},' +
-            '"value":{"type":"number","value":2},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"identifier":{"type":"Identifier","value":"foo"},' +
+            '"value":{"type":"Number","value":2},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -156,7 +156,7 @@ describe('AstAssignment', () => {
         const node = (new AstAssignment(identifier, value)).startAt(1, 1, 0).endAt(1, 6, 5);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             identifier: newIdentifier,
             value: newValue,
         });
@@ -178,9 +178,9 @@ describe('AstAssignment', () => {
         const node = (new AstAssignment(new AstIdentifier(1), new AstNumber(2))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({identifier: new AstNumber(3)})).to.throw(TypeError);
         expect(() => node.clone({identifier: {}})).to.throw(TypeError);
-        expect(() => node.clone({identifier: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({identifier: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({value: {}})).to.throw(TypeError);
-        expect(() => node.clone({value: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({value: new AstNode('Foo')})).to.throw(TypeError);
     });
 
 });

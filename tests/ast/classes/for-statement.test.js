@@ -46,7 +46,7 @@ const AstForStatement = require('../../../src/ast/classes/for-statement');
 describe('AstForStatement', () => {
 
     it('should create an AstForStatement', () => {
-        const type = 'for-statement';
+        const type = 'ForStatement';
         const init = new AstAssignment(new AstIdentifier('i'), new AstNumber(0));;
         const condition = new AstBinaryOperator(new AstIdentifier('i'), '<', new AstNumber(10));
         const increment = new AstAssignment(new AstIdentifier('i'), new AstBinaryOperator(new AstIdentifier('i'), '+', new AstNumber(1)));
@@ -65,7 +65,7 @@ describe('AstForStatement', () => {
     });
 
     it('should create an AstForStatement with the provided properties', () => {
-        const type = 'for-statement';
+        const type = 'ForStatement';
         const init = new AstAssignment(new AstIdentifier('i'), new AstNumber(0));;
         const condition = new AstBinaryOperator(new AstIdentifier('i'), '<', new AstNumber(10));
         const increment = new AstAssignment(new AstIdentifier('i'), new AstBinaryOperator(new AstIdentifier('i'), '+', new AstNumber(1)));
@@ -93,23 +93,23 @@ describe('AstForStatement', () => {
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {
         expect(() => new AstForStatement(new AstNoop(), new AstNoop(), new AstNoop(), {})).to.throw(TypeError);
         expect(() => new AstForStatement(new AstNoop(), new AstNoop(), new AstNoop(), [])).to.throw(TypeError);
-        expect(() => new AstForStatement(new AstNoop(), new AstNoop(), new AstNoop(), new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstForStatement(new AstNoop(), new AstNoop(), new AstNoop(), new AstNode('Foo'))).to.throw(TypeError);
 
         expect(() => new AstForStatement(new AstNoop(), new AstNoop(), {}, new AstNoop())).to.throw(TypeError);
         expect(() => new AstForStatement(new AstNoop(), new AstNoop(), [], new AstNoop())).to.throw(TypeError);
-        expect(() => new AstForStatement(new AstNoop(), new AstNoop(), new AstNode('foo'), new AstNoop())).to.throw(TypeError);
+        expect(() => new AstForStatement(new AstNoop(), new AstNoop(), new AstNode('Foo'), new AstNoop())).to.throw(TypeError);
 
         expect(() => new AstForStatement(new AstNoop(), {}, new AstNoop(), new AstNoop())).to.throw(TypeError);
         expect(() => new AstForStatement(new AstNoop(), [], new AstNoop(), new AstNoop())).to.throw(TypeError);
-        expect(() => new AstForStatement(new AstNoop(), new AstNode('foo'), new AstNoop(), new AstNoop())).to.throw(TypeError);
+        expect(() => new AstForStatement(new AstNoop(), new AstNode('Foo'), new AstNoop(), new AstNoop())).to.throw(TypeError);
 
         expect(() => new AstForStatement({}, new AstNoop(), new AstNoop(), new AstNoop())).to.throw(TypeError);
         expect(() => new AstForStatement([], new AstNoop(), new AstNoop(), new AstNoop())).to.throw(TypeError);
-        expect(() => new AstForStatement(new AstNode('foo'), new AstNoop(), new AstNoop(), new AstNoop())).to.throw(TypeError);
+        expect(() => new AstForStatement(new AstNode('Foo'), new AstNoop(), new AstNoop(), new AstNoop())).to.throw(TypeError);
     });
 
     it('should stringify an AstForStatement', () => {
-        const type = 'for-statement';
+        const type = 'ForStatement';
         const init = new AstAssignment(new AstIdentifier('i'), new AstNumber(0));;
         const condition = new AstBinaryOperator(new AstIdentifier('i'), '<', new AstNumber(10));
         const increment = new AstAssignment(new AstIdentifier('i'), new AstBinaryOperator(new AstIdentifier('i'), '+', new AstNumber(1)));
@@ -123,42 +123,42 @@ describe('AstForStatement', () => {
         const expected = {
             type: type,
             init: {
-                type: 'assignment',
-                identifier: {type: 'identifier', value: 'i'},
-                value: {type: 'number', value: 0}
+                type: 'Assignment',
+                identifier: {type: 'Identifier', value: 'i'},
+                value: {type: 'Number', value: 0}
             },
             condition: {
-                type: 'binaryOperator',
+                type: 'BinaryOperator',
                 operator: '<',
-                left: {type: 'identifier', value: 'i'},
-                right: {type: 'number', value: 10}
+                left: {type: 'Identifier', value: 'i'},
+                right: {type: 'Number', value: 10}
             },
             increment: {
-                type: 'assignment',
-                identifier: {type: 'identifier', value: 'i'},
+                type: 'Assignment',
+                identifier: {type: 'Identifier', value: 'i'},
                 value: {
-                    type: 'binaryOperator',
+                    type: 'BinaryOperator',
                     operator: '+',
-                    left: {type: 'identifier', value: 'i'},
-                    right: {type: 'number', value: 1}
+                    left: {type: 'Identifier', value: 'i'},
+                    right: {type: 'Number', value: 1}
                 }
             },
             body: {
-                type: 'function-call',
-                identifier: {type: 'identifier', value: 'echo'},
-                parameters: [{type: 'identifier', value: 'i'}],
+                type: 'FunctionCall',
+                identifier: {type: 'Identifier', value: 'echo'},
+                parameters: [{type: 'Identifier', value: 'i'}],
             },
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstForStatement(init, condition, increment, body);
         const stringified = '{"type":"' + type + '",' +
-            '"init":{"type":"assignment","identifier":{"type":"identifier","value":"i"},"value":{"type":"number","value":0}},' +
-            '"condition":{"type":"binaryOperator","operator":"<","left":{"type":"identifier","value":"i"},"right":{"type":"number","value":10}},' +
-            '"increment":{"type":"assignment","identifier":{"type":"identifier","value":"i"},"value":{"type":"binaryOperator","operator":"+","left":{"type":"identifier","value":"i"},"right":{"type":"number","value":1}}},' +
-            '"body":{"type":"function-call","identifier":{"type":"identifier","value":"echo"},"parameters":[{"type":"identifier","value":"i"}]},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"init":{"type":"Assignment","identifier":{"type":"Identifier","value":"i"},"value":{"type":"Number","value":0}},' +
+            '"condition":{"type":"BinaryOperator","operator":"<","left":{"type":"Identifier","value":"i"},"right":{"type":"Number","value":10}},' +
+            '"increment":{"type":"Assignment","identifier":{"type":"Identifier","value":"i"},"value":{"type":"BinaryOperator","operator":"+","left":{"type":"Identifier","value":"i"},"right":{"type":"Number","value":1}}},' +
+            '"body":{"type":"FunctionCall","identifier":{"type":"Identifier","value":"echo"},"parameters":[{"type":"Identifier","value":"i"}]},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -192,7 +192,7 @@ describe('AstForStatement', () => {
     });
 
     it('should clone an AstForStatement with the provided properties', () => {
-        const type = 'for-statement';
+        const type = 'ForStatement';
         const init = new AstAssignment(new AstIdentifier('i'), new AstNumber(0));
         const condition = new AstBinaryOperator(new AstIdentifier('i'), '<', new AstNumber(10));
         const increment = new AstAssignment(new AstIdentifier('i'), new AstBinaryOperator(new AstIdentifier('i'), '+', new AstNumber(1)));
@@ -206,7 +206,7 @@ describe('AstForStatement', () => {
         const node = new AstForStatement(init, condition, increment, body).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             init: newInit,
             condition: newCondition,
             increment: newIncrement,
@@ -231,13 +231,13 @@ describe('AstForStatement', () => {
     it('should throw a TypeError if one of the operands is not a valid AstFragment when cloning', () => {
         const node = (new AstForStatement(new AstNumber(1), new AstNumber(2), new AstNumber(3), new AstNumber(4))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({init: {}})).to.throw(TypeError);
-        expect(() => node.clone({init: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({init: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({condition: {}})).to.throw(TypeError);
-        expect(() => node.clone({condition: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({condition: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({increment: {}})).to.throw(TypeError);
-        expect(() => node.clone({increment: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({increment: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({body: {}})).to.throw(TypeError);
-        expect(() => node.clone({body: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({body: new AstNode('Foo')})).to.throw(TypeError);
     });
 
 });

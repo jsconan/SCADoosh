@@ -43,7 +43,7 @@ class AstNoop extends AstFragment {
      * Creates an AstNoop.
      */
     constructor() {
-        super('noop');
+        super('Noop');
     }
 }
 

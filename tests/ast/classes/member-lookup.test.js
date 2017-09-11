@@ -42,7 +42,7 @@ const AstMemberLookup = require('../../../src/ast/classes/member-lookup');
 describe('AstMemberLookup', () => {
 
     it('should create an AstMemberLookup', () => {
-        const type = 'member-lookup';
+        const type = 'MemberLookup';
         const expr = new AstNumber(2);
         const member = new AstIdentifier('foo');
         const node = new AstMemberLookup(expr, member);
@@ -59,7 +59,7 @@ describe('AstMemberLookup', () => {
     });
 
     it('should create an AstMemberLookup with the provided properties', () => {
-        const type = 'foo';
+        const type = 'Foo';
         const expr = new AstNumber(2);
         const member = new AstIdentifier('foo');
         const node = new AstMemberLookup('expr', 'member', {
@@ -83,19 +83,19 @@ describe('AstMemberLookup', () => {
 
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {
         expect(() => new AstMemberLookup(new AstNumber(1), {})).to.throw(TypeError);
-        expect(() => new AstMemberLookup(new AstNumber(1), new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstMemberLookup(new AstNumber(1), new AstNode('Foo'))).to.throw(TypeError);
         expect(() => new AstMemberLookup({}, new AstIdentifier(1))).to.throw(TypeError);
-        expect(() => new AstMemberLookup(new AstNode('foo'), new AstIdentifier(1))).to.throw(TypeError);
+        expect(() => new AstMemberLookup(new AstNode('Foo'), new AstIdentifier(1))).to.throw(TypeError);
         expect(() => new AstMemberLookup(new AstNumber(2), new AstNumber(1))).to.throw(TypeError);
 
         expect(() => new AstMemberLookup(new AstNumber(1), new AstIdentifier('foo'), {expr: {}})).to.throw(TypeError);
-        expect(() => new AstMemberLookup(new AstNumber(1), new AstIdentifier('foo'), {expr: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstMemberLookup(new AstNumber(1), new AstIdentifier('foo'), {expr: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => new AstMemberLookup(new AstNumber(1), new AstIdentifier('foo'), {member: {}})).to.throw(TypeError);
-        expect(() => new AstMemberLookup(new AstNumber(1), new AstIdentifier('foo'), {member: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstMemberLookup(new AstNumber(1), new AstIdentifier('foo'), {member: new AstNode('Foo')})).to.throw(TypeError);
     });
 
     it('should stringify an AstMemberLookup', () => {
-        const type = 'member-lookup';
+        const type = 'MemberLookup';
         const expr = new AstNumber(2);
         const member = new AstIdentifier('foo');
         const startLine = 1;
@@ -106,17 +106,17 @@ describe('AstMemberLookup', () => {
         const endOffset = 5;
         const expected = {
             type: type,
-            expr: {type: 'number', value: 2},
-            member: {type: 'identifier', value: 'foo'},
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            expr: {type: 'Number', value: 2},
+            member: {type: 'Identifier', value: 'foo'},
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstMemberLookup(expr, member);
         const stringified = '{"type":"' + type + '",' +
-            '"expr":{"type":"number","value":2},' +
-            '"member":{"type":"identifier","value":"foo"},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"expr":{"type":"Number","value":2},' +
+            '"member":{"type":"Identifier","value":"foo"},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -155,7 +155,7 @@ describe('AstMemberLookup', () => {
         const node = (new AstMemberLookup(expr, member)).startAt(1, 1, 0).endAt(1, 6, 5);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             expr: newExpr,
             member: newMember,
         });
@@ -176,10 +176,10 @@ describe('AstMemberLookup', () => {
     it('should throw a TypeError if one of the operands is not a valid AstFragment when cloning', () => {
         const node = (new AstMemberLookup(new AstNumber(2), new AstIdentifier(1))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({expr: {}})).to.throw(TypeError);
-        expect(() => node.clone({expr: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({expr: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({member: {}})).to.throw(TypeError);
         expect(() => node.clone({member: new AstNumber(3)})).to.throw(TypeError);
-        expect(() => node.clone({member: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({member: new AstNode('Foo')})).to.throw(TypeError);
     });
 
 });

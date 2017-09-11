@@ -52,7 +52,7 @@ class AstMemberLookup extends AstFragment {
      */
     constructor(expr, member, properties) {
         super(_.assign({
-            type: 'member-lookup',
+            type: 'MemberLookup',
             expr: expr,
             member: member,
         }, properties));

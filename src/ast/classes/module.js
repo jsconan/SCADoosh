@@ -52,7 +52,7 @@ class AstModule extends AstFunction {
      * @throws {TypeError} if the identifier is not an AstIdentifier, or if the parameters are not valid AstFragment
      */
     constructor(identifier, parameters, body, properties) {
-        super(identifier, parameters, body, _.assign({type: 'module'}, properties));
+        super(identifier, parameters, body, _.assign({type: 'Module'}, properties));
     }
 }
 

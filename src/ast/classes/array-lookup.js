@@ -51,7 +51,7 @@ class AstArrayLookup extends AstFragment {
      */
     constructor(array, index, properties) {
         super(_.assign({
-            type: 'array-lookup',
+            type: 'ArrayLookup',
             array: array,
             index: index,
         }, properties));

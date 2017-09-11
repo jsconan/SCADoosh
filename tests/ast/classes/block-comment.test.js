@@ -42,7 +42,7 @@ const AstBlockComment = require('../../../src/ast/classes/block-comment');
 describe('AstBlockComment', () => {
 
     it('should create an AstBlockComment with the specified value (single line)', () => {
-        const type = 'blockComment';
+        const type = 'BlockComment';
         const value = ['a comment'];
         const node = new AstBlockComment('a comment');
 
@@ -57,7 +57,7 @@ describe('AstBlockComment', () => {
     });
 
     it('should create an AstBlockComment with the specified value (multi lines)', () => {
-        const type = 'blockComment';
+        const type = 'BlockComment';
         const value = ['a', 'multi', 'line', 'comment'];
         const node = new AstBlockComment('a\r\nmulti\r\nline\r\ncomment');
 
@@ -72,7 +72,7 @@ describe('AstBlockComment', () => {
     });
 
     it('should create an AstBlockComment with the specified properties', () => {
-        const type = 'blockComment';
+        const type = 'BlockComment';
         const value = 'a comment';
         const node = new AstBlockComment('foo', {
             type: type,
@@ -91,7 +91,7 @@ describe('AstBlockComment', () => {
     });
 
     it('should create an AstBlockComment with the specified value as a stringable', () => {
-        const type = 'blockComment';
+        const type = 'BlockComment';
         const value = ['a comment'];
         const node = new AstBlockComment({
             value: 'a comment',
@@ -111,7 +111,7 @@ describe('AstBlockComment', () => {
     });
 
     it('should stringify an AstBlockComment', () => {
-        const type = 'blockComment';
+        const type = 'BlockComment';
         const value = ['a', 'multi', 'line', 'comment'];
         const startLine = 1;
         const startColumn = 1;
@@ -122,13 +122,13 @@ describe('AstBlockComment', () => {
         const expected = {
             type: type,
             value: value,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstBlockComment('a\r\nmulti\r\nline\r\ncomment');
         const stringified = '{"type":"' + type + '","value":["a","multi","line","comment"],' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -167,7 +167,7 @@ describe('AstBlockComment', () => {
         const node = (new AstBlockComment(value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: newValue
         });
 
@@ -191,7 +191,7 @@ describe('AstBlockComment', () => {
         const node = (new AstBlockComment(value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: 'a\r\nmulti\r\nline\r\ncomment'
         });
 

@@ -41,7 +41,7 @@ const AstInclude = require('../../../src/ast/classes/include');
 describe('AstInclude', () => {
 
     it('should create an AstInclude', () => {
-        const type = 'include';
+        const type = 'Include';
         const path = new AstPath('./path/to/library.scad');
         const node = new AstInclude(path);
 
@@ -55,7 +55,7 @@ describe('AstInclude', () => {
     });
 
     it('should create an AstInclude with the provided properties', () => {
-        const type = 'foo';
+        const type = 'Foo';
         const path = new AstPath('./path/to/library.scad');
         const node = new AstInclude(new AstPath('./a/path'), {
             type: type,
@@ -74,16 +74,16 @@ describe('AstInclude', () => {
     });
 
     it('should throw a TypeError if the path is not an AstPath', () => {
-        expect(() => new AstInclude(new AstPath('foo'), {path: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstInclude(new AstPath('foo'), {path: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => new AstInclude(new AstPath('foo'), {path: 'foo'})).to.throw(TypeError);
         expect(() => new AstInclude(new AstPath('foo'), {path: {}})).to.throw(TypeError);
-        expect(() => new AstInclude(new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstInclude(new AstNode('Foo'))).to.throw(TypeError);
         expect(() => new AstInclude('foo')).to.throw(TypeError);
         expect(() => new AstInclude({})).to.throw(TypeError);
     });
 
     it('should stringify an AstInclude', () => {
-        const type = 'include';
+        const type = 'Include';
         const path = new AstPath('./path/to/library.scad');
         const startLine = 1;
         const startColumn = 1;
@@ -93,15 +93,15 @@ describe('AstInclude', () => {
         const endOffset = 31;
         const expected = {
             type: type,
-            path: {type: 'path', value: './path/to/library.scad'},
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            path: {type: 'Path', value: './path/to/library.scad'},
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstInclude(path);
         const stringified = '{"type":"' + type + '",' +
-            '"path":{"type":"path","value":"./path/to/library.scad"},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"path":{"type":"Path","value":"./path/to/library.scad"},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -137,7 +137,7 @@ describe('AstInclude', () => {
         const node = (new AstInclude(path)).startAt(1, 1, 0).endAt(1, 32, 31);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             path: newPath,
         });
 
@@ -155,7 +155,7 @@ describe('AstInclude', () => {
 
     it('should throw a TypeError if one the path is not a valid AstPath when cloning', () => {
         const node = (new AstInclude(new AstPath('./path/to/library.scad'))).startAt(1, 1, 0).endAt(1, 32, 31);
-        expect(() => node.clone({path: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({path: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({path: {}})).to.throw(TypeError);
     });
 

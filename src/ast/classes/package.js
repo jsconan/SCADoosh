@@ -47,7 +47,7 @@ class AstPackage extends AstGroup {
      * @throws {TypeError} if the statements are not valid AST nodes
      */
     constructor(statements, properties) {
-        super('package', statements, properties);
+        super('Package', statements, properties);
     }
 }
 

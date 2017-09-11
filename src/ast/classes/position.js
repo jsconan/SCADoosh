@@ -51,7 +51,7 @@ class AstPosition extends AstNode {
      */
     constructor(line, column, offset, properties) {
         super(_.assign({
-            type: 'position',
+            type: 'Position',
             line: line,
             column: column,
             offset: offset

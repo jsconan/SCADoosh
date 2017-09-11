@@ -47,7 +47,7 @@ class AstBoolean extends AstLiteral {
      * @throws {TypeError} if the value is not a valid boolean
      */
     constructor(value, properties) {
-        super('boolean', value, properties);
+        super('Boolean', value, properties);
     }
 
     /**

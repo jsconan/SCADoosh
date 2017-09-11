@@ -42,7 +42,7 @@ const AstExpression = require('../../../src/ast/classes/expression');
 describe('AstExpression', () => {
 
     it('should create an AstExpression with a declarations clause', () => {
-        const type = 'expression';
+        const type = 'Expression';
         const expression = new AstNumber(3);
         const declarations = [new AstNumber(1), new AstNumber(2)];
         const node = new AstExpression(expression, declarations);
@@ -59,7 +59,7 @@ describe('AstExpression', () => {
     });
 
     it('should create an AstExpression with a single declaration', () => {
-        const type = 'expression';
+        const type = 'Expression';
         const expression = new AstNumber(3);
         const declarations = new AstNumber(2);
         const node = new AstExpression(expression, declarations);
@@ -76,7 +76,7 @@ describe('AstExpression', () => {
     });
 
     it('should create an AstExpression with no declaration', () => {
-        const type = 'expression';
+        const type = 'Expression';
         const expression = new AstNumber(3);
         const declarations = [];
         const node = new AstExpression(expression, declarations);
@@ -93,7 +93,7 @@ describe('AstExpression', () => {
     });
 
     it('should create an AstExpression with the provided properties', () => {
-        const type = 'foo';
+        const type = 'Foo';
         const expression = new AstNumber(3);
         const declarations = [new AstNumber(1), new AstNumber(2)];
         const node = new AstExpression('expression', 'declarations', {
@@ -119,21 +119,21 @@ describe('AstExpression', () => {
         expect(() => new AstExpression(new AstNumber(1), {})).to.throw(TypeError);
         expect(() => new AstExpression(new AstNumber(1), [{}])).to.throw(TypeError);
         expect(() => new AstExpression(new AstNumber(1), [new AstNumber(1), {}])).to.throw(TypeError);
-        expect(() => new AstExpression(new AstNumber(1), new AstNode('foo'))).to.throw(TypeError);
-        expect(() => new AstExpression(new AstNumber(1), [new AstNode('foo')])).to.throw(TypeError);
+        expect(() => new AstExpression(new AstNumber(1), new AstNode('Foo'))).to.throw(TypeError);
+        expect(() => new AstExpression(new AstNumber(1), [new AstNode('Foo')])).to.throw(TypeError);
         expect(() => new AstExpression({}, new AstNumber(1))).to.throw(TypeError);
-        expect(() => new AstExpression(new AstNode('foo'), new AstNumber(1))).to.throw(TypeError);
+        expect(() => new AstExpression(new AstNode('Foo'), new AstNumber(1))).to.throw(TypeError);
 
         expect(() => new AstExpression(new AstNumber(1), new AstNumber(1), {expression: {}})).to.throw(TypeError);
-        expect(() => new AstExpression(new AstNumber(1), new AstNumber(1), {expression: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstExpression(new AstNumber(1), new AstNumber(1), {expression: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => new AstExpression(new AstNumber(1), new AstNumber(1), {declarations: {}})).to.throw(TypeError);
         expect(() => new AstExpression(new AstNumber(1), new AstNumber(1), {declarations: [{}]})).to.throw(TypeError);
-        expect(() => new AstExpression(new AstNumber(1), new AstNumber(1), {declarations: new AstNode('foo')})).to.throw(TypeError);
-        expect(() => new AstExpression(new AstNumber(1), new AstNumber(1), {declarations: [new AstNode('foo')]})).to.throw(TypeError);
+        expect(() => new AstExpression(new AstNumber(1), new AstNumber(1), {declarations: new AstNode('Foo')})).to.throw(TypeError);
+        expect(() => new AstExpression(new AstNumber(1), new AstNumber(1), {declarations: [new AstNode('Foo')]})).to.throw(TypeError);
     });
 
     it('should stringify an AstExpression', () => {
-        const type = 'expression';
+        const type = 'Expression';
         const expression = new AstNumber(3);
         const declarations = [new AstNumber(1), new AstNumber(2)];
         const startLine = 1;
@@ -144,20 +144,20 @@ describe('AstExpression', () => {
         const endOffset = 5;
         const expected = {
             type: type,
-            expression: {type: 'number', value: 3},
+            expression: {type: 'Number', value: 3},
             declarations: [
-                {type: 'number', value: 1},
-                {type: 'number', value: 2}
+                {type: 'Number', value: 1},
+                {type: 'Number', value: 2}
             ],
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstExpression(expression, declarations);
         const stringified = '{"type":"' + type + '",' +
-            '"expression":{"type":"number","value":3},' +
-            '"declarations":[{"type":"number","value":1},{"type":"number","value":2}],' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"expression":{"type":"Number","value":3},' +
+            '"declarations":[{"type":"Number","value":1},{"type":"Number","value":2}],' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -197,7 +197,7 @@ describe('AstExpression', () => {
         const node = (new AstExpression(expression, declarations)).startAt(1, 1, 0).endAt(1, 6, 5);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             expression: newExpression,
             declarations: newDeclarations
         });
@@ -219,12 +219,12 @@ describe('AstExpression', () => {
         const node = (new AstExpression(new AstNumber(1), [new AstNumber(1)])).startAt(1, 1, 0).endAt(1, 4, 3);
 
         expect(() => node.clone({expression: {}})).to.throw(TypeError);
-        expect(() => node.clone({expression: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({expression: new AstNode('Foo')})).to.throw(TypeError);
 
         expect(() => node.clone({declarations: {}})).to.throw(TypeError);
         expect(() => node.clone({declarations: [{}]})).to.throw(TypeError);
-        expect(() => node.clone({declarations: new AstNode('foo')})).to.throw(TypeError);
-        expect(() => node.clone({declarations: [new AstNode('foo')]})).to.throw(TypeError);
+        expect(() => node.clone({declarations: new AstNode('Foo')})).to.throw(TypeError);
+        expect(() => node.clone({declarations: [new AstNode('Foo')]})).to.throw(TypeError);
     });
 
 });

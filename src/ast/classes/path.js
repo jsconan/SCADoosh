@@ -46,7 +46,7 @@ class AstPath extends AstLiteral {
      * @param {Object} [properties] - An optional list of additional properties to set.
      */
     constructor(value, properties) {
-        super('path', value, properties);
+        super('Path', value, properties);
     }
 
     /**

@@ -41,7 +41,7 @@ describe('AstPosition', () => {
         const line = 1;
         const column = 2;
         const offset = 1;
-        const expected = {type: 'position', line: line, column: column, offset: offset};
+        const expected = {type: 'Position', line: line, column: column, offset: offset};
         const node = new AstPosition(line, column, offset);
 
         expect(node).to.be.an('object');
@@ -54,7 +54,7 @@ describe('AstPosition', () => {
         const line = 1;
         const column = 2;
         const offset = 1;
-        const expected = {type: 'position', line: line, column: column, offset: offset, info: 'foo'};
+        const expected = {type: 'Position', line: line, column: column, offset: offset, info: 'foo'};
         const node = new AstPosition(0, 0, 0, {
             line: line,
             column: column,
@@ -72,7 +72,7 @@ describe('AstPosition', () => {
         const line = "1";
         const column = "2";
         const offset = "1";
-        const expected = {type: 'position', line: 1, column: 2, offset: 1};
+        const expected = {type: 'Position', line: 1, column: 2, offset: 1};
         const node = new AstPosition(line, column, offset);
 
         expect(node).to.be.an('object');
@@ -102,7 +102,7 @@ describe('AstPosition', () => {
         const line = 1;
         const column = 2;
         const offset = 1;
-        const expected = {type: 'position', line: line, column: column, offset: offset};
+        const expected = {type: 'Position', line: line, column: column, offset: offset};
         const node = new AstPosition(line, column, offset);
 
         expect(node).to.be.an('object');
@@ -115,7 +115,7 @@ describe('AstPosition', () => {
         expect(() => node.addProperty('column', 19)).to.throw(TypeError);
         expect(() => node.addProperty('offset', 50)).to.throw(TypeError);
 
-        expect(node.type).to.be.equal('position');
+        expect(node.type).to.be.equal('Position');
         expect(node.line).to.be.equal(line);
         expect(node.column).to.be.equal(column);
         expect(node.offset).to.be.equal(offset);
@@ -125,7 +125,7 @@ describe('AstPosition', () => {
         const line = 1;
         const column = 2;
         const offset = 1;
-        const expected = {type: 'position', line: line, column: column, offset: offset};
+        const expected = {type: 'Position', line: line, column: column, offset: offset};
         const node = new AstPosition(line, column, offset);
 
         expect(node).to.be.an('object');
@@ -144,8 +144,8 @@ describe('AstPosition', () => {
         const line = 1;
         const column = 2;
         const offset = 1;
-        const expected = {type: 'position', line: line, column: column, offset: offset};
-        const stringified = '{"type":"position","line":' + line + ',"column":' + column + ',"offset":' + offset + '}';
+        const expected = {type: 'Position', line: line, column: column, offset: offset};
+        const stringified = '{"type":"Position","line":' + line + ',"column":' + column + ',"offset":' + offset + '}';
         const node = new AstPosition(line, column, offset);
 
         expect(node).to.be.an('object');
@@ -180,7 +180,7 @@ describe('AstPosition', () => {
         const node = new AstPosition(line, column, offset);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             line: newLine,
             column: '' + newColumn,
             offset: newOffset

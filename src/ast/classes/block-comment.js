@@ -48,7 +48,7 @@ class AstBlockComment extends AstComment {
      * @param {Object} [properties] - An optional list of additional properties to set.
      */
     constructor(value, properties) {
-        super('blockComment', value, properties);
+        super('BlockComment', value, properties);
     }
 
     /**

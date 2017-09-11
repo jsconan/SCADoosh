@@ -41,7 +41,7 @@ const AstUse = require('../../../src/ast/classes/use');
 describe('AstUse', () => {
 
     it('should create an AstUse', () => {
-        const type = 'use';
+        const type = 'Use';
         const path = new AstPath('./path/to/library.scad');
         const node = new AstUse(path);
 
@@ -55,7 +55,7 @@ describe('AstUse', () => {
     });
 
     it('should create an AstUse with the provided properties', () => {
-        const type = 'foo';
+        const type = 'Foo';
         const path = new AstPath('./path/to/library.scad');
         const node = new AstUse(new AstPath('./a/path'), {
             type: type,
@@ -74,16 +74,16 @@ describe('AstUse', () => {
     });
 
     it('should throw a TypeError if the path is not an AstPath', () => {
-        expect(() => new AstUse(new AstPath('foo'), {path: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstUse(new AstPath('foo'), {path: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => new AstUse(new AstPath('foo'), {path: 'foo'})).to.throw(TypeError);
         expect(() => new AstUse(new AstPath('foo'), {path: {}})).to.throw(TypeError);
-        expect(() => new AstUse(new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstUse(new AstNode('Foo'))).to.throw(TypeError);
         expect(() => new AstUse('foo')).to.throw(TypeError);
         expect(() => new AstUse({})).to.throw(TypeError);
     });
 
     it('should stringify an AstUse', () => {
-        const type = 'use';
+        const type = 'Use';
         const path = new AstPath('./path/to/library.scad');
         const startLine = 1;
         const startColumn = 1;
@@ -93,15 +93,15 @@ describe('AstUse', () => {
         const endOffset = 31;
         const expected = {
             type: type,
-            path: {type: 'path', value: './path/to/library.scad'},
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            path: {type: 'Path', value: './path/to/library.scad'},
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstUse(path);
         const stringified = '{"type":"' + type + '",' +
-            '"path":{"type":"path","value":"./path/to/library.scad"},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"path":{"type":"Path","value":"./path/to/library.scad"},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -137,7 +137,7 @@ describe('AstUse', () => {
         const node = (new AstUse(path)).startAt(1, 1, 0).endAt(1, 32, 31);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             path: newPath,
         });
 
@@ -155,7 +155,7 @@ describe('AstUse', () => {
 
     it('should throw a TypeError if one the path is not a valid AstPath when cloning', () => {
         const node = (new AstUse(new AstPath('./path/to/library.scad'))).startAt(1, 1, 0).endAt(1, 32, 31);
-        expect(() => node.clone({path: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({path: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({path: {}})).to.throw(TypeError);
     });
 

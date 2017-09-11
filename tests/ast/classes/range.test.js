@@ -42,7 +42,7 @@ const AstRange = require('../../../src/ast/classes/range');
 describe('AstRange', () => {
 
     it('should create an AstRange', () => {
-        const type = 'range';
+        const type = 'Range';
         const first = new AstNumber(3);
         const step = new AstNumber(2);
         const last = new AstNumber(11);
@@ -59,7 +59,7 @@ describe('AstRange', () => {
     });
 
     it('should create an AstRange with default step', () => {
-        const type = 'range';
+        const type = 'Range';
         const first = new AstNumber(3);
         const last = new AstNumber(11);
         const node = new AstRange(first, null, last);
@@ -75,7 +75,7 @@ describe('AstRange', () => {
     });
 
     it('should create an AstRange with only first and last values', () => {
-        const type = 'range';
+        const type = 'Range';
         const first = new AstNumber(3);
         const last = new AstNumber(11);
         const node = new AstRange(first, last);
@@ -91,7 +91,7 @@ describe('AstRange', () => {
     });
 
     it('should create an AstRange with the provided properties', () => {
-        const type = 'foo';
+        const type = 'Foo';
         const first = new AstNumber(3);
         const step = new AstNumber(2);
         const last = new AstNumber(11);
@@ -117,22 +117,22 @@ describe('AstRange', () => {
     it('should throw a TypeError if one of the operands is not a valid AstNode', () => {
         expect(() => new AstRange(new AstNumber(1), null)).to.throw(TypeError);
         expect(() => new AstRange(new AstNumber(1), {})).to.throw(TypeError);
-        expect(() => new AstRange(new AstNumber(1), new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstRange(new AstNumber(1), new AstNode('Foo'))).to.throw(TypeError);
         expect(() => new AstRange(null, new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstRange({}, new AstNumber(1))).to.throw(TypeError);
-        expect(() => new AstRange(new AstNode('foo'), new AstNumber(1))).to.throw(TypeError);
+        expect(() => new AstRange(new AstNode('Foo'), new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstRange(null, new AstNumber(1), new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstRange({}, new AstNumber(1), new AstNumber(1))).to.throw(TypeError);
-        expect(() => new AstRange(new AstNode('foo'), new AstNumber(1), new AstNumber(1))).to.throw(TypeError);
+        expect(() => new AstRange(new AstNode('Foo'), new AstNumber(1), new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstRange(new AstNumber(1), {}, new AstNumber(1))).to.throw(TypeError);
-        expect(() => new AstRange(new AstNumber(1), new AstNode('foo'), new AstNumber(1))).to.throw(TypeError);
+        expect(() => new AstRange(new AstNumber(1), new AstNode('Foo'), new AstNumber(1))).to.throw(TypeError);
         expect(() => new AstRange(new AstNumber(1), new AstNumber(1), null)).to.throw(TypeError);
         expect(() => new AstRange(new AstNumber(1), new AstNumber(1), {})).to.throw(TypeError);
-        expect(() => new AstRange(new AstNumber(1), new AstNumber(1), new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstRange(new AstNumber(1), new AstNumber(1), new AstNode('Foo'))).to.throw(TypeError);
     });
 
     it('should stringify an AstRange', () => {
-        const type = 'range';
+        const type = 'Range';
         const first = new AstNumber(3);
         const step = new AstNumber(2);
         const last = new AstNumber(11);
@@ -144,19 +144,19 @@ describe('AstRange', () => {
         const endOffset = 5;
         const expected = {
             type: type,
-            first: {type: 'number', value: 3},
-            step: {type: 'number', value: 2},
-            last: {type: 'number', value: 11},
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            first: {type: 'Number', value: 3},
+            step: {type: 'Number', value: 2},
+            last: {type: 'Number', value: 11},
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstRange(first, step, last);
         const stringified = '{"type":"' + type + '",' +
-            '"first":{"type":"number","value":3},' +
-            '"step":{"type":"number","value":2},' +
-            '"last":{"type":"number","value":11},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"first":{"type":"Number","value":3},' +
+            '"step":{"type":"Number","value":2},' +
+            '"last":{"type":"Number","value":11},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -198,7 +198,7 @@ describe('AstRange', () => {
         const node = (new AstRange(first, step, last)).startAt(1, 1, 0).endAt(1, 6, 5);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             first: newFirst,
             step: newStep,
             last: newLast,
@@ -222,12 +222,12 @@ describe('AstRange', () => {
         const node = (new AstRange(new AstIdentifier(1), new AstNumber(2), new AstNumber(3))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({first: null})).to.throw(TypeError);
         expect(() => node.clone({first: {}})).to.throw(TypeError);
-        expect(() => node.clone({first: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({first: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({step: {}})).to.throw(TypeError);
-        expect(() => node.clone({step: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({step: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({last: null})).to.throw(TypeError);
         expect(() => node.clone({last: {}})).to.throw(TypeError);
-        expect(() => node.clone({last: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({last: new AstNode('Foo')})).to.throw(TypeError);
     });
 
 });

@@ -42,7 +42,7 @@ const AstArrayLookup = require('../../../src/ast/classes/array-lookup');
 describe('AstArrayLookup', () => {
 
     it('should create an AstArrayLookup', () => {
-        const type = 'array-lookup';
+        const type = 'ArrayLookup';
         const array = new AstIdentifier(2);
         const index = new AstNumber(1);
         const node = new AstArrayLookup(array, index);
@@ -59,7 +59,7 @@ describe('AstArrayLookup', () => {
     });
 
     it('should create an AstArrayLookup with the provided properties', () => {
-        const type = 'foo';
+        const type = 'Foo';
         const array = new AstIdentifier(2);
         const index = new AstNumber(1);
         const node = new AstArrayLookup('array', 'index', {
@@ -83,18 +83,18 @@ describe('AstArrayLookup', () => {
 
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {
         expect(() => new AstArrayLookup(new AstIdentifier(1), {})).to.throw(TypeError);
-        expect(() => new AstArrayLookup(new AstIdentifier(1), new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstArrayLookup(new AstIdentifier(1), new AstNode('Foo'))).to.throw(TypeError);
         expect(() => new AstArrayLookup({}, new AstNumber(1))).to.throw(TypeError);
-        expect(() => new AstArrayLookup(new AstNode('foo'), new AstNumber(1))).to.throw(TypeError);
+        expect(() => new AstArrayLookup(new AstNode('Foo'), new AstNumber(1))).to.throw(TypeError);
 
         expect(() => new AstArrayLookup(new AstIdentifier('foo'), new AstNumber(1), {array: {}})).to.throw(TypeError);
-        expect(() => new AstArrayLookup(new AstIdentifier('foo'), new AstNumber(1), {array: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstArrayLookup(new AstIdentifier('foo'), new AstNumber(1), {array: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => new AstArrayLookup(new AstIdentifier('foo'), new AstNumber(1), {index: {}})).to.throw(TypeError);
-        expect(() => new AstArrayLookup(new AstIdentifier('foo'), new AstNumber(1), {index: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => new AstArrayLookup(new AstIdentifier('foo'), new AstNumber(1), {index: new AstNode('Foo')})).to.throw(TypeError);
     });
 
     it('should stringify an AstArrayLookup', () => {
-        const type = 'array-lookup';
+        const type = 'ArrayLookup';
         const array = new AstIdentifier('foo');
         const index = new AstNumber(2);
         const startLine = 1;
@@ -105,17 +105,17 @@ describe('AstArrayLookup', () => {
         const endOffset = 5;
         const expected = {
             type: type,
-            array: {type: 'identifier', value: 'foo'},
-            index: {type: 'number', value: 2},
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            array: {type: 'Identifier', value: 'foo'},
+            index: {type: 'Number', value: 2},
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstArrayLookup(array, index);
         const stringified = '{"type":"' + type + '",' +
-            '"array":{"type":"identifier","value":"foo"},' +
-            '"index":{"type":"number","value":2},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"array":{"type":"Identifier","value":"foo"},' +
+            '"index":{"type":"Number","value":2},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -154,7 +154,7 @@ describe('AstArrayLookup', () => {
         const node = (new AstArrayLookup(array, index)).startAt(1, 1, 0).endAt(1, 6, 5);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             array: newArray,
             index: newIndex,
         });
@@ -175,9 +175,9 @@ describe('AstArrayLookup', () => {
     it('should throw a TypeError if one of the operands is not a valid AstFragment when cloning', () => {
         const node = (new AstArrayLookup(new AstNumber(2), new AstIdentifier(1))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({array: {}})).to.throw(TypeError);
-        expect(() => node.clone({array: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({array: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({index: {}})).to.throw(TypeError);
-        expect(() => node.clone({index: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({index: new AstNode('Foo')})).to.throw(TypeError);
     });
 
 });

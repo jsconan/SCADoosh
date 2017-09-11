@@ -53,7 +53,7 @@ class AstIfStatement extends AstFragment {
      */
     constructor(condition, consequent, alternative, properties) {
         super(_.assign({
-            type: 'if-statement',
+            type: 'IfStatement',
             condition: condition,
             consequent: consequent,
             alternative: alternative || null

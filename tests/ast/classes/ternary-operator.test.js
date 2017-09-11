@@ -41,7 +41,7 @@ const AstTernaryOperator = require('../../../src/ast/classes/ternary-operator');
 describe('AstTernaryOperator', () => {
 
     it('should create an AstTernaryOperator', () => {
-        const type = 'ternaryOperator';
+        const type = 'TernaryOperator';
         const condition = new AstNumber(1);
         const consequent = new AstNumber(2);
         const alternative = new AstNumber(3);
@@ -61,7 +61,7 @@ describe('AstTernaryOperator', () => {
     });
 
     it('should create an AstTernaryOperator with the provided properties', () => {
-        const type = 'ternaryOperator';
+        const type = 'TernaryOperator';
         const condition = new AstNumber(1);
         const consequent = new AstNumber(2);
         const alternative = new AstNumber(3);
@@ -88,17 +88,17 @@ describe('AstTernaryOperator', () => {
 
     it('should throw a TypeError if one of the operands is not a valid AstFragment', () => {
         expect(() => new AstTernaryOperator(new AstNumber(1), new AstNumber(2), {})).to.throw(TypeError);
-        expect(() => new AstTernaryOperator(new AstNumber(1), new AstNumber(2), new AstNode('foo'))).to.throw(TypeError);
+        expect(() => new AstTernaryOperator(new AstNumber(1), new AstNumber(2), new AstNode('Foo'))).to.throw(TypeError);
 
         expect(() => new AstTernaryOperator(new AstNumber(1), {}, new AstNumber(2))).to.throw(TypeError);
-        expect(() => new AstTernaryOperator(new AstNumber(1), new AstNode('foo'), new AstNumber(2))).to.throw(TypeError);
+        expect(() => new AstTernaryOperator(new AstNumber(1), new AstNode('Foo'), new AstNumber(2))).to.throw(TypeError);
 
         expect(() => new AstTernaryOperator({}, new AstNumber(1), new AstNumber(2))).to.throw(TypeError);
-        expect(() => new AstTernaryOperator(new AstNode('foo'), new AstNumber(1), new AstNumber(2))).to.throw(TypeError);
+        expect(() => new AstTernaryOperator(new AstNode('Foo'), new AstNumber(1), new AstNumber(2))).to.throw(TypeError);
     });
 
     it('should stringify an AstTernaryOperator', () => {
-        const type = 'ternaryOperator';
+        const type = 'TernaryOperator';
         const condition = new AstNumber(1);
         const consequent = new AstNumber(2);
         const alternative = new AstNumber(3);
@@ -110,19 +110,19 @@ describe('AstTernaryOperator', () => {
         const endOffset = 2;
         const expected = {
             type: type,
-            condition: {type: 'number', value: 1},
-            consequent: {type: 'number', value: 2},
-            alternative: {type: 'number', value: 3},
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            condition: {type: 'Number', value: 1},
+            consequent: {type: 'Number', value: 2},
+            alternative: {type: 'Number', value: 3},
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstTernaryOperator(condition, consequent, alternative);
         const stringified = '{"type":"' + type + '",' +
-            '"condition":{"type":"number","value":1},' +
-            '"consequent":{"type":"number","value":2},' +
-            '"alternative":{"type":"number","value":3},' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"condition":{"type":"Number","value":1},' +
+            '"consequent":{"type":"Number","value":2},' +
+            '"alternative":{"type":"Number","value":3},' +
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -164,7 +164,7 @@ describe('AstTernaryOperator', () => {
         const node = (new AstTernaryOperator(condition, consequent, alternative)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             condition: newCondition,
             consequent: newConsequent,
             alternative: newAlternative,
@@ -187,11 +187,11 @@ describe('AstTernaryOperator', () => {
     it('should throw a TypeError if one of the operands is not a valid AstFragment when cloning', () => {
         const node = (new AstTernaryOperator(new AstNumber(1), new AstNumber(2), new AstNumber(3))).startAt(1, 1, 0).endAt(1, 4, 3);
         expect(() => node.clone({condition: {}})).to.throw(TypeError);
-        expect(() => node.clone({condition: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({condition: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({consequent: {}})).to.throw(TypeError);
-        expect(() => node.clone({consequent: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({consequent: new AstNode('Foo')})).to.throw(TypeError);
         expect(() => node.clone({alternative: {}})).to.throw(TypeError);
-        expect(() => node.clone({alternative: new AstNode('foo')})).to.throw(TypeError);
+        expect(() => node.clone({alternative: new AstNode('Foo')})).to.throw(TypeError);
     });
 
 });

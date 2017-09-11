@@ -51,7 +51,7 @@ class AstUnaryOperator extends AstFragment {
      */
     constructor(operator, value, properties) {
         super(_.assign({
-            type: 'unaryOperator',
+            type: 'UnaryOperator',
             operator: operator,
             value: value
         }, properties));

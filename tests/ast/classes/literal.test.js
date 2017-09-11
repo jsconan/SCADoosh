@@ -45,13 +45,13 @@ describe('AstLiteral', () => {
         }).to.throw(TypeError);
 
         expect(() => {
-            new AstLiteral("");
+            new AstLiteral('');
         }).to.throw(TypeError);
     });
 
     it('should throw a TypeError if the type is not a string', () => {
         expect(() => {
-            new AstLiteral({type: "boolean"});
+            new AstLiteral({type: 'Boolean'});
         }).to.throw(TypeError);
 
         expect(() => {
@@ -60,7 +60,7 @@ describe('AstLiteral', () => {
     });
 
     it('should create an AstLiteral with the specified type', () => {
-        const type = 'number';
+        const type = 'Number';
         const node = new AstLiteral(type);
 
         expect(node).to.be.an('object');
@@ -71,7 +71,7 @@ describe('AstLiteral', () => {
     });
 
     it('should create an AstLiteral with the specified value', () => {
-        const type = 'number';
+        const type = 'Number';
         const value = 9;
         const node = new AstLiteral(type, value);
 
@@ -89,7 +89,7 @@ describe('AstLiteral', () => {
                 return parseFloat(value);
             }
         }
-        const type = 'number';
+        const type = 'Number';
         const value = 42;
         const node = new AstFoo('foo', 21, {
             type: type,
@@ -108,7 +108,7 @@ describe('AstLiteral', () => {
     });
 
     it('should stringify an AstLiteral', () => {
-        const type = 'number';
+        const type = 'Number';
         const value = 10;
         const startLine = 1;
         const startColumn = 1;
@@ -119,13 +119,13 @@ describe('AstLiteral', () => {
         const expected = {
             type: type,
             value: value,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstLiteral(type, value);
         const stringified = '{"type":"' + type + '","value":' + value + ',' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -141,7 +141,7 @@ describe('AstLiteral', () => {
     });
 
     it('should clone an AstLiteral', () => {
-        const type = 'string';
+        const type = 'String';
         const value = 'foo';
         const node = (new AstLiteral(type, value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
@@ -156,13 +156,13 @@ describe('AstLiteral', () => {
     });
 
     it('should clone an AstLiteral with the provided properties', () => {
-        const type = 'string';
+        const type = 'String';
         const value = 'foo';
         const newValue = 'bar';
         const node = (new AstLiteral(type, value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: newValue
         });
 
@@ -184,13 +184,13 @@ describe('AstLiteral', () => {
                 return '' + value;
             }
         }
-        const type = 'string';
+        const type = 'String';
         const value = 'foo';
         const newValue = 42;
         const node = (new AstFoo(type, value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: newValue
         });
 

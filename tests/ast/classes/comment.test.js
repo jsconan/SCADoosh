@@ -41,7 +41,7 @@ const AstComment = require('../../../src/ast/classes/comment');
 describe('AstComment', () => {
 
     it('should create an AstComment', () => {
-        const type = 'comment';
+        const type = 'Comment';
         const value = 'a comment';
         const node = new AstComment(type, value);
 
@@ -55,7 +55,7 @@ describe('AstComment', () => {
     });
 
     it('should create an AstComment with the specified properties', () => {
-        const type = 'comment';
+        const type = 'Comment';
         const value = 'a comment';
         const node = new AstComment('foo', 'bar', {
             type: type,
@@ -73,7 +73,7 @@ describe('AstComment', () => {
     });
 
     it('should create an AstComment with the specified value as a stringable', () => {
-        const type = 'comment';
+        const type = 'Comment';
         const value = 'a comment';
         const node = new AstComment(type, {
             value: 'a comment',
@@ -92,7 +92,7 @@ describe('AstComment', () => {
     });
 
     it('should create an AstComment with the specified value as an array', () => {
-        const type = 'comment';
+        const type = 'Comment';
         const value = ['a', 'comment'];
         const node = new AstComment(type, value);
 
@@ -106,7 +106,7 @@ describe('AstComment', () => {
     });
 
     it('should stringify an AstComment', () => {
-        const type = 'lcomment';
+        const type = 'Comment';
         const value = 'a comment';
         const startLine = 1;
         const startColumn = 1;
@@ -117,13 +117,13 @@ describe('AstComment', () => {
         const expected = {
             type: type,
             value: value,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstComment(type, value);
         const stringified = '{"type":"' + type + '","value":"' + value + '",' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -140,7 +140,7 @@ describe('AstComment', () => {
     });
 
     it('should clone an AstComment', () => {
-        const type = 'lineComment';
+        const type = 'Comment';
         const value = 'foo';
         const node = (new AstComment(type, value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
@@ -156,13 +156,13 @@ describe('AstComment', () => {
     });
 
     it('should clone an AstComment with the provided properties (string)', () => {
-        const type = 'lineComment';
+        const type = 'Comment';
         const value = 'foo';
         const newValue = 123;
         const node = (new AstComment(type, value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: newValue
         });
 
@@ -180,13 +180,13 @@ describe('AstComment', () => {
     });
 
     it('should clone an AstComment with the provided properties (array)', () => {
-        const type = 'blockComment';
+        const type = 'Comment';
         const value = 'foo';
         const newValue = ['a comment'];
         const node = (new AstComment(type, value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: newValue
         });
 

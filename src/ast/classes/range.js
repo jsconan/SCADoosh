@@ -58,7 +58,7 @@ class AstRange extends AstFragment {
         }
 
         super(_.assign({
-            type: 'range',
+            type: 'Range',
             first: first,
             step: step,
             last: last,

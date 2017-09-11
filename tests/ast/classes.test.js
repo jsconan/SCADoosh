@@ -42,8 +42,6 @@ const AstString = require('../../src/ast/classes/string');
 const AstPath = require('../../src/ast/classes/path');
 const AstIdentifier = require('../../src/ast/classes/identifier');
 const AstBoolean = require('../../src/ast/classes/boolean');
-const AstTrue = require('../../src/ast/classes/true');
-const AstFalse = require('../../src/ast/classes/false');
 const AstUndefined = require('../../src/ast/classes/undefined');
 const AstRange = require('../../src/ast/classes/range');
 const AstComment = require('../../src/ast/classes/comment');
@@ -83,8 +81,6 @@ describe('AST classes', () => {
         expect(classes).to.have.a.property('AstPath').that.is.a('function').and.is.equal(AstPath);
         expect(classes).to.have.a.property('AstIdentifier').that.is.a('function').and.is.equal(AstIdentifier);
         expect(classes).to.have.a.property('AstBoolean').that.is.a('function').and.is.equal(AstBoolean);
-        expect(classes).to.have.a.property('AstTrue').that.is.a('function').and.is.equal(AstTrue);
-        expect(classes).to.have.a.property('AstFalse').that.is.a('function').and.is.equal(AstFalse);
         expect(classes).to.have.a.property('AstUndefined').that.is.a('function').and.is.equal(AstUndefined);
         expect(classes).to.have.a.property('AstRange').that.is.a('function').and.is.equal(AstRange);
         expect(classes).to.have.a.property('AstComment').that.is.a('function').and.is.equal(AstComment);

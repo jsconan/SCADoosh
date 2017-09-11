@@ -46,7 +46,7 @@ class AstNumber extends AstLiteral {
      * @param {Object} [properties] - An optional list of additional properties to set.
      */
     constructor(value, properties) {
-        super('number', value, properties);
+        super('Number', value, properties);
     }
 
     /**

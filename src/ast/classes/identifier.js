@@ -46,7 +46,7 @@ class AstIdentifier extends AstLiteral {
      * @param {Object} [properties] - An optional list of additional properties to set.
      */
     constructor(value, properties) {
-        super('identifier', value, properties);
+        super('Identifier', value, properties);
     }
 
     /**

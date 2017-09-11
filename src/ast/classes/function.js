@@ -54,7 +54,7 @@ class AstFunction extends AstFragment {
      */
     constructor(identifier, parameters, body, properties) {
         super(_.assign({
-            type: 'function',
+            type: 'Function',
             identifier: identifier,
             parameters: parameters,
             body: body

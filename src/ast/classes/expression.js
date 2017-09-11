@@ -51,7 +51,7 @@ class AstExpression extends AstFragment {
      */
     constructor(expression, declarations, properties) {
         super(_.assign({
-            type: 'expression',
+            type: 'Expression',
             expression: expression,
             declarations: declarations
         }, properties));

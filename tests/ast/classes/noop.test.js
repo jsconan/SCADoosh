@@ -40,7 +40,7 @@ const AstNoop = require('../../../src/ast/classes/noop');
 describe('AstNoop', () => {
 
     it('should create an AstNoop', () => {
-        const type = 'noop';
+        const type = 'Noop';
         const node = new AstNoop();
 
         expect(node).to.be.an('object');
@@ -51,7 +51,7 @@ describe('AstNoop', () => {
     });
 
     it('should stringify an AstNoop', () => {
-        const type = 'noop';
+        const type = 'Noop';
         const startLine = 1;
         const startColumn = 1;
         const startOffset = 0;
@@ -60,13 +60,13 @@ describe('AstNoop', () => {
         const endOffset = 1;
         const expected = {
             type: type,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstNoop();
         const stringified = '{"type":"' + type + '",' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -99,7 +99,7 @@ describe('AstNoop', () => {
         const node = (new AstNoop()).startAt(1, 1, 0).endAt(1, 2, 1);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: value
         });
 

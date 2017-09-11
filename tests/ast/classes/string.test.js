@@ -41,7 +41,7 @@ const AstString = require('../../../src/ast/classes/string');
 describe('AstString', () => {
 
     it('should create an AstString with the specified value', () => {
-        const type = 'string';
+        const type = 'String';
         const value = 'a string';
         const node = new AstString(value);
 
@@ -55,7 +55,7 @@ describe('AstString', () => {
     });
 
     it('should create an AstString with the specified properties', () => {
-        const type = 'string';
+        const type = 'String';
         const value = 42;
         const node = new AstString(value, {
             info: 'foo'
@@ -72,7 +72,7 @@ describe('AstString', () => {
     });
 
     it('should create an AstString with the specified value as a stringable', () => {
-        const type = 'string';
+        const type = 'String';
         const value = 'a string';
         const node = new AstString({
             value: 'a string',
@@ -91,7 +91,7 @@ describe('AstString', () => {
     });
 
     it('should stringify an AstString', () => {
-        const type = 'string';
+        const type = 'String';
         const value = 'a string';
         const startLine = 1;
         const startColumn = 1;
@@ -102,13 +102,13 @@ describe('AstString', () => {
         const expected = {
             type: type,
             value: value,
-            start: {type: 'position', line: startLine, column: startColumn, offset: startOffset},
-            end: {type: 'position', line: endLine, column: endColumn, offset: endOffset}
+            start: {type: 'Position', line: startLine, column: startColumn, offset: startOffset},
+            end: {type: 'Position', line: endLine, column: endColumn, offset: endOffset}
         };
         const node = new AstString(value);
         const stringified = '{"type":"' + type + '","value":"' + value + '",' +
-            '"start":{"type":"position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
-            '"end":{"type":"position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
+            '"start":{"type":"Position","line":' + startLine + ',"column":' + startColumn + ',"offset":' + startOffset + '},' +
+            '"end":{"type":"Position","line":' + endLine + ',"column":' + endColumn + ',"offset":' + endOffset + '}}';
 
         node.startAt(startLine, startColumn, startOffset);
         node.endAt(endLine, endColumn, endOffset);
@@ -145,7 +145,7 @@ describe('AstString', () => {
         const node = (new AstString(value)).startAt(1, 1, 0).endAt(1, 4, 3);
 
         const clone = node.clone({
-            type: 'number',         // should not be allowed
+            type: 'Number',         // should not be allowed
             value: newValue
         });
 

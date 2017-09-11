@@ -50,7 +50,7 @@ class AstUse extends AstFragment {
      */
     constructor(path, properties) {
         super(_.assign({
-            type: 'use',
+            type: 'Use',
             path: path
         }, properties));
     }

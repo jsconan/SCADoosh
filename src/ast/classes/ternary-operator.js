@@ -53,7 +53,7 @@ class AstTernaryOperator extends AstFragment {
      */
     constructor(condition, consequent, alternative, properties) {
         super(_.assign({
-            type: 'ternaryOperator',
+            type: 'TernaryOperator',
             condition: condition,
             consequent: consequent,
             alternative: alternative

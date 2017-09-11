@@ -52,7 +52,7 @@ class AstAssignment extends AstFragment {
      */
     constructor(identifier, value, properties) {
         super(_.assign({
-            type: 'assignment',
+            type: 'Assignment',
             identifier: identifier,
             value: value
         }, properties));
