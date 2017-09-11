@@ -125,6 +125,11 @@ module.exports.AstBinaryOperator = require('./classes/binary-operator');
 module.exports.AstTernaryOperator = require('./classes/ternary-operator');
 
 /**
+ * @type {AstIfStatement}
+ */
+module.exports.AstIfStatement = require('./classes/if-statement');
+
+/**
  * @type {AstFunction}
  */
 module.exports.AstFunction = require('./classes/function');
