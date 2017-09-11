@@ -30,6 +30,7 @@
  */
 
 const _ = require('lodash');
+const AstFragment = require('./fragment');
 const AstFunctionCall = require('./function-call');
 
 /**
@@ -38,6 +39,7 @@ const AstFunctionCall = require('./function-call');
  * @property {String} type
  * @property {AstIdentifier} identifier
  * @property {AstFragment[]} parameters
+ * @property {AstFragment} [body]
  * @property {AstPosition} start
  * @property {AstPosition} end
  */
@@ -46,11 +48,29 @@ class AstModuleCall extends AstFunctionCall {
      * Creates an AstModuleCall.
      * @param {AstIdentifier} identifier
      * @param {AstFragment[]} parameters
+     * @param {AstFragment} [body]
      * @param {Object} [properties] - An optional list of additional properties to set.
      * @throws {TypeError} if the identifier is not an AstIdentifier, or if the parameters are not valid AstFragment
      */
-    constructor(identifier, parameters, properties) {
-        super(identifier, parameters, _.assign({type: 'module-call'}, properties));
+    constructor(identifier, parameters, body, properties) {
+        super(identifier, parameters, _.assign({
+            type: 'module-call',
+            body: body || null
+        }, properties));
+    }
+
+    /**
+     * Transforms the properties before assign them to the node.
+     * @param {Object} properties - The properties to transform
+     * @returns {Object}
+     * @throws {TypeError} if the properties are invalid
+     */
+    mapProperties(properties) {
+        if (typeof properties.body !== 'undefined' && properties.body !== null && !AstFragment.validate(properties.body)) {
+            throw new TypeError('The body should be an AstFragment!');
+        }
+
+        return super.mapProperties(_.omitBy(properties, _.isNull));
     }
 }
 

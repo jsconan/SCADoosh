@@ -193,21 +193,6 @@ describe('AstFunctionCall', () => {
         expect(clone).to.be.deep.equal(node);
     });
 
-    it('should clone an AstFunctionCall with empty list of properties', () => {
-        const identifier = new AstIdentifier('foo');
-        const parameters = [new AstNumber(1), new AstNumber(2)];
-        const node = (new AstFunctionCall(identifier, parameters)).startAt(1, 1, 0).endAt(1, 6, 5);
-
-        const clone = node.clone({});
-
-        expect(clone).to.be.an('object');
-        expect(clone).to.be.an.instanceOf(AstNode);
-        expect(clone).to.be.an.instanceOf(AstFragment);
-        expect(clone).to.be.an.instanceOf(AstFunctionCall);
-        expect(clone).to.not.be.equal(node);
-        expect(clone).to.be.deep.equal(node);
-    });
-
     it('should clone an AstFunctionCall with the provided properties', () => {
         const identifier = new AstIdentifier('foo');
         const parameters = [new AstNumber(1), new AstNumber(2)];

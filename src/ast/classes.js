@@ -150,11 +150,6 @@ module.exports.AstFunctionCall = require('./classes/function-call');
 module.exports.AstModuleCall = require('./classes/module-call');
 
 /**
- * @type {AstOperatorCall}
- */
-module.exports.AstOperatorCall = require('./classes/operator-call');
-
-/**
  * @type {AstExpression}
  */
 module.exports.AstExpression = require('./classes/expression');

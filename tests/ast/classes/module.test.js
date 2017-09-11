@@ -225,23 +225,6 @@ describe('AstModule', () => {
         expect(clone).to.be.deep.equal(node);
     });
 
-    it('should clone an AstModule with empty list of properties', () => {
-        const identifier = new AstIdentifier('foo');
-        const parameters = [new AstNumber(1), new AstNumber(2)];
-        const body = new AstAssignment(new AstIdentifier('foo'), new AstNumber(42));
-        const node = (new AstModule(identifier, parameters, body)).startAt(1, 1, 0).endAt(1, 6, 5);
-
-        const clone = node.clone({});
-
-        expect(clone).to.be.an('object');
-        expect(clone).to.be.an.instanceOf(AstNode);
-        expect(clone).to.be.an.instanceOf(AstFragment);
-        expect(node).to.be.an.instanceOf(AstFunction);
-        expect(clone).to.be.an.instanceOf(AstModule);
-        expect(clone).to.not.be.equal(node);
-        expect(clone).to.be.deep.equal(node);
-    });
-
     it('should clone an AstModule with the provided properties', () => {
         const identifier = new AstIdentifier('foo');
         const parameters = [new AstNumber(1), new AstNumber(2)];
