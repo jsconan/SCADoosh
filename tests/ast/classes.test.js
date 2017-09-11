@@ -53,6 +53,7 @@ const AstUnaryOperator = require('../../src/ast/classes/unary-operator');
 const AstBinaryOperator = require('../../src/ast/classes/binary-operator');
 const AstTernaryOperator = require('../../src/ast/classes/ternary-operator');
 const AstIfStatement = require('../../src/ast/classes/if-statement');
+const AstForStatement = require('../../src/ast/classes/for-statement');
 const AstFunction = require('../../src/ast/classes/function');
 const AstModule = require('../../src/ast/classes/module');
 const AstAssignment = require('../../src/ast/classes/assignment');
@@ -93,6 +94,7 @@ describe('AST classes', () => {
         expect(classes).to.have.a.property('AstBinaryOperator').that.is.a('function').and.is.equal(AstBinaryOperator);
         expect(classes).to.have.a.property('AstTernaryOperator').that.is.a('function').and.is.equal(AstTernaryOperator);
         expect(classes).to.have.a.property('AstIfStatement').that.is.a('function').and.is.equal(AstIfStatement);
+        expect(classes).to.have.a.property('AstForStatement').that.is.a('function').and.is.equal(AstForStatement);
         expect(classes).to.have.a.property('AstFunction').that.is.a('function').and.is.equal(AstFunction);
         expect(classes).to.have.a.property('AstModule').that.is.a('function').and.is.equal(AstModule);
         expect(classes).to.have.a.property('AstAssignment').that.is.a('function').and.is.equal(AstAssignment);
